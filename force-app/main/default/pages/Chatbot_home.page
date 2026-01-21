@@ -1,0 +1,12 @@
+<apex:page controller="Chatbot_Home">
+    <!--<apex:iframe src="https://starlux.ap-mic.com/" scrolling="true" id="theIframe" />-->
+    <style>
+        #theIframe {
+            width: 100%;
+            height: 100vh;
+            border: none;
+        }
+    </style>
+    <apex:iframe src="{!url}" scrolling="true" id="theIframe"/>
+    <!--<apex:iframe src="{!url}" scrolling="true" id="theIframe" />-->
+</apex:page>

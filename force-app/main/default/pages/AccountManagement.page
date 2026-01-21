@@ -1,0 +1,2173 @@
+<!--============================= Infos =======================================
+
+Name: AccountManagement
+Author: Benson Tseng 
+Purpose: STARLUX Airlines 
+
+Static Resources:
+Name                             MIME        Description
+-------------------------------------------------------------------------------
+
+
+-------------------------------------------------------------------------------
+Backup File:
+
+
+============================= Infos =======================================-->
+<apex:page controller="AccountManagementController" docType="html-5.0" applyHtmlTag="true" standardStylesheets="false" showHeader="false">
+    <head>
+        <title>AccountManagement</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no"/>
+        <c:styleinclude ></c:styleinclude>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+        <style>
+            body { 
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #EEEDEC; 
+            }
+            
+
+            
+            
+            .loading-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            flex-direction: column;
+            }
+            
+            
+            .table th { 
+            padding: 12px 8px;
+            text-align: left;
+
+            border-bottom: 2px solid rgba(204, 187, 176, 1);
+            color: #495057;
+            font-weight: bold;
+            }
+            
+            
+            .table td { 
+            border-top: 1px solid rgba(204, 187, 176, 1);
+            border-bottom: 1px solid rgba(204, 187, 176, 1);
+            }
+            
+            .input-group-text { 
+            background-color: white; 
+            }
+            
+            
+            .content-wrapper {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            }
+            .container {
+            padding-left:0;
+            margin-top:116px;
+            width: 100%;
+            max-width: 1208px;
+            }
+
+
+            
+            .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            }
+            
+            .close:hover,
+            .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+            }
+            
+            .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            margin-right: -5px;
+            margin-left: 10px;
+            }
+            
+            .form-group {
+            margin-bottom: 1rem;
+            }
+            
+            .col-md-6 {
+            flex: 0 0 50%;
+            max-width: 50%;
+            padding-right: 5px;
+            padding-left: 5px;
+            }
+            
+            .form-control {
+            display: block;
+            width: 100%;
+            height:42px;
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #495057;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+            }
+            
+            .input-group {
+            position: relative;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: stretch;
+            width: 100%;
+            }
+            
+            .input-group-prepend {
+            margin-right: -1px;
+            display: flex;
+            }
+            
+            .btn {
+            display: inline-block;
+            font-weight: 400;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            user-select: none;
+            border: 1px solid transparent;
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            border-radius: 4px;
+            transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+            }
+            
+            .formTitle{
+            font-size:14px;
+            color:#735B4B;
+            }
+            
+            
+            .notification-panel2{
+            width:200px !important;
+            }
+            
+            .multiSelect .selectBtn {
+            line-height: 36px;
+            padding: 0 6px;
+            border-radius: 4px;
+            vertical-align: middle;
+            border: 1px solid #bcc;
+            background-color: #fff;
+            }
+            
+            .multiSelect {
+            position: relative;
+            width: 280px;
+            }
+            .multiSelect .selectBtn {
+            width:100%;
+            display: block;
+            cursor: pointer;
+            transition: 0.1s;
+            }
+            .multiSelect .selectBtn:hover {
+            border-color: #8e6448;
+            box-shadow: 0 0 0 0.2rem rgba(142, 100, 72, 0.2);
+            }
+            
+            .multiSelect .selectBtn:focus {
+            outline:none;
+            }
+            
+            .multiSelect .selectBtn .placeholder {
+            color: #9aa;
+            }
+            .multiSelect .arrow {
+            pointer-events: none;
+            content: "";
+            position: absolute;
+            right: 15px;
+            top: 55%;
+            margin-top: -7px;
+            width: 7px;
+            height: 7px;
+            border: 2px solid #678;
+            border-left: none;
+            border-top: none;
+            transform: rotate(45deg);
+            }
+            .multiSelect .optionGroup {
+            display: none;
+            position: absolute;
+            left: 0;
+            right: 0;
+            padding: 6px;
+            margin: 0;
+            background: #fff;
+            box-shadow: rgba(0, 0, 0, 0.3) 0 1px 6px;
+            border-radius: 4px;
+            height: 200px;
+            overflow-y: scroll;
+            }
+            .multiSelect .optionGroup > label {
+            display: block;
+            line-height: 1;
+            margin: 3px 0;
+            padding: 0.5em 5px 0.4em 2em;
+            border-radius: 3px;
+            cursor: pointer;
+            text-indent: -1.2em;
+            transition: 0.2s;
+            }
+
+            .multiSelect .optionGroup > label input {
+            margin-left: -0.3em;
+            margin-right: 0.3em;
+            }
+            .multiSelect .optionGroup .searchblock {
+            display: flex;
+            }
+            .multiSelect .optionGroup .searchblock label {
+            flex: auto;
+            flex-basis: 100%;
+            position: relative;
+            }
+            .multiSelect .optionGroup .searchblock label input[type=text] {
+            width: 100%;
+            border: 1px solid #ddd;
+            padding: 0.4em 35px;
+            margin: 0 5px;
+            box-sizing: border-box;
+            border-radius: 4px;
+            }
+            .multiSelect .optionGroup .searchblock label:before {
+            content: "";
+            width: 10px;
+            height: 10px;
+            border: 2px solid #ccc;
+            display: block;
+            border-radius: 50%;
+            position: absolute;
+            left: 15px;
+            top: 8px;
+            }
+            .multiSelect .optionGroup .searchblock label:after {
+            content: "";
+            width: 8px;
+            height: 2px;
+            background-color: #ccc;
+            position: absolute;
+            left: 26px;
+            top: 20px;
+            transform: rotate(37deg);
+            }
+            .multiSelect .optionGroup .searchblock .close {
+            flex: none;
+            position: relative;
+            font-size: 0;
+            width: 15px;
+            height: 2px;
+            right: 20px;
+            top: 5px;
+            }
+            .multiSelect .optionGroup .searchblock .close:before {
+            content: "";
+            width: 15px;
+            height: 2px;
+            background-color: #ccc;
+            position: absolute;
+            right: 2px;
+            top: 12px;
+            transform: rotate(45deg);
+            }
+            .multiSelect .optionGroup .searchblock .close:after {
+            content: "";
+            width: 15px;
+            height: 2px;
+            background-color: #ccc;
+            position: absolute;
+            right: 2px;
+            top: 12px;
+            transform: rotate(-45deg);
+            }
+            .multiSelect .optionGroup .searchblock .close:hover:before, .multiSelect .optionGroup .searchblock .close:hover:after {
+            background-color: #999;
+            }
+            
+            .custom-select {
+            cursor:pointer;
+            -webkit-appearance: revert;
+            -moz-appearance: revert;
+            background-position: right 0.75rem center;
+            background-size: 16px 12px;
+            padding-right: 2rem;
+            }
+            
+            .modal-dialog {
+            display: flex;
+            align-items: center;
+            min-height: calc(100% - 1rem);
+            }
+            
+            ::placeholder {
+            color: #ccc;
+            opacity: 1;
+            }
+            
+            .form-control::placeholder {
+            color: #ccc;
+            opacity: 1;
+            }
+            
+            .form-control:focus {
+            border-color: rgba(142, 114, 72, 1);
+            box-shadow: 0 0 0 0.2rem rgba(232, 224, 218, 0.5);
+            } 
+            
+            
+            .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+            background: none;
+            }
+            
+            
+            .form-control.is-invalid, .was-validated .form-control:invalid {
+            background-image:none;
+            }
+        </style>
+    </head>
+
+    <body class="d-flex align-items-center py-4">
+        <c:B2BNavbar ></c:B2BNavbar>
+        
+        <!--編輯導遊元件-->
+        <apex:outputPanel id="editsuccessPanel" style="display:none">
+            <c:successNotification message="儲存成功" />
+        </apex:outputPanel>
+        <apex:outputPanel id="editerrorPanel" style="display:none">
+            <c:globalnotification message="失敗，請重新嘗試"/>
+        </apex:outputPanel>
+        <!--新增導遊元件-->
+        <apex:outputPanel id="addsuccessPanel" style="display:none">
+            <c:successNotification message="儲存成功" />
+        </apex:outputPanel>
+        <apex:outputPanel id="adderrorPanel" style="display:none">
+            <c:globalnotification message="失敗，帳號已重複建立"/>
+        </apex:outputPanel>
+        
+        <!--刪除導遊元件-->
+        <apex:outputPanel id="deleteSuccessPanel" style="display:none">
+            <c:successNotification message="刪除成功" />
+        </apex:outputPanel>
+        <apex:outputPanel id="deleteErrorPanel" style="display:none">
+            <c:globalnotification message="失敗，請重新嘗試"/>
+        </apex:outputPanel>
+        
+        <div id="content-wrapper" class="content-wrapper">
+            <div class="container">
+                <apex:form id="flightSearchForm" style="background-color: white; padding:24px;border-radius:4px" onkeydown="preventEnterKey(event)">
+                    <div class="row align-items-end">
+                        <div id="cNameDIV" class="col-md-3" style="width:24%">
+                            <label for="CName" class="form-label" style="color:#735B4B">中文姓名</label>
+                            <apex:inputText value="{!searchCName}" id="CName" styleClass="form-control" style="width:260px" html-placeholder="請輸入"/>
+                            <div class="invalid-feedback" id="CNameFeedback"></div>
+                        </div>
+                        <div id="eNameDIV" class="col-md-3" style="width:28.2%">
+                            <label for="EName" class="form-label" style="color:#735B4B">英文姓名</label>
+                            <apex:inputText value="{!searchEName}" id="EName" styleClass="form-control" style="margin-right: 24px;width:310px" html-placeholder="請輸入"/>
+                            <div class="invalid-feedback" id="ENameFeedback"></div>
+                        </div>
+                        <div class="col-md-3" style="width:27%">
+                            <!--<label for="route" class="form-label" style="color:#735B4B">負責航線*</label>
+								<apex:inputText value="{!searchRoute}" id="route" styleClass="form-control" />-->
+                            
+                            <label for="route" class="form-label" style="color:#735B4B">負責航線</label>
+                            <div class="multiSelect" style="width:310px">
+                                <!--<div class="selectBtn" data-title="請選擇"></div>-->
+                                <apex:inputText styleClass="selectBtn" style="height:42px" value="{!searchRoute}" id="hiddenRouteInput" html-placeholder="請選擇" html-autocomplete="off"/>
+                                <div class="arrow"></div>
+                                <div class="optionGroup" style="font-size:15px;z-index:1000">
+                                    <apex:repeat value="{!routeOptions}" var="option">
+                                        <label>
+                                            <apex:inputCheckbox value="{!selectedRoutesMap[option.value]}" style="width:20px;" styleClass="route-checkbox3">
+                                            </apex:inputCheckbox>
+                                            {!option.value}
+                                        </label>
+                                    </apex:repeat>
+                                </div>
+                                
+                            </div>
+                            
+                            
+                        </div>
+                        <div class="col-md-3 d-flex justify-content-end" style="width:19%">
+                            <apex:commandButton value="清除" action="{!clearSearch}" reRender="searchResults, paginationControls" styleClass="btn me-2" style="height:48px;width: 80px;color:#8E7248" onclick="clearInputFields();" />
+                            <apex:commandButton value="搜尋" action="{!searchUser}" reRender="searchResults, paginationControls" styleClass="btn" style="height:48px;width: 80px;background-color:#8E7248;color:white;border-radius: 5px;" status="status"  oncomplete="checkSearchResults();"/><!--把驗證拿掉onclick="if(!validateSearchForm()) return false;"-->
+                        </div>
+                    </div>
+                </apex:form>
+                
+                
+                
+                
+                <div style="background-color: white;margin-top:30px;border-radius:4px;min-height:500px">
+                    <apex:form style="padding:15px 0 15px 12px;border-bottom:2px solid rgba(204, 187, 176, 1)">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <button type="button" style="height:48px;width: 80px;background-color:#8E7248;color:white;border-radius: 5px;" class="btn" onclick="openModal()">新增</button>
+                            </div>
+                            <apex:outputPanel id="paginationControls">
+                                <!--<div class="pagination-controls d-flex align-items-center">
+                                    <span class="me-2">頁面 {!currentPage} of {!totalPages}</span>
+                                    <apex:commandButton value="<" action="{!previousPage}" styleClass="btn btn-outline-secondary me-1 border-0" 
+                                                        reRender="searchResults,paginationControls" disabled="{!currentPage == 1}"/>
+                                    <apex:commandButton value=">" action="{!nextPage}" styleClass="btn btn-outline-secondary border-0" 
+                                                        reRender="searchResults,paginationControls" disabled="{!currentPage == totalPages}"/>
+                                </div>-->
+                                
+                                <div class="pagination-controls d-flex align-items-center">
+                                    <span class="me-2">
+                                        {!startRecord}-{!endRecord} of {!totalRecords}
+                                    </span>
+                                    <apex:commandButton value="<" action="{!previousPage}" styleClass="btn border-0" style="color:#8e7248;font-weight:bold"
+                                                        reRender="searchResults,paginationControls" disabled="{!currentPage == 1}"/>
+                                    <apex:commandButton value=">" action="{!nextPage}" styleClass="btn border-0" style="color:#8e7248;font-weight:bold"
+                                                        reRender="searchResults,paginationControls" disabled="{!currentPage == totalPages}"/>
+                                </div>
+                            </apex:outputPanel>
+                        </div>
+                    </apex:form>
+                    
+                    <!-- 當未搜尋時顯示的提示文字 -->
+                    <div id="searchPrompt" style="text-align:center; padding: 20px; color: gray;display:none">
+                        <p style="margin-top:220px">
+                            查尋無結果
+                        </p>
+                    </div>
+
+                    <apex:outputPanel id="searchResults">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr class="text-center" style="height:53px">
+                                        <th style="width:10%;padding-left:10px;color:rgba(142, 114, 72, 1)">中文姓名⭣</th><!--color:rgba(142, 114, 72, 1)-->
+                                        <th style="width:10%">英文姓名</th>
+                                        <th style="width:15%">手機號碼(國內)</th>
+                                        <th style="width:15%">手機號碼(國外)</th>
+                                        <th style="width:25%">電子郵件</th>
+                                        <th style="width:15%">負責航線</th>
+                                        <th style="width:10%"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <apex:repeat value="{!UserList}" var="User">
+                                        <tr class="text-start" style="height:53px;">
+                                            <td style="width:10%;padding:0;padding-left:10px; vertical-align: middle;word-wrap: break-word;word-break: break-all;">{!User.CN_Passport__c}</td>
+                                            <td style="width:10%;padding:0;padding-left:10px;vertical-align: middle;word-wrap: break-word;word-break: break-all;">{!User.EN_Passport__c}</td>
+                                            <td style="width:15%;padding:0;padding-left:10px;vertical-align: middle;word-wrap: break-word;word-break: break-all;">{!User.Prefix1__c}&nbsp;{!User.Phone1__c}</td>
+                                            <td style="width:15%;padding:0;padding-left:10px;vertical-align: middle;word-wrap: break-word;word-break: break-all;">{!User.Prefix2__c}&nbsp;{!User.Phone2__c}</td>
+                                            <td style="width:25%;padding:0;padding-left:10px;vertical-align: middle;word-wrap: break-word;word-break: break-all;">{!User.Email__c}</td>
+                                            <td style="width:15%;padding:0;padding-left:10px;vertical-align: middle;word-wrap: break-word;word-break: break-all;">{!User.Route__c}</td>
+                                            <td style="width:10%;padding:0;padding-left:10px;vertical-align: middle;word-wrap: break-word;word-break: break-all;">
+                                                <div style="display: flex; align-items: center; justify-content: center; height: 100%;">
+                                                    <button class="btn" onclick="openDeleteModal('{!User.Id}')" style="border:none;width:40px" title="刪除">
+                                                        <span class="material-symbols-outlined" style="padding:0 0.75rem;background-color:#C8565A;color:white;width:34px;height:34px;display: flex;align-items: center;justify-content: center;border-radius:4px">
+                                                            delete
+                                                        </span>
+                                                    </button>
+                                                    <button class="btn" onclick="openeditModal('{!User.Id}')" style="border:none;width:41px" title="編輯">
+                                                        <span class="material-symbols-outlined" style="padding:0 0.75rem;background-color:#8E7248;color:white;width:34px;height:34px;display: flex;align-items: center;justify-content: center;border-radius:4px">
+                                                            edit
+                                                        </span>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </apex:repeat>
+                                </tbody>
+                            </table>
+                        </div>
+                    </apex:outputPanel>
+                </div>
+                
+                
+                <!--編輯資料modal-->
+                
+                <div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+                    
+                    <div class="modal-dialog modal-dialog-centered" style="max-width: 1000px;">
+                        <div class="modal-content" style="border-radius: 8px;">
+                            
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editLabel" style="font-weight:bold">編輯領隊/導遊</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="resetNewErrorStyles()"></button>
+                            </div>
+                            
+                            <apex:form id="editUserForm" html-novalidate="novalidate">
+                                <apex:inputHidden id="UserId1" value="{!UserId}"/>
+                                <div class="modal-body" style="border-bottom:none">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6" style="max-width:474px">
+                                            <label for="editID" class="formTitle">編號</label>
+                                            <div>
+                                                <apex:outputText value="{!editUser.Name}" id="editID"/>
+                                            </div>
+                                            
+                                            
+                                            
+                                            <!--<label for="editID" class="formTitle">統一編號*</label>
+                                            <apex:inputText style="background:none" value="{!editUser.Taxid__c}" id="editID" styleClass="form-control" required="true" />
+                                            <div class="invalid-feedback" id="NewPersonIDFeedback2">必填</div>-->
+                                        </div>
+                                        <div class="form-group col-md-6" style="max-width:474px">
+                                            <label for="editRole" class="formTitle">角色</label>
+                                            <div style="color:black">領隊/導遊/OP</div>
+                                            <!--<apex:selectList value="{!editUser.Role__c}" id="editRole" size="1" styleClass="form-control custom-select" style="height:37.6px" required="true">
+                                                <apex:selectOption itemValue="0" itemLabel="管理者"/>
+                                                <apex:selectOption itemValue="1" itemLabel="領隊/導遊"/>
+                                            </apex:selectList>-->
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6" style="max-width:474px">
+                                            <label for="editACC" class="formTitle">帳號</label>
+                                            <!--<apex:inputText style="background:none" value="{!editUser.Account__c}" id="editACC" styleClass="form-control" required="true"/>
+                                            <div class="invalid-feedback" id="editUserNameFeedback">必填</div>-->
+                                            <div>
+                                                <apex:outputText value="{!editUser.Account__c}" id="editACC"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-6" style="max-width:474px">
+                                            <label for="editEmail1" class="formTitle">Email*</label>
+                                            <apex:inputText html-placeholder="請輸入" style="background:none" value="{!editUser.Email__c}" id="editEmail1" styleClass="form-control" required="true"/>
+                                            <div class="invalid-feedback" id="editEmailFeedback">必填</div>
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                    <div class="form-row">
+                                        <div class="form-group form-row col-md-6" style="margin-left:1px;max-width:474px;">
+                                            <div class="form-group" style="margin-right:5px;width:28%">
+                                                <label for="editTitle" class="formTitle">稱謂</label>
+                                                <apex:selectList value="{!editUser.Salutation__c}" id="edittitle" size="1" styleClass="form-control custom-select" style="height:42px" required="true">
+                                                    <apex:selectOption itemValue="先生" itemLabel="先生"/>
+                                                    <apex:selectOption itemValue="女士" itemLabel="女士"/>
+                                                </apex:selectList>
+                                                <!--<div class="invalid-feedback">必填</div>-->
+                                            </div>
+                                            <div class="form-group" style="width:70.5%">
+                                                <label for="editCName" class="formTitle">中文姓名*</label>
+                                                <apex:inputText maxlength="10" html-placeholder="請輸入" style="background:none" value="{!editUser.Name}" id="editCName" styleClass="form-control" required="true"/>
+                                                <div class="invalid-feedback" id="editCNameFeedback">必填</div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-6" style="margin-left:2px;max-width:474px">
+                                            <label for="editEName" class="formTitle">英文姓名*</label>
+                                            <apex:inputText maxlength="30" html-placeholder="請輸入" style="background:none" value="{!editUser.EN_Passport__c}" id="editEName" styleClass="form-control" required="true"/>
+                                            <div class="invalid-feedback" id="editENameFeedback">必填</div>
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                    
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6" style="max-width:474px">
+                                            <label for="editPhone1" class="formTitle">手機號碼(國內)*</label>
+                                            <div class="input-group">
+                                                <div style="display: inline-flex;align-items: center;">+886</div>
+                                                <!--<div class="input-group-prepend">
+                                                    <apex:selectList value="{!newUserCountryCode1}" id="editPCode1" size="1" styleClass="form-control custom-select">
+                                                        <apex:selectOptions value="{!CountryCodeOptions}"/>
+                                                    </apex:selectList>
+                                                </div>-->
+                                                <span style="margin: 7px 7px 0 7px;">-</span>
+                                                <apex:inputText html-placeholder="請輸入" value="{!editUser.Phone1__c}" maxlength="9" id="editPhone1" styleClass="form-control" style="border-radius: 4px;background:none" required="true"/>
+                                                <div class="invalid-feedback" style="margin-left:54px" id="editPhone1Feedback">必填</div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-6" style="max-width:474px">
+                                            <label for="editPhone2" class="formTitle">手機號碼(國外)</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <apex:selectList value="{!editUserCountryCode2}" size="1" id="editPCode2" styleClass="form-control custom-select">
+                                                        <apex:selectOptions value="{!CountryCodeOptions}"/>
+                                                    </apex:selectList>
+                                                </div>
+                                                <span style="margin: 7px 7px 0 7px;">-</span>
+                                                <apex:inputText html-placeholder="請輸入" value="{!editUser.Phone2__c}" maxlength="11" id="editPhone2" styleClass="form-control" style="border-radius: 4px;background:none" required="true"/>
+                                            	<div class="invalid-feedback" style="margin-left:180px" id="editPhone2Feedback"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6" style="max-width:474px">
+                                            <label for="route" class="formTitle">負責航線</label>
+                                            <div class="multiSelect"  style="width:100%">
+                                                <!--<div class="selectBtn" data-title="請選擇"></div>-->
+                                                <apex:inputText styleClass="selectBtn" value="{!editUser.Route__c}" id="hiddenRouteInput3" html-placeholder="請選擇" html-autocomplete="off" required="true" style="height:42px"/>
+                                                <div class="arrow"></div>
+                                                <div class="optionGroup" style="font-size:15px;z-index:1000">
+                                                    <apex:repeat value="{!routeOptions}" var="option">
+                                                        <label>
+                                                            <apex:inputCheckbox value="{!selectedRoutesMap[option.value]}" style="width:20px;" styleClass="route-checkbox2">
+                                                            </apex:inputCheckbox>
+                                                            {!option.value}
+                                                        </label>
+                                                    </apex:repeat>
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-6" style="max-width:474px">
+                                            <label for="editRemarks" class="formTitle">備註</label><span  style="float:right;color:rgba(170, 170, 170, 1);margin-top:5px;font-size:12px"><span class="char-counter" id="EditcharCounter">0</span>/300</span>	
+                                            <apex:inputTextarea html-placeholder="請輸入" value="{!editUser.Memo__c}" id="editRemarks" styleClass="form-control" rows="1" required="false" onkeyup="updateEditCharCount()" html-maxlength="300"/>
+                                        </div>
+                                        
+                                        
+                                    </div>
+                                    
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6" style="max-width:474px">
+                                            <label class="formTitle">密碼到期日</label>
+                                            <div>
+                                                <apex:outputText value="{!editUser.ExpireDate__c}" id="editExpireDate" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-6" style="max-width:474px">
+                                            <label class="formTitle">狀態</label>           
+                                            <div>
+                                                <apex:outputText value="{!editUser.State__c}" id="editState" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6" style="max-width:474px">
+                                            <label class="formTitle">建立日期</label>
+                                            <div>
+                                                <apex:outputText id="editCreatedDate"></apex:outputText>
+                                                by&nbsp;<apex:outputText id="editCreatedby"></apex:outputText>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-6" style="max-width:474px">
+                                            <label class="formTitle">最後更新日期</label>           
+                                            <div>
+                                                <apex:outputText id="editLastModifiedDate"></apex:outputText>
+                                                by&nbsp;<apex:outputText id="editLastModifiedby"></apex:outputText>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    
+
+                                    
+                                </div>
+                                <div class="modal-footer" style="background-color:#FAFAFA;border-top:none">
+                                    <button type="button" class="btn" style="height:48px;width:73px;color: #A07752;" data-bs-dismiss="modal" onclick="resetErrorStyles()">取消</button>
+                                    <button type="button" onclick="submiteditForm(event)" class="btn" style="height:48px;width:73px;background-color:#A07752;color:white">儲存 </button>
+                                </div>
+                                
+                            </apex:form>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                
+                
+                
+                
+                
+                <!-- 刪除資料modal -->
+                
+                <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+                    <apex:form >
+                        
+                        <div class="modal-dialog modal-dialog-centered" style="width: 40%;top:250px">
+                            <div class="modal-content" style="border-radius: 4px;">
+                                
+                                <!--<div class="modal-header">
+                                    <h5 class="modal-title" id="deleteLabel" style="font-weight:bold">刪除資料</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>-->
+                                
+                                <div class="modal-body text-left d-flex align-items-center" style="border:none;height:72px">                             
+                                    確認要刪除資料嗎？
+                                </div>
+                                
+                                <div class="modal-footer justify-content-end" style="background-color:#FAFAFA;border-top:none;height:80px">
+                                    <button type="button" class="btn" style="height:48px;width:73px;color: #A07752;" data-bs-dismiss="modal">取消</button>
+                                    <button type="button" class="btn" style="height:48px;width:73px;background-color: #8B6C4B; color: white;" onclick="confirmDelete()">確認</button>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </apex:form>
+                </div>
+                
+                
+                
+                
+                
+                <!-- 新增領隊/導遊 -->
+                
+                <div class="modal fade" id="newUserModal" tabindex="-1" aria-labelledby="newUserModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+                    <apex:form id="newUserForm">
+                        <apex:inputHidden id="UserId2" value="{!UserId}"/>
+                        <div class="modal-dialog modal-dialog-centered" style="max-width: 1000px;top:50px">
+                            <div class="modal-content" style="border-radius: 8px;">
+                                
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="newUserModalLabel" style="font-weight:bold">新增領隊/導遊</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="resetNewErrorStyles()"></button>
+                                </div>
+                                
+                                <div class="modal-body" style="color:#735B4B;border-bottom:none">
+                                    
+                                    
+                                    <div class="form-row">
+                                        <!--<div class="form-group col-md-6">
+                                            <label for="newID" class="formTitle">統一編號</label>
+                                            <apex:inputText value="{!newUser.Taxid__c}" id="newID" styleClass="form-control" required="true" />
+                                            <div class="invalid-feedback" id="NewPersonIDFeedback">必填</div>
+                                        </div>-->
+                                        <div class="form-group col-md-12" style="padding-left:5px">
+                                            <label class="formTitle">角色</label>
+                                            <div style="color:black">領隊/導遊/OP</div>
+                                            <!--<apex:selectList value="{!newUser.Role__c}" id="newRole" size="1" styleClass="form-control custom-select" style="height:62%" required="true">
+                                                <apex:selectOption itemValue="領隊/導遊" itemLabel="領隊/導遊"/>
+                                                <apex:selectOption itemValue="管理者" itemLabel="管理者"/>
+                                            </apex:selectList>
+                                            <div class="invalid-feedback">必填</div>-->
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6" style="max-width:474px">
+                                            <label for="newACC" class="formTitle">帳號*</label>
+                                            <apex:inputText value="{!newUser.Account__c}" html-placeholder="請輸入" maxlength="20" id="newACC" styleClass="form-control" required="true"/>
+                                            <div class="invalid-feedback" id="NewUserNameFeedback">必填</div>
+                                        </div>
+                                        <div class="form-group col-md-6" style="max-width:474px">
+                                            <label for="newEmail1" class="formTitle">Email*</label>
+                                            <apex:inputText value="{!newUser.Email__c}" html-placeholder="請輸入" id="newEmail1" styleClass="form-control" required="true"/>
+                                            <div class="invalid-feedback" id="NewEmailFeedback">必填</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-row">
+                                        <div class="form-group form-row col-md-6" style="margin-left:1px;max-width:474px">
+                                            <div class="form-group" style="margin-right:5px;width:20%">
+                                                <label for="newTitle" class="formTitle">稱謂</label>
+                                                <div class="arrow"></div>
+                                                <apex:selectList value="{!newUser.Salutation__c}" id="newtitle" size="1" styleClass="form-control custom-select" style="height:42px;padding-right:0.5rem" required="true">
+                                                    <apex:selectOption itemValue="先生" itemLabel="先生"/>
+                                                    <apex:selectOption itemValue="女士" itemLabel="女士"/>
+                                                </apex:selectList>
+                                                <!--<div class="invalid-feedback">必填</div>-->
+                                            </div>
+                                            <div class="form-group" style="width:78.5%">
+                                                <label for="newCName" class="formTitle">中文姓名*</label>
+                                                <apex:inputText html-placeholder="請輸入" value="{!newUser.Name}" maxlength="10" id="newCName" styleClass="form-control" required="true"/>
+                                                <div class="invalid-feedback" id="NewCNameFeedback">必填</div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-6" style="margin-left:2px;max-width:474px">
+                                            <label for="newEName" class="formTitle">英文姓名*</label>
+                                            <apex:inputText html-placeholder="請輸入" value="{!newUser.EN_Passport__c}" maxlength="30" id="newEName" styleClass="form-control" required="true"/>
+                                            <div class="invalid-feedback" id="NewENameFeedback">必填</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6" style="max-width:474px">
+                                            <label for="newPhone1" class="formTitle">手機號碼(國內)*</label>
+                                            <div class="input-group">
+                                                <div style="display: inline-flex;align-items: center;">+886</div>
+                                                <!--<div class="input-group-prepend">
+                                                    <apex:selectList value="{!newUserCountryCode1}" id="newPCode1" size="1" styleClass="form-control custom-select">
+
+                                                        <apex:selectOptions value="{!CountryCodeOptions}"/>
+                                                    </apex:selectList>
+                                                </div>-->
+                                                <span style="margin: 7px 7px 0 7px;">-</span>
+                                                <apex:inputText html-placeholder="請輸入" value="{!newUser.Phone1__c}" maxlength="9" id="newPhone1" styleClass="form-control" style="border-radius: 4px;" required="true"/>
+                                                <div class="invalid-feedback" style="margin-left:60px" id="NewPhone1Feedback">必填</div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-6" style="max-width:474px">
+                                            <label for="newPhone2" class="formTitle">手機號碼(國外)</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <apex:selectList value="{!newUserCountryCode2}" id="newPCode2" size="1" styleClass="form-control custom-select">
+
+                                                        <apex:selectOptions value="{!CountryCodeOptions}"/>
+                                                    </apex:selectList>
+                                                </div>
+                                                <span style="margin: 7px 7px 0 7px;">-</span>
+                                                <apex:inputText html-placeholder="請輸入" value="{!newUser.Phone2__c}" maxlength="11" id="newPhone2" styleClass="form-control" style="border-radius: 4px;" required="true"/>
+                                                <div class="invalid-feedback" style="margin-left:180px" id="NewPhone2Feedback"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6" style="max-width:474px">
+                                            <label for="route" class="formTitle">負責航線</label>
+                                            <div class="multiSelect"  style="width:100%">
+                                                <!--<div class="selectBtn" data-title="請選擇"></div>-->
+                                                <apex:inputText styleClass="selectBtn" value="{!newUser.Route__c}" id="hiddenRouteInput2" html-placeholder="請選擇" html-autocomplete="off" required="true"/>
+                                                <div class="arrow"></div>
+                                                <div class="optionGroup" style="font-size:15px;z-index:1000">
+                                                    <apex:repeat value="{!routeOptions}" var="option">
+                                                        <label>
+                                                            <apex:inputCheckbox value="{!selectedRoutesMap[option.value]}" style="width:20px;" styleClass="route-checkbox">
+                                                            </apex:inputCheckbox>
+                                                            {!option.value}
+                                                        </label>
+                                                    </apex:repeat>
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-6" style="max-width:474px">
+                                            <label for="newRemarks" class="formTitle">備註</label><span  style="float:right;color:rgba(170, 170, 170, 1);margin-top:5px;font-size:12px"><span class="char-counter" id="charCounter">0</span>/300</span>
+                                            <apex:inputTextarea html-placeholder="請輸入" value="{!newUser.Memo__c}" id="newRemarks" styleClass="form-control" rows="1" required="false" onkeyup="updateCharCount()" html-maxlength="300"/>
+                                            
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                </div>
+                                <div class="modal-footer" style="background-color:#FAFAFA;border-top:none">
+                                    <button type="button" class="btn" style="height:48px;width:73px;color: rgba(142, 114, 72, 1);" data-bs-dismiss="modal" onclick="resetNewErrorStyles()">取消</button>
+                                    <button type="button" id="btnNewSave" onclick="submitForm(event)" class="btn" style="height:48px;width:73px;background-color:rgba(142, 114, 72, 1);color:white">儲存</button>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </apex:form>
+                </div>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </div>
+        </div>
+        
+        
+    </body>
+    
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js">
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    
+    <script> 
+        
+    function preventEnterKey(event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+        }
+    }    
+        
+    document.querySelectorAll('.route-checkbox').forEach(checkbox => {
+        checkbox.addEventListener('change', function () {
+            let selectedValues = [];
+            document.querySelectorAll('.route-checkbox:checked').forEach(checkedBox => {
+                selectedValues.push(checkedBox.nextSibling.textContent.trim());
+            });
+            document.getElementById('{!$Component.flightSearchForm.hiddenRouteInput}').value = selectedValues.join(', ');
+        });
+    });    
+        
+        
+        // 當 DOM 完全載入後
+        /*document.addEventListener('DOMContentLoaded', function() {
+        // 取得輸入欄位
+        const cNameInput = document.querySelector('[id$=CName]');
+        const eNameInput = document.querySelector('[id$=EName]');
+    
+        // 在搜尋時執行驗證
+        window.validateSearchForm = function() {
+            let isValid = true;
+            
+            // 1. 中文姓名驗證（只在有輸入時檢查）
+            const cNameValue = cNameInput.value.trim();
+            if (cNameValue !== '') {  // 只在有值時進行驗證
+                if (!validateChineseName(cNameValue)) {
+                    document.getElementById('CNameFeedback').textContent = '僅中文字';
+                    document.getElementById('CNameFeedback').style.display = 'block';
+                    document.getElementById('cNameDIV').style.marginBottom = '-24px';
+                    cNameInput.classList.add('is-invalid');
+                    isValid = false;
+                } else {
+                    document.getElementById('CNameFeedback').style.display = 'none';
+                    document.getElementById('cNameDIV').style.marginBottom = '0';
+                    cNameInput.classList.remove('is-invalid');
+                }
+            } else {
+                // 如果沒有輸入，確保清除任何錯誤提示
+                document.getElementById('CNameFeedback').style.display = 'none';
+                document.getElementById('cNameDIV').style.marginBottom = '0';
+                cNameInput.classList.remove('is-invalid');
+            }
+    
+            // 2. 英文姓名驗證和轉換大寫（只在有輸入時檢查）
+            const eNameValue = eNameInput.value.trim();
+            if (eNameValue !== '') {  // 只在有值時進行驗證
+                if (!validateEnglishName(eNameValue)) {
+                    document.getElementById('ENameFeedback').textContent = '僅英文字、空格';
+                    document.getElementById('ENameFeedback').style.display = 'block';
+                    document.getElementById('eNameDIV').style.marginBottom = '-24px';
+                    eNameInput.classList.add('is-invalid');
+                    isValid = false;
+                } else {
+                    document.getElementById('ENameFeedback').style.display = 'none';
+                    document.getElementById('eNameDIV').style.marginBottom = '0';
+                    eNameInput.classList.remove('is-invalid');
+                    // 轉換為大寫
+                    eNameInput.value = eNameValue.toUpperCase();
+                }
+            } else {
+                // 如果沒有輸入，確保清除任何錯誤提示
+                document.getElementById('ENameFeedback').style.display = 'none';
+                document.getElementById('eNameDIV').style.marginBottom = '0';
+                eNameInput.classList.remove('is-invalid');
+            }
+    
+            return isValid; // 返回驗證結果
+        };
+    
+        // 移除原有的即時驗證事件監聽器
+        if (cNameInput) {
+            cNameInput.removeEventListener('input', null);
+        }
+        if (eNameInput) {
+            eNameInput.removeEventListener('input', null);
+        }
+    });*/
+        
+        
+    function resetErrorStyles() {
+        // 清除所有錯誤樣式
+        document.querySelectorAll('.is-invalid').forEach(el => {
+            el.classList.remove('is-invalid');
+        });
+
+        // 隱藏所有錯誤訊息
+        document.querySelectorAll('.invalid-feedback').forEach(el => {
+            el.style.display = 'none';
+        });
+
+        // 重置表單內容
+        const form = document.getElementById('editUserForm');
+        if (form) form.reset();
+    }
+           
+    //新增(取消後重製表單)
+    function resetNewErrorStyles() {
+        // 清除所有錯誤樣式
+        document.querySelectorAll('.is-invalid').forEach(el => {
+            el.classList.remove('is-invalid');
+        });
+    
+        // 隱藏所有錯誤訊息
+        document.querySelectorAll('.invalid-feedback').forEach(el => {
+            el.style.display = 'none';
+        });
+    
+        // 重置所有輸入框
+        document.querySelectorAll('input[type="text"], input[type="email"], textarea').forEach(el => {
+            el.value = '';
+        });
+    
+        // 重置下拉選單到預設值
+        document.querySelectorAll('select').forEach(el => {
+            el.selectedIndex = 0;
+        });
+    
+        // 重置多選框
+        document.querySelectorAll('.route-checkbox').forEach(el => {
+            el.checked = false;
+        });
+    
+        // 重置航線選擇的顯示文字
+        const routeInput = document.querySelector('.selectBtn');
+        if (routeInput) {
+            routeInput.value = '';
+        }
+    
+        // 重置備註字數計數器
+        const charCounter = document.getElementById('charCounter');
+        if (charCounter) {
+            charCounter.textContent = '0';
+        }
+    
+        // 如果有使用 apex:form，需要觸發 Visualforce 的重置
+        if (typeof resetForm === 'function') {
+            resetForm();
+        }
+    }
+        
+    // 更新新增表單的字數計數
+    function updateCharCount() {
+        var textArea = document.querySelector('[id$=newRemarks]').value;  
+        var counter = document.getElementById('charCounter');
+        counter.textContent = textArea.length;
+    }    
+            
+                     
+            
+    // 添加驗證函數 (放在 validateForm 函數之前)
+    function validateChineseName(input) {
+        const chineseRegex = /^[\u4e00-\u9fa5]+$/;
+        return chineseRegex.test(input);
+    }
+    
+    function validateEnglishName(input) {
+        const englishRegex = /^[A-Za-z\s-]+$/;
+        return englishRegex.test(input);
+    }
+    
+    
+            
+            
+            
+            
+    let submitInProgress = false;
+    
+            
+    // 英文名字自動轉換為大寫
+    document.querySelector('[id$=newEName]').addEventListener('input', function () {
+        this.value = this.value.toUpperCase();
+    });        
+            
+    function validateForm() {
+        console.log('開始驗證表單');
+        let isValid = true;
+        const form = document.getElementById('newUserForm');
+        
+        // 重置所有錯誤訊息
+        const invalidFeedbacks = document.querySelectorAll('.invalid-feedback');
+        for (let feedback of invalidFeedbacks) {
+            feedback.style.display = 'none';
+        }
+        
+        //非必填選項
+        const Route = document.querySelector('[id$=hiddenRouteInput2]').value;
+        console.log('負責航線:', Route);
+        
+        const title = document.querySelector('[id$=newtitle]').value;
+        console.log('稱謂:', title);
+        
+        /*const Role = document.querySelector('[id$=newRole]').value;
+        console.log('角色:', Role);*/
+        
+        const Remark = document.querySelector('[id$=newRemarks]').value;
+        console.log('備註:', Remark);
+        
+        
+
+        
+
+        
+        // 帳號驗證 (大於7個字)
+        const usernamearea = document.querySelector('[id$=newACC]');
+        const username = document.querySelector('[id$=newACC]').value;
+        // 定義合法字元的正則表達式（英文、數字、特殊字元）
+        const validCharPattern = /^[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>/?]+$/;
+        
+        console.log('驗證帳號:', username);
+        
+        if (username.trim() === '') {
+            // 1. 必填驗證
+            document.getElementById('NewUserNameFeedback').innerHTML = '必填';
+            document.getElementById('NewUserNameFeedback').style.display = 'block';
+            usernamearea.classList.add('is-invalid');
+            usernamearea.style.background = 'none';
+            isValid = false;
+            console.log('帳號必填');
+        } else if (!validCharPattern.test(username)) {
+            // 2. 字元類型驗證
+            document.getElementById('NewUserNameFeedback').innerHTML = '僅英文字、數字、特殊字元';
+            document.getElementById('NewUserNameFeedback').style.display = 'block';
+            usernamearea.classList.add('is-invalid');
+            isValid = false;
+            console.log('帳號字元驗證失敗');
+        } else if (username.length <= 7) {
+            // 3. 長度驗證
+            document.getElementById('NewUserNameFeedback').innerHTML = '請至少輸入8個字元';
+            document.getElementById('NewUserNameFeedback').style.display = 'block';
+            usernamearea.classList.add('is-invalid');
+            isValid = false;
+            console.log('帳號長度驗證失敗');
+        } else {
+            // 驗證通過
+            usernamearea.classList.remove('is-invalid');
+            document.getElementById('NewUserNameFeedback').style.display = 'none';
+        }
+        
+        
+
+        
+        
+        
+        // Email驗證
+        const emailarea = document.querySelector('[id$=newEmail1]');
+        const email = document.querySelector('[id$=newEmail1]').value;
+        console.log('驗證Email:', email);
+        if (email.trim() === '') {
+            document.getElementById('NewEmailFeedback').innerHTML = '必填';
+            document.getElementById('NewEmailFeedback').style.display = 'block';
+            emailarea.classList.add('is-invalid');
+            emailarea.style.background = 'none';
+            isValid = false;
+            console.log('Email必填');
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            document.getElementById('NewEmailFeedback').innerHTML = '請輸入電子郵件格式';
+            document.getElementById('NewEmailFeedback').style.display = 'block';
+            isValid = false;
+            console.log('Email驗證失敗');
+        }else {
+            emailarea.classList.remove('is-invalid');
+            document.getElementById('NewEmailFeedback').style.display = 'none';
+        }
+        
+        // 中文名稱驗證 newCName NewCNameFeedback
+        const newCNamearea = document.querySelector('[id$=newCName]');
+        const newCName = document.querySelector('[id$=newCName]').value;
+        console.log('驗證中文名稱:', newCName);
+        if (newCName.trim() === '') {
+            document.getElementById('NewCNameFeedback').innerHTML = '必填';
+            document.getElementById('NewCNameFeedback').style.display = 'block';
+            newCNamearea.classList.add('is-invalid');
+            newCNamearea.style.background = 'none';
+            isValid = false;
+            console.log('中文名稱必填驗證失敗');
+        } else if (!validateChineseName(newCName)) {
+            document.getElementById('NewCNameFeedback').innerHTML = '僅中文字';
+            document.getElementById('NewCNameFeedback').style.display = 'block';
+            newCNamearea.classList.add('is-invalid');
+            newCNamearea.style.background = 'none';
+            isValid = false;
+            console.log('中文名稱格式驗證失敗');
+        } else {
+            newCNamearea.classList.remove('is-invalid');
+            document.getElementById('NewCNameFeedback').style.display = 'none';
+        }
+        
+        // 英文名稱驗證 newEName NewENameFeedback
+        const newENamearea = document.querySelector('[id$=newEName]');
+        const newEName = document.querySelector('[id$=newEName]').value;
+        console.log('驗證英文名稱:', newEName);
+        if (newEName.trim() === '') {
+            document.getElementById('NewENameFeedback').innerHTML = '必填';
+            document.getElementById('NewENameFeedback').style.display = 'block';
+            newENamearea.classList.add('is-invalid');
+            newENamearea.style.background = 'none';
+            isValid = false;
+            console.log('英文名稱必填驗證失敗');
+        } else if (!validateEnglishName(newEName)) {
+            document.getElementById('NewENameFeedback').innerHTML = '僅英文字、空格';
+            document.getElementById('NewENameFeedback').style.display = 'block';
+            newENamearea.classList.add('is-invalid');
+            newENamearea.style.background = 'none';
+            isValid = false;
+            console.log('英文名稱格式驗證失敗');
+        } else {
+            newENamearea.classList.remove('is-invalid');
+            document.getElementById('NewENameFeedback').style.display = 'none';
+        }
+        
+        // 手機號碼驗證 (9位數字) - 國內
+        const phone1area = document.querySelector('[id$=newPhone1]');
+        const phone1 = document.querySelector('[id$=newPhone1]').value;
+        console.log('驗證手機號碼:', phone1);
+    
+        // 一、必填
+        if (phone1.trim() === '') {
+            document.getElementById('NewPhone1Feedback').innerHTML = '必填';
+            document.getElementById('NewPhone1Feedback').style.display = 'block';
+            phone1area.classList.add('is-invalid');
+            phone1area.style.background = 'none';
+            isValid = false;
+            console.log('手機號碼必填');
+        }
+        // 二、只能輸入數字
+        else if (!/^\d+$/.test(phone1)) {
+            document.getElementById('NewPhone1Feedback').innerHTML = '僅數字';
+            document.getElementById('NewPhone1Feedback').style.display = 'block';
+            phone1area.classList.add('is-invalid');
+            phone1area.style.background = 'none';
+            isValid = false;
+            console.log('手機號碼需為數字');
+        }
+        // 三、9位數字
+        else if (phone1.length !== 9) {
+            document.getElementById('NewPhone1Feedback').innerHTML = '請輸入9個字元';
+            document.getElementById('NewPhone1Feedback').style.display = 'block';
+            phone1area.classList.add('is-invalid');
+            phone1area.style.background = 'none';
+            isValid = false;
+            console.log('手機號碼長度錯誤');
+        } else {
+            phone1area.classList.remove('is-invalid');
+            document.getElementById('NewPhone1Feedback').style.display = 'none';
+        }
+    
+        // 手機號碼 (國外) - 非必填，但需為數字
+        const phone2area = document.querySelector('[id$=newPhone2]');
+        const phone2 = document.querySelector('[id$=newPhone2]').value;
+        console.log('驗證國外手機號碼:', phone2);
+        if (phone2.trim() !== '' && !/^\d+$/.test(phone2)) { // 只有在有輸入的情況下，才驗證是否為數字
+            document.getElementById('NewPhone2Feedback').innerHTML = '僅數字';
+            document.getElementById('NewPhone2Feedback').style.display = 'block';
+            phone2area.classList.add('is-invalid');
+            phone2area.style.background = 'none';
+            isValid = false;
+            console.log('國外手機號碼驗證失敗');
+        } else {
+            phone2area.classList.remove('is-invalid');
+            document.getElementById('NewPhone2Feedback').style.display = 'none';
+        }
+        
+
+        
+        console.log(`表單驗證${isValid ? '通過' : '失敗'}`);
+        return isValid;
+    }
+    
+    // 提交表單前驗證
+    function submitForm(event) {
+        event.preventDefault(); // 防止表單直接提交
+        
+        if (submitInProgress) {
+            console.log('表單正在提交中，請稍候...');
+            return false;
+        }
+        
+        console.log('開始提交表單');
+        
+        if (validateForm()) {
+            submitInProgress = true;
+            console.log('表單驗證通過，準備提交到後端');
+            
+            // 在頁面上顯示載入中訊息
+            showLoadingMessage();
+            
+            // 調用 Apex 方法
+            Visualforce.remoting.Manager.invokeAction(
+                '{!$RemoteAction.AccountManagementController.createNewUser}',
+                getFormData(),
+                function(result, event) {
+                    submitInProgress = false;
+                    hideLoadingMessage();
+                    
+                    if (event.status && result === 'success') {
+
+                        var successPanel = document.querySelector('[id$=addsuccessPanel]');
+                        // 更新頁面變數
+                        successPanel.style.display = "block";
+                        setTimeout(function() {
+                            location.reload();
+                        }, 2000);
+                    } else {
+                        console.error('後端處理失敗:', event.message);
+                        var errorPanel = document.querySelector('[id$=adderrorPanel]');
+                        errorPanel.style.display = "block";
+                        setTimeout(function() {
+                            errorPanel.style.display = "none";
+                            location.reload();
+                        }, 3000);
+                    }
+                }
+            );
+        } else {
+            console.log('表單驗證失敗，取消提交');
+        }
+        return false;
+    }
+    
+    // 獲取表單資料
+    function getFormData() {
+        return {
+            //userId : document.querySelector('[id$=newID]').value,
+            nowUser : document.querySelector('[id$=UserId2]').value,
+            username : document.querySelector('[id$=newACC]').value,
+            email : document.querySelector('[id$=newEmail1]').value,
+            newCName : document.querySelector('[id$=newCName]').value,
+            newEName : document.querySelector('[id$=newEName]').value,
+            phone1 : document.querySelector('[id$=newPhone1]').value,
+            phone2 : document.querySelector('[id$=newPhone2]').value,
+            Route : document.querySelector('[id$=hiddenRouteInput2]').value,
+            title : document.querySelector('[id$=newtitle]').value,
+            Role : '領隊/導遊',
+            Memo : document.querySelector('[id$=newRemarks]').value,
+            //CountryCode1 : document.querySelector('[id$=newPCode1]').value, 
+            CountryCode1 : '+886', 
+            CountryCode2 : document.querySelector('[id$=newPCode2]').value
+        };
+    }
+    
+
+    
+    
+    
+    function showLoadingMessage() {
+        // 創建並顯示 Bootstrap loading spinner
+        const loadingDiv = document.createElement('div');
+        loadingDiv.id = 'loading';
+        
+        // 設置 HTML 結構
+        loadingDiv.innerHTML = `
+        <div class="loading-container">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden" style="color:white">Loading...</span>
+                </div>
+                </div>
+                `;
+        
+        // 設置樣式
+        loadingDiv.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1060;
+        `;
+        
+        // 將 loading 元素加入到頁面中
+        document.body.appendChild(loadingDiv);
+    }
+
+    
+    function hideLoadingMessage() {
+        const loadingDiv = document.getElementById('loadingMessage');
+        if (loadingDiv) {
+            loadingDiv.remove();
+        }
+    }
+    
+    
+
+    //刪除====================================================================
+
+    
+    
+    let currentUserId = null;
+    
+
+    function openDeleteModal(UserId) {
+        currentUserId = UserId;
+        deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+        deleteModal.show();
+    }
+    
+
+    function closeDeleteModal() {
+        document.getElementById('deleteModal').style.display = 'none';
+        currentUserId = null;
+    }
+    
+
+    function confirmDelete() {
+        if (currentUserId) {
+            deleteUser(currentUserId);
+            closeDeleteModal();
+        }
+    }
+    
+
+    function deleteUser(UserId) {
+        showLoadingMessage();
+        Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.AccountManagementController.deleteUser}',
+            UserId,
+            function(result, event) {
+                hideLoadingMessage();
+                if (event.status && result === '刪除成功') {
+                    var delsuccessPanel = document.querySelector('[id$=deleteSuccessPanel]');   
+                    // 更新頁面變數
+                    delsuccessPanel.style.display = "block";
+                    setTimeout(function() {
+                        location.reload();
+                    }, 2000);
+                } else {
+                    var delerrorPanel = document.querySelector('[id$=deleteErrorPanel]');   
+                    // 更新頁面變數
+                    delerrorPanel.style.display = "block";
+                    setTimeout(function () {
+                        location.reload();
+                    }, 3000);
+                }
+            },
+            { escape: true }
+        );
+    }
+    //刪除end====================================================================
+    
+    //新增start==================================================================
+    function openModal() {
+        newUserModal = new bootstrap.Modal(document.getElementById('newUserModal'));
+        newUserModal.show();
+    }
+
+    
+    
+    function closeModal() {
+        document.getElementById('newUserModal').style.display = 'none';
+    }
+        
+
+    //新增end==================================================================
+    
+    
+    //編輯start====================================================================
+    
+    // 更新編輯表單的字數計數
+    function updateEditCharCount() {
+        var textArea = document.querySelector('[id$=editRemarks]');
+        var counter = document.getElementById('EditcharCounter');
+        if (textArea && counter) {
+            counter.textContent = textArea.value.length;
+        }
+    }
+    
+    // 當編輯模態框打開時初始化字數計數
+    function initializeEditCharCounter() {
+        // 在模態框打開時觸發
+        document.getElementById('editUserModal').addEventListener('shown.bs.modal', function () {
+            updateEditCharCount(); // 立即更新字數計數
+        });
+    
+        // 監聽備註欄位的所有可能的變化
+        var textArea = document.querySelector('[id$=editRemarks]');
+        if (textArea) {
+            // 監聽輸入事件
+            textArea.addEventListener('input', updateEditCharCount);
+            // 監聽貼上事件
+            textArea.addEventListener('paste', function() {
+                setTimeout(updateEditCharCount, 0);
+            });
+            // 監聽剪下事件
+            textArea.addEventListener('cut', function() {
+                setTimeout(updateEditCharCount, 0);
+            });
+        }
+    }
+    
+    // 頁面載入時初始化
+    document.addEventListener('DOMContentLoaded', function() {
+        initializeEditCharCounter();
+    });
+    
+    
+    
+    
+    
+    
+    
+    // 獲取 modal 元素
+    var currentEditUserId = null;
+    
+    // 開啟編輯 modal 的函數
+    function openeditModal(UserId) {
+        
+        // 儲存當前編輯的 User ID
+        currentEditUserId = UserId;
+        // 調用 Visualforce Remote Action 載入資料
+        Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.AccountManagementController.loadUserForEdit}',
+            UserId,
+            function(result, event) {
+                if (event.status) {
+                    // 更新表單欄位
+                    console.log(result);
+                    updateFormFields(result);
+                    // 顯示 modal
+                    editUserModal = new bootstrap.Modal(document.getElementById('editUserModal'));
+                    editUserModal.show();
+                    //editUserModal.style.display = "block";
+                    // 重新綁定事件監聽器
+                    document.querySelectorAll('.route-checkbox2').forEach(checkbox => {
+                        checkbox.addEventListener('change', function() {
+                        updateRouteInput();
+                    });
+                    });
+                } else {
+                    console.error('Error loading User data:', event.message);
+                }
+            }
+        );
+    }
+    
+    // 更新表單欄位的函數
+    function updateFormFields(User) {
+        // 更新基本資訊
+                        //console.log('ResponsibleRoute:' + User.Route__c);
+                        //console.log('CreatedDate:' + User.CreatedDate);
+                        //console.log('LastModifiedDate:' + User.LastModifiedDate);
+                        //console.log('Createdby:' + User.Createdby__c);
+                        //console.log('LastModifiedBy:' + User.LastModifiedBy__c);
+        document.querySelector('[id$=editID]').textContent = User.Name || '';
+        //document.querySelector('[id$=editID]').value = User.Taxid__c || '';
+        //document.querySelector('[id$=editRole]').value = User.Role__c || '';
+        document.querySelector('[id$=editACC]').textContent = User.Account__c || '';
+        document.querySelector('[id$=editEmail1]').value = User.Email__c || '';
+        document.querySelector('[id$=edittitle]').value = User.Salutation__c || '';
+        document.querySelector('[id$=editCName]').value = User.CN_Passport__c || '';
+        document.querySelector('[id$=editEName]').value = User.EN_Passport__c || '';
+        document.querySelector('[id$=editPhone1]').value = User.Phone1__c || '';    
+                        //document.querySelector('[id$=editPCode1]').value = User.Prefix1__c || '';
+        document.querySelector('[id$=editPCode2]').value = User.Prefix2__c || '';         
+        document.querySelector('[id$=editExpireDate]').textContent = User.ExpireDate__c || ''; 
+        document.querySelector('[id$=editState]').textContent = User.State__c || '';                 
+        document.querySelector('[id$=editCreatedby]').textContent = User.Createdby__c || ''; 
+        document.querySelector('[id$=editLastModifiedby]').textContent = User.LastModifiedBy__c || ''; 
+        
+        if (User.Phone2__c) {
+            document.querySelector('[id$=editPhone2]').value = User.Phone2__c;
+        }
+        
+        // 處理負責航線
+        if(User.Route__c) {
+            // 將值顯示在輸入框中
+            const routeInput = document.querySelector('[id$=hiddenRouteInput3]');
+            routeInput.value = User.Route__c;
+            
+            // 將字串分割成陣列
+            const selectedRoutes = User.Route__c.split(';');
+            
+            // 找到所有的 checkbox
+            document.querySelectorAll('.route-checkbox2').forEach(checkbox => {
+                const routeLabel = checkbox.closest('label').textContent.trim();
+                // 移除編號前綴
+                const cleanedLabel = routeLabel.replace(/^\d+\./, '').trim();
+                
+                // 使用清理後的標籤進行比對
+                checkbox.checked = selectedRoutes.includes(cleanedLabel);
+            });
+        }
+        
+        document.querySelector('[id$=editRemarks]').value = User.Memo__c || '';
+    
+
+        // 轉換 CreatedDate
+        if (User.CreatedDate) {
+            const createdDate = new Date(parseInt(User.CreatedDate));
+            console.log('createdDate' + createdDate);
+            const formattedCreatedDate = formatDate(createdDate);
+            console.log('formattedCreatedDate' + formattedCreatedDate);
+            // 使用 Visualforce 的 ID 選擇器，並使用 .value
+            const createdDateElement = document.querySelector('[id$="editCreatedDate"]');
+            console.log('createdDateElement' + createdDateElement);
+            if (createdDateElement) {
+                createdDateElement.textContent = formattedCreatedDate;
+            }
+        }
+        
+        // 轉換 LastModifiedDate
+        if (User.LastModifiedDate) {
+            const lastModifiedDate = new Date(parseInt(User.LastModifiedDate));
+            console.log(lastModifiedDate);
+            const formattedLastModifiedDate = formatDate(lastModifiedDate);
+            
+            // 使用 Visualforce 的 ID 選擇器，並使用 .value
+            const lastModifiedDateElement = document.querySelector('[id$="editLastModifiedDate"]');
+            if (lastModifiedDateElement) {
+                lastModifiedDateElement.textContent = formattedLastModifiedDate;
+            }
+        }
+                        
+        // 處理密碼到期日
+        if (User.ExpireDate__c) {
+            const expireDate = new Date(parseInt(User.ExpireDate__c));
+            const formattedExpireDate = formatDateOnly(expireDate);
+            const expireDateElement = document.querySelector('[id$="editExpireDate"]');
+            if (expireDateElement) {
+                expireDateElement.textContent = formattedExpireDate;
+            }
+        } else {
+            document.querySelector('[id$=editExpireDate]').textContent = '';
+        }              
+    }
+    
+    // 格式化日期時間的函數
+    function formatDate(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        
+        return `${year}/${month}/${day} ${hours}:${minutes}`;
+    }
+                                                                          
+    // 只格式化日期的函數（不包含時間）
+    function formatDateOnly(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        
+        return `${year}/${month}/${day}`;
+    }                                                                      
+    
+    
+    // 在 updateFormFields 函數之後添加以下程式碼
+    document.addEventListener('DOMContentLoaded', function() {
+        // 監聽所有的 checkbox 變更事件
+        document.querySelectorAll('.route-checkbox2').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+            updateRouteInput();
+        });
+        });
+        });
+            
+            // 新增更新輸入框值的函數
+            function updateRouteInput() {
+            const selectedRoutes = [];
+            document.querySelectorAll('.route-checkbox2').forEach(checkbox => {
+            if (checkbox.checked) {
+            // 獲取清理後的路線名稱（移除編號）
+            const routeLabel = checkbox.closest('label').textContent.trim();
+            const cleanedLabel = routeLabel.replace(/^\d+\./, '').trim();
+            selectedRoutes.push(cleanedLabel);
+        }
+        });
+            
+            // 更新輸入框的值
+            const routeInput = document.querySelector('[id$=hiddenRouteInput3]');
+            routeInput.value = selectedRoutes.join(';');
+            //console.log('更新後的路線值:', routeInput.value);
+        }
+    
+    
+    
+        // 儲存表單資料的函數
+        function submiteditForm(event) {
+            event.preventDefault();
+            
+            // 表單驗證
+            if (!validateEditForm()) {
+                return;
+            }
+            
+            // 取得所有選中的航線
+            let selectedRoutes = [];
+            document.querySelectorAll('.route-checkbox2:checked').forEach(checkbox => {
+                selectedRoutes.push(checkbox.closest('label').textContent.trim());
+            });
+            
+            // 準備要傳送的資料
+            var UserData = {
+                Id: currentEditUserId,
+                nowUser: document.querySelector('[id$=UserId1]').value,
+                Email__c: document.querySelector('[id$=editEmail1]').value,
+                Salutation__c: document.querySelector('[id$=edittitle]').value,
+                CN_Passport__c: document.querySelector('[id$=editCName]').value,
+                EN_Passport__c: document.querySelector('[id$=editEName]').value,
+                Phone1__c: document.querySelector('[id$=editPhone1]').value,
+                Phone2__c: document.querySelector('[id$=editPhone2]').value,
+                Route__c: document.querySelector('[id$=hiddenRouteInput3]').value,
+                Memo__c: document.querySelector('[id$=editRemarks]').value,
+            	//Prefix1__c: document.querySelector('[id$=editPCode1]').value,
+            	Prefix1__c: '+886',
+                Prefix2__c: document.querySelector('[id$=editPCode2]').value
+            };
+            
+            console.log(UserData); 
+            
+            // 顯示載入中提示
+            showLoadingMessage();
+            
+            // 呼叫 Apex 控制器的儲存方法
+            Visualforce.remoting.Manager.invokeAction(
+                '{!$RemoteAction.AccountManagementController.saveUser}',
+                UserData,
+                function(result, event) {
+                    hideLoadingMessage();
+                    if (event.status && result.success) {
+                        var editSuccessPanel = document.querySelector('[id$=editsuccessPanel]');
+                        editSuccessPanel.style.display = "block";
+                        setTimeout(function () {
+                            location.reload();
+                        }, 2000);
+                    } else {
+                        console.error('後端處理失敗:', event.message);
+                        var editErrorPanel = document.querySelector('[id$=editerrorPanel]');
+                        editErrorPanel.style.display = "block";
+                        setTimeout(function () {
+                            location.reload();
+                        }, 3000);
+                    }
+                }
+            );
+        }
+        
+                    
+        // 英文名字自動轉換為大寫
+        document.querySelector('[id$=editEName]').addEventListener('input', function () {
+            this.value = this.value.toUpperCase();
+        });            
+                    
+        function validateEditForm() {
+            let isValid = true;
+        
+            // 驗證必填欄位（其他欄位）
+            const requiredFields = [
+                { id: 'editEmail1', feedback: 'editEmailFeedback' },
+                { id: 'editCName', feedback: 'editCNameFeedback' },
+                { id: 'editEName', feedback: 'editENameFeedback' }
+            ];
+        
+            requiredFields.forEach(field => {
+                const element = document.querySelector(`[id$=${field.id}]`);
+                const feedbackElement = document.getElementById(field.feedback);
+        
+                if (!element.value.trim()) {
+                    element.classList.add('is-invalid');
+                    if (feedbackElement) {
+                        feedbackElement.style.display = 'block';
+                    }
+                    isValid = false;
+                } else {
+                    element.classList.remove('is-invalid');
+                    if (feedbackElement) {
+                        feedbackElement.style.display = 'none';
+                    }
+                }
+            });
+        
+            // 單獨驗證手機號碼(國內)
+            const phoneField = document.querySelector('[id$=editPhone1]');
+            const phoneFeedback = document.getElementById('editPhone1Feedback');
+            const phoneRegex = /^\d+$/; // 原有正則表達式
+            
+            if (!phoneField.value.trim()) {
+                // 驗證必填
+                phoneField.classList.add('is-invalid');
+                phoneFeedback.textContent = '必填';
+                phoneFeedback.style.display = 'block';
+                isValid = false;
+            } else if (!phoneRegex.test(phoneField.value)) {
+                // 驗證格式
+                phoneField.classList.add('is-invalid');
+                phoneFeedback.textContent = '僅數字';
+                phoneFeedback.style.display = 'block';
+                isValid = false;
+            } else if (phoneField.value.length !== 9) {
+                // 驗證是否剛好9碼
+                phoneField.classList.add('is-invalid');
+                phoneFeedback.textContent = '請輸入9個字元';
+                phoneFeedback.style.display = 'block';
+                isValid = false;
+            } else {
+                // 通過驗證
+                phoneField.classList.remove('is-invalid');
+                phoneFeedback.style.display = 'none';
+            }
+                    
+            
+            // 單獨驗證手機號碼(國外)(有填才驗證)
+            const phoneField2 = document.querySelector('[id$=editPhone2]');
+            const phoneFeedback2 = document.getElementById('editPhone2Feedback');
+            const phoneRegex2 = /^\d+$/;
+            
+            // 當欄位有輸入值時才進行驗證
+            if (phoneField2.value.trim() !== '') {
+                if (!phoneRegex2.test(phoneField2.value)) {
+                    // 驗證格式
+                    phoneField2.classList.add('is-invalid');
+                    phoneFeedback2.textContent = '僅數字';
+                    phoneFeedback2.style.display = 'block';
+                    isValid = false;
+                } else {
+                    phoneField2.classList.remove('is-invalid');
+                    phoneFeedback2.style.display = 'none';
+                }
+            } else {
+                // 如果欄位為空，清除任何錯誤訊息
+                phoneField2.classList.remove('is-invalid');
+                phoneFeedback2.style.display = 'none';
+            }    
+                    
+        
+            // 驗證 Email 格式
+            const emailField = document.querySelector('[id$=editEmail1]');
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (emailField.value && !emailRegex.test(emailField.value)) {
+                emailField.classList.add('is-invalid');
+                document.getElementById('editEmailFeedback').textContent = '請輸入電子郵件格式';
+                document.getElementById('editEmailFeedback').style.display = 'block';
+                isValid = false;
+            }
+        
+            // 驗證中文姓名格式
+            const cNameField = document.querySelector('[id$=editCName]');
+            const cNameRegex = /^[\u4e00-\u9fa5]+$/;
+            if (cNameField.value && !cNameRegex.test(cNameField.value)) {
+                cNameField.classList.add('is-invalid');
+                document.getElementById('editCNameFeedback').textContent = '僅中文字';
+                document.getElementById('editCNameFeedback').style.display = 'block';
+                isValid = false;
+            }
+        
+            // 驗證英文姓名格式
+            const eNameField = document.querySelector('[id$=editEName]');
+            const eNameRegex = /^[A-Z\s-]+$/;
+            if (eNameField.value && !eNameRegex.test(eNameField.value.toUpperCase())) {
+                eNameField.classList.add('is-invalid');
+                document.getElementById('editENameFeedback').textContent = '僅英文字、空格';
+                document.getElementById('editENameFeedback').style.display = 'block';
+                isValid = false;
+            }
+        
+            return isValid;
+        }
+
+
+    
+   
+    
+    
+    // 當使用者點擊 modal 外部時關閉 modal
+    window.onclick = function(event) {
+        if (event.target == editUserModal) {
+            closeeditModal();
+        }
+    }
+    
+    
+    // 關閉 modal 的函數
+    function closeeditModal() {
+        editUserModal.style.display = "none";
+        // 重整頁面
+        //location.reload();
+    }
+    //編輯end====================================================================
+    
+                (function() {
+            var sidebar = document.getElementById('sidebar');
+            if (sidebar) {
+                sidebar.classList.add('hidden');
+                sidebar.classList.remove('normal');
+            }
+        })();
+    
+    function adjustContentWrapper() {
+        var sidebar = document.getElementById('sidebar');
+        var contentWrapper = document.getElementById('content-wrapper');
+        
+        // 取得 sidebar 的當前樣式
+        var sidebarStyle = window.getComputedStyle(sidebar);
+        var transformValue = sidebarStyle.getPropertyValue('transform');
+        
+        // 檢查 sidebar 是否有 'hidden' class 或 'normal' class
+        if (sidebar.classList.contains('hidden') && window.innerWidth >= 1025) {
+            contentWrapper.style.paddingLeft = '0';
+        } else if (sidebar.classList.contains('hidden') && window.innerWidth < 1025) {
+            contentWrapper.style.paddingLeft = '0';
+        }
+        
+        if (sidebar.classList.contains('normal') && window.innerWidth >= 1025) {
+            contentWrapper.style.paddingLeft = '250px';
+            contentWrapper.style.transition = 'padding-left 0.3s ease-in-out';
+        } else if (sidebar.classList.contains('normal') && window.innerWidth < 1025) {
+            contentWrapper.style.paddingLeft = '0';
+        }
+    }
+    
+    // 監聽 sidebar 的 class 變化
+    var observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.type === "attributes" && mutation.attributeName === "class") {
+                adjustContentWrapper();
+            }
+        });
+    });
+    
+    // 當 DOM 內容加載完成後執行
+    document.addEventListener('DOMContentLoaded', function() {
+        var sidebar = document.getElementById('sidebar');
+        observer.observe(sidebar, {
+            attributes: true
+        });
+        
+        // 初始調用 adjustContentWrapper
+        adjustContentWrapper();
+    });
+    
+    // 同時監聽 window resize 事件，讓畫面縮小後也能正確調整
+    window.addEventListener('resize', adjustContentWrapper);
+    
+    // 控制搜尋提示顯示的函數
+    function toggleSearchPrompt(show) {
+        const searchPrompt = document.getElementById('searchPrompt');
+        const searchResults = document.querySelector('[id$=searchResults]');
+        const paginationControls = document.querySelector('[id$="paginationControls"]');
+        
+        if (show) {
+            // 查無資料時
+            searchPrompt.style.display = 'block';
+            searchResults.style.display = 'none';
+            if (paginationControls) {
+                paginationControls.style.display = 'none';
+            }
+        } else {
+            // 有資料時
+            searchPrompt.style.display = 'none';
+            searchResults.style.display = 'block';
+            if (paginationControls) {
+                paginationControls.style.display = 'block';
+            }
+        }
+    }
+    
+    // 修改原有的清除函數
+    function clearInputFields() {
+        document.getElementById('{!$Component.flightSearchForm.CName}').value = '';
+        document.getElementById('{!$Component.flightSearchForm.EName}').value = '';
+        document.getElementById('{!$Component.flightSearchForm.hiddenRouteInput}').value = '';
+    
+        // 清除所有選項的選中狀態
+        const checkboxes = document.querySelectorAll('.route-checkbox');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = false;
+        });
+    
+        toggleSearchPrompt(false); // 清除時隱藏提示
+    }
+    
+    // 在搜尋按鈕點擊後檢查結果
+    function checkSearchResults() {
+        const tableBody = document.querySelector('[id$=searchResults] tbody');
+        const hasResults = tableBody.querySelectorAll('tr').length > 0;
+        toggleSearchPrompt(!hasResults);
+    }
+    
+    function closeModal() {
+        document.getElementById("newUserModal").style.display = "none";
+    }
+    
+    
+    $(document).ready(function() {
+        var _multiSelect = $('.multiSelect');
+        _multiSelect.each(function(){
+            let _this = $(this);
+            let _selectBtn = _this.find('.selectBtn');
+            let _optionGroup = _this.find('.optionGroup');
+            const speed = 250;
+            
+            // 定位模擬的 select 下拉選單
+            _optionGroup.css({
+                'left': _selectBtn.position().left,
+                'top' : '42px'
+            });
+            
+            // 下拉選單顯示／隱藏
+            _selectBtn.click(function(){
+                if(_optionGroup.is(':visible')){
+                    _optionGroup.slideUp(speed);
+                } else {
+                    _optionGroup.slideDown(speed);
+                }
+            });
+            
+            _optionGroup.mouseleave(function(){
+                $(this).slideUp(speed);
+            });
+            
+            // 把選到的項目放到 _selectBtn 中
+            let selected = [];
+            let selectedValues = [];
+            let _checkOption = _optionGroup.find('input[type="checkbox"]');
+            
+            _checkOption.click(function(){
+                let _optionItem = $(this);
+                let optionText = _optionItem.parent().text().trim();
+                let optionValue = optionText.substring(2); // 從第三個字符開始取值
+                
+                if(_optionItem.prop('checked')){
+                    _optionItem.parent().addClass('checked');
+                    if(!selected.includes(optionText)) {
+                        selected.push(optionText);
+                        selectedValues.push(optionValue);
+                    }
+                } else {
+                    _optionItem.parent().removeClass('checked');
+                    let index = selected.indexOf(optionText);
+                    if(index > -1) {
+                        selected.splice(index, 1);
+                        selectedValues.splice(index, 1);
+                    }
+                }
+                
+                updateSelectBtn(_selectBtn, selected, selectedValues);
+            });
+            
+            // 初始化：檢查已經選中的選項
+            _checkOption.filter(':checked').each(function() {
+                let optionText = $(this).parent().text().trim();
+                selected.push(optionText);
+                selectedValues.push(optionText.substring(2));
+            });
+            updateSelectBtn(_selectBtn, selected, selectedValues);
+        });
+        
+        function updateSelectBtn(_selectBtn, selected, selectedValues) {
+            if(selected.length === 0) {
+                _selectBtn.attr('value', '');
+                _selectBtn.css('color', '#999');
+            } else {
+                var selectedText = selected.join('; ');
+                var selectedValueText = selectedValues.join('; ');
+                _selectBtn.text(selectedText);
+                _selectBtn.attr('value', selectedValueText);
+                _selectBtn.css('color', '#000');
+            }
+            
+            // 更新隱藏的輸入欄位
+            $('#hiddenRouteInput').val(selectedValueText);
+        }
+        
+        // 在表單提交前更新隱藏輸入欄位的值
+        $('form').submit(function() {
+            var selectedValue = $('.selectBtn').attr('value');
+            $('#hiddenRouteInput').val(selectedValue);
+        });
+        
+        // 修改 updateSelectedRoutesDisplay 函數
+        function updateSelectedRoutesDisplay() {
+            var checkboxes = document.querySelectorAll('.route-checkbox');
+            var selected = [];
+            var selectedValues = [];
+            checkboxes.forEach(function(checkbox) {
+                if (checkbox.checked) {
+                    let optionText = checkbox.parentNode.textContent.trim();
+                    selected.push(optionText);
+                    selectedValues.push(optionText.substring(2));
+                }
+            });
+            var selectBtn = document.querySelector('.selectBtn');
+            updateSelectBtn($(selectBtn), selected, selectedValues);
+        }
+        
+        // 頁面加載時初始化顯示
+        updateSelectedRoutesDisplay();
+    });
+        
+    (function(){
+      // 讓「儲存」按鈕好控管，幫它加個 id（見下方第 3 點）
+      const accInput   = document.querySelector('[id$=newACC]');
+      const emailInput = document.querySelector('[id$=newEmail1]');
+      const saveBtn    = document.getElementById('btnNewSave'); // 下面第 3 點會新增這個 id
+    
+      // 去抖
+      function debounce(fn, delay){ let t; return function(){ clearTimeout(t); t=setTimeout(()=>fn.apply(this, arguments), delay||400); }; }
+    
+      // UI 輔助
+      function setFieldError(inputEl, feedbackId, msg){
+        const fb = document.getElementById(feedbackId);
+        if (msg){
+          fb.textContent = msg; fb.style.display = 'block';
+          inputEl.classList.add('is-invalid');
+        } else {
+          fb.textContent = ''; fb.style.display = 'none';
+          inputEl.classList.remove('is-invalid');
+        }
+      }
+    
+      // 最新檢查結果（給 submit 時二次把關）
+      window.__UM_DUP__ = { acc:false, email:false };
+    
+      // 呼叫 Apex 檢查
+      const doCheck = debounce(function(){
+        const account = accInput?.value?.trim() || null;
+        const email   = emailInput?.value?.trim() || null;
+        if (!account && !email){ 
+          window.__UM_DUP__ = { acc:false, email:false };
+          setFieldError(accInput, 'NewUserNameFeedback', '');
+          setFieldError(emailInput, 'NewEmailFeedback', '');
+          saveBtn?.removeAttribute('disabled');
+          return;
+        }
+    
+        Visualforce.remoting.Manager.invokeAction(
+          '{!$RemoteAction.AccountManagementController.checkAvailability}',
+          account, email, null, // 新增時 excludeId = null
+          function(res, event){
+            if (!event.status){ return; }
+            window.__UM_DUP__ = { acc: !!res.accountTaken, email: !!res.emailTaken };
+    
+            // 帳號
+            if (res.accountTaken){
+              setFieldError(accInput, 'NewUserNameFeedback', '帳號已存在，請改用其他帳號');
+            } else {
+              // 若先前有本地格式錯誤訊息，這裡不覆蓋；只清「重複」這件事
+              if (document.getElementById('NewUserNameFeedback').textContent.includes('帳號已存在')) {
+                setFieldError(accInput, 'NewUserNameFeedback', '');
+              }
+            }
+            // Email
+            if (res.emailTaken){
+              setFieldError(emailInput, 'NewEmailFeedback', 'Email 已被使用');
+            } else {
+              if (document.getElementById('NewEmailFeedback').textContent.includes('Email 已被使用')) {
+                setFieldError(emailInput, 'NewEmailFeedback', '');
+              }
+            }
+    
+            // 若任何一項重複就禁用儲存
+            if (res.accountTaken || res.emailTaken) saveBtn?.setAttribute('disabled', 'disabled');
+            else saveBtn?.removeAttribute('disabled');
+          }
+        );
+      }, 450);
+    
+      // 綁 input/blur 都行：input 比較即時、blur 比較省請求；這裡用 input + 去抖
+      accInput?.addEventListener('input', doCheck);
+      emailInput?.addEventListener('input', doCheck);
+    
+      // 提交時再二次把關（防 race condition）
+      const _origValidateForm = window.validateForm;
+      window.validateForm = function(){
+        const ok = _origValidateForm ? _origValidateForm() : true;
+        if (!ok) return false;
+        if (window.__UM_DUP__.acc){
+          setFieldError(accInput, 'NewUserNameFeedback', '帳號已存在，請改用其他帳號');
+        }
+        if (window.__UM_DUP__.email){
+          setFieldError(emailInput, 'NewEmailFeedback', 'Email 已被使用');
+        }
+        return !(window.__UM_DUP__.acc || window.__UM_DUP__.email);
+      };
+    })();
+    
+    </script>
+</apex:page>

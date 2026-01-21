@@ -1,0 +1,9 @@
+<apex:page controller="QRCodeController" showHeader="false" sidebar="false" renderAs="PDF">
+    <table>
+        <tr>
+            <td style='padding:10px; text-align:center; font-size:15px; font-family:Arial,Helvetica;'>
+                <img src = '{!imageurl}'/>
+            </td>
+        </tr>
+    </table>
+</apex:page>

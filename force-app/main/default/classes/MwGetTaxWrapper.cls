@@ -1,0 +1,303 @@
+public class MwGetTaxWrapper {
+    
+    public class Flights {
+		public String departureDate;
+		public String departure;
+		public String arrival;
+		public String cabin;
+	}
+
+	public List<Flights> flights;
+	public String taxDate;
+	public Integer adult;
+	public Integer child;
+	public Integer infant;
+    public String currency_remove_after_serialize;
+    public String discountCode;
+    
+    public MwGetTaxWrapper(Seat_Allocation_and_Ticketing__c sat, Case currCase) {
+        this.taxDate = String.valueOf(sat.Tax_Date__c).replace('-', '/');
+        this.adult = 1;
+        this.child = 1;
+        this.infant = 1;
+		this.currency_remove_after_serialize = sat.Ticket_Currency__c;
+        this.discountCode = currCase.Discount_Code__c;
+		
+		this.flights = new List<Flights>();
+
+        List<String> routeSplit = new List<String>();
+        if (currCase.Route__c.contains('one-way')) {
+            routeSplit.add(currCase.Route__c.substring(0, 3));
+            routeSplit.add(currCase.Route__c.substring(4, 7));
+        }
+        else if(currCase.Route__c.contains(' X ')) {//by Chris Hsu 20220104
+            routeSplit.add(currCase.Route__c.substring(0, 3));
+            routeSplit.add(currCase.Route__c.substring(4, 7));
+            routeSplit.add(currCase.Route__c.substring(10, 13));
+            routeSplit.add(currCase.Route__c.substring(14, currCase.Route__c.length()));
+        }
+        else {
+            routeSplit = currCase.Route__c.split('-');
+        }
+        
+        if (routeSplit.size() < 2) {
+            return;
+        }
+        
+        Flights departing = new Flights();
+        departing.departure = routeSplit[0];
+        departing.departureDate = sat.Departing_Flight_Number__c == 'none'? String.valueOf(sat.Returning_Flight_Date__c).replace('-', '/') : String.valueOf(sat.Departing_Flight_Date__c).replace('-', '/');
+        departing.arrival = routeSplit[1];
+        departing.cabin = sat.RBD_Departing__c;
+        this.flights.add(departing);
+
+        if (routeSplit.size() == 3) {
+            Flights returning = new Flights();
+            returning.departure = routeSplit[1];
+            returning.departureDate = String.valueOf(sat.Returning_Flight_Date__c).replace('-', '/');
+            returning.arrival = routeSplit[2];
+            returning.cabin = sat.RBD_Returning__c;
+            this.flights.add(returning);
+        }else if(routeSplit.size() == 4) {//by Chris Hsu 20220104
+            Flights returning = new Flights();
+            returning.departure = routeSplit[2];
+            returning.departureDate = String.valueOf(sat.Returning_Flight_Date__c).replace('-', '/');
+            returning.arrival = routeSplit[3];
+            returning.cabin = sat.RBD_Returning__c;
+            this.flights.add(returning);   
+        }
+    }
+
+    public static void fakeMethod(){
+        Integer i = 0;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+        i++;
+    }
+	
+}

@@ -1,0 +1,321 @@
+<apex:page controller="SingleCertCNController"  renderAs="PDF" applyBodyTag="false" sidebar="false" showHeader="false" standardStylesheets="false" cache="false" docType="html-5.0" action="{!prepareDownload}">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" />
+        
+        <style>
+            /* Footer styles */
+            footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            line-height: 1.2;
+            text-align: right;
+            }
+        </style>
+        
+    </head>
+    
+    <body>
+        <apex:form style="font-family: Arial Unicode MS, Microsoft JhengHei, sans-serif;
+                          padding-bottom: 100px;">           
+            <div>
+                <h1>星宇航空優待機票兌換憑證</h1>
+                <div style="line-height: 1.5;">
+                    恭喜您獲得星宇航空贊助{!Tickets.External_Tickets__r.Organizer_Event_Title__c} {!Tickets.External_Tickets__r.DepatureID__c},{!Tickets.External_Tickets__r.Depature__c} 航點 出發至 {!Tickets.External_Tickets__r.ArrivalID__c},{!Tickets.External_Tickets__r.Arrival__c} 航點
+                    {!Tickets.External_Tickets__r.Booking_Class__c} 來回機票乙張！
+                    請詳閱背面注意事項並攜此憑證至星宇航空全球客服中心據點(機場票務櫃檯除外)兌換機票。 
+                    
+                </div>
+                <br/><br/>
+                <div style="text-align: right">
+                    星宇航空預祝您旅途愉快！
+                </div>
+                <br/><br/>
+                <div>兌換者基本資料</div>
+                <br/>                
+            </div>
+            
+            <table style="border-collapse: collapse; 
+                          border: 1px solid #000000; 
+                          width: 100%; 
+                          font-family: Arial Unicode MS, Microsoft JhengHei, sans-serif;">
+                <colgroup>
+                    <col style="width:25%"/>
+                    <col style="width:25%"/>
+                    <col style="width:25%"/>
+                    <col style="width:25%"/>
+                </colgroup>
+                <!-- 一人：單列四格 -->
+                <apex:outputPanel layout="none" rendered="{!Tickets.External_Tickets__r.Two_People__c='N'}">
+                  <tr style="color:#000; background:#fff; text-align:center;">
+                    <td style="border:1px solid #000; background:#e7e6e6; padding:3px; vertical-align:middle;">中文姓名:</td>
+                    <td style="border:1px solid #000; padding:10px 8px; height:32px;"></td>
+                
+                    <td style="border:1px solid #000; background:#e7e6e6; padding:3px; vertical-align:middle;">護照英文姓名:</td>
+                    <td style="border:1px solid #000; padding:10px 8px; height:32px;"></td>
+                  </tr>
+                </apex:outputPanel>
+                
+                <!-- 兩人：兩列；左右標題各自 rowspan=2 -->
+                <apex:outputPanel layout="none" rendered="{!Tickets.External_Tickets__r.Two_People__c='Y'}">
+                  <tr style="color:#000; background:#fff; text-align:center;">
+                    <td style="border:1px solid #000; background:#e7e6e6; padding:3px; vertical-align:middle;" rowspan="2">中文姓名:</td>
+                    <td style="border:1px solid #000; padding:10px 8px; height:32px;"></td>
+                
+                    <td style="border:1px solid #000; background:#e7e6e6; padding:3px; vertical-align:middle;" rowspan="2">護照英文姓名:</td>
+                    <td style="border:1px solid #000; padding:10px 8px; height:32px;"></td>
+                  </tr>
+                  <tr style="color:#000; background:#fff; text-align:center;">
+                    <td style="border:1px solid #000; padding:10px 8px; height:32px;"></td>
+                    <td style="border:1px solid #000; padding:10px 8px; height:32px;"></td>
+                  </tr>
+                </apex:outputPanel>
+                
+                <tr style="color:#000; background-color:#fff; text-align:center;">
+                    <td style="border: 1px solid #000000; background-color: #e7e6e6;">
+                        <span style="display: block; padding: 3px;">行程:</span>
+                    </td> 
+                    <td style="border: 1px solid #000000;">
+                        <!--<apex:outputText value="{!Tickets.Routing__c}" />-->                 
+                    </td> 
+                    <td style="border: 1px solid #000000;">
+                        <span style="display: block; padding: 3px; background-color: #e7e6e6;">訂位艙等:</span>
+                    </td>                    
+                    <td style="border: 1px solid #000000;">
+                        <apex:outputText value="{!Tickets.External_Tickets__r.Booking_Class__c}" />                         
+                    </td>                    
+                </tr>
+                
+                
+                <tr style="color:#000; background-color:#fff; text-align:center;">
+                    <td style="border: 1px solid #000000; background-color: #e7e6e6;">
+                        <span style="display: block; padding: 3px;">去程日期:</span>
+                    </td> 
+                    <td style="border: 1px solid #000000;">
+                        <!--<apex:outputText value="{0,date,dd-MMM-yyyy}">
+                            <apex:param value="" />
+                        </apex:outputText>-->
+                    </td> 
+                    <td style="border: 1px solid #000000;">
+                        <span style="display: block; padding: 3px; background-color: #e7e6e6;">回程日期:</span>
+                    </td>                    
+                    <td style="border: 1px solid #000000;">
+                        <!--<apex:outputText value="{0,date,dd-MMM-yyyy}">
+                            <apex:param value="" />
+                        </apex:outputText>-->
+                    </td>                    
+                </tr>
+                
+                <tr style="color:#000; background-color:#fff; text-align:center;">
+                    <td style="border: 1px solid #000000; background-color: #e7e6e6;">
+                        <span style="display: block; padding: 3px;">機票折扣率:</span>
+                    </td> 
+                    <td style="border: 1px solid #000000;">
+                        <span>
+                            <apex:outputText value="{!IF(Tickets.External_Tickets__r.Discount__c='00', '100', Tickets.External_Tickets__r.Discount__c)}%"/>
+                        </span>
+                        <span style="float:right;">
+                            (稅金另行酌收)
+                        </span>
+                    </td> 
+                    <td style="border: 1px solid #000000;">
+                        <span style="display: block; padding: 3px; background-color: #e7e6e6;">兌換券效期:</span>
+                    </td>                    
+                    <td style="border: 1px solid #000000;">
+                        <apex:outputText value="{0,date,dd-MMM-yyyy}">
+                            <apex:param value="{!Tickets.External_Tickets__r.Expiration_Date__c}" />
+                        </apex:outputText>
+                    </td>                    
+                </tr>
+                <tr style="color:#000; background-color:#fff; text-align:center;">
+                    <td style="border: 1px solid #000000; background-color: #e7e6e6;">
+                        <span style="display: block; padding: 3px;">免除項目:</span>
+                    </td>
+                    <td colspan="3" style="border: 1px solid #000000; text-align:left; padding:3px;">
+                      <!-- YQ -->
+                      <apex:outputPanel layout="none" rendered="{!Tickets.External_Tickets__r.Exemption_YQ__c}">YQ</apex:outputPanel>
+                    
+                      <!-- , TAX -->
+                      <apex:outputPanel layout="none" 
+                        rendered="{!AND(Tickets.External_Tickets__r.Exemption_Tax__c,
+                                        Tickets.External_Tickets__r.Exemption_YQ__c)}">, </apex:outputPanel>
+                      <apex:outputPanel layout="none" rendered="{!Tickets.External_Tickets__r.Exemption_Tax__c}">TAX</apex:outputPanel>
+                    
+                      <!-- , YR -->
+                      <apex:outputPanel layout="none" 
+                        rendered="{!AND(Tickets.External_Tickets__r.Exemption_YR__c,
+                                        OR(Tickets.External_Tickets__r.Exemption_YQ__c,
+                                           Tickets.External_Tickets__r.Exemption_Tax__c))}">, </apex:outputPanel>
+                      <apex:outputPanel layout="none" rendered="{!Tickets.External_Tickets__r.Exemption_YR__c}">YR</apex:outputPanel>
+                    
+                      <!-- , EP -->
+                      <apex:outputPanel layout="none" 
+                        rendered="{!AND(Tickets.External_Tickets__r.Embargo__c,
+                                        OR(Tickets.External_Tickets__r.Exemption_YQ__c,
+                                           Tickets.External_Tickets__r.Exemption_Tax__c,
+                                           Tickets.External_Tickets__r.Exemption_YR__c))}">, </apex:outputPanel>
+                      <apex:outputPanel layout="none" rendered="{!Tickets.External_Tickets__r.Embargo__c}">EP</apex:outputPanel>
+
+                    </td>
+                </tr>
+
+
+               
+            </table>
+            <br/><br/><br/><br/>
+            <div>持券兌換者完全瞭解及同意星宇航空優待機票兌換憑證所載之使用注意事項，並完成機票兌換手續。</div>
+            <table style="border-collapse: collapse; 
+                          border: 1px solid #000000; 
+                          width: 100%; 
+                          font-family: Arial Unicode MS, Microsoft JhengHei, sans-serif;">
+                
+                <tr style="color:#000; background-color:#fff; text-align:center;">
+                    <td>
+                        <div style="flex: 1; text-align: left;">
+                            <img src="{!QRcode}" style="max-width: 100%; height: auto;"/>
+                        </div>
+                    </td>
+                    <td>
+                        <div style="flex: 1; text-align: right;">
+                            <br/><br/>
+                            <div>兌換者簽章:________________________________</div>
+                            <br/><br/>
+                            <div>兌換日期:________________________________</div>
+                            <br/><br/>
+                            <div style="text-align: right;">未加蓋星宇航空優待機票憑證章者無效。</div>
+                        </div>
+                    </td>
+                </tr>
+                
+            </table>
+        </apex:form>
+        <apex:form style="font-family: Arial Unicode MS, Microsoft JhengHei, sans-serif;">
+            
+            <div>
+                <div style="line-height: 1.35; padding-top: 50px;">
+                    <div style="font-size: 16px; font-weight: bold;">
+                        *星宇航空（下稱本公司）優待機票兌換憑證（下稱兌換憑證）與優待機票（下稱優待機票）
+                        使用注意事項
+                    </div>
+                    <ol >
+                        <li>本兌換憑證如有遺失、遭竊、逾期、毀損等情事，不予補發。</li>
+                        <li>本兌換憑證逾期、影印或經塗改均屬無效。</li>
+                        <li>優待機票僅適用於本公司營運之國際線航班，不適用於聯營航班、團體機票、附加服務及其他旅
+                            遊產品。
+                        </li>
+                        <li>優待機票僅限兌換者本人使用，且乘客資訊務必填寫正確。                                                                                                                          
+                        </li>
+                        <li>已開立之優待機票須於該機票開立日起一年內全程使用完畢。逾期未使用完之機票，應自行由本
+                            公司全球客服中心（包含臨櫃辦理、電話客服、線上客服及官網申請，但機場票務櫃檯除外）辦
+                            理退票(辦理退票時僅可退回實際支付之票款及稅金)，且不得要求重新開票。                                                                                                                                                                                                                                                     
+                        </li>
+                        <li>使用優待機票，如有票差或稅金產生須由使用者自行負擔。付款方式以本公司全球客服中心（機
+                            場票務櫃檯除外）接受之支付方式為限。
+                        </li>
+                        <li>使用優待機票全程須避開以下禁止使用日期:<br/>
+                            <apex:outputPanel rendered="{!NOT(Tickets.Embargo__c)}">
+                                
+                                <table style="border-collapse: collapse; 
+                                              border: 1px solid #000000; 
+                                              width: 100%; 
+                                              font-family: Arial Unicode MS, Microsoft JhengHei, sans-serif;">
+                                    <colgroup>
+                                        <col style="width:25%"/>
+                                        <col style="width:25%"/>
+                                        <col style="width:0%"/>
+                                        <col style="width:25%"/>
+                                        <col style="width:25%"/>
+                                    </colgroup>
+                                    <tr>
+                                        <th colspan="2" style="border: 1px solid #000000; text-align: center; height: 25px;">台灣到其他航點</th>
+                                        <th colspan="1" style="border: none; "></th>
+                                        <th colspan="2" style="border: 1px solid #000000; text-align: center; height: 25px;">其他航點到台灣</th>
+                                        
+                                    </tr>
+                                    <!--<tr style="color:#000; background-color:#fff; text-align:center;">
+                                        <td style="border: 1px solid #000000; background-color: #e7e6e6;">
+                                            <span style="display: block; padding: 3px;">今年</span>
+                                        </td> 
+                                        <td style="border: 1px solid #000000;">
+                                            <span style="display: block; padding: 3px; background-color: #e7e6e6;">明年</span>
+                                        </td> 
+                                        <td style="border: none;"></td>
+                                        <td style="border: 1px solid #000000; background-color: #e7e6e6;">
+                                            <span style="display: block; padding: 3px;">今年</span>
+                                        </td> 
+                                        <td style="border: 1px solid #000000;">
+                                            <span style="display: block; padding: 3px; background-color: #e7e6e6;">明年</span>
+                                        </td> 
+                                        
+                                    </tr>-->
+                                    <tr style="color:#000; background-color:#fff; text-align:center; font-size:12px;">
+                                        <td style="border: 1px solid #000000;">
+                                            <apex:outputText value="{!Tickets.External_Tickets__r.Embargo_This_Year_Taiwan_to_World__c}" />                        
+                                        </td> 
+                                        <td style="border: 1px solid #000000;">
+                                            <apex:outputText value="{!Tickets.External_Tickets__r.Embargo_Next_Year_Taiwan_to_World__c}" />                        
+                                        </td> 
+                                        <td style="border: none;"></td>
+                                        <td style="border: 1px solid #000000;">
+                                            <apex:outputText value="{!Tickets.External_Tickets__r.Embargo_This_Year_World_to_Taiwan__c}" />                        
+                                        </td> 
+                                        <td style="border: 1px solid #000000;">
+                                            <apex:outputText value="{!Tickets.External_Tickets__r.Embargo_Next_Year_World_to_Taiwan__c}" />                        
+                                        </td>
+                                    </tr>
+                                </table>
+                            </apex:outputPanel>
+                            <apex:outputPanel rendered="{!Tickets.Embargo__c}">
+                                <div>無</div>
+                            </apex:outputPanel>
+                        </li>                        
+                        <li>    
+                            <ol style="list-style-type: none; padding-left: 0px; margin: 0;">
+                              <li>(1)&nbsp;以本憑證兌換優待機票前，請致電或親洽出發地之客服中心預訂行程並告知欲使用本憑證開
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;票，各班機訂位艙等機位數量有限，並將視實際情況開放訂位，建議及早預訂。並將視實際
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;情況開放訂位，建議及早預訂。</li>
+                              <li>(2)&nbsp;若因航網規劃或班機調度等因素導致無法提供本憑證上之航點或艙等，本公司保有變更兌換
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;航點或艙等之權利</li>
+                              <li>(3)&nbsp;開立優待機票後，不得更改航點或艙等，但可更改日期或航班。若更改去回程日期或航班而
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;產生票價或稅金差異時，更改後金額如少於原金額則不退款，高於原金額則須補差額。</li>
+                            </ol>
+                        </li>
+                        <li>使用優待機票無法累積哩程。</li>
+                        <li>優待機票不另提供兒童及嬰兒折扣。</li>
+                        <li>優待機票之退改票手續費等相關規定應依開立的票價產品內容規範辦理。</li>
+                        <li>依據中華民國所得稅法第88條及各類所得扣繳稅率標準規定，中華民國境內居住之個人機會中獎
+                                之中獎獎額達新臺幣20,010元（含）以上時，中獎所得金額（即機票票面價值，依航線價值不同
+                                而異）應依稅法規定代扣10%之稅款。「每次應扣繳稅額」不超過新臺幣2,000元者。免予扣繳
+                                ；但「全年給付所得金額」超過1,000元者，仍須申報所得。若兌換者為非中華民國境內居住之
+                                個人，或在中華民國無固定營業場所之營利事業，則須依法代扣20%之稅款。
+                        </li>
+                        <li>如遇戰爭、天災或其他不可抗力之因素，本公司得依所公告之運送條款處理。其他未盡事項皆依
+                            照本公司相關規則辦理，本公司保有相關規則及條款限制之最終解釋權，並以中文版為準。
+                        </li>
+                    </ol>
+                </div>               
+            </div>            
+        </apex:form>       
+    </body>
+    
+    <footer style="font-family: Arial Unicode MS, Microsoft JhengHei, sans-serif;">        
+        <div style="border-top: 1px solid #000000; line-height: 1.2;  font-size: 12px;">
+            <div style="display: flex; align-items: center;">
+                <span style="margin-right: 295px;">星宇航空客服中心電話: +886-2-2791-1199 </span>
+                <span>憑證編號:
+                    <apex:outputText value="{!Tickets.Name}({!Tickets.Prizes_and_Awards_won_by_chance__c})" />
+                </span>
+            </div>
+            <div style="text-align: right;">
+                案件編號:{!Tickets.External_Tickets__r.SerialID__c}
+            </div>
+            <div style="text-align: right;">印製日期:
+                <apex:outputText value="{0,date,dd-MMM-yyyy}">
+                    <apex:param value="{!TODAY()}" />
+                </apex:outputText>
+            </div>
+            <div style="text-align: center;">©2025 STARLUX Airlines Co., Ltd.</div>
+        </div>       
+    </footer>   
+</apex:page>

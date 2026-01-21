@@ -1,0 +1,131 @@
+body {
+    background-image: linear-gradient(to right, #AD9483, #8E6448);
+}
+.login-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 920px;
+    height: 600px;
+    transform: translate(-50%, -50%);
+}
+.login-box{
+    border:none !important;
+    background-color:none !important;
+}
+.login-body{
+    width:920px;
+    height:600px;
+    box-shadow: 10px 10px 5px rgb(0 0 0 / 0.2);
+}
+.login-form {
+    background-color: white;
+}
+.btn-login {
+    background-color: rgba(142, 114, 72, 1) !important;
+    border-color: rgba(142, 114, 72, 1) !important;
+    border-radius: 4px !important;
+    width:55%;
+}
+.btn-login:hover {
+    background-color: rgba(142, 114, 72, 1);
+    border-color: rgba(142, 114, 72, 1);
+}
+
+.forgotBtn {
+    width:41%;
+    background-color: rgb(255, 255, 255) !important;
+    color:rgba(142, 114, 72, 1) !important;
+    border-color: rgba(142, 114, 72, 1) !important;
+    border-radius: 4px !important;
+}
+
+.form-control{
+    border-radius: 2px !important;
+    height:42px;
+}
+
+
+.card-footer{
+    font-size:10px;
+    background-color:rgb(153, 117, 93);
+}
+.custom-validation-form{
+    border-top:3px solid rgba(142, 114, 72, 1);
+}
+.custom-validation-form .form-control.is-invalid {
+    border-color: #dc3545;
+    padding-right: calc(1.5em + 0.75rem);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right calc(0.375em + 0.1875rem) center;
+    background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+}
+
+.custom-validation-form .invalid-feedback {
+    display: none;
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 0.875em;
+    color: #dc3545;
+}
+
+.custom-validation-form .was-validated .form-control:invalid ~ .invalid-feedback,
+.custom-validation-form .form-control.is-invalid ~ .invalid-feedback {
+    display: block;
+}
+#successImage{
+    max-width:49px;
+    max-height:236px;
+}
+#failureImage{
+    max-width:49px;
+    max-height:236px;
+}
+
+.image-container {
+    position: relative;
+    height: 100px;
+}
+.centered-image {
+    position: absolute;
+    left: 50%;
+    top: 50px;
+    transform: translateX(-50%);
+}
+
+
+
+
+@media only screen and (max-width: 1200px) {
+    .login-container{
+        top: 15%;
+        left: 15%;
+        width:75%;
+    }
+    .forgotBtn {
+        width:100% !important;
+    }
+    .btn-login {
+        width:100%;
+    }
+}
+
+@media only screen and (max-width: 769px) {
+    .login-container{
+        top: 20%;
+        left: 2.5%;
+        width:95%;
+    }
+}
+
+@media only screen and (max-width: 450px) {
+    .login-container{
+        top: 10%;
+        left: 2.5%;
+        width:95%;
+    }
+    .login-title{
+        display:none;
+    }
+}

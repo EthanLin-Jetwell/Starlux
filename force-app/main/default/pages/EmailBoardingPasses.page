@@ -1,0 +1,479 @@
+<apex:page docType="html-5.0" applyHtmlTag="true" standardStylesheets="false" showHeader="false">
+    <head>
+        <title>Boarding Pass Printing</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no"/>
+        <c:styleinclude ></c:styleinclude>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"/>
+        <link
+              rel="stylesheet"
+              href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+              />
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        
+        <link rel="stylesheet" href="{!$Resource.B2BStyle}" />
+        <!-- Select2 CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        
+        <!-- jQuery (必要) -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        
+        <!-- Select2 JS -->
+            <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <!-- 新增：打包 ZIP 需要的套件 -->
+        <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
+        
+        
+        <style>
+            
+            
+            .form-select.is-invalid:not([multiple]):not([size]), .form-select.is-invalid:not([multiple])[size="1"], .was-validated .form-select:invalid:not([multiple]):not([size]), .was-validated .form-select:invalid:not([multiple])[size="1"] {
+            /* --bs-form-select-bg-icon: url(data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e); */
+            padding-right: 4.125rem;
+            background-position: right .75rem center, center right 2.25rem;
+            background-size: 16px 12px, calc(.75em + .375rem) calc(.75em + .375rem);
+            }
+            
+            /* ─────────── 隱藏被停用欄位的 placeholder ─────────── */
+            input:disabled::placeholder {          /* 標準寫法 */
+            color: transparent !important;
+            opacity: 0 !important;
+            }
+            
+            /* WebKit 舊寫法（部分 Safari／舊 Chrome 仍會用到）*/
+            input:disabled::-webkit-input-placeholder {
+            color: transparent !important;
+            opacity: 0 !important;
+            }
+            
+            /* Edge / IE 兼容（IE 只到 11，但保險起見）*/
+            input:disabled::-ms-input-placeholder {
+            color: transparent !important;
+            opacity: 0 !important;
+            }
+            
+            /* 預設情況：所有 disabled 的 date input 都隱藏值 */
+            input[type="date"]:disabled {
+            color: transparent !important;
+            -webkit-text-fill-color: transparent !important;
+            opacity: 1;
+            }
+            
+            /* 有值的時候要顯示（靠 JS 加上 always-visible） */
+            input[type="date"].always-visible:disabled {
+            color: inherit !important;
+            -webkit-text-fill-color: initial !important;
+            opacity: 1;
+            }
+            
+            /* 隱藏原生按鈕 */
+            input[type="date"]:disabled:not(.always-visible)::-webkit-clear-button,
+            input[type="date"]:disabled:not(.always-visible)::-webkit-calendar-picker-indicator {
+            display: none !important;
+            }
+            /* 移除 select 驗證紅色 icon（Chrome/Bootstrap 5） */
+            select.form-select.is-invalid {
+            background-image: none !important;
+            }
+            
+            /* 隱藏原始 checkbox */
+            input[type="checkbox"] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #999999;
+            border-radius: 4px;
+            background-color: #fff;
+            cursor: pointer;
+            position: relative;
+            display: inline-block;
+            vertical-align: middle;
+            }
+            
+            /* 勾選後的背景和勾勾 */
+            input[type="checkbox"]:checked {
+            background-color: #8e6448;
+            border-color: #8e6448;
+            }
+            
+            /* 勾勾：使用偽元素畫出來 */
+            input[type="checkbox"]:checked::after {
+            content: '';
+            position: absolute;
+            left: 6px;
+            top: 1px;
+            width: 6px;
+            height: 12px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+            }
+            
+            /* 初始 checkbox 樣式（未勾選） */
+            input[type="checkbox"].headerCheckbox {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #999999;
+            border-radius: 4px;
+            background-color: transparent;
+            position: relative;
+            cursor: pointer;
+            }
+            
+            /* 勾選後：背景填滿，橫線顯示 */
+            input[type="checkbox"].headerCheckbox:checked {
+            background-color: #8e6448;
+            border-color: #8e6448;
+            }
+            
+            /* 白色水平線（修正為水平） */
+            input[type="checkbox"].headerCheckbox:checked::after {
+            content: '';
+            position: absolute;
+            top: 7px;         /* 垂直置中 */
+            left: 3px;
+            width: 12px;
+            height: 2px;
+            background-color: white;
+            transform: rotateY(45deg);
+            }
+            
+            button.btn.btn-primary:disabled {
+            background-color: #CCBBB0 !important;
+            border-color: #CCBBB0 !important;
+            color: white; /* 或 #fff */
+            cursor: not-allowed;
+            }
+            
+            
+            #btnSend:disabled {
+            background-color: #fff !important;
+            border: 1px solid #EEEDEC !important;
+            color: #EEEDEC !important;
+            cursor: not-allowed;
+            opacity: 1 !important;
+            box-shadow: none;
+            }
+            
+            
+            /* === A. 結果區：強制單行 + 左右滑動（支援 VF 命名空間 id） === */
+            [id$="resultsBlock"],
+            #outerWrapper,
+            #tabResults .nav-tabs,
+            [id$="resultTabContent"],
+            [id$="searchResults"] {
+            overflow-x: auto !important;
+            }
+            
+            /* 所有文字單行顯示，不要被硬斷字 */
+            [id$="resultsBlock"] * {
+            white-space: nowrap !important;
+            word-break: keep-all !important;
+            }
+            
+            /* sticky 欄位也維持單行 */
+            [id$="resultsBlock"] th[style*="position:sticky"],
+            [id$="resultsBlock"] td[style*="position:sticky"] { white-space: nowrap !important; }
+            
+            /* Tabs 一律單行，太多可左右滑 */
+            #tabResults .nav-tabs {
+            flex-wrap: nowrap !important;
+            overflow-x: auto !important;
+            -webkit-overflow-scrolling: touch;
+            }
+            #tabResults .nav-tabs .nav-link { flex: 0 0 auto; }
+            
+            /* === B. 列印/寄送按鈕列：永遠同一行；右側(含 1-40 of 40)擠不下就橫向滑 === */
+            .pagination-controls {
+            display: flex !important;
+            align-items: center;
+            flex-wrap: nowrap !important;
+            gap: .5rem;
+            overflow-x: auto !important;       /* 螢幕窄時可左右滑 */
+            }
+            
+            /* 左側兩顆按鈕容器：固定一行，不被壓縮 */
+            .pagination-controls > div:first-child {
+            display: inline-flex !important;
+            align-items: center;
+            gap: .5rem;
+            flex: 0 0 auto !important;
+            min-width: max-content !important;
+            }
+            #btnPrint, #btnSend { flex: 0 0 auto !important; }
+            
+            /* 右側整塊(含 1-40 of 40 / 上一頁 / 下一頁)：靠最右、不可換行，寬度以內容計 */
+            .pagination-controls > div:last-child {
+            display: inline-flex !important;
+            align-items: center;
+            gap: .25rem;
+            margin-left: auto !important;      /* 推到最右邊 */
+            flex: 0 0 auto !important;
+            min-width: max-content !important; /* 不折行，太窄就靠外層出現水平捲動 */
+            }
+            
+            /* 恢復搜尋欄與結果區之間的分隔線 */
+            #flightSearchForm {
+            border-bottom: 24px solid #EEEDEC;   /* 灰色線 */
+            padding-bottom: 24px;
+            }
+            
+            /* 通用工具：隱藏滾動條但保留滾動能力 */
+            .no-scrollbar {
+            -ms-overflow-style: none;  /* IE/舊 Edge */
+            scrollbar-width: none;     /* Firefox */
+            }
+            .no-scrollbar::-webkit-scrollbar { /* Chrome/Safari/新 Edge */
+            width: 0;
+            height: 0;
+            background: transparent;
+            }
+            
+            /* 把需要左右滑動的區塊套用隱藏捲軸 */
+            [id$="resultsBlock"],
+            #tabResults .nav-tabs,
+            .pagination-controls {
+            -webkit-overflow-scrolling: touch;  /* iOS 惰性滾動 */
+            }
+            [id$="resultsBlock"],
+            #tabResults .nav-tabs,
+            .pagination-controls {
+            /* 這三個既有就會 overflow-x:auto；這裡只隱藏滾動條 */
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+            }
+            [id$="resultsBlock"]::-webkit-scrollbar,
+            #tabResults .nav-tabs::-webkit-scrollbar,
+            .pagination-controls::-webkit-scrollbar {
+            width: 0;
+            height: 0;
+            background: transparent;
+            }
+            
+            /* 外框高、邊框、圓角、背景 */
+            .select2-container--default .select2-selection--single {
+            height: 38px;
+            border: 1px solid #ced4da;
+            border-radius: 2px;
+            background-color: #fff;
+            padding: .375rem .75rem;
+            display: flex;
+            align-items: center;
+            }
+            
+            /* 文字垂直置中、左右內距 */
+            .select2-container--default .select2-selection--single .select2-selection__rendered {
+            line-height: normal;
+            padding-left: 0;
+            padding-right: 24px; /* 給箭頭留空間 */
+            }
+            
+            /* 箭頭位置與高度 */
+            .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height: 100%;
+            right: .75rem;
+            }
+            
+            /* focus 樣式（仿 Bootstrap） */
+            .select2-container--default.select2-container--focus .select2-selection--single {
+            border-color: #86b7fe;
+            box-shadow: 0 0 0 .25rem rgba(13,110,253,.25);
+            outline: 0;
+            }
+            
+            /* disabled 外觀（仿 .form-select:disabled） */
+            .select2-container--default.select2-container--disabled .select2-selection--single {
+            background-color: #e9ecef;
+            opacity: 1;
+            }
+            
+            /* 驗證錯誤：當原生 select 有 is-invalid 時，同步紅邊 陰影 */
+            #tourLeaderSelect.is-invalid + .select2 .select2-selection--single {
+            border-color: #dc3545;
+            }
+            #tourLeaderSelect.is-invalid + .select2.select2-container--focus .select2-selection--single {
+            box-shadow: 0 0 0 .25rem rgba(220,53,69,.25);
+            }
+            /* 只針對這個 select2 隱藏清除叉叉 */
+            #tourLeaderSelect + .select2 .select2-selection__clear {
+            display: none !important;
+            }
+            
+            
+        </style>
+    </head>
+    <body>
+        <div id="loadingOverlay" style="display: none;">
+            <div style="
+                        position: fixed;
+                        top: 0; left: 0; right: 0; bottom: 0;
+                        background-color: rgba(255, 255, 255, 0.7);
+                        z-index: 99999;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        ">
+                <div class="spinner-border" role="status" style="width: 4rem; height: 4rem; color: #212121;">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                
+            </div>
+        </div>
+    </body>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    
+    
+    <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function () {
+        try {
+            const params = new URLSearchParams(location.search);
+            const mode   = params.get('mode');
+            const idsCsv = params.get('ids');
+            const target = (params.get('target') || '').toLowerCase(); // e | p
+            const autoClose = params.get('autoClose') === '1';          // ⬅️ 新增：是否自動關閉
+            if (mode !== 'zip' || !idsCsv) return;
+            
+            // ---- 這段是關鍵：先看網址參數，再看 DOM，最後給預設 ----
+            function pick(...vals) {
+                for (const v of vals) {
+                    if (typeof v === 'string' && v.trim()) return v.trim();
+                }
+                return '';
+            }
+            function safe(s) { return (s || '').replace(/[^\w\-.]+/g, '_'); }
+            function nowStamp() {
+                const d = new Date();
+                const pad = n => String(n).padStart(2,'0');
+                return `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}-${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}`;
+            }
+            
+            // 1) 先讀 URL 參數（建議之後從 Email 也能把這三個參數帶過來：pnr, fn, date）
+            const pnrParam   = params.get('pnr');   // ex: ABC123
+            const fnParam    = params.get('fn');    // ex: JX123
+            const dateParam  = params.get('date');  // ex: 2025-10-16 或 2025/10/16
+            
+            // 2) 抓 DOM（保留你原本的 selector，當成備援）
+            const pnrDom     = document.querySelector('#tabResults .nav-link.active')?.textContent;
+            const fnDom      = (document.querySelector('[id$="carrierCode"]')?.value || '') +
+                (document.querySelector('[id$="flightNumber"]')?.value || '');
+            const dateDom    = document.querySelector('[id$="departureDate"]')?.value;
+            
+            // 3) 挑到第一個可用值
+            const pnr        = pick(pnrParam, pnrDom);
+            const flightNo   = pick(fnParam, fnDom);
+            const flightDate = pick(dateParam, dateDom);
+            
+            // 4) 組檔名（若三個都沒抓到，用預設）
+            const baseName   = (pnr || flightNo || flightDate)
+            ? `${safe(pnr)}_${safe(flightNo)}_${safe(flightDate)}`
+            : `BoardingPass_${nowStamp()}`;
+            
+            const zipName    = `${baseName}.zip`;
+            const rootDir    = baseName; // 放 zip 裡的資料夾名稱（可保留）
+            
+            // ====== 下面維持你原本的流程：收 PDF、打包、saveAs ======
+            const zip = new JSZip();
+            
+            function base64ToBytes(b64) {
+                const bin = atob(b64);
+                const bytes = new Uint8Array(bin.length);
+                for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+                return bytes;
+            }
+            
+            const ids      = idsCsv.split(',').map(s => s.trim()).filter(Boolean);
+            const digital  = target === 'e';
+            const paper    = target === 'p';
+            
+            let expectedReady = 0;
+            let readyCount    = 0;
+            
+            function onMessage(e) {
+                const data = e.data;
+                if (data && data.type === 'PDF_BLOB' && data.filename && data.base64) {
+                    zip.file(`${rootDir}/${data.filename}`, base64ToBytes(data.base64));
+                             }
+                             if (data === 'BP_PDF_READY' || data === 'EBP_PDF_READY') {
+                        if (++readyCount >= expectedReady) {
+                            window.removeEventListener('message', onMessage);
+                            zip.generateAsync({ type: 'blob' })
+                            .then(blob => {
+                                saveAs(blob, zipName);
+                                // ⬇️ 新增：下載後自動關閉（可選）
+                                if (autoClose) {
+                                setTimeout(() => {
+                                try { window.close(); } catch (e) {}
+                                try { window.open('about:blank', '_self'); window.close(); } catch (e) {}
+                            }, 1200); // 稍等一下，避免被瀏覽器擋
+                            }
+                            })
+                                .finally(() => hideLoading());
+                            }
+                            }
+                            }
+                                
+                                showLoading();
+                                window.addEventListener('message', onMessage);
+                                
+                                if (paper) {
+                                expectedReady++;
+                                const printUrl = '/apex/BoardingPassPrintPDF?issend=false&mode=zip&ids=' + encodeURIComponent(ids.join(','));
+                                loadInHiddenIframe(printUrl, 'BP_PDF_READY');
+                            }
+                                if (digital) {
+                                expectedReady++;
+                                const ebpUrl   = '/apex/EBoardingPassPDF?issend=false&mode=zip&ids=' + encodeURIComponent(ids.join(','));
+                                loadInHiddenIframe(ebpUrl, 'EBP_PDF_READY');
+                            }
+                            } catch (e) {
+                                console.error('zip auto start error:', e);
+                                hideLoading();
+                            }
+                            });
+                                
+                                function showLoading() {
+                                const overlay = document.getElementById('loadingOverlay');
+                                if (overlay) {
+                                overlay.style.display = 'block';
+                                document.body.style.overflow = 'hidden';
+                            }
+                            }
+                                
+                                function hideLoading() {
+                                const overlay = document.getElementById('loadingOverlay');
+                                if (overlay) {
+                                overlay.style.display = 'none';
+                                document.body.style.overflow = 'auto';
+                            }
+                            }
+                                
+                                function loadInHiddenIframe(url, readyMsg) {
+                                const iframe = document.createElement('iframe');
+                                iframe.style.position = 'fixed';
+                                iframe.style.left = iframe.style.top = '-9999px';
+                                iframe.width = iframe.height = 0;
+                                iframe.src = url;
+                                document.body.appendChild(iframe);
+                                
+                                function cleanup(e) {
+                                if (e.data === readyMsg) {
+                                window.removeEventListener('message', cleanup);
+                                iframe.remove();
+                            }
+                            }
+                                window.addEventListener('message', cleanup);
+                            }
+    </script>
+</apex:page>

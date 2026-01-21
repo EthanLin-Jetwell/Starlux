@@ -1,0 +1,1737 @@
+<!--============================= Infos =======================================
+
+Name: AccountMaintain
+Author: Benson Tseng 
+Purpose: STARLUX Airlines 
+
+Static Resources:
+Name                             MIME        Description
+-------------------------------------------------------------------------------
+
+
+-------------------------------------------------------------------------------
+Backup File:
+
+
+============================= Infos =======================================-->
+<apex:page controller="AccountMaintainController" docType="html-5.0" applyHtmlTag="true" standardStylesheets="false" showHeader="false">
+    <head>
+        <title>AccountMaintain</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no"/>
+        <c:styleinclude ></c:styleinclude>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color: #EEEDEC;
+            }
+            .content-wrapper {
+                display: flex;
+                justify-content: center;
+                width: 100%;
+            }
+            .container {
+            	margin-top:116px;
+                width: 100%;
+            	height:70%;
+                max-width: 1200px;
+                padding: 20px;
+                background-color: #fff;
+                border-radius: 5px;
+                box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            }
+            .form-row {
+                display: flex;
+                margin-bottom: 15px;
+            }
+            .form-group {
+                flex: 1;
+                margin-right: 15px;
+            }
+            .form-group:last-child {
+                margin-right: 0;
+            }
+            label {
+                display: block;
+                margin-bottom: 5px;
+                font-weight: bold;
+            	boarder-radius: 2px;
+            
+            }
+            input, select {
+                width: 100%;
+                padding: 8px;
+                border: 1px solid #ddd;
+                border-radius: 2px;
+            }
+            .phone-input {
+                display: flex;
+            }
+            .phone-input select {
+                width: 30%;
+                margin-right: 10px;
+            }
+            .phone-input input {
+                width: 70%;
+            }
+            .editBtn, .changeBtn {
+                padding: 10px 15px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                font-size: 16px;
+            }
+            .editBtn {
+                background-color: #A07752;
+                color: white;
+            }
+            .editBtn:hover {
+            background-color: #A07752;
+            color: white;
+            }
+            
+            .changeBtn {
+                background-color: #A07752;
+                color: white;
+                margin-left: 10px;
+            }
+
+
+            .fixed-bottom-buttons {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 999;
+            padding-left:250px;
+            }
+            
+            .fixed-bottom-buttons .container {
+            max-width: 1800px;
+            border-radius: 0;
+            border-left:2px solid #EAEAEA;
+            display: flex;
+            justify-content: flex-end;
+            gap: 16px;
+            }
+            
+            .fixed-bottom-buttons .btn {
+            width: 120px;
+            height: 40px;
+            border-radius: 4px;
+            font-size: 16px;
+            }
+            
+            .content-wrapper {
+            padding-bottom: 80px;
+            }
+            
+
+            .fixed-bottom-buttons .editBtn {
+            background-color: #A07752;
+            color: white;
+            }
+            
+
+            .fixed-bottom-buttons .btn:not(.editBtn) {
+            border: 1px solid #A07752;
+            }
+            
+            
+            span.form-control-plaintext {
+                display: inline-block;
+                padding: 8px;
+                background-color: #f8f9fa;
+                border: 1px solid #ddd;
+                border-radius: 2px;
+                width: 100%;
+                box-sizing: border-box;
+            }
+            .formTitle{
+            color:rgba(115, 91, 75, 1);
+            }
+            
+            .multiSelect .selectBtn {
+            height: 38px;
+            line-height: 2.4em;
+            padding: 0 6px;
+            margin: 3px 0;
+            border-radius: 4px;
+            vertical-align: middle;
+            border: 1px solid #bcc;
+            background-color: #fff;
+            }
+            
+            .notification-panel2{
+            width:340px !important;
+            }
+            
+            .multiSelect {
+            position: relative;
+            display: inline-block;
+            width: 28em;
+            border-color: #735B4B;
+            }
+            .multiSelect .selectBtn {
+            position: relative;
+            display: block;
+            cursor: pointer;
+            overflow: hidden;
+            transition: 0.1s;
+            }
+            .multiSelect .selectBtn:hover {
+            border-color: rgba(142, 114, 72, 1);
+            box-shadow: 0 0 0 0.2rem rgba(232, 224, 218, 0.5);
+            }
+            
+            
+            .multiSelect .selectBtn .placeholder {
+            color: #9aa;
+            }
+            .multiSelect .selectBtn::after {
+            content: "";
+            position: absolute;
+            right: 15px;
+            top: 55%;
+            margin-top: -7px;
+            width: 8px;
+            height: 8px;
+            border: 1.5px solid black;
+            border-left: none;
+            border-top: none;
+            transform: rotate(45deg);
+            }
+            .multiSelect .optionGroup {
+            display: none;
+            position: absolute;
+            left: 0;
+            right: 0;
+            padding: 6px;
+            margin: 0;
+            background: #fff;
+            box-shadow: rgba(0, 0, 0, 0.3) 0 1px 6px;
+            border-radius: 4px;
+            height: 200px;
+            overflow-y: scroll;
+            }
+            .multiSelect .optionGroup > label {
+            display: block;
+            line-height: 1;
+            margin: 3px 0;
+            padding: 0.5em 5px 0.4em 2em;
+            border-radius: 3px;
+            cursor: pointer;
+            text-indent: -1.2em;
+            transition: 0.2s;
+            }
+            .multiSelect .optionGroup > label.cascade {
+            }
+            .multiSelect .optionGroup > label:hover {
+            background: #dee;
+            }
+            .multiSelect .optionGroup > label input {
+            margin-left: -0.3em;
+            margin-right: 0.3em;
+            }
+            .multiSelect .optionGroup > label.checked {
+            background-color: #bdd;
+            }
+            .multiSelect .optionGroup .searchblock {
+            display: flex;
+            }
+            .multiSelect .optionGroup .searchblock label {
+            flex: auto;
+            flex-basis: 100%;
+            position: relative;
+            }
+            .multiSelect .optionGroup .searchblock label input[type=text] {
+            width: 100%;
+            border: 1px solid #ddd;
+            padding: 0.4em 35px;
+            margin: 0 5px;
+            box-sizing: border-box;
+            border-radius: 2px;
+            }
+            .multiSelect .optionGroup .searchblock label:before {
+            content: "";
+            width: 10px;
+            height: 10px;
+            border: 2px solid #ccc;
+            display: block;
+            border-radius: 50%;
+            position: absolute;
+            left: 15px;
+            top: 8px;
+            }
+            .multiSelect .optionGroup .searchblock label:after {
+            content: "";
+            width: 8px;
+            height: 2px;
+            background-color: #ccc;
+            position: absolute;
+            left: 26px;
+            top: 20px;
+            transform: rotate(37deg);
+            }
+            .multiSelect .optionGroup .searchblock .close {
+            flex: none;
+            position: relative;
+            font-size: 0;
+            width: 15px;
+            height: 2px;
+            right: 20px;
+            top: 5px;
+            }
+            .multiSelect .optionGroup .searchblock .close:before {
+            content: "";
+            width: 15px;
+            height: 2px;
+            background-color: #ccc;
+            position: absolute;
+            right: 2px;
+            top: 12px;
+            transform: rotate(45deg);
+            }
+            .multiSelect .optionGroup .searchblock .close:after {
+            content: "";
+            width: 15px;
+            height: 2px;
+            background-color: #ccc;
+            position: absolute;
+            right: 2px;
+            top: 12px;
+            transform: rotate(-45deg);
+            }
+            .multiSelect .optionGroup .searchblock .close:hover:before, .multiSelect .optionGroup .searchblock .close:hover:after {
+            background-color: #999;
+            }
+            
+            .modal-dialog {
+            display: flex;
+            align-items: center;
+            min-height: calc(100% - 1rem);
+            }
+            
+            
+            select:disabled {
+            background-color: rgba(248, 248, 248, 1);
+            }
+            
+            
+            ::placeholder {
+            color: #ccc;
+            opacity: 1;
+            }
+            
+            .form-control::placeholder {
+            color: #ccc;
+            opacity: 1;
+            border-radius:2px;
+            }
+            
+            .form-control:focus {
+            border-color: rgba(142, 114, 72, 1);
+            box-shadow: 0 0 0 0.2rem rgba(232, 224, 218, 0.5);
+            border-radius:2px;
+            } 
+            
+            .form-control:disabled {
+            background-color: rgba(248, 248, 248, 1);
+            border-radius:2px;
+            } 
+            
+			.form-control.is-valid, .was-validated .form-control:valid {
+            border-color: rgba(142, 114, 72, 1) !important;
+            box-shadow: 0 0 0 0.2rem rgba(232, 224, 218, 0.5) !important;
+            border-radius:2px;
+            }
+
+            .form-select{
+            cursor:pointer;
+            border-radius:2px;
+            }
+            
+            input[type="password"]::-ms-reveal {
+            display: none !important;
+            }
+            
+            input[type="password"]::-ms-clear {
+            display: none !important;
+            }
+            
+            input[type="password"]::-o-clear {
+            display: none !important;
+            }
+            
+        </style>
+    </head>
+    
+    <body class="d-flex align-items-center py-4">
+        <c:B2BNavbar ></c:B2BNavbar>
+		
+
+        <!--編輯密碼元件-->
+        <apex:outputPanel id="editPassworderrorPanel"  style="display:none">
+            <c:globalnotification message="失敗，請重新嘗試"/>
+        </apex:outputPanel>
+        <apex:outputPanel id="samePassworderrorPanel"  style="display:none">
+            <c:globalnotification message="新密碼不可與前三次密碼相同"/>
+        </apex:outputPanel>
+        <apex:outputPanel id="editPasswordsuccessPanel" style="display:none">
+            <c:successNotification message="密碼更新成功，請重新登入"/>
+        </apex:outputPanel>
+        
+        
+        <!--編輯資訊元件-->
+        <apex:outputPanel id="editsuccessPanel"  style="display:none">
+            <c:successNotification message="儲存成功" />
+        </apex:outputPanel>
+        <apex:outputPanel id="editerrorPanel" style="display:none">
+            <c:globalnotification message="失敗，請重新嘗試"/>
+        </apex:outputPanel>
+        
+        <!--Email編輯-->
+        <apex:outputPanel id="editemailsuccessPanel" style="display:none">
+            <c:successNotification message="儲存成功"/>
+        </apex:outputPanel>
+        <apex:outputPanel id="editemailerrorPanel" style="display:none;">
+            <c:globalnotification message="失敗，請重新嘗試"/>
+        </apex:outputPanel>
+
+        
+        
+        <apex:outputPanel id="messagePanel" layout="block" style="position: absolute; top: 0; right: 0; transform: scale(0.5); color: transparent;">
+            <apex:pageMessages id="messages"/>
+        </apex:outputPanel>
+        
+        
+        <div id="content-wrapper" class="content-wrapper">
+            <div class="container">
+                <form id="editForm">
+                    <apex:form >
+                        <apex:inputHidden id="UserId2" value="{!UserId}"/>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label style="font-weight:normal;color:735B4B" class="formTitle">隸屬公司</label>
+                                <span>{!User.Company__r.Name}</span>
+                            </div>
+                            <div class="form-group">
+                                <label style="font-weight:normal;color:735B4B" class="formTitle">旅行社IATA代碼</label>
+                                <span>{!User.IATA_MSO_Code__c}</span>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label style="font-weight:normal;color:735B4B" class="formTitle">編號</label>
+                                <span>{!User.Name}</span>
+                            </div>
+                            <div class="form-group">
+                                <label style="font-weight:normal;color:735B4B" class="formTitle">角色</label>
+                                <span>{!IF(User.Role__c == '0', '管理者', '領隊/導遊')}</span>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label style="font-weight:normal;color:735B4B" class="formTitle">稱謂</label><!--可改-->
+                                <!--<select id="title" value="{!User.Salutation__c}" disabled="true" style="height:60%">
+                                    <option>先生</option>
+                                    <option>女士</option>
+                                </select>-->
+                                
+                                <apex:selectList styleClass="form-control form-select" id="title" value="{!User.Salutation__c}" size="1" disabled="true" style="height:38px;margin-top:8px">
+                                    <apex:selectOption itemValue="先生" itemLabel="先生"/>
+                                    <apex:selectOption itemValue="女士" itemLabel="女士"/>
+                                </apex:selectList>
+                                
+                            </div>
+                            <div class="form-group">
+                                <label style="font-weight:normal;color:735B4B" class="formTitle">Email*</label><!--可改-->
+                                <input class="form-control" type="email" id="email" value="{!User.Email__c}" disabled="true" style="width:69%;display:inline-block;" placeholder="請輸入"/>
+                                <button id="changeEmailButton" type="button" class="changeBtn">常用電子郵件管理</button>
+                                <div id="emailFeedback" class="invalid-feedback">必填。</div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label style="font-weight:normal;color:735B4B" class="formTitle">中文名字*</label><!--可改-->
+                                <input class="form-control" type="text" id="chineseName" value="{!User.CN_Passport__c}" maxlength="10" disabled="true" placeholder="請輸入"/>
+                                <div id="chineseNameFeedback" class="invalid-feedback">必填</div>
+                            </div>
+                            <div class="form-group">
+                                <label style="font-weight:normal;color:735B4B" class="formTitle">英文名字*</label><!--可改-->
+                                <input class="form-control" type="text" id="englishName" value="{!User.EN_Passport__c}" maxlength="30" disabled="true" placeholder="請輸入"/>
+                                <div id="englishNameFeedback" class="invalid-feedback">必填。</div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label style="font-weight:normal;color:735B4B" class="formTitle">手機號碼(國內)*</label><!--可改-->
+                                <div class="phone-input">  
+                                    <div style="display: inline-flex;align-items: center;">+886</div>
+                                    <!--<apex:selectList value="{!User.Prefix1__c}" id="editPCode1" size="1" disabled="true">
+                                        <apex:selectOption itemValue="+886" itemLabel="+886"/>
+                                        <apex:selectOption itemValue="+86" itemLabel="+86"/>
+                                        <apex:selectOption itemValue="+1" itemLabel="+1"/>
+                                    </apex:selectList>-->
+                                    
+                                    <!--<apex:selectList styleClass="form-control form-select" value="{!User.Prefix1__c}" id="editPCode1" size="1" disabled="true">
+                                        <apex:selectOptions value="{!CountryCodeOptions}"/>
+                                    </apex:selectList>-->
+                                    
+                                    <span style="margin: 7px 10px 0 10px;">-</span>
+                                    <input class="form-control" maxlength="9" placeholder="請輸入" type="tel" id="phoneNumber1" value="{!User.Phone1__c}" disabled="true" style="width:100%"/>
+                                    
+                                </div>
+                                <div id="phoneFeedback1" style="margin-left:60px" class="invalid-feedback">必填</div>
+                            </div>
+                            <div class="form-group">
+                                <label style="font-weight:normal;color:735B4B" class="formTitle">手機號碼(國外)</label><!--可改-->
+                                <div class="phone-input">
+                                    <apex:selectList styleClass="form-control form-select" value="{!User.Prefix2__c}" id="editPCode2" size="1" disabled="true">
+                                        <!--<apex:selectOption itemValue="+886" itemLabel="+886"/>
+                                        <apex:selectOption itemValue="+86" itemLabel="+86"/>
+                                        <apex:selectOption itemValue="+1" itemLabel="+1"/>-->
+                                        <apex:selectOptions value="{!CountryCodeOptions}"/>
+                                    </apex:selectList>
+                                    <span style="margin: 7px 10px 0 0;">-</span>
+                                    <input class="form-control" placeholder="請輸入" maxlength="11" type="tel" id="phoneNumber2" value="{!User.Phone2__c}" disabled="true"/>
+                                </div>
+                                <div id="phoneFeedback2" style="margin-left:190px" class="invalid-feedback"></div>
+                            </div>
+                        </div>
+                        
+                        <apex:inputHidden id="hiddenAccountId" value="{!User.Id}"/>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label style="font-weight:normal;color:735B4B" class="formTitle">帳號</label>
+                                <span>{!User.Account__c}</span>
+                            </div>
+
+                            
+                            
+                            <div class="form-group">
+                                <label style="font-weight:normal;color:735B4B" class="formTitle">負責航線</label>
+                                <div class="multiSelect" style="margin-top:0;width:100%">
+                                    <div class="selectBtn form-control" data-title="請選擇" id="routeValue1" style="background-color: rgba(239, 239, 239, 0.3);"></div>
+                                    <div class="optionGroup" style="font-size:15px;z-index:1000">
+                                        <apex:repeat value="{!routeOptions}" var="option">
+                                            <label>
+                                                <apex:inputCheckbox value="{!selectedRoutesMap[option.value]}" style="width:20px;" styleClass="route-checkbox" disabled="true">
+                                                    <apex:actionSupport event="onchange" action="{!updateSelectedRoutes}" reRender="none" oncomplete="updateSelectedRoutesDisplay()"/>
+                                                </apex:inputCheckbox>
+                                                {!option.value}
+                                            </label>
+                                        </apex:repeat>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            
+                            
+                            
+                            
+                        </div>
+                        
+                    </apex:form>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label style="font-weight:normal;color:735B4B" class="formTitle">密碼到期日</label>
+                            <span>
+                                <apex:outputText value="{0,date,yyyy/MM/dd}">
+                                    <apex:param value="{!User.ExpireDate__c}" />
+                                </apex:outputText>
+                            </span>
+                            <button id="changePasswordButton" type="button" class="changeBtn" onclick="openPasswordModal()">重置密碼</button>
+                        </div>
+                        <div class="form-group">
+                            <label style="font-weight:normal;color:735B4B" class="formTitle">狀態</label>
+                            <span>{!User.State__c}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label style="font-weight:normal;color:735B4B" class="formTitle">建立日期</label>
+                            <span>
+                                <apex:outputText value="{0,date,yyyy/MM/dd HH:mm}">
+                                    <apex:param value="{!adjustedCreatedDate}" />
+                                </apex:outputText>
+                                by {!User.Createdby__c}
+                            </span>
+
+                        </div>
+                        <div class="form-group">
+                            <label style="font-weight:normal;color:735B4B" class="formTitle">最後更新日期</label>
+                            <span>                                
+                                <apex:outputText value="{0,date,yyyy/MM/dd HH:mm}">
+                                    <apex:param value="{!adjustedLastModifiedDate}" />
+                                </apex:outputText>
+                                by {!User.LastModifiedBy__c}
+                            </span>
+                        </div>
+                    </div>
+                    
+                    
+                    
+
+                        
+
+                    <!-- 密碼更新跳窗 -->
+                    <apex:form >
+                        <div class="modal fade custom-validation-form" id="passwordModal" tabindex="-1" aria-labelledby="passwordModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="passwordModalLabel" style="font-weight:bold">重置密碼</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body" style="color:#735B4B">
+                                        <div id="newPasswordbody" style="margin-bottom:21px">
+                                            <label style="font-weight:normal;color:735B4B" for="newPassword" class="form-label">新密碼*</label>
+                                            <apex:inputText maxlength="20" style="background:none" styleClass="form-control" id="newPassword" value="{!password}" html-placeholder="請輸入"/>
+                                            <div class="invalid-feedback" id="NewPasswordFeedback" style="margin-top:0">
+                                                必填
+                                            </div>
+                                        </div>
+                                        <div id="confirmPasswordbody" style="margin-bottom:21px;">
+                                            <label style="font-weight:normal;color:735B4B" for="confirmPassword" class="form-label">密碼確認*</label>  
+                                            <apex:inputSecret maxlength="20" style="background:none" styleClass="form-control" id="confirmPassword" value="{!newpassword}" html-placeholder="請輸入"/>
+                                            <div class="invalid-feedback" id="confirmPasswordFeedback" style="margin-top:0">
+                                                必填
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn" style="height:48px;width:73px;color: #A07752;border-radius: 4px;font-size: 16px;" onclick="resetErrorStyles()" data-bs-dismiss="modal">取消</button>
+                                        <button type="button" class="btn editBtn" style="height:48px;width:73px;" onclick="validateForm(event)">儲存</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </apex:form>  
+
+
+                        
+
+                        
+
+                        
+                    <!-- Email Modal -->
+
+                    <div class="modal fade" id="emailTemplateModal" tabindex="-1" aria-labelledby="emailTemplateModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+                        <apex:form id="emailForm">
+
+                            <div class="modal-dialog modal-dialog-centered" style="max-width: 1000px;top:50px">
+                                <div class="modal-content" style="border-radius: 8px;">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="emailTemplateModalLabel" style="font-weight:bold">常用電子郵件維護</h5>
+                                        <button type="button" style="margin-right:1px" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body" style="color:#735B4B;border-bottom:none">
+                                        <div class="container-fluid">
+                                            <!-- 順序1 -->
+                                            <div class="row mb-3">
+                                                <div class="col-2 mt-3">順序1</div>
+                                                <div class="col-5">
+                                                    <div class="form-group">
+                                                        <label style="font-weight:normal;color:735B4B">電子郵件</label>
+                                                        <apex:inputText value="{!User.Email1__c}" id="email1" style="background:none" styleClass="form-control" html-placeholder="請輸入" />
+                                                        <div id="email1-error" class="invalid-feedback" style="display: none;">請輸入電子郵件格式</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-5">
+                                                    <div class="form-group">
+                                                        <label style="font-weight:normal;color:735B4B">備註</label>
+                                                        <apex:inputText value="{!User.EmailMemo1__c}" id="emailMemo1" styleClass="form-control" html-placeholder="請輸入"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- 順序2 -->
+                                            <div class="row mb-3">
+                                                <div class="col-2 mt-3">順序2</div>
+                                                <div class="col-5">
+                                                    <div class="form-group">
+                                                        <label style="font-weight:normal;color:735B4B">電子郵件</label>
+                                                        <apex:inputText value="{!User.Email2__c}" id="email2" style="background:none" styleClass="form-control" html-placeholder="請輸入" />
+                                                        <div id="email2-error" class="invalid-feedback" style="display: none;">請輸入電子郵件格式。</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-5">
+                                                    <div class="form-group">
+                                                        <label style="font-weight:normal;color:735B4B">備註</label>
+                                                        <apex:inputText value="{!User.EmailMemo2__c}" id="emailMemo2" styleClass="form-control" html-placeholder="請輸入"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- 順序3 -->
+                                            <div class="row mb-3">
+                                                <div class="col-2 mt-3">順序3</div>
+                                                <div class="col-5">
+                                                    <div class="form-group">
+                                                        <label style="font-weight:normal;color:735B4B">電子郵件</label>
+                                                        <apex:inputText value="{!User.Email3__c}" id="email3" style="background:none" styleClass="form-control" html-placeholder="請輸入" />
+                                                        <div id="email3-error" class="invalid-feedback" style="display: none;">請輸入電子郵件格式。</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-5">
+                                                    <div class="form-group">
+                                                        <label style="font-weight:normal;color:735B4B">備註</label>
+                                                        <apex:inputText value="{!User.EmailMemo3__c}" id="emailMemo3" styleClass="form-control" html-placeholder="請輸入"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- 順序4 -->
+                                            <div class="row mb-3">
+                                                <div class="col-2 mt-3">順序4</div>
+                                                <div class="col-5">
+                                                    <div class="form-group">
+                                                        <label style="font-weight:normal;color:735B4B">電子郵件</label>
+                                                        <apex:inputText value="{!User.Email4__c}" id="email4" style="background:none" styleClass="form-control" html-placeholder="請輸入" />
+                                                        <div id="email4-error" class="invalid-feedback" style="display: none;">請輸入電子郵件格式。</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-5">
+                                                    <div class="form-group">
+                                                        <label style="font-weight:normal;color:735B4B">備註</label>
+                                                        <apex:inputText value="{!User.EmailMemo4__c}" id="emailMemo4" styleClass="form-control" html-placeholder="請輸入"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- 順序5 -->
+                                            <div class="row mb-3">
+                                                <div class="col-2 mt-3">順序5</div>
+                                                <div class="col-5">
+                                                    <div class="form-group">
+                                                        <label style="font-weight:normal;color:735B4B">電子郵件</label>
+                                                        <apex:inputText value="{!User.Email5__c}" id="email5" style="background:none" styleClass="form-control" html-placeholder="請輸入" />
+                                                        <div id="email5-error" class="invalid-feedback" style="display: none;">請輸入電子郵件格式。</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-5">
+                                                    <div class="form-group">
+                                                        <label style="font-weight:normal;color:735B4B">備註</label>
+                                                        <apex:inputText value="{!User.EmailMemo5__c}" id="emailMemo5" styleClass="form-control" html-placeholder="請輸入"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer" style="background-color:#FAFAFA;border-top:none">
+                                        <button type="button" class="btn" style="height:48px;width:73px;color: #A07752;border-radius: 4px;font-size: 16px;" data-bs-dismiss="modal">取消</button>
+                                        <button type="button" onclick="saveEmailData()" class="btn editBtn" style="height:48px;width:73px;">儲存</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </apex:form>
+                    </div>
+                    
+                    
+
+
+                        
+
+                    
+                    
+                    
+
+                    
+                    
+
+                </form>
+                
+            </div>
+            
+
+
+        </div>
+        <div class="fixed-bottom-buttons" id="fixedBottomButtons">
+            <div class="container" style="margin-top:0">
+                <button type="button" id="cancelButton" class="btn" style="height:48px;width:73px;color: #A07752; display:none;border:none">取消</button>
+                <button type="button" id="editButton" class="btn editBtn" style="height:48px;width:73px;margin-right:8px">編輯</button>
+            </div>
+        </div>
+        
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <script>
+        // 添加驗證函數 (放在 validateForm 函數之前)
+        function validateChineseName(input) {
+            const chineseRegex = /^[\u4e00-\u9fa5]+$/;
+            return chineseRegex.test(input);
+        }
+        
+        function validateEnglishName(input) {
+            const englishRegex = /^[A-Za-z\s-]+$/;
+            return englishRegex.test(input);
+        }
+        
+        
+        
+        
+        
+        
+        
+        function resetErrorStyles() {
+            // 清除所有錯誤樣式
+            document.querySelectorAll('.is-invalid').forEach(el => {
+                el.classList.remove('is-invalid');
+            });
+                
+                // 隱藏所有錯誤訊息
+                document.querySelectorAll('.invalid-feedback').forEach(el => {
+                el.style.display = 'none';
+            });
+                
+                // 清除輸入框中的值
+                document.querySelectorAll('input[type="password"], textarea').forEach(input => {
+                input.value = '';
+            });
+                
+                // 重置表單內容（如果需要）
+                const form = document.getElementById('editUserForm');
+                if (form) form.reset();
+        }
+        
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const changeBtn = document.querySelector('.changeBtn');
+            if (changeBtn) {
+                changeBtn.addEventListener('click', function() {
+                    const modal = new bootstrap.Modal(document.getElementById('emailTemplateModal'));
+                    modal.show();
+                });
+            }
+        });
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const openModal = urlParams.get('openModal');
+            
+            if (openModal === 'true') {
+                // 使用 Bootstrap 5 的方法顯示 modal
+                var passwordModal = new bootstrap.Modal(document.getElementById('passwordModal'));
+                passwordModal.show();
+            }
+        });
+                
+        (function() {
+            var sidebar = document.getElementById('sidebar');
+            if (sidebar) {
+                sidebar.classList.add('hidden');
+                sidebar.classList.remove('normal');
+            }
+        })();
+        
+        
+        function adjustContentWrapper() {
+            var sidebar = document.getElementById('sidebar');
+            var contentWrapper = document.getElementById('content-wrapper');
+            var fixedBottomButtons = document.getElementById('fixedBottomButtons');
+            // 取得 sidebar 的當前樣式
+            var sidebarStyle = window.getComputedStyle(sidebar);
+            var transformValue = sidebarStyle.getPropertyValue('transform');
+            
+            // 檢查 sidebar 是否有 'hidden' class 或 'normal' class
+            if (sidebar.classList.contains('hidden') && window.innerWidth >= 1025) {
+                contentWrapper.style.paddingLeft = '0';
+                fixedBottomButtons.style.paddingLeft = '0';
+            } else if (sidebar.classList.contains('hidden') && window.innerWidth < 1025) {
+                contentWrapper.style.paddingLeft = '0';
+                fixedBottomButtons.style.paddingLeft = '0';
+            }
+            
+            if (sidebar.classList.contains('normal') && window.innerWidth >= 1025) {
+                contentWrapper.style.paddingLeft = '250px';
+                contentWrapper.style.transition = 'padding-left 0.3s ease-in-out';
+                fixedBottomButtons.style.paddingLeft = '250px';
+                fixedBottomButtons.style.transition = 'padding-left 0.3s ease-in-out';
+            } else if (sidebar.classList.contains('normal') && window.innerWidth < 1025) {
+                contentWrapper.style.paddingLeft = '0';
+                fixedBottomButtons.style.paddingLeft = '0';
+            }
+        }
+        
+        
+        function openPasswordModal() {
+            passwordModal = new bootstrap.Modal(document.getElementById('passwordModal'));
+            passwordModal.show();
+        }
+        
+        // 檢查是否含有三碼升/降冪連續排列 (例如：ABC、CBA、aBc、123)
+        function hasSequentialTriplet(str) {
+            if (!str) return false;
+        
+            for (var i = 0; i <= str.length - 3; i++) {
+                var c1 = str.charAt(i);
+                var c2 = str.charAt(i + 1);
+                var c3 = str.charAt(i + 2);
+        
+                // 英文字母 (忽略大小寫)
+                if (/[A-Za-z]/.test(c1) && /[A-Za-z]/.test(c2) && /[A-Za-z]/.test(c3)) {
+                    var n1 = c1.toUpperCase().charCodeAt(0);
+                    var n2 = c2.toUpperCase().charCodeAt(0);
+                    var n3 = c3.toUpperCase().charCodeAt(0);
+        
+                    // 升冪：ABC
+                    if (n2 === n1 + 1 && n3 === n2 + 1) return true;
+                    // 降冪：CBA
+                    if (n2 === n1 - 1 && n3 === n2 - 1) return true;
+                }
+                // 數字
+                else if (/\d/.test(c1) && /\d/.test(c2) && /\d/.test(c3)) {
+                    var d1 = c1.charCodeAt(0);
+                    var d2 = c2.charCodeAt(0);
+                    var d3 = c3.charCodeAt(0);
+        
+                    // 升冪：123
+                    if (d2 === d1 + 1 && d3 === d2 + 1) return true;
+                    // 降冪：321
+                    if (d2 === d1 - 1 && d3 === d2 - 1) return true;
+                }
+            }
+            return false;
+        }
+
+        function validateForm(event) {
+            var isValid = true;
+        
+            // 驗證新密碼
+            var newPasswordInput = document.querySelector('[id$="newPassword"]');
+            var newPassword = newPasswordInput.value.trim();
+            var newPasswordFeedback = document.getElementById('NewPasswordFeedback');
+            
+            // 1) 必填：仍獨立處理（空值就不用再跑其他規則）
+            if (!newPassword) {
+              isValid = false;
+              newPasswordInput.classList.add('is-invalid');
+              newPasswordFeedback.textContent = "必填";
+              newPasswordFeedback.style.display = 'block';
+            } else {
+              // 2) 同時判斷：長度 / 複雜度 / 三碼連續
+              const isLenOk = (newPassword.length >= 10);
+            
+              const hasUpperCase   = /[A-Z]/.test(newPassword);
+              const hasLowerCase   = /[a-z]/.test(newPassword);
+              const hasNumber      = /\d/.test(newPassword);
+              const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(newPassword);
+              const isComplexOk    = (hasUpperCase && hasLowerCase && hasNumber && hasSpecialChar);
+            
+              const isSeqOk = !hasSequentialTriplet(newPassword);
+            
+              if (!isLenOk || !isComplexOk || !isSeqOk) {
+                isValid = false;
+                newPasswordInput.classList.add('is-invalid');
+            
+                const msgs = [];
+                if (!isLenOk)     msgs.push("請至少輸入10個字元");
+                if (!isComplexOk) msgs.push("密碼需包含大寫、小寫英文字、特殊字元、數字");
+                if (!isSeqOk)     msgs.push("密碼不得三碼升、降冪連續排列 (例如：ABC、CBA、aBc、123)");
+            
+                newPasswordFeedback.textContent = msgs.join("；");
+                newPasswordFeedback.style.display = 'block';
+              }
+            }
+        
+            // 驗證確認密碼
+            var confirmPasswordInput = document.querySelector('[id$="confirmPassword"]');
+            var confirmPassword = confirmPasswordInput.value.trim();
+            var confirmPasswordFeedback = document.getElementById('confirmPasswordFeedback');
+            
+            // 1. 必填
+            if (!confirmPassword) {
+                isValid = false;
+                confirmPasswordInput.classList.add('is-invalid');
+                confirmPasswordFeedback.textContent = "必填";
+                confirmPasswordFeedback.style.display = 'block';
+            }
+            // 2. 與新密碼不相同
+            else if (confirmPassword !== newPassword) {
+                isValid = false;
+                confirmPasswordInput.classList.add('is-invalid');
+                confirmPasswordFeedback.textContent = "密碼不相符，請重新輸入確認密碼";
+                confirmPasswordFeedback.style.display = 'block';
+            } else {
+                confirmPasswordInput.classList.remove('is-invalid');
+                confirmPasswordFeedback.style.display = 'none';
+            }
+        
+            // 如果驗證通過，提交資料
+            if (isValid) {
+                event.preventDefault(); // 阻止表單預設提交
+                var accountId = document.querySelector('[id$=hiddenAccountId]').value;
+                submitPasswordRemotely(newPassword, confirmPassword, accountId);
+            } else {
+                event.preventDefault(); // 阻止表單預設提交
+            }
+        }
+
+
+        
+        function submitPasswordRemotely(newPassword, confirmPassword, accountId) {
+            showLoadingMessage();
+            Visualforce.remoting.Manager.invokeAction(
+                '{!$RemoteAction.AccountMaintainController.resetPassword}',
+                newPassword,
+                confirmPassword,
+                accountId,
+                function (result, event) {
+                    hideLoadingMessage();
+        
+                    console.log('resetPassword result:', result);
+                    console.log('resetPassword event:', event);
+        
+                    // 可能是物件，也可能是字串
+                    try {
+                        if (typeof result === 'string') {
+                            result = JSON.parse(result);
+                        }
+                    } catch (e) {
+                        console.error('resetPassword JSON parse error:', e, result);
+                    }
+        
+                    // ★ 直接看 errorType 是什麼
+                    console.log('resetPassword errorType:', result ? result.errorType : null);
+        
+                    if (event.status) {
+                        if (result && result.status) {
+                            // ✅ 成功
+                            var editPasswordsuccessPanel = document.querySelector('[id$=editPasswordsuccessPanel]');
+                            //editPasswordsuccessPanel.style.display = "block";
+                            setTimeout(function () {
+                                window.location.href = '/apex/Login?resetPassword=true';
+                            }, 3000);
+                        } else {
+                            // ❌ 錯誤邏輯
+                            showResetPasswordErrorToast(result);
+                        }
+                    } else {
+                        console.error('Remoting 通訊錯誤:', event.message);
+                    }
+                }
+            );
+        }
+
+
+
+        
+        
+        
+        
+        // 監聽 sidebar 的 class 變化
+        var observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.type === "attributes" && mutation.attributeName === "class") {
+                    adjustContentWrapper();
+                }
+            });
+        });
+        
+        // 當 DOM 內容加載完成後執行
+        document.addEventListener('DOMContentLoaded', function() {
+            var sidebar = document.getElementById('sidebar');
+            observer.observe(sidebar, {
+                attributes: true
+            });
+            
+            // 初始調用 adjustContentWrapper
+            adjustContentWrapper();
+        });
+        
+        // 同時監聽 window resize 事件，讓畫面縮小後也能正確調整
+        window.addEventListener('resize', adjustContentWrapper);
+        
+        function showResetPasswordErrorToast(result) {
+            // 通用：先抓兩個 panel
+            var editPassworderrorPanel = document.querySelector('[id$=editPassworderrorPanel]');
+            var samePassworderrorPanel = document.querySelector('[id$=samePassworderrorPanel]');
+        
+            console.log('samePassworderrorPanel dom:', samePassworderrorPanel);
+            console.log('editPassworderrorPanel dom:', editPassworderrorPanel);
+        
+            // 先把兩個都關掉，避免殘留
+            if (editPassworderrorPanel)  editPassworderrorPanel.style.display  = 'none';
+            if (samePassworderrorPanel)  samePassworderrorPanel.style.display  = 'none';
+        
+            // ★ 1. 優先處理 SAME_PASSWORD
+            if (result && result.errorType === 'SAME_PASSWORD') {
+                if (samePassworderrorPanel) {
+            
+                    // 👉 故意晚一點顯示 + 順便把內層 notification 也硬拉出來
+                    setTimeout(function () {
+                        console.log('SAME_PASSWORD：準備顯示 samePassworderrorPanel');
+                        forceShowNotificationPanel(samePassworderrorPanel);
+            
+                        // 3 秒後自動關
+                        setTimeout(function () {
+                            samePassworderrorPanel.style.display = 'none';
+                        }, 3000);
+                    }, 50);
+            
+                } else {
+                    console.error('找不到 samePassworderrorPanel 元素');
+                    //alert('新密碼不可與前三次密碼相同'); // 最保險的備援
+                }
+                return;
+            }
+        
+            // ★ 2. 其他錯誤才走這裡
+            if (result && (result.errorType === 'EXCEPTION' || result.errorType === 'USER_NOT_FOUND')) {
+                if (editPassworderrorPanel) {
+                    editPassworderrorPanel.style.display = 'block';
+                    editPassworderrorPanel.style.position = 'fixed';
+                    editPassworderrorPanel.style.top = '20px';
+                    editPassworderrorPanel.style.right = '20px';
+                    editPassworderrorPanel.style.zIndex = 9999;
+        
+                    setTimeout(function () {
+                        editPassworderrorPanel.style.display = 'none';
+                    }, 3000);
+                } else {
+                    console.error('找不到 editPassworderrorPanel 元素');
+                }
+            }
+        }
+        
+        
+        function forceShowNotificationPanel(panel) {
+            if (!panel) return;
+        
+            // 先處理外層 apex:outputPanel：拉到右上角、蓋在最上面
+            panel.style.display  = 'block';
+            panel.style.position = 'fixed';
+            panel.style.top      = '60px';
+            panel.style.right    = '20px';
+            panel.style.zIndex   = 9999;
+        
+            // 只找真正 toast 容器，不要用 [class*="notification"] 這種太廣的
+            var inner = panel.querySelector('.notification-panel2') ||
+                        panel.querySelector('.notification-panel');
+        
+            if (inner) {
+                // 🔸重點：不要硬指定 display:block，讓它用原本 CSS 的 display（可能是 flex）
+                if (inner.style.display === 'none') {
+                    inner.style.display = '';   // 清掉 inline 的 none，交給 CSS 決定
+                }
+        
+                // 把可能的動畫隱藏狀態解除
+                inner.style.opacity    = '1';
+                inner.style.transform  = 'none';
+                inner.style.visibility = 'visible';
+                // 不要動寬度，避免破壞版面
+                // inner.style.minWidth = '340px'; // ⛔ 這行先不要
+            }
+        }
+
+        
+
+        function validateFields() {
+            let isValid = true;
+        
+            // 驗證中文名字
+            const chineseNamearea = document.getElementById('chineseName');
+            const chineseName = document.getElementById('chineseName').value;
+            if (chineseName.trim() === '') {
+                document.getElementById('chineseNameFeedback').innerHTML = '必填';
+                document.getElementById('chineseNameFeedback').style.display = 'block';
+                chineseNamearea.classList.add('is-invalid');
+                chineseNamearea.style.background = 'none';
+                isValid = false;
+                console.log('中文名稱必填驗證失敗');
+            } else if (!validateChineseName(chineseName)) {
+                document.getElementById('chineseNameFeedback').innerHTML = '僅中文字';
+                document.getElementById('chineseNameFeedback').style.display = 'block';
+                chineseNamearea.classList.add('is-invalid');
+                chineseNamearea.style.background = 'none';
+                isValid = false;
+                console.log('中文名稱格式驗證失敗');
+            } else {
+                chineseNamearea.classList.remove('is-invalid');
+                document.getElementById('chineseNameFeedback').style.display = 'none';
+            }
+        
+            // 驗證英文名字
+            const englishNamearea = document.getElementById('englishName');
+            const englishName = document.getElementById('englishName').value;
+            if (englishName.trim() === '') {
+                document.getElementById('englishNameFeedback').innerHTML = '必填';
+                document.getElementById('englishNameFeedback').style.display = 'block';
+                englishNamearea.classList.add('is-invalid');
+                englishNamearea.style.background = 'none';
+                isValid = false;
+                console.log('英文名稱必填驗證失敗');
+            } else if (!validateEnglishName(englishName)) {
+                document.getElementById('englishNameFeedback').innerHTML = '僅英文字、空格 ';
+                document.getElementById('englishNameFeedback').style.display = 'block';
+                englishNamearea.classList.add('is-invalid');
+                englishNamearea.style.background = 'none';
+                isValid = false;
+                console.log('英文名稱格式驗證失敗');
+            } else {
+                englishNamearea.classList.remove('is-invalid');
+                document.getElementById('englishNameFeedback').style.display = 'none';
+            }
+        
+            // 驗證 Email
+            const email = document.getElementById('email');
+            const emailFeedback = document.getElementById('emailFeedback');
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!email.value.trim()) {
+                email.style.background = 'none';
+                email.classList.add('is-invalid');
+                emailFeedback.textContent = '必填';
+                isValid = false;
+            } else if (!emailRegex.test(email.value)) {
+                email.style.background = 'none';
+                email.classList.add('is-invalid');
+                emailFeedback.textContent = '請輸入電子郵件格式';
+                isValid = false;
+            } else {
+                email.classList.remove('is-invalid');
+                emailFeedback.textContent = '';
+            }
+        
+            // 驗證電話號碼(國內): 必填 -> 9個字元 -> 僅數字
+            const phone1 = document.getElementById('phoneNumber1');
+            const phoneFeedback1 = document.getElementById('phoneFeedback1');
+            if (!phone1.value.trim()) {
+                phone1.style.background = 'none';
+                phone1.classList.add('is-invalid');
+                phoneFeedback1.style.display = 'block';
+                phoneFeedback1.textContent = '必填';
+                isValid = false;
+            } else if (phone1.value.trim().length !== 9) {
+                phone1.style.background = 'none';
+                phone1.classList.add('is-invalid');
+                phoneFeedback1.style.display = 'block';
+                phoneFeedback1.textContent = '請輸入9個字元';
+                isValid = false;
+            } else if (!/^\d+$/.test(phone1.value.trim())) {
+                phone1.style.background = 'none';
+                phone1.classList.add('is-invalid');
+                phoneFeedback1.style.display = 'block';
+                phoneFeedback1.textContent = '僅數字';
+                isValid = false;
+            } else {
+                phone1.classList.remove('is-invalid');
+                phoneFeedback1.style.display = 'none';
+                phoneFeedback1.textContent = '';
+            }
+            
+            // 驗證電話號碼(國外): 僅數字 (非必填，有輸入才驗證)
+            const phone2 = document.getElementById('phoneNumber2');
+            const phoneFeedback2 = document.getElementById('phoneFeedback2');
+            if (phone2.value.trim() && !/^\d+$/.test(phone2.value.trim())) {
+                phone2.style.background = 'none';
+                phone2.classList.add('is-invalid');
+                phoneFeedback2.style.display = 'block';
+                phoneFeedback2.textContent = '僅數字';
+                isValid = false;
+            } else {
+                phone2.classList.remove('is-invalid');
+                phoneFeedback2.style.display = 'none';
+                phoneFeedback2.textContent = '';
+            }
+
+        
+            return isValid;
+        }
+        
+        
+        /*document.addEventListener('DOMContentLoaded', function() {
+            var editButton = document.getElementById('editButton');
+            var cancelButton = document.getElementById('cancelButton');
+            var form = document.getElementById('editForm');
+            var inputs = form.querySelectorAll('input, select');
+            var originalValues = {};
+            var route = document.getElementById('routeValue1');
+            var changeEmailButton = document.getElementById('changeEmailButton');
+            var changePasswordButton = document.getElementById('changePasswordButton');
+            route.style.pointerEvents = 'none';
+            editButton.addEventListener('click', function() {
+                if (editButton.textContent === '編輯') {
+					
+                    const chineseName = document.getElementById('chineseName');
+                    const englishName = document.getElementById('englishName');
+                    const email = document.getElementById('email');
+                    const phone1 = document.getElementById('phoneNumber1');
+                    const phone2 = document.getElementById('phoneNumber2');
+                    
+                    chineseName.style.background = 'none';
+                    englishName.style.background = 'none';
+                    email.style.background = 'none';
+                    phone1.style.background = 'none';
+                    phone2.style.background = 'none';
+                    
+                    // 儲存原始值
+                    inputs.forEach(function(input) {
+                        originalValues[input.id] = input.value;
+                        input.disabled = false;
+                    });
+                    changeEmailButton.disabled = true;
+                    changePasswordButton.disabled = true;
+                    changeEmailButton.style.backgroundColor = 'rgba(160, 119, 82, 0.5)';
+                    changePasswordButton.style.backgroundColor = 'rgba(160, 119, 82, 0.5)';
+                    route.style.background = 'white';
+                    route.style.pointerEvents = 'auto';
+                    editButton.textContent = '儲存';
+                    cancelButton.style.display = 'inline-block';
+                } else {
+                    // 驗證欄位
+                    if (!validateFields()) {
+                        return; // 停止執行，阻止提交數據
+                    }
+                    
+                    // 禁用所有輸入框並保存數據
+                    inputs.forEach(function(input) {
+                        input.disabled = true;
+                    });
+                    route.style.pointerEvents = 'none';
+                    editButton.textContent = '編輯';
+                    cancelButton.style.display = 'none';
+                    
+                  
+                    // 調用 Apex 方法保存數據
+                    saveUserData();
+                }
+            });
+            
+            cancelButton.addEventListener('click', function() {
+                const chineseName = document.getElementById('chineseName');
+                const englishName = document.getElementById('englishName');
+                const email = document.getElementById('email');
+                const phone1 = document.getElementById('phoneNumber1');
+                const phone2 = document.getElementById('phoneNumber2');
+                var route = document.getElementById('routeValue1');
+                changeEmailButton.disabled = false;
+                changePasswordButton.disabled = false;
+                chineseName.style.backgroundColor = 'rgba(248, 248, 248, 1)';
+                englishName.style.backgroundColor = 'rgba(248, 248, 248, 1)';
+                email.style.backgroundColor = 'rgba(248, 248, 248, 1)';
+                phone1.style.backgroundColor = 'rgba(248, 248, 248, 1)';
+                phone2.style.backgroundColor = 'rgba(248, 248, 248, 1)';
+                
+                
+                changeEmailButton.style.backgroundColor = 'rgba(160, 119, 82, 1)';
+                changePasswordButton.style.backgroundColor = 'rgba(160, 119, 82, 1)';
+                // 恢復原始值
+                inputs.forEach(function(input) {
+                    input.value = originalValues[input.id];
+                    input.disabled = true;
+                    // 清除 is-invalid 樣式
+                    input.classList.remove('is-invalid');
+                });
+                route.style.pointerEvents = 'none';
+                // 隱藏所有 id 包含 'Feedback' 的元素
+                const feedbackElements = document.querySelectorAll('[id*="Feedback"]');
+                feedbackElements.forEach(function(element) {
+                    element.style.display = 'none';
+                });
+                
+                // 其他設定
+                route.style.background = 'rgba(239, 239, 239, 0.3)';
+                editButton.textContent = '編輯';
+                cancelButton.style.display = 'none';
+            });
+        });
+        */
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // 預設載入頁面時，移除所有 placeholder
+            ['chineseName', 'englishName', 'email', 'phoneNumber1', 'phoneNumber2'].forEach(function(id) {
+                const input = document.getElementById(id);
+                if (input) {
+                    input.removeAttribute('placeholder');
+                }
+            });
+            var editButton = document.getElementById('editButton');
+            var cancelButton = document.getElementById('cancelButton');
+            var form = document.getElementById('editForm');
+            var inputs = form.querySelectorAll('input, select');
+            var originalValues = {};
+            var route = document.getElementById('routeValue1');
+            var changeEmailButton = document.getElementById('changeEmailButton');
+            var changePasswordButton = document.getElementById('changePasswordButton');
+            
+            const chineseName = document.getElementById('chineseName');
+            const englishName = document.getElementById('englishName');
+            const email = document.getElementById('email');
+            const phone1 = document.getElementById('phoneNumber1');
+            const phone2 = document.getElementById('phoneNumber2');
+            
+            route.style.pointerEvents = 'none';
+            
+            editButton.addEventListener('click', function() {
+                if (editButton.textContent === '編輯') {
+                    // 進入編輯模式
+                    chineseName.style.background = 'none';
+                    englishName.style.background = 'none';
+                    email.style.background = 'none';
+                    phone1.style.background = 'none';
+                    phone2.style.background = 'none';
+                    
+                    // ✅ 顯示 placeholder
+                    chineseName.setAttribute('placeholder', '請輸入');
+                    englishName.setAttribute('placeholder', '請輸入');
+                    email.setAttribute('placeholder', '請輸入');
+                    phone1.setAttribute('placeholder', '請輸入');
+                    phone2.setAttribute('placeholder', '請輸入');
+                    
+                    // 儲存原始值並啟用欄位
+                    inputs.forEach(function(input) {
+                        originalValues[input.id] = input.value;
+                        input.disabled = false;
+                    });
+                    changeEmailButton.disabled = true;
+                    changePasswordButton.disabled = true;
+                    changeEmailButton.style.backgroundColor = 'rgba(160, 119, 82, 0.5)';
+                    changePasswordButton.style.backgroundColor = 'rgba(160, 119, 82, 0.5)';
+                    route.style.background = 'white';
+                    route.style.pointerEvents = 'auto';
+                    editButton.textContent = '儲存';
+                    cancelButton.style.display = 'inline-block';
+                } else {
+                    // 儲存時
+                    if (!validateFields()) {
+                        return; // 驗證失敗
+                    }
+                    
+                    inputs.forEach(function(input) {
+                        input.disabled = true;
+                    });
+                    
+                    route.style.pointerEvents = 'none';
+                    editButton.textContent = '編輯';
+                    cancelButton.style.display = 'none';
+                    
+                    // ✅ 移除 placeholder
+                    chineseName.removeAttribute('placeholder');
+                    englishName.removeAttribute('placeholder');
+                    email.removeAttribute('placeholder');
+                    phone1.removeAttribute('placeholder');
+                    phone2.removeAttribute('placeholder');
+                    
+                    saveUserData(); // 呼叫後端儲存
+                }
+            });
+            
+            cancelButton.addEventListener('click', function() {
+                // 取消編輯
+                changeEmailButton.disabled = false;
+                changePasswordButton.disabled = false;
+                chineseName.style.backgroundColor = 'rgba(248, 248, 248, 1)';
+                englishName.style.backgroundColor = 'rgba(248, 248, 248, 1)';
+                email.style.backgroundColor = 'rgba(248, 248, 248, 1)';
+                phone1.style.backgroundColor = 'rgba(248, 248, 248, 1)';
+                phone2.style.backgroundColor = 'rgba(248, 248, 248, 1)';
+                
+                changeEmailButton.style.backgroundColor = 'rgba(160, 119, 82, 1)';
+                changePasswordButton.style.backgroundColor = 'rgba(160, 119, 82, 1)';
+                
+                // 恢復原始值
+                inputs.forEach(function(input) {
+                    input.value = originalValues[input.id];
+                    input.disabled = true;
+                    input.classList.remove('is-invalid');
+                });
+                route.style.pointerEvents = 'none';
+                
+                // ✅ 移除 placeholder
+                chineseName.removeAttribute('placeholder');
+                englishName.removeAttribute('placeholder');
+                email.removeAttribute('placeholder');
+                phone1.removeAttribute('placeholder');
+                phone2.removeAttribute('placeholder');
+                
+                // 隱藏所有驗證回饋文字
+                const feedbackElements = document.querySelectorAll('[id*="Feedback"]');
+                feedbackElements.forEach(function(element) {
+                    element.style.display = 'none';
+                });
+                
+                route.style.background = 'rgba(239, 239, 239, 0.3)';
+                editButton.textContent = '編輯';
+                cancelButton.style.display = 'none';
+            });
+        });
+
+        
+        
+        function showLoadingMessage() {
+            // 檢查是否已存在
+            if (document.getElementById('loading')) {
+                return;
+            }
+            
+            // 創建並顯示 Bootstrap loading spinner
+            const loadingDiv = document.createElement('div');
+            loadingDiv.id = 'loading';
+            
+            // 設置 HTML 結構
+            loadingDiv.innerHTML = `
+            <div class="loading-container">
+                <div class="spinner-border" role="status">
+                    <span class="visually-hidden" style="color:white">Loading...</span>
+                    </div>
+                    </div>
+                    `;
+            
+            // 設置樣式
+            loadingDiv.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1060;
+            `;
+            
+            // 將 loading 元素加入到頁面中
+            document.body.appendChild(loadingDiv);
+        }
+        
+        function hideLoadingMessage() {
+            const loadingDiv = document.getElementById('loading'); // id 改為正確的 'loading'
+            if (loadingDiv) {
+                loadingDiv.remove();
+            }
+        }
+        
+        
+        
+        
+        
+        function saveEmailData() {
+            try {
+                // 定義 email 格式驗證的正則表達式
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                
+                // 檢查每個電子郵件欄位是否符合格式
+                let isValid = true;
+                
+                for (let i = 1; i <= 5; i++) {
+                    const emailField = document.querySelector(`[id$=email${i}]`);
+                    const errorField = document.querySelector(`#email${i}-error`);
+                                                              
+                    if (emailField && emailField.value) {
+                        if (!emailRegex.test(emailField.value)) {
+                            errorField.style.display = "block";
+                            emailField.classList.add("is-invalid");
+                            isValid = false;
+                        } else {
+                            errorField.style.display = "none";
+                            emailField.classList.remove("is-invalid");
+                        }
+                    } else {
+                        errorField.style.display = "none";
+                        emailField.classList.remove("is-invalid");
+                    }
+                }
+                
+                // 如果有任何欄位驗證失敗，阻止提交
+                if (!isValid) {
+                    console.warn("部分電子郵件格式不正確，請修正後再提交。");
+                    return;
+                }
+                
+                // 收集資料
+                const accountId = document.querySelector('[id$=hiddenAccountId]').value;
+                const emailData = {
+                    accountId: accountId,
+                    email1: document.querySelector('[id$=email1]')?.value,
+                    emailMemo1: document.querySelector('[id$=emailMemo1]')?.value,
+                    email2: document.querySelector('[id$=email2]')?.value,
+                    emailMemo2: document.querySelector('[id$=emailMemo2]')?.value,
+                    email3: document.querySelector('[id$=email3]')?.value,
+                    emailMemo3: document.querySelector('[id$=emailMemo3]')?.value,
+                    email4: document.querySelector('[id$=email4]')?.value,
+                    emailMemo4: document.querySelector('[id$=emailMemo4]')?.value,
+                    email5: document.querySelector('[id$=email5]')?.value,
+                    emailMemo5: document.querySelector('[id$=emailMemo5]')?.value
+                };
+                    
+                showLoadingMessage();
+                    
+                // 發送資料到後端
+                Visualforce.remoting.Manager.invokeAction(
+                    '{!$RemoteAction.AccountMaintainController.saveEmailData}',
+                    JSON.stringify(emailData),
+                    function(result, event) {
+                        hideLoadingMessage();
+                        
+                        if (event.status) {
+                        var editemailsuccessPanel = document.querySelector('[id$=editemailsuccessPanel]');
+                        editemailsuccessPanel.style.display = "block";
+                        setTimeout(function() {
+                            location.reload();
+                        }, 1000);
+                        } else {
+                            console.error('後端處理失敗:', event.message);
+                            var editemailerrorPanel = document.querySelector('[id$=editemailerrorPanel]');
+                            editemailerrorPanel.style.display = "block";
+                            setTimeout(function() {
+                                editemailerrorPanel.style.display = "none";
+                            }, 3000);
+                        }
+                    },
+                    { escape: false }
+                );
+            } catch (error) {
+                console.error('保存資料時發生錯誤:', error);
+            }
+        }
+                    
+                    
+        
+        
+        
+        function saveUserData() {
+            try {
+                const accountId = document.querySelector('[id$=hiddenAccountId]').value;
+                //const routeValue = document.getElementById('routeValue1').textContent;
+                //console.log(routeValue);
+                    
+                const UserData = {
+                    nowUser : document.querySelector('[id$=UserId2]').value,
+                    accountId: accountId,
+                    email: document.getElementById('email')?.value,
+                    title: document.querySelector('[id$=title]')?.value,
+                    chineseName: document.getElementById('chineseName')?.value,
+                    englishName: document.getElementById('englishName')?.value,
+                    phoneNumber1: document.getElementById('phoneNumber1')?.value,
+                    //editPCode1: document.querySelector('[id$=editPCode1]')?.value,
+                    editPCode1: '+886',
+                    phoneNumber2: document.getElementById('phoneNumber2')?.value,
+                    editPCode2: document.querySelector('[id$=editPCode2]')?.value,
+                    routeValue : document.getElementById('routeValue1')?.textContent
+                };
+                                   
+                // 檢查是否有任何欄位為空
+                for (const [key, value] of Object.entries(UserData)) {
+                    if (!value) {
+                        console.warn(`Warning: ${key} is empty`);
+                    }
+                }
+        		//console.log('Saving User data:', UserData);
+                showLoadingMessage();
+        
+                Visualforce.remoting.Manager.invokeAction(
+                    '{!$RemoteAction.AccountMaintainController.saveUserData}',
+                    JSON.stringify(UserData),
+                    function(result, event) {
+                        hideLoadingMessage(); 
+                        console.log('Remote action response:', result);
+                        console.log('Remote action event:', event);
+                        
+                        if (event.status) {
+                            var editsuccessPanel = document.querySelector('[id$=editsuccessPanel]');
+                            // 更新頁面變數
+                            editsuccessPanel.style.display = "block";
+                            setTimeout(function() {
+                                location.reload();
+                            }, 1000);
+                        } else {
+                            console.error('後端處理失敗:', event.message);
+                            var editerrorPanel = document.querySelector('[id$=editerrorPanel]');
+                            editerrorPanel.style.display = "block";
+                            setTimeout(function() {
+                                editerrorPanel.style.display = "none";
+                            }, 3000);
+                        }
+                    },
+                    { escape: false }
+                );
+            } catch (error) {
+                console.error('保存資料時發生錯誤:', error);
+            }
+        }
+        
+        var _multiSelect = $('.multiSelect');
+        _multiSelect.each(function(){
+            let _this = $(this);
+            let _selectBtn = _this.find('.selectBtn');
+            let _optionGroup = _this.find('.optionGroup');
+            const speed = 250;
+            
+            // 定位模擬的 select 下拉選單
+            _optionGroup.css({
+                'left': _selectBtn.position().left,
+                'top' : _this.outerHeight()
+            })
+            
+
+            // 下拉選單顯示／隱藏
+            _selectBtn.click(function(){
+                if(_optionGroup.is(':visible')){
+                    _optionGroup.slideUp(speed);
+                } else {
+                    _optionGroup.slideDown(speed);
+                    // $(this).parent().siblings().find('.optionGroup').slideUp(speed);
+                }
+            })
+            _optionGroup.mouseleave(function(){
+                $(this).slideUp(speed);
+            })
+            
+            // 把選到的項目放到 _selectBtn 中
+            _selectBtn.each(function (){
+                let _checkOption = $(this).next('.optionGroup').find('input[type="checkbox"]');
+                let selected = [];
+                
+                _checkOption.click(function(){
+                    let _optionItem = $(this);
+                    if(_optionItem.parent().hasClass('checked')){
+                        _optionItem.parent().removeClass('checked');
+                        let index = selected.indexOf(_optionItem.parent().text());
+                        selected.splice(index, 1);
+                        _selectBtn.text(selected.toString());
+                        if(selected.toString()===""){
+                            _selectBtn.prepend(placeholder);
+                        }
+                    } else {
+                        _optionItem.parent().addClass('checked');
+                        selected.push(_optionItem.parent().text());
+                        _selectBtn.text( selected.toString());
+                    }
+                })
+            })
+        })
+        
+        
+
+        
+        function updateSelectedRoutesDisplay() {
+            var checkboxes = document.querySelectorAll('.route-checkbox');
+            var selectedRoutes = [];
+            checkboxes.forEach(function(checkbox) {
+                if (checkbox.checked) {
+                    selectedRoutes.push(checkbox.parentNode.textContent.trim().split('.')[1]);
+                }
+            });
+            var selectBtn = document.querySelector('.selectBtn');
+            if (selectedRoutes.length > 0) {
+                selectBtn.textContent = selectedRoutes.join('; ');
+                selectBtn.style.color = '#000'; 
+            } else {
+                selectBtn.textContent = '請選擇';
+                selectBtn.style.color = '#999'; 
+            }
+        }
+        
+        window.onload = updateSelectedRoutesDisplay;
+        
+
+        </script>
+    </body>
+</apex:page>

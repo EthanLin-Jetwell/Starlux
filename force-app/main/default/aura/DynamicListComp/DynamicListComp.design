@@ -1,0 +1,10 @@
+<design:component>
+    <design:attribute name="cmpTitle" label="Title of Component" />
+    <design:attribute name="cmpLtIcon" label="Icon of Component Header"/>
+    <design:attribute name="apiEndPoint" label="API Call" datasource="apex://APIEndPointDesignAttributes" />
+    <design:attribute name="interfaceName" label="Interface Operation" datasource="apex://InterfaceOpsDynamicListCompAttr" />
+    <design:attribute name="contentbody" label="Content Body" />
+    <design:attribute name="contentsubbody" label="Content Sub-Body"/>
+	<design:attribute name="contentsecondsubbody" label="Content Second Sub-Body" datasource="None" description="Please select 'None' if there is no second sub-body" />
+    <design:attribute name="useCase" label="Component Type" datasource="Active Entitlements, Inactive Entitlements, Transactions, Case, Account"/>
+</design:component>

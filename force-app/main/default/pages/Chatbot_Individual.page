@@ -1,0 +1,4 @@
+<apex:page standardController="Case" extensions="Chatbot_Individual">
+    <apex:iframe src="https://caigunn.ap-mic.com/chatbot?id=66731e5f-02fa-44b8-9ae5-ebbe2d5c6a4a" scrolling="true" id="theIframe" /> -->
+    <!--<apex:iframe src="{! 'https://devcaigunn.ap-mic.com/chatbot?id=' + chatbotUID }" scrolling="true" id="theIframe" />-->
+</apex:page>

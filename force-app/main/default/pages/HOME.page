@@ -1,0 +1,152 @@
+<!--============================= Infos =======================================
+
+Name: HOME
+Author: Benson Tseng 
+Purpose: STARLUX Airlines 
+
+Static Resources:
+Name                             MIME        Description
+-------------------------------------------------------------------------------
+
+
+-------------------------------------------------------------------------------
+Backup File:
+
+
+============================= Infos =======================================-->
+<apex:page controller="HOME_Controller" docType="html-5.0" applyHtmlTag="true" standardStylesheets="false" showHeader="false">
+    <head>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+        <title>Home</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no"/>
+        <c:styleinclude ></c:styleinclude>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+        <link rel="stylesheet" href="{!$Resource.B2BStyle}" />
+        
+        <style>
+            
+        </style>
+    </head>
+    
+    <body class="d-flex align-items-center pt-4">
+        <c:B2BNavbar ></c:B2BNavbar>
+        <div id="content-wrapper" class="content-wrapper-home">
+            <div class="container-fluid-home">
+                <div class="bulletin-board" style="background-color:white">
+                    <div class="bulletin-content" >
+                        <apex:outputText value="{!noticeContent}" escape="false"/>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        
+        
+        <!-- 密碼到期警告彈跳視窗 -->
+        <div class="modal fade" id="passwordExpirationModal" tabindex="-1" aria-labelledby="passwordExpirationModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content" style="width:500px;border-radius:4px">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="passwordExpirationModalLabel">密碼逾期通知</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>密碼將於 <apex:outputText value="{0,date,yyyy/MM/dd}">
+                            <apex:param value="{!passwordExpirationDate}" />
+                            </apex:outputText> 逾期，建議立即更新以確保帳號安全</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn CancelBtn" data-bs-dismiss="modal">取消</button>
+                        <button type="button" class="btn UpdateBtn" onclick="redirectToMaintainPage()">立即更新</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        
+        <script>
+        function redirectToMaintainPage() {
+            window.location.href = '/apex/AccountMaintain?openModal=true';
+        }
+        
+        (function() {
+            var sidebar = document.getElementById('sidebar');
+            if (sidebar) {
+                sidebar.classList.add('hidden');
+                sidebar.classList.remove('normal');
+            }
+        })();
+        
+        
+        function adjustContentWrapper() {
+            var sidebar = document.getElementById('sidebar');
+            var contentWrapper = document.getElementById('content-wrapper');
+            
+            // 取得 sidebar 的當前樣式
+            var sidebarStyle = window.getComputedStyle(sidebar);
+            var transformValue = sidebarStyle.getPropertyValue('transform');
+            
+            // 檢查 sidebar 是否有 'hidden' class 或 'normal' class
+            if (sidebar.classList.contains('hidden') && window.innerWidth >= 1025) {
+                contentWrapper.style.paddingLeft = '0';
+            } else if (sidebar.classList.contains('hidden') && window.innerWidth < 1025) {
+                contentWrapper.style.paddingLeft = '0';
+            }
+            
+            if (sidebar.classList.contains('normal') && window.innerWidth >= 1025) {
+                contentWrapper.style.paddingLeft = '250px';
+                contentWrapper.style.transition = 'padding-left 0.3s ease-in-out';
+            } else if (sidebar.classList.contains('normal') && window.innerWidth < 1025) {
+                contentWrapper.style.paddingLeft = '0';
+            }
+        }
+        
+        // 監聽 sidebar 的 class 變化
+        var observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.type === "attributes" && mutation.attributeName === "class") {
+                    adjustContentWrapper();
+                }
+            });
+        });
+        
+        // 當 DOM 內容加載完成後執行
+        document.addEventListener('DOMContentLoaded', function() {
+            var sidebar = document.getElementById('sidebar');
+            observer.observe(sidebar, {
+                attributes: true
+            });
+            
+            // 初始調用 adjustContentWrapper
+            adjustContentWrapper();
+        });
+        
+        // 同時監聽 window resize 事件，讓畫面縮小後也能正確調整
+        window.addEventListener('resize', adjustContentWrapper);
+        
+        // 添加密碼到期檢查邏輯
+        document.addEventListener('DOMContentLoaded', function() {
+            var isPasswordExpiring = {!IF(isPasswordExpiring, true, false)};
+            if (isPasswordExpiring) {
+                var passwordExpirationModal = new bootstrap.Modal(document.getElementById('passwordExpirationModal'));
+                passwordExpirationModal.show();
+            }
+        });
+        
+        </script>
+        <script>
+        (function(){
+          var want = '/apex/Home';
+          if (location.pathname.toLowerCase() === '/apex/home' && location.pathname !== want) {
+            history.replaceState(null, '', want + location.search + location.hash);
+          }
+        })();
+        </script>
+        
+        
+        
+    </body>
+</apex:page>

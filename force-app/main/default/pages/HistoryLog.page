@@ -1,0 +1,831 @@
+<apex:page controller="HistoryLogController" docType="html-5.0" applyHtmlTag="true" standardStylesheets="false" showHeader="false">
+    <head>
+        <title>HistoryLog</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no"/>
+        <c:styleinclude ></c:styleinclude>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"/>
+        <link
+              rel="stylesheet"
+              href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+              />
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        
+        <link rel="stylesheet" href="{!$Resource.B2BStyle}" />
+        
+        <!-- jQuery (必要) -->
+        <style>
+            body { 
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #EEEDEC; 
+            }
+            
+            .content-wrapper {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            }
+            .container {
+            margin-top:115px;
+            width: 100%;
+            }
+            
+            
+            #searchResults {
+            display: block;
+            overflow-x: hidden;              /* 關鍵：超出部分可左右滑 */
+            overflow-y: visible;
+            -webkit-overflow-scrolling: touch; /* 行動裝置滑動更順 */
+            max-width: 100%;
+            }
+            
+            #searchResults table tbody td {
+            position: relative;
+            padding-bottom: 24px;
+            padding-top: 24px;
+            justify-items: left;
+            }
+            
+            .table-scroll {
+            overflow-x: auto;
+            overflow-y: hidden;
+            -webkit-overflow-scrolling: touch;
+            max-width: 100%;
+            }
+            
+            .form-label{
+            color:rgba(115, 91, 75, 1);
+            }
+            
+            #outerWrapper{
+            }
+            
+            
+            .fixed-bottom-buttons {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 999;
+            padding-left:250px;
+            }
+            
+            .fixed-bottom-buttons .container {
+            background-color:white;
+            display: flex;
+            justify-content: flex-end;
+            gap: 16px;
+            }
+            
+            .fixed-bottom-buttons .btn {
+            width: 120px;
+            height: 40px;
+            border-radius: 4px;
+            font-size: 14px;
+            }
+            
+            
+            
+            .pagination {
+            color: #666;
+            font-size: 13px;
+            }
+            
+            .table-toolbar {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            background: #fff;           /* 建議設背景色 */
+            box-shadow: 0 2px 0 rgba(0,0,0,.03);
+            }
+            
+            .history-table {
+            width: 100%;  /* 讓表格寬度依內容決定 */
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            }
+            
+            .history-table th {
+            padding: 12px 16px;
+            text-align: left;
+            border-top: 2px solid rgba(204, 187, 176, 1);
+            border-bottom: 2px solid rgba(204, 187, 176, 1);
+            color: #495057;
+            font-weight: normal;
+            white-space: nowrap;
+            }
+            .history-table td {
+            padding: 16px;
+            border-bottom: 1px solid #e9ecef;
+            vertical-align: top;
+            min-width: 200px;
+            }
+            .date-column {
+            color: #495057;
+            min-width: 200px;
+            }
+            .operation-column {
+            color: #495057;
+            }
+            .detail-block {
+            background-color: #f8f9fa;
+            margin: 8px 16px;
+            position: relative;
+            width: 97%;
+            }
+            .detail-row {
+            padding: 8px 16px;
+            margin-bottom: 1px;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            }
+            .detail-row:last-child {
+            margin-bottom: 0;
+            }
+            .arrow-icon {
+            cursor: pointer;
+            width: 20px;
+            height: 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 12px;
+            margin-right: 8px;
+            }
+            .detail-content {
+            margin-left: 28px;
+            padding-top: 4px;
+            color: #666;
+            overflow: hidden;
+            transition: max-height 0.8s ease-in-out;
+            max-height: 0;
+            }
+            .detail-content.expanded {
+            max-height: 200px;
+            }
+            .detail-text {
+            line-height: 1.5;
+            margin-bottom: 4px;
+            }
+            .circle-icon {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 1px solid #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 12px;
+            cursor: pointer;
+            }
+            .main-name {
+            color: #333;
+            display: inline-block;
+            margin-right: 8px;
+            }
+            
+            .custom-select {
+            -webkit-appearance: revert;
+            -moz-appearance: revert;
+            background-position: right 0.75rem center;
+            background-size: 16px 12px;
+            padding-right: 2rem;
+            height:38px;
+            }
+            
+            .form-label.required:after {
+            content: "*";
+            margin-left: 4px;
+            }
+            .invalid-feedback {
+            display: none;
+            position: absolute;
+            margin-top: 2px;
+            }
+            .form-control.is-invalid + .invalid-feedback,
+            .form-select.is-invalid + .invalid-feedback {
+            display: block;
+            }
+            .selectOption {
+            position: relative;
+            transition: none !important;
+            }
+            .form-control.is-invalid,
+            .form-select.is-invalid {
+            padding-right:12px;
+            border-color: #dc3545;
+            margin-bottom: 0 !important;
+            }
+            
+            .custom-select {
+            -webkit-appearance: revert;
+            -moz-appearance: revert;
+            background-position: right 0.75rem center;
+            background-size: 16px 12px;
+            padding-right: 2rem;
+            }
+            
+            #departure{
+            padding-right: 0.5rem;
+            }
+            
+            .form-control:focus {
+            border-color: rgba(142, 114, 72, 1);
+            box-shadow: 0 0 0 0.2rem rgba(232, 224, 218, 0.5);
+            } 
+            
+            .form-select:focus {
+            border-color: rgba(142, 114, 72, 1);
+            box-shadow: 0 0 0 0.2rem rgba(232, 224, 218, 0.5);
+            } 
+            
+            .form-select.is-invalid:not([multiple]):not([size]), .form-select.is-invalid:not([multiple])[size="1"], .was-validated .form-select:invalid:not([multiple]):not([size]), .was-validated .form-select:invalid:not([multiple])[size="1"]{
+            --bs-form-select-bg-icon:none;
+            }
+            
+            .placeholder {
+            color: #9aa;
+            }
+            
+            
+            /* 安全網：避免仍有 1px 捲軸 */
+            html, body {
+            overflow-x: hidden;   /* 避免水平捲軸 */
+            }
+            
+        </style>
+    </head>
+    
+    <body class="d-flex py-4">
+        <c:B2BNavbar ></c:B2BNavbar>
+        <!--不放成功的吐司了，先放著-->
+        <!--<apex:outputPanel id="searchsuccessPanel"  style="display:none">
+<c:successNotification message="搜尋成功" />
+</apex:outputPanel>-->
+        <apex:outputPanel id="searcherrorPanel" style="display:none">
+            <c:globalnotification message="搜尋無結果，請確認填寫資訊"/>
+        </apex:outputPanel>
+        
+        <div class="content-wrapper" id="content-wrapper">
+            <div class="container-fluid">
+                <form id="flightSearchForm" class="needs-validation g-3" novalidate="novalidate" style="padding: 38px 32px 24px 32px;">
+                    <div class="row g-3">
+                        <div class="selectOption col-md-2">
+                            <label for="flightNumber" class="form-label required">航班號碼</label>
+                            <div class="input-group has-validation">
+                                <input type="text" class="form-control" id="flightPrefix" value="{!flightPrefix}" style="width: 20%; border-radius: 2px; background-color: #f8f8f8; " disabled="true"/>
+                                <span class="input-group-text" style="border: none; background: none;">-</span>
+                                <input placeholder="請輸入" type="text" class="form-control" id="flightNumber" required="true" style="width: 50%; border-radius: 2px;background:none" />
+                                <input type="hidden" id="flightNumber_hidden" />
+                                <div class="invalid-feedback" style="margin-top:40px;margin-left:80px">
+                                    必填
+                                </div>
+                            </div>
+                        </div>
+                        <div class="selectOption col-md-2">
+                            <label for="departureDate" class="form-label required">起飛日期</label>
+                            <input type="date" class="form-control" id="departureDate" required="true" style="border-radius: 2px;background:none"/>
+                            <div class="invalid-feedback">
+                                必填
+                            </div>
+                        </div> 
+                        <div class="selectOption col-md-2">
+                            <label for="departure" class="form-label required">起飛地</label>
+                            <select id="departure" class="form-select" required="true" style="border-radius: 2px;">
+                                <option value="">請選擇</option>
+                            </select>
+                            <div class="invalid-feedback">
+                                必填
+                            </div>
+                        </div>
+                        <div class="selectOption col-md-2">
+                            <label for="bookingCodes" class="form-label required">訂位代號</label>
+                            <input type="text" placeholder="請輸入" class="form-control" id="bookingCodes" required="true" style="border-radius: 2px;background:none"/>
+                            <div class="invalid-feedback">
+                                必填
+                            </div>
+                        </div>
+                        <div class="col-md-2" >
+                            <label for="type" class="form-label">作業類型</label>
+                            <!--<select id="type" class="form-select custom-select" required="false" style="border-radius: 1px;--bs-form-select-bg-img:none;padding-right:0.5rem">-->
+                            <select id="type" class="form-select" required="false" style="border-radius: 2px;">
+                                <option value="">請選擇</option>
+                                <option>編輯旅客旅行文件資料</option>
+                                <option>團體選位/換位</option>
+                                <option>團體報到</option>
+                                <option>登機證列印/寄送</option>
+                                <option>團體報到結果綜整</option>
+                                
+                            </select>
+                            <div class="invalid-feedback">
+                                必填
+                            </div>
+                        </div>
+                        <div class="col-md-2 d-flex justify-content-end align-items-center" style="height:70px;">
+                            <button id="clearButton" type="button" class="btn me-2" style="height:48px;width: 80px;color:#8E7248;background-color:white;border-radius: 4px;">清除</button>
+                            <button type="submit" class="btn" style="height:48px;width: 80px;background-color:#8E7248;color:white;border-radius: 4px;">搜尋</button>
+                        </div>
+                    </div>
+                </form>
+                
+                
+                
+                <!-- 外層容器，包含提示文字和搜尋結果 -->
+                <div id="outerWrapper" style="background-color:white;margin-top:24px;border-radius:4px">
+                    <!-- 當未搜尋時顯示的提示文字 -->
+                    <div id="searchPrompt" style="text-align:center; padding: 20px; color: gray;height:500px">
+                        <p style="margin-top:220px">
+                            請搜尋資料
+                        </p>
+                    </div>
+                    
+                    <div id="notthingSearchPrompt" style="text-align:center; padding: 20px; color: gray;height:500px;display:none">
+                        <p style="margin-top:220px">
+                            查詢無結果
+                        </p>
+                    </div>
+                    
+                    
+                    <div id="searchResults" style="display:none;min-height:600px">
+                        <div class="d-flex justify-content-between align-items-center" style="position: sticky; top: 0; z-index: 10; height:78px; margin-top:3px; background: #fff;     padding: 0 10px;">
+                            <div class="mt-3">
+                                <button id="toggleAllButton" type="button" 
+                                        style="height:48px;width: 100%;background-color:#8E7248;color:white;border-radius: 5px;" 
+                                        class="btn" onclick="toggleAllDetails()">
+                                    全部展開
+                                </button>
+                            </div>
+                            
+                            
+                            
+                            <div class="d-flex align-items-center mt-3" >
+                                <span id="pageRange" class="me-2">0–0 of 0</span>
+                                <!-- Prev Button -->
+                                <button id="btnPrev" class="btn border-0" disabled="disabled" style="color: #d6ccbd; cursor:not-allowed;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z"/>
+                                    </svg>
+                                </button>
+                                <!-- Next Button -->
+                                <button id="btnNext" class="btn border-0" disabled="disabled" style="color: #d6ccbd; cursor:not-allowed;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M8.59 16.59L13.17 12l-4.58-4.59L10 6l6 6-6 6z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                            
+                        </div>
+                        <div class="table-scroll">
+                            <table class="history-table">
+                                <thead>
+                                    <tr>
+                                        <th style="font-weight:bolder;color:rgba(142, 114, 72, 1)">異動日期 ↓</th>
+                                        <th style="font-weight:bolder">使用者</th>
+                                        <th style="font-weight:bolder">作業類型</th>
+                                        <th style="font-weight:bolder">操作</th>
+                                        <th style="font-weight:bolder">異動值</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!--<apex:repeat value="{!operationHistoryDetails}" var="detail">
+<tr>
+<td class="date-column">
+<apex:outputText value="{0,date,yyyy/MM/dd HH:mm}">
+<apex:param value="{!detail.AdjustedCreatedDate}" />
+</apex:outputText>
+</td>
+<td>
+<apex:outputText value="{!detail.UserPassport}" />
+</td>
+<td>
+<apex:outputText value="{!detail.Menu}" />
+</td>
+<td class="operation-column">
+<apex:outputText value="{!detail.Operation}" />
+</td>
+<td>
+<div class="detail-block">
+<div class="detail-row">
+<div style="flex: 1">
+<span class="main-name">
+<apex:outputText value="{!detail.CustomerName}" />
+</span>
+</div>
+<span id="arrow-detail-{!detail.Id}" class="arrow-icon" 
+onclick="toggleDetail('detail-{!detail.Id}')">
+▲
+</span>
+</div>
+<div id="detail-{!detail.Id}" class="detail-content">
+<div id="content-detail-{!detail.Id}">
+<div class="detail-text">
+<apex:outputText value="{!detail.FirstValue}" escape="false" />
+</div>
+</div>
+</div>
+</div>
+</td>
+</tr>
+</apex:repeat>-->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        
+        
+    </body>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js"></script>
+    
+    <script>
+        /* ================== 畫面三態 ================== */
+        function setView(state) {
+        const prompt = document.getElementById('searchPrompt');
+        const empty  = document.getElementById('notthingSearchPrompt');
+        const list   = document.getElementById('searchResults');
+        if (state === 'initial') {
+            prompt.style.display = 'block'; empty.style.display = 'none';  list.style.display = 'none';
+        } else if (state === 'empty') {
+            prompt.style.display = 'none';  empty.style.display  = 'block'; list.style.display = 'none';
+        } else { // results
+            prompt.style.display = 'none';  empty.style.display  = 'none';  list.style.display = 'block';
+        }
+    }
+    
+    /* ================== Loading 遮罩 ================== */
+    function showLoadingMessage() {
+        const el = document.createElement('div');
+        el.id = 'loading';
+        el.innerHTML = `
+        <div class="loading-container">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden" style="color:white">Loading...</span>
+                </div>
+                </div>`;
+                el.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;justify-content:center;align-items:center;z-index:1000;';
+        document.body.appendChild(el);
+    }
+    function hideLoadingMessage() { document.getElementById('loading')?.remove(); }
+    
+    /* ================== 起飛地載入 ================== */
+    function loadDepartureList() {
+    Visualforce.remoting.Manager.invokeAction(
+    '{!$RemoteAction.HistoryLogController.getDepartureList}',
+        function(result, event) {
+    if (!event.status) return;
+    const sel = document.getElementById('departure');
+    while (sel.options.length > 1) sel.remove(1);
+    (result || []).forEach(dep => {
+    const o = document.createElement('option'); o.value = dep; o.text = dep; sel.appendChild(o);
+                                  });
+                                  }
+    );
+                                  }
+    
+    /* ================== 表單驗證 ================== */
+    function validateForm() {
+    const flightNumber  = document.getElementById('flightNumber');
+    const departureDate = document.getElementById('departureDate');
+    const departure     = document.getElementById('departure');
+    const bookingCodes  = document.getElementById('bookingCodes');
+    const type          = document.getElementById('type');
+    let ok = true;
+    [flightNumber, departureDate, departure, bookingCodes, type].forEach(el=>{
+    el.classList.remove('is-invalid'); el.closest('.selectOption')?.classList.remove('has-error');
+                                  });
+    if (!flightNumber.value.trim()) { flightNumber.classList.add('is-invalid'); flightNumber.closest('.selectOption')?.classList.add('has-error'); ok = false; }
+    if (!departureDate.value)       { departureDate.classList.add('is-invalid'); departureDate.closest('.selectOption')?.classList.add('has-error'); ok = false; }
+    if (!departure.value)           { departure.classList.add('is-invalid');     departure.closest('.selectOption')?.classList.add('has-error');     ok = false; }
+    if (!bookingCodes.value.trim()) { bookingCodes.classList.add('is-invalid');  bookingCodes.closest('.selectOption')?.classList.add('has-error');  ok = false; }
+    return ok;
+                                  }
+    
+    /* ================== flightNumber 輸入限制 / 補零 ================== */
+    function limitFlightInput(el) {
+    let raw = el.value.toUpperCase().replace(/[^0-9A-Z]/g, '').slice(0, 5);
+    const m = raw.match(/^(\d*)([A-Z]*)$/);
+    if (!m) { el.value = raw; return; }
+    let num = m[1], letters = m[2];
+    if (letters.length === 0) num = num.slice(0, 4);
+    else num = num.slice(0, 5 - letters.length);
+    el.value = num + letters;
+                                  }
+    function formatFlightNumberOnBlur(el) {
+    let raw = el.value.trim().toUpperCase();
+    const m = raw.match(/^(\d*)([A-Z]*)$/);
+    if (!m) { el.value = raw; return; }
+    let num = m[1], letters = m[2];
+    if (letters.length === 0) num = num.padStart(4, '0');
+    else num = num.padStart(5 - letters.length, '0');
+    el.value = num + letters;
+                                  }
+    
+    /* ================== 展開/收合 ================== */
+    function toggleDetail(elementId) {
+    const content = document.getElementById(elementId);
+    const arrow   = document.getElementById('arrow-' + elementId);
+    if (!content) return;
+    content.style.transition = 'max-height 1s ease';
+    if (content.classList.contains('expanded')) {
+    content.classList.remove('expanded'); content.style.maxHeight = '0';
+    if (arrow) arrow.innerHTML = '<span class="material-symbols-outlined">expand_circle_up</span>';
+                                  } else {
+    content.classList.add('expanded'); content.style.maxHeight = '500px';
+    if (arrow) arrow.innerHTML = '<span class="material-symbols-outlined">expand_circle_down</span>';
+                                  }
+    updateToggleAllButton();
+                                  }
+    function toggleAllDetails() {
+    const all = document.querySelectorAll('.detail-content');
+    const btn = document.getElementById('toggleAllButton');
+    const expand = btn?.textContent.includes('展開');
+    all.forEach(dc=>{
+    const arrow = document.getElementById('arrow-' + dc.id);
+    dc.style.transition = 'max-height 1s ease';
+    if (expand) { dc.classList.add('expanded'); dc.style.maxHeight = '500px'; if (arrow) arrow.innerHTML = '<span class="material-symbols-outlined">expand_circle_down</span>'; }
+    else        { dc.classList.remove('expanded'); dc.style.maxHeight = '0';   if (arrow) arrow.innerHTML = '<span class="material-symbols-outlined">expand_circle_up</span>'; }
+                                  });
+    updateToggleAllButton();
+                                  }
+    function updateToggleAllButton() {
+    const expanded = document.querySelectorAll('.detail-content.expanded').length;
+    const btn = document.getElementById('toggleAllButton');
+    if (btn) btn.textContent = expanded ? '全部收合' : '全部展開';
+                                  }
+    
+    /* ================== 側邊欄 ================== */
+    
+    (function() {
+        var sidebar = document.getElementById('sidebar');
+        if (sidebar) {
+            sidebar.classList.add('hidden');
+            sidebar.classList.remove('normal');
+        }
+    })();
+    function adjustContentWrapper() {
+        const sidebar = document.getElementById('sidebar');
+        const wrapper = document.getElementById('content-wrapper');
+        if (!sidebar || !wrapper) return;
+        if (sidebar.classList.contains('hidden')) {
+            wrapper.style.paddingLeft = '0';
+        } else if (sidebar.classList.contains('normal') && window.innerWidth >= 1025) {
+            wrapper.style.paddingLeft = '250px'; wrapper.style.transition = 'padding-left .3s ease-in-out';
+        } else {
+            wrapper.style.paddingLeft = '0';
+        }
+    }
+    
+    /* ================== 分頁（每頁 50） ================== */
+    const PAGE_SIZE = 50;
+    let currentResults = [];
+    let pageIndex = 0;
+    
+    function updatePaginationUI() {
+        const total = currentResults.length;
+        const start = total ? (pageIndex * PAGE_SIZE + 1) : 0;
+        const end   = Math.min((pageIndex + 1) * PAGE_SIZE, total);
+        
+        const rangeEl = document.getElementById('pageRange');
+        const prevBtn = document.getElementById('btnPrev');
+        const nextBtn = document.getElementById('btnNext');
+        
+        if (rangeEl) rangeEl.textContent = `${start}–${end} of ${total}`;
+        
+        // Prev 狀態
+        if (prevBtn) {
+            if (pageIndex === 0) {
+                prevBtn.disabled = true; prevBtn.style.color = '#d6ccbd'; prevBtn.style.cursor = 'not-allowed';
+            } else {
+                prevBtn.disabled = false; prevBtn.style.color = 'inherit'; prevBtn.style.cursor = 'pointer';
+            }
+        }
+        // Next 狀態
+        if (nextBtn) {
+            if ((pageIndex + 1) * PAGE_SIZE >= total) {
+                nextBtn.disabled = true; nextBtn.style.color = '#d6ccbd'; nextBtn.style.cursor = 'not-allowed';
+            } else {
+                nextBtn.disabled = false; nextBtn.style.color = 'inherit'; nextBtn.style.cursor = 'pointer';
+            }
+        }
+    }
+    
+    function renderPage() {
+        const tbody = document.querySelector('.history-table tbody');
+        if (!tbody) return;
+        tbody.innerHTML = '';
+        
+        const total = currentResults.length;
+        if (!total) { setView('empty'); updatePaginationUI(); return; }
+        
+        const start = pageIndex * PAGE_SIZE;
+        const end   = Math.min(start + PAGE_SIZE, total);
+        
+        for (let i = start; i < end; i++) {
+            const h = currentResults[i];
+            const row = `
+            <tr>
+                <td class="date-column">                    
+                    ${new Date(h.CreatedDate).toLocaleString('zh-TW', {year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false,timeZone: 'UTC'})}
+            </td>
+            <td>${h.UserPassport || ''}</td>
+            <td>${h.Menu || ''}</td>
+            <td class="operation-column">${h.Operation || ''}</td>
+            <td>
+                ${(h.Details || []).map(d => `
+                                        <div class="detail-block" style="margin-bottom:10px">
+                                        <div class="detail-row">
+                                        <div style="flex:1">
+                                        <span class="main-name" style="font-weight:bolder">${d.CustomerName || ''}</span>
+                                        </div>
+                                        <span id="arrow-detail-${d.Id}" class="arrow-icon" onclick="toggleDetail('detail-${d.Id}')">
+                                        <span class="material-symbols-outlined">expand_circle_up</span>
+                                        </span>
+                                        </div>
+                                        <div id="detail-${d.Id}" class="detail-content">
+                                        <div id="content-detail-${d.Id}"></div>
+                                        </div>
+                                        </div>
+                                        `).join('')}
+            </td>
+            </tr>`;
+            tbody.insertAdjacentHTML('beforeend', row);
+        }
+        
+        for (let i = start; i < end; i++) {
+            const h = currentResults[i];
+            (h.Details || []).forEach(d => {
+                const div = document.getElementById(`content-detail-${d.Id}`);
+            if (div) {
+                let html = he.decode(d.Value || '');
+                
+                // 只針對「起飛日期 / 出發日期 / 到達日期」把時間拿掉（例：2025-12-19 00:00:00 → 2025-12-19）
+                html = html.replace(/(起飛日期\*?\s*:\s*)(\d{4}-\d{2}-\d{2})(?:[ T]\d{2}:\d{2}:\d{2})/g, '$1$2');
+                
+                div.innerHTML = html;
+            }
+        });
+    }
+    
+    document.querySelectorAll('.detail-content').forEach(c => {
+        c.style.maxHeight = '0'; c.style.transition = 'max-height .5s ease';
+    });
+        updateToggleAllButton();
+        
+        setView('results');
+        updatePaginationUI();
+    }
+        
+        /* ================== 防回應亂序 ================== */
+        let latestSeq = 0;
+        
+        /* ================== 綁定與初始化 ================== */
+        document.addEventListener('DOMContentLoaded', function() {
+        loadDepartureList();
+        setView('initial');
+        updatePaginationUI();
+        
+        // flightNumber 限制/補零
+        const fnEl = document.getElementById('flightNumber');
+        if (fnEl) {
+        fnEl.addEventListener('input', () => limitFlightInput(fnEl));
+        fnEl.addEventListener('blur',  () => formatFlightNumberOnBlur(fnEl));
+    }
+        
+        // 展開區塊初始
+        document.querySelectorAll('.detail-content').forEach(c => {
+        c.style.maxHeight = '0'; c.style.transition = 'max-height .5s ease';
+    });
+        updateToggleAllButton();
+        
+        // SVG Prev / Next
+        document.getElementById('btnPrev')?.addEventListener('click', function () {
+        if (pageIndex > 0) { pageIndex--; renderPage(); }
+    });
+        document.getElementById('btnNext')?.addEventListener('click', function () {
+        if ((pageIndex + 1) * PAGE_SIZE < currentResults.length) { pageIndex++; renderPage(); }
+    });
+        
+        // 側欄監看
+        const sidebar = document.getElementById('sidebar');
+        if (sidebar) {
+        const obs = new MutationObserver(muts => muts.forEach(m => {
+        if (m.type === 'attributes' && m.attributeName === 'class') adjustContentWrapper();
+    }));
+        obs.observe(sidebar, { attributes: true });
+    adjustContentWrapper();
+    }
+    });
+    window.addEventListener('resize', adjustContentWrapper);
+    
+    /* ================== 查詢送出 ================== */
+    document.getElementById('flightSearchForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        if (!validateForm()) return;
+        
+        // 送出前補零一次
+        const fnEl = document.getElementById('flightNumber');
+        if (fnEl) formatFlightNumberOnBlur(fnEl);
+        
+        const flightPrefix  = document.getElementById('flightPrefix').value;
+        const flightNumber  = document.getElementById('flightNumber').value;
+        const departureDate = document.getElementById('departureDate').value;
+        const departure     = document.getElementById('departure').value;
+        const bookingCodes  = document.getElementById('bookingCodes').value;
+        const type          = document.getElementById('type').value;
+        
+        const seq = ++latestSeq;
+        showLoadingMessage();
+        
+        Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.HistoryLogController.searchRecords}',
+            flightPrefix + '-' + flightNumber,
+            departureDate,
+            departure,
+            bookingCodes,
+            type,
+            function(result, event) {
+                if (seq !== latestSeq) return; // 丟掉舊回應
+                hideLoadingMessage();
+                
+                const toast = document.querySelector('[id$=searcherrorPanel]');
+                if (toast) toast.style.display = 'none';
+                
+                if (!event.status) {
+                    currentResults = []; pageIndex = 0;
+                    setView('empty'); updatePaginationUI();
+                    return;
+                }
+                
+                if (!result || result.length === 0) {
+                    currentResults = []; pageIndex = 0;
+                    setView('empty');
+                    if (toast) { toast.style.display = 'block'; setTimeout(()=>toast.style.display='none', 3000); }
+                    updatePaginationUI();
+                    return;
+                }
+                
+                // 有資料
+                currentResults = result;
+                pageIndex = 0;
+                renderPage();
+            },
+            null,
+            true // abortable：中止上一個請求
+        );
+    });
+    
+    /* ================== 清除 ================== */
+    document.getElementById('clearButton').addEventListener('click', function() {
+        const form = document.getElementById('flightSearchForm');
+        form.reset();
+        form.querySelectorAll('.is-invalid').forEach(i => i.classList.remove('is-invalid'));
+        form.querySelectorAll('.selectOption.has-error').forEach(p => p.classList.remove('has-error'));
+        
+        const tbody = document.querySelector('.history-table tbody');
+        if (tbody) tbody.innerHTML = '';
+        
+        const toast = document.querySelector('[id$=searcherrorPanel]');
+        if (toast) toast.style.display = 'none';
+        
+        latestSeq++;               // 讓在路上的回應失效
+        currentResults = []; pageIndex = 0;
+        updatePaginationUI();
+        setView('initial');
+    });
+    
+    function toDateOnly(s){
+        if(!s) return '';
+        // 先試著抓 yyyy-mm-dd 前 10 碼
+        const m = String(s).match(/^(\d{4}-\d{2}-\d{2})/);
+        if (m) return m[1];
+        // 退而用 Date 解析再組回 yyyy-mm-dd
+        const d = new Date(s);
+        if (!isNaN(d)) {
+            const mm = String(d.getMonth()+1).padStart(2,'0');
+            const dd = String(d.getDate()).padStart(2,'0');
+            return `${d.getFullYear()}-${mm}-${dd}`;
+        }
+        return s;
+    }
+    </script>
+    
+    
+    
+</apex:page>

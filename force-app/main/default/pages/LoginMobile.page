@@ -1,0 +1,253 @@
+<apex:page controller="LoginController" docType="html-5.0" applyHtmlTag="true" standardStylesheets="false" showHeader="false">
+  <head>
+    <title>LoginPage</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" />
+    <c:styleinclude ></c:styleinclude>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <apex:stylesheet value="{!$Resource.style_login}" />
+
+    <style>
+      .custom-validation-form .form-control.is-invalid {
+        border-color: #dc3545;
+        padding-right: calc(1.5em + 0.75rem);
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right calc(0.375em + 0.1875rem) center;
+        background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+      }
+    
+      .login-sidebar {
+        height: 8vh;
+        background-image: url('{!$Resource.LoginBackground}');
+        background-size: 105% auto;             /* 將背景放大寬度，超出一點畫面 */
+        background-position: left center;       /* 往左對齊，只顯示左邊 */
+        background-repeat: no-repeat;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        width: calc(100% - 6%);                 /* ✅ 同 login-box */
+        max-width: 600px;                       /* ✅ 同 login-box 最大寬度 */
+        margin: auto;                           /* ✅ 置中 */
+        border-top-left-radius: 8px;            /* 左上圓角 */
+        border-top-right-radius: 8px;           /* 右上圓角 */
+        box-shadow: 4px 6px 12px rgba(0, 0, 0, 0.35);
+      }
+    
+      main {
+        /* padding-top: 15vh; 控制 4:6 位置，大約畫面高度的 15% */
+      }
+    
+      body {
+        background-color: #f8f9fa;
+        padding-top: 12px;
+      }
+    
+      .login-box {
+        width: calc(100% - 6%);
+        max-width: 600px;
+        margin: auto;
+        padding: 40px;
+        background-color: #ffffff;
+        border-radius: 0 0 8px 8px;             /* 左上、右上、右下、左下 */
+        box-shadow: 4px 6px 12px rgba(0, 0, 0, 0.35);
+        /* margin-top: 50px; */
+      }
+    
+      .form-control:focus {
+        border-color: rgba(142, 114, 72, 1);
+        box-shadow: 0 0 0 0.2rem rgba(232, 224, 218, 0.5);
+      }
+    
+      .material-symbols-outlined {
+        position: absolute;
+        margin: 11px 8px 10px 16px;
+        font-size: 20px;
+        color: rgba(142, 114, 72, 1);
+      }
+    
+      .position-relative {
+        position: relative;
+      }
+    
+    .toggle-password {
+      position: absolute;
+      right: 36px;
+      top: 13px;
+      bottom: 0;
+      display: flex;
+      padding: 0;
+      border: none;
+      background: none;
+      color: #666;
+      cursor: pointer;
+    }
+    
+    .custom-validation-form .invalid-feedback {
+      display: block;        /* 一定要 block，才能佔位 */
+      min-height: 18px;      /* 永遠保留這個高度，防止跳動 */
+      font-size: 12px;
+      color: #dc3545;
+      visibility: hidden;    /* 預設不顯示文字，但佔空間 */
+    }
+    
+    .form-control.is-invalid + .invalid-feedback {
+      visibility: visible;   /* 有錯誤才顯示文字 */
+    }
+    </style>
+
+  </head>
+  <body>
+        <c:globalnotification message="登入已超過 {!logoutminutes} 分鐘，請重新登入以繼續使用" isVisible="{!islogout}" />
+        <c:globalnotification message="輸入的旅行社IATA代碼、帳號或密碼有誤，請重新嘗試" isVisible="{!isWrongCredentials}" />
+        <c:globalnotification message="帳號尚未開通，已重新寄送開通信件" isVisible="{!isAccountInactive}" />
+        <apex:outputPanel styleClass="successNotification" style="display:none">
+            <c:successNotification message="密碼更新成功，請重新登入"/>
+        </apex:outputPanel>
+        <apex:outputPanel rendered="{!isPasswordExpired}">
+            <c:globalnotification message="密碼已逾期，請重新重設密碼" isVisible="{!isPasswordExpired}" />
+            
+            <script>
+            setTimeout(function() {
+                var accountId = '{!accountId}';
+                if (accountId) {
+                    window.location.href = '/apex/ResetPassword?accountId=' + encodeURIComponent(accountId);
+                } else {
+                    window.location.href = '/apex/ResetPassword';
+                }
+            }, 2000);  // 2秒後跳轉
+            </script>
+        </apex:outputPanel>
+    <div class="login-sidebar">
+        <h3><img src="{!URLFOR($Resource.Logo2)}" class="logo" alt="Logo" style="width:9%;height:auto;font-size:24px"/>旅遊同業團體作業B2B平台</h3>
+    </div>
+    <main>
+      <apex:form id="loginForm">
+        <div class="login-box">
+          <h2 class="fw-bold pb-2 text-center" style="font-size: 30px">登入</h2>
+          <p class="text-center" style="font-size: 12px; color: rgba(142, 114, 72, 1); font-weight: bold; margin-bottom: 24px">
+            旅遊同業團體作業B2B平台
+          </p>
+
+          <div class="custom-validation-form">
+            <div class="position-relative mb-3" style="margin-top: 24px;">
+              <span class="material-symbols-outlined">work</span>
+              <apex:inputText style="padding-left:50px" id="IATAcode" styleClass="form-control" value="{!IATAcode}" html-placeholder="旅行社IATA代碼" maxlength="8"/>
+              <div id="IATAcodedFeedback" class="invalid-feedback">必填</div>
+            </div>
+
+            <div class="position-relative mb-3">
+              <span class="material-symbols-outlined">account_circle</span>
+              <apex:inputText style="padding-left:50px" styleClass="form-control" value="{!UserAccount}" html-placeholder="帳號" maxlength="10"/>
+              <div class="invalid-feedback">必填</div>
+            </div>
+
+            <div class="position-relative mb-3">
+              <span class="material-symbols-outlined">lock</span>
+              <button type="button" class="toggle-password" onclick="togglePassword(this)"><i class="fas fa-eye-slash"></i></button>
+              <apex:inputSecret style="padding-left:50px;padding-right:32px" styleClass="form-control" value="{!password}" html-placeholder="密碼" maxlength="50"/>
+              <div class="invalid-feedback">必填</div>
+            </div>
+
+            <div class="d-flex justify-content-between" style="gap: 12px;">
+              <apex:commandButton styleClass="btn btn-lg btn-primary mb-3 forgotBtn" 
+                style="flex: 0 0 40%;" 
+                action="{!forgotPassword}" 
+                value="忘記密碼"/>
+            
+              <apex:commandButton styleClass="btn btn-lg btn-primary btn-login mb-3" 
+                style="flex: 0 0 58%;" 
+                action="{!login}" 
+                value="登入" 
+                onclick="return validateForm(event);" 
+                id="loginBtn"/>
+            </div>
+          </div>        
+            <div class="d-flex justify-content-end" style="width:100%">
+          <img src="{!URLFOR($Resource.Logo3)}" class="mb-0" alt="Logo"/>
+        </div>
+        </div>
+
+      </apex:form>
+    </main>
+
+    <div class="text-center mt-3">
+      <p class="text-white" style="font-size:14px">
+        COPYRIGHT © 2024 STARLUX AIRLINES. ALL RIGHTS RESERVED.
+      </p>
+    </div>
+
+    <script>
+      function togglePassword(button) {
+        const input = button.parentElement.querySelector('input');
+        const icon = button.querySelector('i');
+
+        if (input.type === 'password') {
+          input.type = 'text';
+          icon.classList.remove('fa-eye-slash');
+          icon.classList.add('fa-eye');
+        } else {
+          input.type = 'password';
+          icon.classList.remove('fa-eye');
+          icon.classList.add('fa-eye-slash');
+        }
+      }
+
+      function validateForm(event) {
+        const form = document.querySelector('.custom-validation-form');
+        const inputs = form.querySelectorAll('input');
+        let isValid = true;
+        const numberOnly = /^\d+$/;
+        const alphanumericSpecial = /^[A-Za-z0-9!@#$%^&*()_+\-=\[\]{};:'",.<>/?\\|`~]+$/;
+
+        inputs.forEach((input) => {
+          const feedback = input.parentElement.querySelector('.invalid-feedback');
+          const value = input.value.trim();
+        
+          input.classList.remove('is-invalid');
+          feedback.textContent = '';
+        
+          // 1) 必填
+          if (!value) {
+            feedback.textContent = '必填';
+            input.classList.add('is-invalid');
+            isValid = false;
+            return;
+          }
+        
+          // 2) 旅行社IATA代碼：同時判斷「英數」+「長度>=7」，並回覆個別原因
+          if (input.placeholder === '旅行社IATA代碼') {
+            const alphaNum = /^[A-Za-z0-9]+$/; // 你原本 numberOnly 看起來像是只允許數字，這裡改成英數
+            const isAlphaNumOk = alphaNum.test(value);
+            const isLenOk = value.length >= 7;
+        
+            if (!isAlphaNumOk || !isLenOk) {
+              const msgs = [];
+              if (!isAlphaNumOk) msgs.push('僅能輸入英文與數字');
+              if (!isLenOk) msgs.push('請輸入至少 7 個字元');
+        
+              feedback.textContent = msgs.join('；');
+              input.classList.add('is-invalid');
+              isValid = false;
+            }
+            return;
+          }
+        
+          // 3) 帳號/密碼：維持你原本規則
+          if ((input.placeholder === '帳號' || input.placeholder === '密碼') && !alphanumericSpecial.test(value)) {
+            feedback.textContent = '僅英文字、數字、特殊字元';
+            input.classList.add('is-invalid');
+            isValid = false;
+            return;
+          }
+        });
+
+        if (!isValid) event.preventDefault();
+        return isValid;
+      }
+    </script>
+  </body>
+</apex:page>

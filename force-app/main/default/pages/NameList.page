@@ -1,0 +1,533 @@
+<apex:page docType="html-5.0" standardController="Seat_Allocation_and_Ticketing__c" extensions="NameListController" showHeader="false" standardStylesheets="false" action="{!generateOrFindNameListBySat}">
+    <head>
+        <apex:stylesheet value="{!$Resource.custom_style}"/>
+        <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css"  rel="stylesheet" type="text/css"/>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>  
+        
+        <script>
+        jQuery(
+            function(){
+                var $j = jQuery.noConflict();
+                $j("input[class$=datepicker]").datepicker({
+                    changeYear: true,
+                    changeMonth: true, 
+                    dateFormat: "yy/mm/dd",
+                    maxDate: new Date,
+                    yearRange: "-100:+0"                    
+                });
+                
+                //動態綁定onchange事件
+                $j('.NameListTable tbody select,.NameListTable tbody input').change(function(){
+                    CheckNull(this);
+                    CheckValid(this);
+                })
+                CheckNull();
+                CheckValid();
+            });
+        //檢查input、select 有無空值，空值td背景紅色提醒
+        function CheckNull(obj){
+            var usaRoute='{!usaRoute}';
+            var userLanguage='{!userLanguage}';
+            console.log(userLanguage);
+            var $j = jQuery.noConflict();
+            
+            if(obj != null){
+                if($j(obj).val() == null || $j(obj).val() == '' ){
+                    if($j(obj).parents('td').attr('id') == 'PassengerType'||$j(obj).parents('td').attr('id') == 'TitleType'||$j(obj).parents('td').attr('id') == 'LastNameType'||$j(obj).parents('td').attr('id') == 'FirstNameType'){
+                        $j(obj).parents('td').css('background','red');
+                    }
+                    if($j(obj).parents('td').attr('id') == 'GenderType'){
+                         if(usaRoute == 'true'){
+                             $j(obj).parents('td').css('background','red');
+                         }else{
+                             $j(obj).parents('td').css('background','none');
+                         }
+                    }
+                    if($j(obj).parents('td').attr('id') == 'DateBirthType'){
+                        if(usaRoute == 'true'){
+                             $j(obj).parents('td').css('background','red');
+                         }else{
+                             if($j(obj).parents("tr").find("#DateBirthType").children().first().val() == '' && $j(obj).parents("tr").find("#PassengerType").children("select").val() == 'child'){
+                                $j(obj).parents('td').css('background','red');
+                             }else{
+                                $j(obj).parents('td').css('background','none');
+                             }                             
+                         }
+                    }
+                    if($j(obj).parents('td').attr('id') == 'InfTitleType' || $j(obj).parents('td').attr('id') == 'InfLastNameType' || $j(obj).parents('td').attr('id') == 'InfFirstNameType' || $j(obj).parents('td').attr('id') == 'InfDateBirthType'){
+                        if($j(obj).parents("tr").find("#InfPassengerType").children().children('select').val() == 'infant'){
+                            $j(obj).parents('td').css('background','red');
+                        }else if($j(obj).parents("tr").find("#InfTitleType").children("select").val() != '' || $j(obj).parents("tr").find("#InfLastNameType").children("input").val() != '' || $j(obj).parents("tr").find("#InfFirstNameType").children("input").val() != '' || ($j(obj).parents("tr").find("#InfGenderType").children("select").val() != '' && usaRoute == 'true')|| $j(obj).parents("tr").find("#InfDateBirthType").children().children("input").val() != ''){
+                            if($j(obj).parents("tr").find("#InfPassengerType").children().children("select").val() == '' || $j(obj).parents("tr").find("#InfPassengerType").children().children("select").val() == '_\u0001_'){                            
+                                $j(obj).parents("tr").find("#InfPassengerType").css('background','red');
+                            }else{
+                                $j(obj).parents("tr").find("#InfTitleType").css('background','none');
+                            }
+                            if($j(obj).parents("tr").find("#InfTitleType").children("select").val() == ''){
+                                $j(obj).parents("tr").find("#InfTitleType").css('background','red');
+                            }else{
+                                $j(obj).parents("tr").find("#InfTitleType").css('background','none');
+                            }
+                            if($j(obj).parents("tr").find("#InfLastNameType").children("input").val() == ''){
+                                $j(obj).parents("tr").find("#InfLastNameType").css('background','red');
+                            }else{
+                                $j(obj).parents("tr").find("#InfLastNameType").css('background','none');
+                            }
+                            if($j(obj).parents("tr").find("#InfFirstNameType").children("input").val() == ''){
+                                $j(obj).parents("tr").find("#InfFirstNameType").css('background','red');
+                            }else{
+                                $j(obj).parents("tr").find("#InfFirstNameType").css('background','none');
+                            }
+                            if($j(obj).parents("tr").find("#InfGenderType").children("select").val() == '' && usaRoute == 'true'){
+                                $j(obj).parents("tr").find("#InfGenderType").css('background','red');
+                            }else{
+                                $j(obj).parents("tr").find("#InfGenderType").css('background','none');
+                            }
+                            if($j(obj).parents("tr").find("#InfDateBirthType").children().children("input").val() == ''){
+                                $j(obj).parents("tr").find("#InfDateBirthType").css('background','red');
+                            }else{
+                                $j(obj).parents("tr").find("#InfDateBirthType").css('background','none');
+                            }
+                        }
+                        else{
+                            $j(obj).parents("tr").find("#InfPassengerType").css('background','none');
+                            $j(obj).parents("tr").find("#InfTitleType").css('background','none');
+                            $j(obj).parents("tr").find("#InfLastNameType").css('background','none');
+                            $j(obj).parents("tr").find("#InfFirstNameType").css('background','none');
+                            $j(obj).parents("tr").find("#InfGenderType").css('background','none');
+                            $j(obj).parents("tr").find("#InfDateBirthType").css('background','none');
+                        }     
+                    }
+                    if($j(obj).parents('td').attr('id') == 'InfGenderType'){
+                        if($j(obj).parents("tr").find("#InfPassengerType").children().children('select').val() == 'infant' && usaRoute == 'true'){
+                                 $j(obj).parents('td').css('background','red');
+                        }else if($j(obj).parents("tr").find("#InfTitleType").children("select").val() != '' || $j(obj).parents("tr").find("#InfLastNameType").children("input").val() != '' || $j(obj).parents("tr").find("#InfFirstNameType").children("input").val() != '' || $j(obj).parents("tr").find("#InfGenderType").children("select").val() != '' || $j(obj).parents("tr").find("#InfDateBirthType").children().children("input").val() != ''){
+                            if($j(obj).parents("tr").find("#InfPassengerType").children().children("select").val() == ''){
+                                $j(obj).parents("tr").find("#InfPassengerType").css('background','red');
+                            }else{
+                                $j(obj).parents("tr").find("#InfTitleType").css('background','none');
+                            }
+                            if($j(obj).parents("tr").find("#InfTitleType").children("select").val() == ''){
+                                $j(obj).parents("tr").find("#InfTitleType").css('background','red');
+                            }else{
+                                $j(obj).parents("tr").find("#InfTitleType").css('background','none');
+                            }
+                            if($j(obj).parents("tr").find("#InfLastNameType").children("input").val() == ''){
+                                $j(obj).parents("tr").find("#InfLastNameType").css('background','red');
+                            }else{
+                                $j(obj).parents("tr").find("#InfLastNameType").css('background','none');
+                            }
+                            if($j(obj).parents("tr").find("#InfFirstNameType").children("input").val() == ''){
+                                $j(obj).parents("tr").find("#InfFirstNameType").css('background','red');
+                            }else{
+                                $j(obj).parents("tr").find("#InfFirstNameType").css('background','none');
+                            }
+                            if($j(obj).parents("tr").find("#InfGenderType").children("select").val() == ''){
+                                $j(obj).parents("tr").find("#InfGenderType").css('background','red');
+                            }else{
+                                $j(obj).parents("tr").find("#InfGenderType").css('background','none');
+                            }
+                            if($j(obj).parents("tr").find("#InfDateBirthType").children().children("input").val() == ''){
+                                $j(obj).parents("tr").find("#InfDateBirthType").css('background','red');
+                            }else{
+                                $j(obj).parents("tr").find("#InfDateBirthType").css('background','none');
+                            }
+                        }else{
+                            $j(obj).parents("tr").find("#InfPassengerType").css('background','none');
+                            $j(obj).parents("tr").find("#InfTitleType").css('background','none');
+                            $j(obj).parents("tr").find("#InfLastNameType").css('background','none');
+                            $j(obj).parents("tr").find("#InfFirstNameType").css('background','none');
+                            $j(obj).parents("tr").find("#InfGenderType").css('background','none');
+                            $j(obj).parents("tr").find("#InfDateBirthType").css('background','none');
+                        }         
+                    }
+                    if($j(obj).parents('td').attr('id') == 'InfPassengerType'){
+                        if($j(obj).parents("tr").find("#InfTitleType").children("select").val() != '' || $j(obj).parents("tr").find("#InfLastNameType").children("input").val() != '' || $j(obj).parents("tr").find("#InfFirstNameType").children("input").val() != '' || $j(obj).parents("tr").find("#InfGenderType").children("select").val() != '' || $j(obj).parents("tr").find("#InfDateBirthType").children().children("input").val() != '' ){
+                            $j(obj).parents("tr").find("#InfPassengerType").css('background','red');
+                            if($j(obj).parents("tr").find("#InfTitleType").children("select").val() == ''){
+                                $j(obj).parents("tr").find("#InfTitleType").css('background','red');
+                            }else{
+                                $j(obj).parents("tr").find("#InfTitleType").css('background','none');
+                            }
+                            if($j(obj).parents("tr").find("#InfLastNameType").children("input").val() == ''){
+                                $j(obj).parents("tr").find("#InfLastNameType").css('background','red');
+                            }else{
+                                $j(obj).parents("tr").find("#InfLastNameType").css('background','none');
+                            }
+                            if($j(obj).parents("tr").find("#InfFirstNameType").children("input").val() == ''){
+                                $j(obj).parents("tr").find("#InfFirstNameType").css('background','red');
+                            }else{
+                                $j(obj).parents("tr").find("#InfFirstNameType").css('background','none');
+                            }
+                            if($j(obj).parents("tr").find("#InfGenderType").children("select").val() == ''){
+                                $j(obj).parents("tr").find("#InfGenderType").css('background','red');
+                            }else{
+                                $j(obj).parents("tr").find("#InfGenderType").css('background','none');
+                            }
+                            if($j(obj).parents("tr").find("#InfDateBirthType").children().children("input").val() == ''){
+                                $j(obj).parents("tr").find("#InfDateBirthType").css('background','red');
+                            }else{
+                                $j(obj).parents("tr").find("#InfDateBirthType").css('background','none');
+                            }
+                        }else{
+                            $j(obj).parents("tr").find("#InfPassengerType").css('background','none');
+                            $j(obj).parents("tr").find("#InfTitleType").css('background','none');
+                            $j(obj).parents("tr").find("#InfLastNameType").css('background','none');
+                            $j(obj).parents("tr").find("#InfFirstNameType").css('background','none');
+                            $j(obj).parents("tr").find("#InfGenderType").css('background','none');
+                            $j(obj).parents("tr").find("#InfDateBirthType").css('background','none');
+                        }                   
+                    }
+                }else{
+                    console.log('yo');
+                    $j(obj).parents('td').css('background','none');
+                    if($j(obj).parents('td').attr('id') == 'PassengerType' ){
+                        if($j(obj).parents("tr").find("#DateBirthType").children().first().val() == ''&& $j(obj).parents("tr").find("#PassengerType").children("select").val() == 'child'){
+                            $j(obj).parents("tr").find("#DateBirthType").css('background','red');
+                            console.log('188');
+                        }else if($j(obj).parents("tr").find("#DateBirthType").children().first().val() == ''&& $j(obj).parents("tr").find("#PassengerType").children("select").val() == 'adult' && usaRoute=='true' ){
+                            $j(obj).parents("tr").find("#DateBirthType").css('background','red');
+                            console.log('191');
+                        }else{
+                            $j(obj).parents("tr").find("#DateBirthType").css('background','none');
+                        }
+                    }
+                    if($j(obj).parents('td').attr('id') == 'InfPassengerType'){
+                        if($j(obj).parents("tr").find("#InfTitleType").children().first().val() == ''){
+                             $j(obj).parents("tr").find("#InfTitleType").css('background','red');
+                            console.log('199');
+                         }
+                        else{
+                             $j(obj).parents("tr").find("#InfTitleType").css('background','none');
+                         }
+                        
+                        if($j(obj).parents("tr").find("#InfLastNameType").children().first().val() == null || $j(obj).parents("tr").find("#InfLastNameType").children().first().val() == ''){
+                             $j(obj).parents("tr").find("#InfLastNameType").css('background','red');
+                            console.log('207');
+                         }
+                        else{
+                             $j(obj).parents("tr").find("#InfLastNameType").css('background','none');
+                         } 
+                        
+                        if($j(obj).parents("tr").find("#InfFirstNameType").children().first().val() == null || $j(obj).parents("tr").find("#InfFirstNameType").children().first().val() == ''){
+                             $j(obj).parents("tr").find("#InfFirstNameType").css('background','red');
+                            console.log('215');
+                         }
+                        else{
+                             $j(obj).parents("tr").find("#InfFirstNameType").css('background','none');
+                         }
+                        
+                        if($j(obj).parents("tr").find("#InfGenderType").children().first().val() == ''&& usaRoute == 'true'){
+                             $j(obj).parents("tr").find("#InfGenderType").css('background','red');
+                            console.log('223');
+                         }
+                        else{
+                             $j(obj).parents("tr").find("#InfGenderType").css('background','none');
+                         }
+                        
+                        if($j(obj).parents("tr").find("#InfDateBirthType").children().children("input").val() == ''){
+                             $j(obj).parents("tr").find("#InfDateBirthType").css('background','red');
+                            console.log('231');
+                         }
+                        else{
+                             $j(obj).parents("tr").find("#InfDateBirthType").css('background','none');
+                         }                        
+                    }
+                    if($j(obj).parents('td').attr('id') == 'InfTitleType' || $j(obj).parents('td').attr('id') == 'InfLastNameType' || $j(obj).parents('td').attr('id') == 'InfFirstNameType'||($j(obj).parents('td').attr('id') == 'InfGenderType' &&　usaRoute == 'true') || $j(obj).parents('td').attr('id') == 'InfDateBirthType'){
+                        if($j(obj).parents("tr").find("#InfPassengerType").children().children('select').val() == '' || $j(obj).parents("tr").find("#InfPassengerType").children().children('select').val() == '_\u0001_'){
+                             $j(obj).parents("tr").find("#InfPassengerType").css('background','red');
+                            console.log('239');
+                         }
+                        else{
+                             $j(obj).parents("tr").find("#InfTitleType").css('background','none');
+                         }
+                        if($j(obj).parents("tr").find("#InfTitleType").children().first().val() == ''){
+                             $j(obj).parents("tr").find("#InfTitleType").css('background','red');
+                            console.log('247');
+                         }
+                        else{
+                             $j(obj).parents("tr").find("#InfTitleType").css('background','none');
+                         }
+                        
+                        if($j(obj).parents("tr").find("#InfLastNameType").children().first().val() == null || $j(obj).parents("tr").find("#InfLastNameType").children().first().val() == ''){
+                             $j(obj).parents("tr").find("#InfLastNameType").css('background','red');
+                            console.log('255');
+                         }
+                        else{
+                             $j(obj).parents("tr").find("#InfLastNameType").css('background','none');
+                         } 
+                        
+                        if($j(obj).parents("tr").find("#InfFirstNameType").children().first().val() == null || $j(obj).parents("tr").find("#InfFirstNameType").children().first().val() == ''){
+                             $j(obj).parents("tr").find("#InfFirstNameType").css('background','red');
+                            console.log('263');
+                         }
+                        else{
+                             $j(obj).parents("tr").find("#InfFirstNameType").css('background','none');
+                         }
+                        
+                        if($j(obj).parents("tr").find("#InfGenderType").children().first().val() == ''&& usaRoute == 'true'){
+                             $j(obj).parents("tr").find("#InfGenderType").css('background','red');
+                            console.log('271');
+                         }
+                        else{
+                             $j(obj).parents("tr").find("#InfGenderType").css('background','none');
+                         }
+                        
+                        if($j(obj).parents("tr").find("#InfDateBirthType").children().children("input").val() == ''){
+                             $j(obj).parents("tr").find("#InfDateBirthType").css('background','red');
+                            console.log('279');
+                         }
+                        else{
+                             $j(obj).parents("tr").find("#InfDateBirthType").css('background','none');
+                         }       
+                    }                    
+                }
+            }
+            else{
+                $j('.NameListTable tbody select,.NameListTable tbody input').each(function(i,object){
+                    if($j(object).val() == null || $j(object).val() == '' ){
+                        if($j(object).parents('td').attr('id') == 'PassengerType'||$j(object).parents('td').attr('id') == 'TitleType'||$j(object).parents('td').attr('id') == 'LastNameType'||$j(object).parents('td').attr('id') == 'FirstNameType'){
+                            $j(object).parents('td').css('background','red');
+                        }
+                        if($j(object).parents('td').attr('id') == 'GenderType'||$j(object).parents('td').attr('id') == 'DateBirthType'){
+                            if(usaRoute == 'true'){
+                                $j(object).parents('td').css('background','red');
+                            }else{
+                                if($j(object).parents('td').attr('id') == 'DateBirthType' && $j(object).parents("tr").find("#PassengerType").children("select").val() == 'child'){
+                                    $j(object).parents('td').css('background','red')
+                                }else{
+                                    $j(object).parents('td').css('background','none');
+                                }
+                            }
+                        }
+                        if($j(object).parents("tr").find("#InfPassengerType").children().children("select").val() == 'infant'){
+                            if($j(object).parents('td').attr('id') == 'InfTitleType'||$j(object).parents('td').attr('id') == 'InfLastNameType'||$j(object).parents('td').attr('id') == 'InfFirstNameType' || $j(object).parents('td').attr('id') == 'InfDateBirthType'){
+                                if($j(object).parents("tr").find("#InfPassengerType").children().children("select").val() == 'infant'){
+                                    $j(object).parents('td').css('background','red');
+                                }else{
+                                    $j(object).parents('td').css('background','none');
+                                }    
+                            }
+                            if($j(object).parents('td').attr('id') == 'InfGenderType'){
+                                if($j(object).parents("tr").find("#PassengerType").children("select").val() == 'adult' && $j(object).parents("tr").find("#InfPassengerType").children().children("select").val() == 'infant' && usaRoute == 'true'){
+                                    $j(object).parents('td').css('background','red');
+                                }else{
+                                    $j(object).parents('td').css('background','none');  
+                                }
+                            }
+                        }                  
+                    }else{
+                        $j(object).parents('td').css('background','none');
+                        if($j(object).parents('td').attr('id') == 'InfTitleType'||$j(object).parents('td').attr('id') == 'InfLastNameType'||$j(object).parents('td').attr('id') == 'InfFirstNameType'||($j(object).parents('td').attr('id') == 'InfGenderType' && usaRoute == 'true')||$j(object).parents('td').attr('id') == 'InfDateBirthType' ){
+                            if($j(object).parents("tr").find("#InfPassengerType").children().children("select").val() == "" || $j(object).parents("tr").find("#InfPassengerType").children().children("select").val() == null){
+                                $j(object).parents("tr").find("#InfPassengerType").css('background','red');
+                                if($j(object).parents("tr").find("#InfTitleType").children("select").val() == "" || $j(object).parents("tr").find("#InfTitleType").children("select").val() == null){
+                                    $j(object).parents("tr").find("#InfTitleType").css('background','red');
+                                }
+                                if($j(object).parents("tr").find("#InfLastNameType").children("input").val() == "" || $j(object).parents("tr").find("#InfLastNameType").children("input").val() == null){
+                                    $j(object).parents("tr").find("#InfLastNameType").css('background','red');
+                                }
+                                if($j(object).parents("tr").find("#InfFirstNameType").children("input").val() == "" || $j(object).parents("tr").find("#InfFirstNameType").children("input").val() == null){
+                                    $j(object).parents("tr").find("#InfFirstNameType").css('background','red');
+                                }
+                                if($j(object).parents("tr").find("#InfGenderType").children("select").val() == "" || $j(object).parents("tr").find("#InfGenderType").children("select").val() == null){
+                                    if(usaRoute == 'true'){
+                                        $j(object).parents("tr").find("#InfGenderType").css('background','red');
+                                    }
+                                }
+                                if($j(object).parents("tr").find("#InfDateBirthType").children().children("input").val() == "" || $j(object).parents("tr").find("#InfDateBirthType").children().children("input").val() == null){
+                                    $j(object).parents("tr").find("#InfDateBirthType").css('background','red');
+                                }
+                            }
+                        }      
+                    }
+                })                
+            }
+        }
+        
+        //不能有 “-”  “&”  “,”  符號，只允許半形空格一個
+        function CheckValid(obj){
+            var usaRoute='{!usaRoute}';
+            var userLanguage='{!userLanguage}';
+            console.log(userLanguage);
+            var $j = jQuery.noConflict();
+            var value = String($j(obj).val());
+            console.log(value);
+            if (value.includes('-') || value.includes('&') || value.includes(',') || value.includes(' ')) {
+                console.log(value);
+                console.log('358');
+                if($j(obj).parents('td').attr('id') == 'PassportExpiryDate' || $j(obj).parents('td').attr('id') == 'VisaExpiryDate' || $j(obj).parents('td').attr('id') == 'InfPassportExpiryDate' || $j(obj).parents('td').attr('id') == 'InfVisaExpiryDate') {
+                    //$j(obj).val() = value.replace(/-/g, "/");
+                    $j(obj).parents("td").css('background','none');
+                    //console.log(String($j(obj).val()));
+                } else {
+                    $j(obj).parents('td').css('background','red');
+                }
+            } else {
+                if($j(obj).parents('td').attr('id') == 'PassengerType'||$j(obj).parents('td').attr('id') == 'TitleType'||$j(obj).parents('td').attr('id') == 'LastNameType'||$j(obj).parents('td').attr('id') == 'FirstNameType'){
+                    $j(obj).parents('td').css('background','red');
+                }
+            }
+        }
+        
+        function saving() {
+            sforce.one.showToast({
+                "message": "Saving 資料儲存中，請勿重複按Save",
+                "type": "success",
+                "mode": "dismissible"
+            }); 
+            
+        //儲存成功彈窗，需搭配commandbutton oncomplete="popOut_SaveSuccess()" 屬性
+        function popOut_SaveSuccess(){  
+            var $j = jQuery.noConflict();
+            var msobj = document.getElementById('j_id0:messages');
+            var userLanguage='{!userLanguage}';
+            if($j(msobj).html() == ''){
+                if(userLanguage == 'en_US'){
+                     alert('The name list was saved successfully. If the name list has to be updated, please click the “Exit” button to exit the page, then press the “Edit Namelist” button to reenter this page. Thank you.');
+                 }else{            
+                     alert('完成儲存，如需再次儲存請點選「離開」此頁面，並點擊編輯名單再次進入此頁面，謝謝');
+                 }
+              history.back();               
+            }           
+        }
+          
+        }
+        </script>
+    </head>     
+    
+    <apex:slds />
+    <div class="slds-scope">
+        <apex:pageMessages id="messages"></apex:pageMessages>
+        <!--<aura:component implements="lightning:utilityItem">
+        <aura:attribute name="supportsPopOut" type="Boolean" default="false" />
+        </aura:component>-->
+        <apex:outputPanel id="theoutputPanel" rendered="{!isNoSatError}">
+            <apex:form id="theform">
+                <apex:actionFunction action="{!importCSVFile}" name="importCSVFileAction"></apex:actionFunction>
+                <apex:actionFunction action="{!saveNameListList}" name="saveNameList"></apex:actionFunction>
+                <div class="slds-grid slds-gutters">
+                    <div class="slds-col slds-text-heading_medium spacing-margin">
+                        <span>Seat Allocation and Ticketing:</span>
+                        <span>{!currentSat.Name}</span>
+                    </div>
+                </div>
+                <div class="slds-button-group spacing-margin" role="group">
+                    <apex:commandButton id="saveButton" styleClass="slds-button slds-button_neutral" value="Save" action="{!saveNameListList}" onclick="saving()"/>
+                    <apex:commandButton styleClass="slds-button slds-button_neutral" value="Add" action="{!addNameList}"/>
+                    <label class="slds-button_neutral slds-button" style='cursor: pointer;font-weight: bold !important;'>
+                        <apex:inputFile id="inputCsvFile" value="{!csvFileBody}"  filename="{!csvAsString}" onchange="importCSVFileAction();" style="display:none;"/>
+                        <span>Import</span>
+                    </label>
+                    <apex:commandButton styleClass="slds-button slds-button_destructive" value="Delete" action="{!deleteNameList}"/>
+                    <apex:commandButton styleClass="slds-button slds-button_neutral" value="Exit" action="{!exit}"/>
+                </div>
+                <table class="slds-table slds-table_cell-buffer slds-table_bordered spacing-margin NameListTable">
+                    <thead>
+                        <tr>
+                            <th colspan="1" class="th-no-side-padding border-right border-left"></th>
+                            <th colspan="13" class="th-no-side-padding border-right"><div class="centered-text">{!$Label.Passenger_Infos}</div></th>
+                            <th colspan="3" class="th-no-side-padding border-right"><div class="centered-text">{!$Label.Meal_Selection}</div></th>
+                            <th colspan="3" class="th-no-side-padding border-right"><div class="centered-text">{!$Label.Special_Service}</div></th>
+                            <th colspan="13" class="th-no-side-padding border-right"><div class="centered-text">{!$Label.Infant_Infos}</div></th>
+                            <th colspan="3" class="th-no-side-padding border-right"><div class="centered-text">{!$Label.Infant_Meal_Selection}</div></th>
+                        </tr>
+                        <tr class="slds-line-height_reset">
+                            <th class="border-right border-left"></th>
+                            <th><div class="wrap-content-select" title="{!$Label.Passenger_Type}">{!$Label.Passenger_Type}</div></th>
+                            <th><div class="wrap-content-select" title="{!$Label.Title}">{!$Label.Title}</div></th>
+                            <th><div class="wrap-content" title="{!$Label.Last_Name}">{!$Label.Last_Name}</div></th>
+                            <th><div class="wrap-content" title="{!$Label.First_Name}">{!$Label.First_Name}</div></th>
+                            <th><div class="wrap-content" title="{!$Label.Gender}">{!$Label.Gender}</div></th>
+                            <th class="border-right"><div class="wrap-content" title="{!$Label.Date_of_Birth}">{!$Label.Date_of_Birth}</div></th>
+                            
+                            <th><div class="wrap-content" title="{!$Label.Passport_Issue_Country}">{!$Label.Passport_Issue_Country}</div></th>
+                            <th><div class="wrap-content" title="{!$Label.Passport_No}">{!$Label.Passport_No}</div></th>
+                            <th><div class="wrap-content" title="{!$Label.Passport_Country}">{!$Label.Passport_Country}</div></th>
+                            <th><div class="wrap-content" title="{!$Label.Passport_Expiry_Date}">{!$Label.Passport_Expiry_Date}</div></th>
+                            <th><div class="wrap-content" title="{!$Label.VISA_No}">{!$Label.VISA_No}</div></th>
+                            <th><div class="wrap-content" title="{!$Label.VISA_Country}">{!$Label.VISA_Country}</div></th>
+                            <th class="border-right"><div class="wrap-content" title="{!$Label.VISA_Expiry_Date}">{!$Label.VISA_Expiry_Date}</div></th>
+                            
+                            <th><div class="wrap-content-select" title="{!$Label.All_Sector}">{!$Label.All_Sector}</div></th>
+                            <th><div class="wrap-content-select" title="{!$Label.Departing}">{!$Label.Departing}</div></th>
+                            <th class="border-right"><div class="wrap-content-select" title="{!$Label.Returning}">{!$Label.Returning}</div></th>
+                            <th><div class="wrap-content-select" title="{!$Label.Departing}">{!$Label.Departing}</div></th>
+                            <th><div class="wrap-content-select" title="{!$Label.Returning}">{!$Label.Returning}</div></th>
+                            <th class="border-right"><div class="wrap-content" title="{!$Label.Description}">{!$Label.Description}</div></th>
+                            <th><div class="wrap-content-select" title="{!$Label.Passenger_Type}">{!$Label.Passenger_Type}</div></th>
+                            <th><div class="wrap-content-select" title="{!$Label.Title}">{!$Label.Title}</div></th>
+                            <th><div class="wrap-content" title="{!$Label.Last_Name}">{!$Label.Last_Name}</div></th>
+                            <th><div class="wrap-content" title="{!$Label.First_Name}">{!$Label.First_Name}</div></th>
+                            <th><div class="wrap-content" title="{!$Label.Gender}">{!$Label.Gender}</div></th>
+                            <th class="border-right"><div class="wrap-content" title="{!$Label.Date_of_Birth}">{!$Label.Date_of_Birth}</div></th>
+                            
+                            <th><div class="wrap-content" title="{!$Label.Passport_Issue_Country}">{!$Label.Passport_Issue_Country}</div></th>
+                            <th><div class="wrap-content" title="{!$Label.Passport_No}">{!$Label.Passport_No}</div></th>
+                            <th><div class="wrap-content" title="{!$Label.Passport_Country}">{!$Label.Passport_Country}</div></th>
+                            <th><div class="wrap-content" title="{!$Label.Passport_Expiry_Date}">{!$Label.Passport_Expiry_Date}</div></th>
+                            <th><div class="wrap-content" title="{!$Label.VISA_No}">{!$Label.VISA_No}</div></th>
+                            <th><div class="wrap-content" title="{!$Label.VISA_Country}">{!$Label.VISA_Country}</div></th>
+                            <th class="border-right"><div class="wrap-content" title="{!$Label.VISA_Expiry_Date}">{!$Label.VISA_Expiry_Date}</div></th>
+                            
+                            <th><div class="wrap-content-select" title="{!$Label.All_Sector}">{!$Label.All_Sector}</div></th>
+                            <th><div class="wrap-content-select" title="{!$Label.Departing}">{!$Label.Departing}</div></th>
+                            <th class="border-right"><div class="wrap-content-select" title="{!$Label.Returning}">{!$Label.Returning}</div></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <apex:repeat id="therepeat" value="{!wrappersList}" var="wrapperNl">
+                            <tr class="slds-hint-parent">
+                                <td class="border-right border-left"><apex:inputCheckbox value="{!wrapperNl.isSelected}" styleClass="form-control" /></td>
+                                <td id="PassengerType"><apex:inputField value="{!wrapperNl.nl.Passenger_Type__c}" styleClass="form-control input-smaller"/></td>
+                                <td id="TitleType"><apex:inputField value="{!wrapperNl.nl.Title__c}" styleClass="form-control input-smaller" /></td>
+                                <td id="LastNameType"><apex:inputField value="{!wrapperNl.nl.Last_Name__c}" styleClass="form-control input-smaller" /></td>
+                                <td id="FirstNameType"><apex:inputField value="{!wrapperNl.nl.First_Name__c}" styleClass="form-control input-smaller" /></td>
+                                <td id="GenderType"><apex:inputField value="{!wrapperNl.nl.Gender__c}" styleClass="form-control input-smaller" /></td>
+                                <td id="DateBirthType" class="border-right"><apex:inputField value="{!wrapperNl.nl.Date_of_Birth__c}" styleClass="form-control datepicker"/></td>
+                                
+                                <td id="PassportIssueCountry"><apex:inputField value="{!wrapperNl.nl.Passport_Issue_Country__c}" styleClass="form-control input-smaller" /></td>
+                                <td id="PassportNo"><apex:inputField value="{!wrapperNl.nl.Passport_No__c}" styleClass="form-control input-smaller" /></td>
+                                <td id="PassportCountry"><apex:inputField value="{!wrapperNl.nl.Passport_Country__c}" styleClass="form-control input-smaller" /></td>
+                                <!--<td id="PassportExpiryDate" class="border-right"><input type="date" class="form-control" value="{!wrapperNl.nl.Passport_Expiry_Date__c}" /></td>-->
+                                <td id="PassportExpiryDate" class="border-right"><apex:inputField type="date" value="{!wrapperNl.nl.Passport_Expiry_Date__c}" styleClass="form-control datepicker" /></td>
+                                <td id="VisaNo"><apex:inputField value="{!wrapperNl.nl.visa_No__c}" styleClass="form-control input-smaller" /></td>
+                                <td id="VisaCountry"><apex:inputField value="{!wrapperNl.nl.Visa_Country__c}" styleClass="form-control input-smaller" /></td>
+                                <!--<td id="VisaExpiryDate" class="border-right"><input type="date" class="form-control" value="{!wrapperNl.nl.Visa_Expiry_Date__c}" /></td>-->
+                                <td id="VisaExpiryDate" class="border-right"><apex:inputField type="date" value="{!wrapperNl.nl.Visa_Expiry_Date__c}" styleClass="form-control datepicker" /></td>
+                                
+                                <td><apex:inputField value="{!wrapperNl.nl.Meal_Selection_All_Sector__c}" styleClass="form-control input-smaller"/></td>
+                                <td><apex:inputField value="{!wrapperNl.nl.Meal_Selection_Departing_Only__c}" styleClass="form-control input-smaller" /></td>
+                                <td class="border-right"><apex:inputField value="{!wrapperNl.nl.Meal_Selection_Returning_Only__c}" styleClass="form-control input-smaller" /></td>
+                                <td><apex:inputField value="{!wrapperNl.nl.Special_Service_Departing__c}" styleClass="form-control input-smaller" /></td>
+                                <td><apex:inputField value="{!wrapperNl.nl.Special_Service_Returning__c}" styleClass="form-control input-smaller" /></td>
+                                <td class="border-right"><apex:inputField value="{!wrapperNl.nl.Special_Service_Description__c}" styleClass="form-control input-smaller" /></td>
+                                <td id="InfPassengerType" class="InfPassengerType"><apex:inputField value="{!wrapperNl.nl.INF_Passenger_Type__c}" styleClass="form-control input-smaller" onchange="CheckNull(this)"/></td>
+                                <td id="InfTitleType"><apex:inputField value="{!wrapperNl.nl.INF_Title__c}" styleClass="form-control input-smaller" /></td>
+                                <td id="InfLastNameType"><apex:inputField value="{!wrapperNl.nl.INF_Last_Name__c}" styleClass="form-control input-smaller" /></td>
+                                <td id="InfFirstNameType"><apex:inputField value="{!wrapperNl.nl.INF_First_Name__c}" styleClass="form-control input-smaller" /></td>
+                                <td id="InfGenderType"><apex:inputField value="{!wrapperNl.nl.InfantGender__c}" styleClass="form-control input-smaller" /></td>
+                                <td id="InfDateBirthType" class="border-right"><apex:inputField value="{!wrapperNl.nl.INF_Date_of_Birth__c}" styleClass="form-control datepicker" /></td>
+                                
+                                <td id="InfPassportIssueCountry"><apex:inputField value="{!wrapperNl.nl.INF_Passport_Issue_Country__c}" styleClass="form-control input-smaller" /></td>
+                                <td id="InfPassportNo"><apex:inputField value="{!wrapperNl.nl.INF_Passport_No__c}" styleClass="form-control input-smaller" /></td>
+                                <td id="InfPassportCountry"><apex:inputField value="{!wrapperNl.nl.INF_Passport_Country__c}" styleClass="form-control input-smaller" /></td>
+                                <td id="InfPassportExpiryDate" class="border-right"><apex:inputField type="date" value="{!wrapperNl.nl.INF_Passport_Expiry_Date__c}" styleClass="form-control datepicker"/></td>
+                                <!--<td id="InfPassportExpiryDate"><apex:inputField type="date" value="{!wrapperNl.nl.INF_Passport_Expiry_Date__c}" styleClass="form-control datepicker" /></td>-->
+                                <td id="InfVisaNo"><apex:inputField value="{!wrapperNl.nl.INF_Visa_No__c}" styleClass="form-control input-smaller" /></td>
+                                <td id="InfVisaCountry"><apex:inputField value="{!wrapperNl.nl.INF_Visa_Country__c}" styleClass="form-control input-smaller" /></td>
+                                <!--<td id="InfVisaExpiryDate" class="border-right"><input type="date" class="form-control" value="{!wrapperNl.nl.INF_Visa_Expiry_Date__c}" /></td>-->
+                                <td id="InfVisaExpiryDate" class="border-right"><apex:inputField type="date" value="{!wrapperNl.nl.INF_Visa_Expiry_Date__c}" styleClass="form-control datepicker" /></td>
+                                
+                                <td><apex:inputField value="{!wrapperNl.nl.INF_Meal_Selection_All_Sector__c}" styleClass="form-control input-smaller" /></td>
+                                <td><apex:inputField value="{!wrapperNl.nl.INF_Meal_Selection_Departing_Only__c}" styleClass="form-control input-smaller" /></td>
+                                <td class="border-right"><apex:inputField value="{!wrapperNl.nl.INF_Meal_Selection_Returning_Only__c}" styleClass="form-control input-smaller" /></td>
+                            </tr>
+                        </apex:repeat>
+                    </tbody>
+                </table>
+            </apex:form>
+        </apex:outputPanel>
+    </div>
+</apex:page>

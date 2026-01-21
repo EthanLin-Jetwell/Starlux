@@ -1,0 +1,119 @@
+<apex:page standardController="Ticket_Certificate__c" extensions="TicketCertificateController" renderAs="PDF"  applyBodyTag="false" sidebar="false" showHeader="false" standardStylesheets="false" cache="false" docType="html-5.0" >
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" />
+       
+            <style>
+             
+            </style>
+                
+    </head>
+    
+    <body>
+        <apex:form style="font-family: Arial Unicode MS, Microsoft JhengHei, sans-serif;">                       
+            <div>
+                <br/><br/>
+                <br/><br/>
+                <div style="text-align: right; color:rgb(162, 148, 118); font-size: 20px;"> 憑證序號:{!Tickets.Name}</div>
+                <div style="text-align: center; font-size: 20px;">星宇航空機票兌換憑證</div>   
+                <br/>
+                <div style="line-height: 1.5;">
+                    恭喜您獲得<u>{!Tickets.External_Tickets__r.Company__c}</u>所提供之星宇航空(下稱本公司)
+                <br/>
+                    {!Tickets.Itinerary_Departure_CH__c}出發至{!Tickets.Itinerary_Return_CH__c}航點 {!formattedNotice}單人單點
+                    來回機票乙張(訂位艙等{!Tickets.External_Tickets__r.RBD__c} )。
+                <br/>
+                    使用注意事項如下：
+                </div>                        
+            </div>
+            <div style="line-height: 1.5;">
+                <ol >
+                    <li class="title">兌換本憑證前，請致電或親洽出發地之客服中心預訂行程並告知使用本憑證，各班機訂位艙等機
+                        位數量有限，並將視實際情況開放訂位，建議及早預訂。
+                        <apex:outputPanel rendered="{!Tickets.Embargo__c}">
+                                <div>無不適用日期</div>
+                            </apex:outputPanel>
+                        <apex:outputPanel rendered="{!NOT(Tickets.Embargo__c)}">
+                        <div><apex:outputText value="{!Tickets.Embargo_Date_Bulk__c}" escape="false"/></div> 
+                            </apex:outputPanel>
+                    </li>
+                    <li>兌換者應持本憑證正本自<apex:outputText value="{0,date,dd-MMM-yyyy}">
+                        <apex:param value="{!Tickets.External_Tickets__r.Redeem_Valid_Start_Date__c}" />
+                        </apex:outputText>至<apex:outputText value="{0,date,dd-MMM-yyyy}">
+                        <apex:param value="{!Tickets.External_Tickets__r.Redeem_Valid_End_Date__c}" />
+                        </apex:outputText>客服中心營業時間完成機票開立，並支付
+                        燃油附加費、稅金或其他相關費用，付款方式以本公司得接受之支付方式為限。
+                        客服中心資訊如下：
+                        <br/>台北服務據點電話及地址：(02)2791-1199 台北市中山區南京東路三段168號1樓
+                        <br/>台中服務據點電話及地址：(04)2258-0710 台中市西屯區朝富路213號28樓之3（採預約制）
+                        <br/>服務時間：週一至週五 09:30-17:30；週六、日及國定假日不營業
+                    </li>
+                    <li>本憑證所開立機票之行程第一段應於<apex:outputText value="{0,date,dd-MMM-yyyy}">
+                        <apex:param value="{!Tickets.First_Travel_Date__c}" />
+                        </apex:outputText>前使用，回程應於出發日起１年內全程使用完
+                        畢，逾期無效，如需退票請至官網、致電或親洽客服中心辦理。
+                    </li>
+                    <li>本憑證僅適用本公司實際營運之航班，不適用於聯營航班、團體機票、抵扣兌換附加服務及其他
+                        旅遊產品，且不得兌換現金。
+                    </li>
+                    <li>機票開立後不得轉讓、更改起訖點與艙等，僅可更改航班日期或辦理退票。退票後不得要求重新
+                        開立機票、亦不得要求重新開立機票兌換憑證，惟自費之費用經扣除必要手續費、已搭乘航段之
+                        票價、稅金及燃油附加費後得退換剩餘金額。更改航班日期、未登機手續費及購買附加服務所衍
+                        生之費用均按預訂之票價產品並依本公司票務規範辦理。
+                    </li>
+                    <li>兌換者須持有本憑證正本始享有相關權利，如有遺失、遭竊、逾期、毀損等情事，恕不補發。</li>
+                    <li>本憑證逾期、影印或經塗改均屬無效。嚴禁偽造、變造、篡改本憑證，業經發現，不論開票與否，
+                        一概註銷收回且本公司將採取法律途徑追溯當事人應承擔之法律責任。
+                    </li>
+                    <li>本憑證不得與其他優惠方案或特殊票券合併使用，但所開立之機票依照機票艙等規範累積哩程。</li>
+                    <li>如遇戰爭、天災或其他不可抗力之因素，悉依本公司運送條款處理。其他未盡事宜皆依本公司相
+                        關規定辦理，本公司保有本活動及相關規定之最終解釋權，並以中文版為準。
+                    </li>
+                </ol>
+            </div>
+            
+            <br/><br/><br/><br/><br/><br/><br/><br/><br/>
+            <div style="text-align: right;color:rgb(162, 148, 118); font-size: 20px;">憑證序號:{!Tickets.Name}</div>           
+            <div style="border: 1px solid #000;">                
+                <div style="padding: 15px;">
+                    <div>兌換者資料(填寫後不得更改)</div>
+                    <br/><br/>
+                    <div>中文姓名:_______________   護照英文姓名:_______________   聯絡電話:_______________</div>
+                    <br/><br/>
+                    <div>兌換行程:_______________</div>
+                    <br/>
+                    <div>以下資訊由星宇航空客服人員填寫</div>
+                    <br/>
+                    <div>ACCOUNT CODE:_______________   APVL CODE: {!Tickets.APVL_CODE__c}</div>
+                    <br/>
+                    <div>訂位代碼:_______________________   機票號碼:_______________</div>
+                    <br/>
+                    <div>承辦人員:_______________________   主管核章:_______________</div>
+                </div>
+            </div>
+            <br/>
+            <div style="text-align: right;">未加蓋星宇航空憑證章者無效。</div>  
+            <br/>
+            <div style="text-align: left;">兌換者了解並同意本憑證所載之使用注意事項。</div>
+            
+            <div style="display: flex; 
+                        justify-content: space-between; 
+                        align-items: center; 
+                        font-family: Arial Unicode MS, Microsoft JhengHei, sans-serif;">
+                <div style="flex: 1; margin-top: 40px; margin-left: 40px;">
+                    <img src="{!QRcode}" style="max-width: 150%; height: center;"/>
+                </div>
+                <div style="flex: 1; padding: 10px; font-size: 15px;  text-align: right;">
+                    <div>兌換者簽章:________________________________</div>
+                    <br/>
+                    <div>兌換日期:________________________________</div>
+                </div>
+            </div>
+            <br/>
+            <div style="text-align: left;">
+            &nbsp; &nbsp; &nbsp; 贈票單位: {!Tickets.External_Tickets__r.Company__c} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp;  &nbsp; 協辦單位: 星宇航空股份有限公司            
+            </div>
+            
+        </apex:form>       
+    </body>  
+</apex:page>

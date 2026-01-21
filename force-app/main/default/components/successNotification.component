@@ -1,0 +1,73 @@
+<!--成功提示-->
+<apex:component >
+    <!-- 定義屬性 -->
+    <apex:attribute name="message" type="String" description="The message to display" default="Failed, please retry." />
+    <apex:attribute name="isVisible" type="Boolean" description="Controls the visibility of the notification" default="true" />
+
+    <!-- 判斷是否顯示通知 -->
+    <apex:outputPanel layout="block" rendered="{!isVisible}">
+        <div class="slds-notify slds-notify_alert slds-theme_alert-texture notification-panel2" role="alert">
+            <span class="slds-icon_container slds-icon-utility-error slds-m-right_x-small" title="Error">
+                <!--<img src="/slds/icons/utility-sprite/svg/symbols.svg#error" class="slds-icon slds-icon_x-small" alt="Error"/>-->
+                <apex:image value="{!$Resource.alertSuccess}" style="margin-bottom:3px;margin-right:5px" height="20" />
+            </span>
+            <p style="margin-top:16px">{!message}</p>
+            <div class="slds-notify__close">
+                <input type="button" value="x" class="slds-button slds-button_icon slds-button_icon-inverse close-button" onclick="closeNotification()"/>
+            </div>
+        </div>
+    </apex:outputPanel>
+
+    <script>
+        function closeNotification() {
+            var panel = document.querySelector('.notification-panel2');
+            if (panel) {
+                panel.style.display = 'none';
+            }
+        }
+    </script>
+
+    <style>
+        .notification-panel2 {
+        	z-index: 2000;
+            position: fixed;
+        	font-size:15px;
+            top: 40px;
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+            width: 300px !important;
+            height: 50px;
+            background-color: #5CA460;
+            color: white;
+            text-align: left;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+        	padding-left:0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        	border-radius:4px;
+        }
+
+        .close-button {
+        	background: none;
+        	border: none;
+        	color: white;
+        	font-size: 15px;
+        	cursor: pointer;
+        	padding: 0;
+        	margin: 0;
+        }
+        
+        .close-button:hover {
+        	opacity: 0.7;
+        }
+        
+        .slds-notify__close {
+        	position: absolute;
+        	right: 10px;
+        	top: 12px;
+        }
+    </style>
+</apex:component>
