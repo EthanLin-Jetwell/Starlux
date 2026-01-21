@@ -1,0 +1,21 @@
+<apex:page controller="ErrorMessageController">
+    <script>
+        function showToast() {
+            sforce.one.showToast({
+                "title": "Success!",
+                "message": "Welcome to salesforce code crack.",
+                "type": "success"
+            });
+        }
+    </script>
+    <apex:form >
+        <apex:pageMessages />
+        <apex:pageBlock title="Hello {!$User.FirstName}!">
+            <p>
+                Account Name: 
+                <apex:inputField value="{!account.Name}" />
+            </p>
+            <apex:commandButton action="{!save}" value="Save" onclick="showToast();"/>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

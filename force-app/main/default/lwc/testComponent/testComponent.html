@@ -1,0 +1,15 @@
+<template>
+    <lightning-card>
+        <template for:each={employs} for:item="emp">
+            {emp.firstname}
+        </template>
+        <lightning-input type="checkbox" onclick={statusChanged}></lightning-input>
+        <template if:true={changed}>
+            nooooooo
+        </template>
+
+        <template if:false={changed}>
+            yeeeeeees
+        </template>
+    </lightning-card>
+</template>

@@ -1,0 +1,8 @@
+<apex:page controller="PickListController" lightningStylesheets="true">
+    <apex:outputText value="Returned contact: {!FirstName}"></apex:outputText>
+    <apex:pageBlock title="Account: Type">
+        <apex:pageBlockTable value="{!picklist}" var="p">
+            <apex:column value="{!p}"/>
+        </apex:pageBlockTable>
+    </apex:pageBlock> 
+</apex:page>
