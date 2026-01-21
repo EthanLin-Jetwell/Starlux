@@ -1,0 +1,54 @@
+name: Deploy project
+
+on:
+  pull_request:
+    branches:
+      - staging
+      - uat
+      - main
+  push:
+    branches:
+      - develop
+    paths:
+      - 'force-app/**'
+
+jobs:
+  deploy-dev:
+    if: github.ref == 'refs/heads/develop'
+    runs-on: ubuntu-latest
+    container:
+      image: salesforce/cli:latest-slim
+    steps:
+      - uses: actions/checkout@v3
+      - run: echo ${{ secrets.SFDX_AUTH_URL_DEV }} | sf org login sfdx-url --set-default --sfdx-url-stdin
+      - run: sf project deploy start -d force-app/ -l RunLocalTests -w 30 --ignore-conflicts
+
+  deploy-staging:
+    if: github.event.pull_request.base.ref == 'staging' || github.ref == 'refs/heads/staging'
+    runs-on: ubuntu-latest
+    container:
+      image: salesforce/cli:latest-slim
+    steps:
+      - uses: actions/checkout@v3
+      - run: echo ${{ secrets.SFDX_AUTH_URL_STAGING }} | sf org login sfdx-url --set-default --sfdx-url-stdin
+      - run: sf project deploy start -d force-app/ -l RunLocalTests -w 30
+      
+  deploy-uat:
+    if: github.event.pull_request.base.ref == 'uat' || github.ref == 'refs/heads/uat'
+    runs-on: ubuntu-latest
+    container:
+      image: salesforce/cli:latest-slim
+    steps:
+      - uses: actions/checkout@v3
+      - run: echo ${{ secrets.SFDX_AUTH_URL_UAT }} | sf org login sfdx-url --set-default --sfdx-url-stdin
+      - run: sf project deploy start -d force-app/ -l RunLocalTests -w 30
+
+  deploy-prod:
+    if: github.event.pull_request.base.ref == 'main' || github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    container:
+      image: salesforce/cli:latest-slim
+    steps:
+      - uses: actions/checkout@v3
+      - run: echo ${{ secrets.SFDX_AUTH_URL_PROD }} | sf org login sfdx-url --set-default --sfdx-url-stdin
+      - run: sf project deploy start -d force-app/ -l RunAllTestsInOrg -w 60

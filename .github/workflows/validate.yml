@@ -1,0 +1,39 @@
+name: Validate Pull Request
+
+on:
+  push:
+    branches:
+      - uat
+      - main
+    paths:
+      - 'force-app/**'
+jobs:
+  validate-dev:
+    if: github.ref == 'refs/heads/develop'
+    runs-on: ubuntu-latest
+    container:
+      image: salesforce/cli:latest-slim
+    steps:
+      - uses: actions/checkout@v3
+      - run: echo ${{ secrets.SFDX_AUTH_URL_DEV }} | sf org login sfdx-url --set-default --sfdx-url-stdin
+      - run: sf project deploy validate -d force-app/ -l RunLocalTests -w 30
+
+  validate-uat:
+    if: github.ref == 'refs/heads/uat'
+    runs-on: ubuntu-latest
+    container:
+      image: salesforce/cli:latest-slim
+    steps:
+      - uses: actions/checkout@v3
+      - run: echo ${{ secrets.SFDX_AUTH_URL_UAT }} | sf org login sfdx-url --set-default --sfdx-url-stdin
+      - run: sf project deploy validate -d force-app/ -l RunLocalTests -w 30
+
+  validate-prod:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    container:
+      image: salesforce/cli:latest-slim
+    steps:
+      - uses: actions/checkout@v3
+      - run: echo ${{ secrets.SFDX_AUTH_URL_PROD }} | sf org login sfdx-url --set-default --sfdx-url-stdin
+      - run: sf project deploy validate -d force-app/ -l RunAllTestsInOrg -w 60
