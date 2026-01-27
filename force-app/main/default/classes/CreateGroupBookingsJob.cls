@@ -69,7 +69,7 @@ global class CreateGroupBookingsJob extends BatchMaster
         	  query += 'Travel_Agent_ID__r.ownerId, Travel_Agent_ID__r.owner.managerId, RBD_Departing__c, RBD_Returning__c, ';//add RBD in the search by Chris Hsu 20220110
               query += 'Route__c, Processed__c, WK_Mon__c, WK_Tue__c, WK_Wed__c, WK_Thu__c, WK_Fri__c, WK_Sat__c, WK_Sun__c ';
               query += 'FROM Seat_Allocation_by_Agency__c ';
-              query += 'WHERE Processed__c=FALSE ORDER BY CreatedDate ASC';  // UNPROCESSED records in chronological order
+              query += 'WHERE Processed__c=FALSE AND Run__c=TRUE ORDER BY CreatedDate ASC';  // UNPROCESSED records in chronological order
 
 		//System.debug('BATCHABLE.start(): '+query);
 		return Database.getQueryLocator(query);

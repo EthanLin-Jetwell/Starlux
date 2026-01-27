@@ -6,7 +6,7 @@ global class CreatePnrBulkScheduler Implements Schedulable {
     
     global void execute(SchedulableContext sc) {
         CreatePnrBulkBatch job = new CreatePnrBulkBatch();
-        Database.executeBatch(job, 100);
+        Database.executeBatch(job, 50);
     }
 
     public static void fakeMethod(){
