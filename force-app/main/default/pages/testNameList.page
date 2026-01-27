@@ -1,0 +1,153 @@
+<apex:page controller="testNameListController">
+    <head>
+        <apex:stylesheet value="{!$Resource.custom_style}"/>
+        <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css"  rel="stylesheet" type="text/css"/>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>  
+        
+        <script>
+        jQuery(
+            function(){
+                var $j = jQuery.noConflict();
+                $j("input[class$=datepicker]").datepicker({
+                    changeYear: true,
+                    changeMonth: true, 
+                    dateFormat: "yy/mm/dd",
+                    maxDate: new Date,
+                    yearRange: "-100:+0"                    
+                });
+                
+                //動態綁定onchange事件
+                $j('.NameListTable tbody select,.NameListTable tbody input').change(function(){
+                    CheckNull(this);
+                })
+                CheckNull();
+            });
+        //檢查input、select 有無空值，空值td背景紅色提醒
+        function CheckNull(obj){
+            var $j = jQuery.noConflict();
+            if(obj != null){
+                if($j(obj).val() == null || $j(obj).val() == '' ){
+                    $j(obj).parents('td').css('background','red');
+                }else{
+                    $j(obj).parents('td').css('background','none');
+                }
+            }else{
+                $j('.NameListTable tbody select,.NameListTable tbody input').each(function(i,object){
+                    if($j(object).val() == null || $j(object).val() == '' ){
+                        $j(object).parents('td').css('background','red');
+                    }else{
+                        $j(object).parents('td').css('background','none');
+                    }
+                })
+            }
+        }
+        
+        function popOutVf(){            
+            console.log('1');
+            var $j = jQuery.noConflict();
+            var mess = document.getElementById('j_id0:messages');
+            
+            if(mess == ''){           
+            	console.log('2');
+            	alert('Success');
+            }           
+            console.log('3');
+        }
+		        
+        </script>
+    </head>
+    <apex:pageMessages id="messages"></apex:pageMessages>
+    <apex:form >
+        <apex:actionFunction action="{!importCSVFile}" name="importCSVFileAction">
+        </apex:actionFunction>
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-text-heading_medium spacing-margin">
+                <span>Seat Allocation and Ticketing:</span>
+            </div>
+        </div>
+        <div class="slds-button-group spacing-margin" role="group">
+            <apex:actionStatus id="saveStatus">
+                <apex:facet name="stop">
+                    <apex:actionregion >
+                        <apex:commandButton styleClass="slds-button slds-button_neutral" value="Save" action="{!saveNameListList}" reRender="messages" status="saveStatus" oncomplete="popOutVf()"/ >
+                        </apex:actionregion>
+                        <!--apex:commandButton styleClass="slds-button slds-button_neutral" value="Save" action="{!saveNameListList}" reRender="messages" status="saveStatus"/-->
+                    </apex:facet>
+                    <apex:facet name="start">
+                        <apex:actionregion >
+                            <apex:commandButton styleClass="slds-button slds-button_neutral" value="Processing..." status="saveStatus" disabled="true"/>
+                        </apex:actionregion>
+                        <!--apex:commandButton styleClass="slds-button slds-button_neutral" value="Processing..." status="saveStatus" disabled="true"/-->
+                    </apex:facet>
+                </apex:actionStatus>
+            <apex:commandButton styleClass="slds-button slds-button_neutral" value="Add"/>
+            <apex:commandButton styleClass="slds-button slds-button_destructive" value="Delete"/>
+            <label>
+            	<apex:inputFile id="inputCsvFile" value="{!csvFileBody}"  filename="{!csvAsString}" onchange="importCSVFileAction();" style="display:none;" />
+                <span styleClass="slds-button slds-button_neutral btn" style='cursor: pointer;border-radius: 3px;background: #e8e8e9 url(/img/alohaSkin/btn_sprite.png) repeat-x right top;border-bottom-color: #7f7f7f;border: 1px solid #b5b5b5;color: #804827;background-position: right -30px;padding: 4px 3px;font-weight: bold !important;margin: 1px;'>Import</span>
+            </label>
+            <apex:commandButton styleClass="slds-button slds-button_neutral" value="Exit"/>
+        </div>
+        <table class="slds-table slds-table_cell-buffer slds-table_bordered spacing-margin">
+            <thead>
+                <tr>
+                    <th colspan="1" class="th-no-side-padding border-right border-left"></th>
+                    <th colspan="5" class="th-no-side-padding border-right"><div class="centered-text">{!$Label.Passenger_Infos}</div></th>
+                    <th colspan="3" class="th-no-side-padding border-right"><div class="centered-text">{!$Label.Meal_Selection}</div></th>
+                    <th colspan="3" class="th-no-side-padding border-right"><div class="centered-text">{!$Label.Special_Service}</div></th>
+                    <th colspan="5" class="th-no-side-padding border-right"><div class="centered-text">{!$Label.Infant_Infos}</div></th>
+                    <th colspan="3" class="th-no-side-padding border-right"><div class="centered-text">{!$Label.Infant_Meal_Selection}</div></th>
+                </tr>
+                <tr class="slds-line-height_reset">
+                    <th class="border-right border-left"></th>
+                    <th><div class="wrap-content-select" title="{!$Label.Passenger_Type}">{!$Label.Passenger_Type}</div></th>
+                    <th><div class="wrap-content-select" title="{!$Label.Title}">{!$Label.Title}</div></th>
+                    <th><div class="wrap-content" title="{!$Label.Last_Name}">{!$Label.Last_Name}</div></th>
+                    <th><div class="wrap-content" title="{!$Label.First_Name}">{!$Label.First_Name}</div></th>
+                    <th class="border-right"><div class="wrap-content" title="{!$Label.Date_of_Birth}">{!$Label.Date_of_Birth}</div></th>
+                    <th><div class="wrap-content-select" title="{!$Label.All_Sector}">{!$Label.All_Sector}</div></th>
+                    <th><div class="wrap-content-select" title="{!$Label.Departing}">{!$Label.Departing}</div></th>
+                    <th class="border-right"><div class="wrap-content-select" title="{!$Label.Returning}">{!$Label.Returning}</div></th>
+                    <th><div class="wrap-content-select" title="{!$Label.Departing}">{!$Label.Departing}</div></th>
+                    <th><div class="wrap-content-select" title="{!$Label.Returning}">{!$Label.Returning}</div></th>
+                    <th class="border-right"><div class="wrap-content" title="{!$Label.Description}">{!$Label.Description}</div></th>
+                    <th><div class="wrap-content-select" title="{!$Label.Passenger_Type}">{!$Label.Passenger_Type}</div></th>
+                    <th><div class="wrap-content-select" title="{!$Label.Title}">{!$Label.Title}</div></th>
+                    <th><div class="wrap-content" title="{!$Label.Last_Name}">{!$Label.Last_Name}</div></th>
+                    <th><div class="wrap-content" title="{!$Label.First_Name}">{!$Label.First_Name}</div></th>
+                    <th class="border-right"><div class="wrap-content" title="{!$Label.Date_of_Birth}">{!$Label.Date_of_Birth}</div></th>
+                    <th><div class="wrap-content-select" title="{!$Label.All_Sector}">{!$Label.All_Sector}</div></th>
+                    <th><div class="wrap-content-select" title="{!$Label.Departing}">{!$Label.Departing}</div></th>
+                    <th class="border-right"><div class="wrap-content-select" title="{!$Label.Returning}">{!$Label.Returning}</div></th>
+                </tr>
+            </thead>
+            <tbody>
+                <apex:repeat value="{!wrappersList}" var="wrapperNl">
+                    <tr class="slds-hint-parent">
+                        <td class="border-right border-left"><apex:inputCheckbox value="{!wrapperNl.isSelected}" styleClass="form-control" /></td>
+                        <td><apex:inputField value="{!wrapperNl.nl.Passenger_Type__c}" styleClass="form-control input-smaller" /></td>
+                        <td><apex:inputField value="{!wrapperNl.nl.Title__c}" styleClass="form-control input-smaller" /></td>
+                        <td><apex:inputField value="{!wrapperNl.nl.Last_Name__c}" styleClass="form-control input-smaller" /></td>
+                        <td><apex:inputField value="{!wrapperNl.nl.First_Name__c}" styleClass="form-control input-smaller" /></td>
+                        <td class="border-right"><apex:inputField value="{!wrapperNl.nl.Date_of_Birth__c}" styleClass="form-control datepicker"/></td>
+                        <td><apex:inputField value="{!wrapperNl.nl.Meal_Selection_All_Sector__c}" styleClass="form-control input-smaller" /></td>
+                        <td><apex:inputField value="{!wrapperNl.nl.Meal_Selection_Departing_Only__c}" styleClass="form-control input-smaller" /></td>
+                        <td class="border-right"><apex:inputField value="{!wrapperNl.nl.Meal_Selection_Returning_Only__c}" styleClass="form-control input-smaller" /></td>
+                        <td><apex:inputField value="{!wrapperNl.nl.Special_Service_Departing__c}" styleClass="form-control input-smaller" /></td>
+                        <td><apex:inputField value="{!wrapperNl.nl.Special_Service_Returning__c}" styleClass="form-control input-smaller" /></td>
+                        <td class="border-right"><apex:inputField value="{!wrapperNl.nl.Special_Service_Description__c}" styleClass="form-control input-smaller" /></td>
+                        <td><apex:inputField value="{!wrapperNl.nl.INF_Passenger_Type__c}" styleClass="form-control input-smaller" /></td>
+                        <td><apex:inputField value="{!wrapperNl.nl.INF_Title__c}" styleClass="form-control input-smaller" /></td>
+                        <td><apex:inputField value="{!wrapperNl.nl.INF_Last_Name__c}" styleClass="form-control input-smaller" /></td>
+                        <td><apex:inputField value="{!wrapperNl.nl.INF_First_Name__c}" styleClass="form-control input-smaller" /></td>
+                        <td class="border-right"><apex:inputField value="{!wrapperNl.nl.INF_Date_of_Birth__c}" styleClass="form-control datepicker" /></td>
+                        <td><apex:inputField value="{!wrapperNl.nl.INF_Meal_Selection_All_Sector__c}" styleClass="form-control input-smaller" /></td>
+                        <td><apex:inputField value="{!wrapperNl.nl.INF_Meal_Selection_Departing_Only__c}" styleClass="form-control input-smaller" /></td>
+                        <td class="border-right"><apex:inputField value="{!wrapperNl.nl.INF_Meal_Selection_Returning_Only__c}" styleClass="form-control input-smaller" /></td>
+                    </tr>
+                </apex:repeat>
+            </tbody>
+        </table>
+    </apex:form>
+</apex:page>

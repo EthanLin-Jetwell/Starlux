@@ -46,8 +46,7 @@
                         客服中心資訊如下：
                         <br/>台北服務據點電話及地址：(02)2791-1199 台北市中山區南京東路三段168號1樓
                         <br/>台中服務據點電話及地址：(04)2258-0710 台中市西屯區朝富路213號28樓之3（採預約制）
-                        <br/>高雄服務據點電話及地址：(07) 962-6100 高雄市新興區六合路182號34樓
-                        <br/>服務時間：週一至週五 08:30-17:30；週六、日及國定假日不營業
+                        <br/>服務時間：週一至週五 09:30-17:30；週六、日及國定假日不營業
                     </li>
                     <li>本憑證所開立機票之行程第一段應於<apex:outputText value="{0,date,dd-MMM-yyyy}">
                         <apex:param value="{!Tickets.First_Travel_Date__c}" />
@@ -112,9 +111,7 @@
             </div>
             <br/>
             <div style="text-align: left;">
-            &nbsp; &nbsp; &nbsp; 贈票單位: {!Tickets.External_Tickets__r.Company__c} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp;  &nbsp;
-            <br/>
-            &nbsp; &nbsp; &nbsp; 協辦單位: 星宇航空股份有限公司            
+            &nbsp; &nbsp; &nbsp; 贈票單位: {!Tickets.External_Tickets__r.Company__c} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp;  &nbsp; 協辦單位: 星宇航空股份有限公司            
             </div>
             
         </apex:form>       

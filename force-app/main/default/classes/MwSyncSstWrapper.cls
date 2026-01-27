@@ -1,10 +1,13 @@
 public class MwSyncSstWrapper {
     public String pnr {get; set;}
     public Integer size {get; set;}
+    //change
+    //public String officeId {get; set;}
     
     public MwSyncSstWrapper(String pnr, Integer size) {
         this.pnr = pnr;
         this.size = size;
+        //this.officeId = officeId;
     }
 
     public static void fakeMethod(){

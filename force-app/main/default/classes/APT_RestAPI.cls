@@ -122,7 +122,7 @@ global without sharing class APT_RestAPI {
             Id servicePresenceStatusId = [SELECT Id FROM ServicePresenceStatus WHERE DeveloperName = 'Available' LIMIT 1][0].Id;
             List<UserServicePresence> userPresence = [SELECT Id, UserId FROM UserServicePresence WHERE IsCurrentState = true AND ServicePresenceStatusId = :servicePresenceStatusId AND UserId IN : userIds];
             List<Id> availableUser = new List<Id>();
-            //System.debug(userPresence);
+            System.debug(userPresence);
             for(UserServicePresence USP : userPresence) {
                 availableUser.add(USP.UserId);
             }

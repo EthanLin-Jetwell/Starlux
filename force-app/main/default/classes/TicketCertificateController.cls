@@ -28,7 +28,7 @@ public class TicketCertificateController {
                    External_Tickets__r.Flight_Number_Departure_External__c, External_Tickets__r.Booking_Class_Departure_External__c, External_Tickets__r.First_Name_EN__c,
                    External_Tickets__r.Flight_Date_Returning_External__c, External_Tickets__r.Flight_Number_Returning_External__c, 
                    External_Tickets__r.Booking_Class_Returning_External__c, External_Tickets__r.Phone__c, External_Tickets__r.Email__c, External_Tickets__r.Exemption_YQ__c,
-                   External_Tickets__r.Exemption_Tax__c, External_Tickets__r.Embargo__c, External_Tickets__r.Budget_Left__c,
+                   External_Tickets__r.Exemption_Tax__c,External_Tickets__r.Exemption_YR__c, External_Tickets__r.Embargo__c, External_Tickets__r.Budget_Left__c,
                    External_Tickets__r.Case_Used__c, External_Tickets__r.Budget_Left_after_Used__c, External_Tickets__r.Coupon_Issue_Deadline__c,
                    External_Tickets__r.Ticket_Number_External_Use__c, External_Tickets__r.Notice2__c,External_Tickets__r.Business_Number__c,
                    External_Tickets__r.Budget__c,External_Tickets__r.Reason_For_Application__c,

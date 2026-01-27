@@ -1,0 +1,2 @@
+<apex:page standardController="AgencyReport__c" extensions="ExcelAttachmentController" action="{!redirectTomain}">
+</apex:page>

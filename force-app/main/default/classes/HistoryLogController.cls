@@ -3,7 +3,7 @@ public class HistoryLogController {
     public List<OperationHistoryDetailWrapper> operationHistoryDetails { get; set; }
     public String  flightPrefix  { get; set; }
     public String  flightNumber  { get; set; }
-    public String IATAcode { get; set; }
+    public String  IATAcode { get; set; }
     
     // Detail 包裝類
     public class DetailWrapper {
@@ -18,6 +18,8 @@ public class HistoryLogController {
         public String UserPassport { get; set; }
         public String Menu { get; set; }
         public String Operation { get; set; }
+        public String IataCode { get; set; }
+        public String PNR { get; set; }
         public DateTime CreatedDate { get; set; }
         public List<DetailWrapper> Details { get; set; }
         
@@ -32,6 +34,8 @@ public class HistoryLogController {
         public String UserPassport { get; set; }
         public String Menu { get; set; }
         public String Operation { get; set; }
+        public String IataCode { get; set; }
+        public String PNR { get; set; }
         public String CustomerName { get; set; }
         public String AllValue { get; set; }
         public DateTime CreatedDate { get; set; }
@@ -45,6 +49,8 @@ public class HistoryLogController {
             this.Operation = detail.OperationHistory__r.Operation__c;
             this.CustomerName = detail.CustomerName__c;
             this.CreatedDate = detail.OperationHistory__r.CreatedDate;
+            this.IataCode = detail.OperationHistory__r.IATA_Code__c;
+            this.PNR = detail.OperationHistory__r.PNR__c;
             
             // 基本的 HTML 實體預處理
             if (detail.Value__c != null) {
@@ -158,6 +164,8 @@ public class HistoryLogController {
             'OperationHistory__r.CreatedDate, ' +
             'OperationHistory__r.Operation__c, ' +
             'OperationHistory__r.Menu__c, ' +
+            'OperationHistory__r.IATA_Code__c, ' + //新增Iata Code
+            'OperationHistory__r.PNR__c, ' + //新增PNR
             'Value__c, CustomerName__c ' +
             'FROM OperationHistoryDetail__c ' +
             'WHERE IsDeleted = FALSE ';
@@ -208,6 +216,8 @@ public class HistoryLogController {
                 hw.Id = historyId;
                 hw.UserPassport = detail.OperationHistory__r.User_Management_Temp__r.CN_Passport__c;
                 hw.Menu = detail.OperationHistory__r.Menu__c;
+                hw.IataCode = detail.OperationHistory__r.IATA_Code__c;
+                hw.PNR = detail.OperationHistory__r.PNR__c;
                 hw.Operation = detail.OperationHistory__r.Operation__c;
                 hw.CreatedDate = detail.OperationHistory__r.CreatedDate;
                 historyMap.put(historyId, hw);

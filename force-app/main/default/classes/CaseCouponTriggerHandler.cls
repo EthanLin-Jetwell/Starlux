@@ -21,8 +21,35 @@ public class CaseCouponTriggerHandler extends TriggerHandler{
     public override void beforeUpdate() {
         processUpdateRecords();
     }
-   
-    private static void processUpdateRecords() {		
+    
+    private static void processUpdateRecords() {    
+        /*//2023/12/15 Ethan
+        List<String> newCouponNumbers = new list<String>();
+        for(Case_Coupon__c newCaseCoupon : (List<Case_Coupon__c>)Trigger.new){
+            if (newCaseCoupon.Coupon_Number__c==NULL || newCaseCoupon.Coupon_Number__c=='') {
+                newCouponNumbers.add(newCaseCoupon.Coupon_Number__c);
+            }
+        }
+        
+        Map<String, Id> queryCouponMap = new Map<String, Id>();
+        if(newCouponNumbers.size() != 0) {
+            List<Coupon__c> queryCoupon = [SELECT Id FROM Coupon__c WHERE Name IN : newCouponNumbers];
+            for(Coupon__c c : queryCoupon) {
+                queryCouponMap.put(c.Name, c.Id);
+            }
+            
+            for(Case_Coupon__c newCaseCoupon : (List<Case_Coupon__c>)Trigger.new){
+                if (newCaseCoupon.Coupon_Number__c==NULL || newCaseCoupon.Coupon_Number__c=='') {
+                    //do not run this if this is from Case Voucher
+                    if(queryCouponMap.keySet().contains(newCaseCoupon.Coupon_Number__c)) {
+                        newCaseCoupon.Coupon_ID__c = queryCouponMap.get(newCaseCoupon.Coupon_Number__c);
+                    }
+                }         
+            }
+        }*/
+        
+        
+        
         for(Case_Coupon__c newCaseCoupon : (List<Case_Coupon__c>)Trigger.new){
             if (newCaseCoupon.Coupon_Number__c==null || newCaseCoupon.Coupon_Number__c=='')
                 continue;            

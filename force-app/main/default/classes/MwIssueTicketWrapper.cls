@@ -7,6 +7,8 @@ public class MwIssueTicketWrapper {
     public Decimal infant {get; set;}
     public String taxDate {get; set;}
     public String paymentType {get; set;}
+    //change
+    //public String OfficeID {get; set;}
 
     public MwIssueTicketWrapper(Seat_Allocation_and_Ticketing__c sat) {
         this.pnr = sat.Booking_Reference_PNR__c;

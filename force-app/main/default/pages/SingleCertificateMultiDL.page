@@ -1,0 +1,100 @@
+<apex:page controller="SingleCertificateMultiDLController"
+           showHeader="false" sidebar="false" cache="false">
+  <apex:pageMessages />
+  <!-- Debug 區 -->
+  <p>param bpmAppNo = <strong>{!bpmAppNo}</strong></p>
+  <p>found certs = <strong>{!certs.size}</strong></p>
+  <ul>
+  </ul>
+  <!-- 下載 UI -->
+  <script id="items" type="application/json">
+  <apex:outputText value="{!itemsJson}" escape="false"/>
+  </script>
+
+  <iframe id="dlFrame" style="display:none;"></iframe>
+  <button id="btnAll" type="button" onclick="downloadAll()">一鍵全部下載</button>
+  <span id="progress" style="margin-left:1rem;"></span>
+<script>
+  // 建議大量檔案用較長延遲
+  const BATCH_SIZE = 8;        // 每批 8 張較穩
+  const PER_FILE_DELAY = 1800; // 每張間隔 ms：1800~2200 更穩
+
+  function sleep(ms){ return new Promise(r=>setTimeout(r, ms)); }
+
+  const state = { items: [], nextIndex: 0, ok: 0, fail: 0, allowedHintShown: false };
+
+  window.addEventListener('load', ()=>{
+    // ★ 直接從 <script type="application/json"> 讀入
+    let raw = (document.getElementById('items')?.textContent || '[]').trim();
+    try {
+      state.items = JSON.parse(raw);
+    } catch(e){
+      console.error('itemsJson parse error:', e, raw);
+      document.getElementById('progress').textContent = 'JSON 解析失敗（請開F12看 console）';
+      state.items = [];
+    }
+    document.getElementById('progress').textContent = `就緒：共 ${state.items.length} 張`;
+  });
+
+  async function downloadAll(){
+    const btn = document.getElementById('btnAll');
+    const progress = document.getElementById('progress');
+
+    if (!state.items.length){
+      progress.textContent = '沒有可下載的檔案';
+      return;
+    }
+
+    btn.disabled = true;
+
+    if (!state.allowedHintShown){
+      alert('若瀏覽器跳出提示，請允許「此網站下載多個檔案」。');
+      state.allowedHintShown = true;
+    }
+
+    while (state.nextIndex < state.items.length){
+      const start = state.nextIndex;
+      const end = Math.min(start + BATCH_SIZE, state.items.length);
+      await downloadBatch(start, end, progress);
+      state.nextIndex = end;
+      // 可選：每批間隔一下
+      // await sleep(800);
+    }
+
+    progress.textContent = `完成：成功 ${state.ok}，失敗 ${state.fail}`;
+    btn.disabled = false;
+  }
+
+  // ★ 每張建立一次性 iframe → 等待 → 移除（成功率最高）
+  async function downloadBatch(start, end, progress){
+    const batch = state.items.slice(start, end);
+
+    for (let i = 0; i < batch.length; i++){
+      const idx = start + i;
+      const { url, name } = batch[i];
+      progress.textContent = `下載中：${idx+1}/${state.items.length}（${name}）`;
+
+      try {
+        const ifr = document.createElement('iframe');
+        ifr.style.display = 'none';
+
+        // 加上 cache-buster，避免被合併/快取
+        const bust = (url.includes('?') ? '&' : '?') + 'dlts=' + Date.now() + '-' + idx;
+        ifr.src = url + bust;
+
+        document.body.appendChild(ifr);
+        await sleep(PER_FILE_DELAY);
+        ifr.src = 'about:blank';
+        ifr.remove();
+
+        state.ok++;
+      } catch(e){
+        console.error('下載失敗', name, e);
+        state.fail++;
+      }
+    }
+  }
+</script>
+
+
+</apex:page>

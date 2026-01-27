@@ -78,7 +78,7 @@ public class AccountManagementController {
     public static UserManagement__c loadUserForEdit(Id UserId) {
         return [SELECT Id, Name,CN_Passport__c, EN_Passport__c, Phone1__c, Prefix1__c, 
                 Phone2__c, Prefix2__c, Email__c, Route__c,Company__c,
-                Taxid__c,Role__c, Account__c, Salutation__c, Memo__c,CreatedDate, LastModifiedDate,LastModifiedBy__c, Createdby__c,ExpireDate__c,State__c
+                IATA_MSO_Code__c,Role__c, Account__c, Salutation__c, Memo__c,CreatedDate, LastModifiedDate,LastModifiedBy__c, Createdby__c,ExpireDate__c,State__c
                 FROM UserManagement__c WHERE Id = :UserId LIMIT 1];
     }
     

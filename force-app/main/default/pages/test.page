@@ -1,0 +1,134 @@
+<apex:page standardController="Lucky_Draw_Setting__c" extensions="testing">
+    <style>
+        
+        table { 
+        border:1px solid #000; 
+        font-family: 微軟正黑體; 
+        font-size:16px; 
+        width:250px;
+        border:1px solid #000;
+        text-align:center;
+        border-collapse:collapse;
+        } 
+        th { 
+        background-color: #08202d;
+        padding:5px;
+        border:1px solid #000;
+        color:#fff;
+        } 
+        td { 
+        border:1px solid #000;
+        padding:5px;
+        background-color: #fff;
+        color:#000;
+        } 
+    </style>
+    
+    <body>   
+        
+        <table align="center" border="0" cellpadding="0" cellspacing="0" style=" border-collapse:collapse;border:1px solid rgb(0, 0, 0);font-family:微軟正黑體;font-size:16px;text-align:center;width:1481.6px;">
+			<tbody>
+				<tr>
+					<td><strong style="font-family: &quot;Arial Unicode MS&quot;, &quot;Microsoft JhengHei&quot;, sans-serif; font-size: 18px; text-align: center;">活動名稱：<apex:outputText value="{!recordName}"/></strong></td>
+				</tr>
+			</tbody>
+		</table>
+                
+        <div class="centered-container">
+            <apex:form style="font-family: Arial Unicode MS, Microsoft JhengHei, sans-serif;">
+                <apex:actionStatus id="drawingStatus">
+                    <apex:facet name="start">
+                        <div id="loading-div" >
+                            <div class="text-center" id="image-container" rendered="{!drawing}">
+                                <img src="{!$Resource.Loading}"/>
+                            </div>
+                        </div>
+                    </apex:facet>
+                </apex:actionStatus>
+                
+                <Table align="center" style="border-collapse:collapse;border:1px solid rgb(0, 0, 0);font-family:微軟正黑體;font-size:16px;text-align:center;width:90%;">              
+                    <tr>
+                        <th style="text-align:center;">序號</th>
+                        <th style="text-align:center;">獎項名稱</th>
+                        <th style="text-align:center;">獎項數量</th>
+                        <th style="text-align:center;">單位</th>
+                        <th style="text-align:center;">問卷類型</th>
+                    </tr>
+                    <apex:repeat var="prize" value="{!prizes}">
+                        <tr>
+                            <td><apex:outputText value="{!prize.Name}"/></td>
+                            <td><apex:outputText value="{!prize.Prize_Name__c}"/></td>
+                            <td><apex:outputText value="{!prize.Prize_Amount__c}"/></td>
+                            <td><apex:outputText value="{!prize.Unit__c}"/></td>
+                            <td><apex:outputText value="{!prize.Type__c}"/></td>
+                        </tr>
+                    </apex:repeat>
+                </Table>
+                
+                <br/><br/>
+                <div/>
+                <table align="center" border="0" cellpadding="0" cellspacing="0" style="background-color: #0f2d3c; border-collapse:collapse;border:1px solid rgb(0, 0, 0);font-family:微軟正黑體;font-size:16px;text-align:center;width:1481.6px;">
+					<tbody>
+						<tr>
+							<td><strong style="color:#000; font-family: &quot;Arial Unicode MS&quot;, &quot;Microsoft JhengHei&quot;, sans-serif; font-size: 18px; text-align: center;">完成問卷名單</strong></td>
+						</tr>
+					</tbody>	
+				</table>
+                <Table align="center" style="border-collapse:collapse;border:1px solid rgb(0, 0, 0);font-family:微軟正黑體;font-size:16px;text-align:center;width:90%;">
+                	<tr>
+                        <th style="text-align:center;">問卷編號</th>
+                        <th style="text-align:center;">電子郵件</th>
+                        <th style="text-align:center;">問卷類型</th>
+                        <th style="text-align:center;">完成</th>
+                    </tr>
+                    <apex:repeat var="participant" value="{!participants}">
+                    <tr>
+                        <td><apex:outputText value="{!participant.Name}"/></td>
+                        <td><apex:outputText value="{!participant.Email_Address_For_Lucky_Draw__c}"/></td>
+                        <td><apex:outputText value="{!participant.Survey_Type__c}"/></td>
+                        <td><apex:outputText value="{!participant.Survey_Completed__c}"/></td>
+                    </tr>
+                    </apex:repeat>
+                </Table>
+                
+                <table align="center" border="0" style="padding: 15px; border: 0px;">
+                    <tr>
+                        <td>
+                            <apex:commandButton value="Draw" action="{!draw}">
+                                <apex:actionSupport event="onclick" status="drawingStatus" reRender="loading-div"/>
+                            </apex:commandButton>
+                        </td>
+                        <td>
+                            <apex:commandButton value="Save" action="{!save}" styleClass="btn"/>
+                        </td>
+                    </tr>
+                </table>
+                
+                <apex:pageBlock id="block2" rendered="{!show}">
+                    <Table align="center" style="border-collapse:collapse;border:1px solid rgb(0, 0, 0);font-family:微軟正黑體;font-size:16px;text-align:center;width:90%;">
+                        <tr>
+                            <th>F_No__c</th>
+                            <th>Name</th>
+                            <th>Email_Address__c</th>
+                            <th>Prize_Name__c</th>
+                            <th>Prize_Amount__c</th>
+                            <th>Unit__c</th>
+                        </tr>
+                        <apex:repeat var="winner" value="{!winners}">
+                            <tr>
+                                <td><apex:outputText value="{!winner.F_No__c}"/></td>
+                                <td><apex:outputText value="{!winner.Name}"/></td>
+                                <td><apex:outputText value="{!winner.Email_Address__c}"/></td>
+                                <td><apex:outputText value="{!winner.Prize_Name__c}"/></td>
+                                <td><apex:outputText value="{!winner.Prize_Amount__c}"/></td>
+                                <td><apex:outputText value="{!winner.Unit__c}"/></td>
+                            </tr>
+                        </apex:repeat>
+                    </Table>
+                    
+                </apex:pageBlock>
+                
+            </apex:form>
+        </div>
+    </body>
+</apex:page>

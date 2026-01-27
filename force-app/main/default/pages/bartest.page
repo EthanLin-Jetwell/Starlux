@@ -1,0 +1,6 @@
+<apex:page renderAs="PDF">
+    <GMBLBC2:barcode value="M1JULIUS/CHAN         ED3CFUQ TPEFUKJX 0842 098Y051D0001 348>6180 O5099BJX 18910020030012A18921000006560 JX                        N" 
+        type="pdf417" 
+        width="300" 
+        height="50" />
+</apex:page>

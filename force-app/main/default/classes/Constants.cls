@@ -1,12 +1,15 @@
 public with sharing class Constants {
     //public final static String MIDDLEWARE_AUTH_HOST = 'https://auth-gateway-uat-dmz.starlux-airlines.com/authorize';
     //public final static String MIDDLEWARE_AUTH_HOST = 'https://auth-gateway.starlux-airlines.com/authorize';
-    public final static String MIDDLEWARE_AUTH_HOST = Label.MIDDLEWARE_AUTH_HOST;
+    //public final static String MIDDLEWARE_AUTH_HOST = Label.MIDDLEWARE_AUTH_HOST; //Eli 停用20251028
+    public final static String MIDDLEWARE_AUTH_HOST = Label.MIDDLEWARE_IOPS_HOST; //Eli AUTH改IOPS 20251028
     //public final static String MIDDLEWARE_AUTH_BODY = '{"clientId": "bb9ab16b-3e54-4391-8be6-95b0f69c495c","clientSecret": "CelCUTHiY9z4zzUrftDsQuLvVB8BE4j4","tokenExp": 24 }';
-    public final static String MIDDLEWARE_AUTH_BODY = Label.MIDDLEWARE_AUTH_BODY;
+    //public final static String MIDDLEWARE_AUTH_BODY = Label.MIDDLEWARE_AUTH_BODY; //Eli 停用20251028
+    public final static String MIDDLEWARE_AUTH_BODY = Label.MIDDLEWARE_IOPS_BODY; //Eli AUTH改IOPS 20251028
     //public final static String MIDDLEWARE_HOST = 'https://auth-gateway-uat-dmz.starlux-airlines.com/ghms/api/v1/';
     //public final static String MIDDLEWARE_HOST = 'https://auth-gateway.starlux-airlines.com/ghms/api/v1/';
-    public final static String MIDDLEWARE_HOST = Label.MIDDLEWARE_HOST;
+    //public final static String MIDDLEWARE_HOST = Label.MIDDLEWARE_HOST; //Eli 停用20251028
+    public final static String MIDDLEWARE_HOST = Label.MIDDLEWARE_IOPSHOST;  //Eli AUTH改IOPS 20251028
     public final static String MIDDLEWARE_ENDPOINT_CREATE_PNR = 'pnr';
     public final static String MIDDLEWARE_ENDPOINT_CANCEL_PNR = 'pnr/{satNo}/cancel';
     public final static String MIDDLEWARE_ENDPOINT_SPLIT_PNR = 'pnr/{satNo}/split';

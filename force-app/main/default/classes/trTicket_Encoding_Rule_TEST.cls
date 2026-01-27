@@ -1,5 +1,5 @@
 @isTest 
-public class trTicket_Encoding_Rule_TEST {
+public without sharing class trTicket_Encoding_Rule_TEST {
     static testmethod void trTicket_Encoding_Rule_TEST1(){
         Ticket_Encoding_Rule__c TER = new Ticket_Encoding_Rule__c();
         TER.Type__c = 'CPN';

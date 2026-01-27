@@ -9,8 +9,8 @@ public class MiddlewareUtil {
             Map<String, Object> mappedJsonResponseBody = (Map<String, Object>) JSON.deserializeUntyped(response.getBody());
             Map<String, Object> dataJsonResponseBody = (Map<String, Object>) mappedJsonResponseBody.get('data');
             Map<String, Object> clientJsonResponseBody = (Map<String, Object>) dataJsonResponseBody.get('client');
-            String accessToken = String.valueOf(clientJsonResponseBody.get('accessToken')); //Eli 停用20251028
-            //String accessToken = String.valueOf(dataJsonResponseBody.get('accessToken')); Eli AUTH改IOPS 20251028
+            //String accessToken = String.valueOf(clientJsonResponseBody.get('accessToken')); //Eli 停用20251028
+            String accessToken = String.valueOf(dataJsonResponseBody.get('accessToken')); //Eli AUTH改IOPS 20251028
             Map<String, Object> mapData = new Map<String, Object>();
             mapData.put('Access_Token__c', accessToken); 
             mapData.put('Expiry_Date__c', datetime.now().addDays(1));

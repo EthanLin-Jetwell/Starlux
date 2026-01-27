@@ -1,0 +1,759 @@
+<apex:page controller="EditTravelerController"  docType="html-5.0" applyHtmlTag="true" standardStylesheets="false" showHeader="false">
+    <head>
+        <title>EditTraveler</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no"/>
+        <c:styleinclude ></c:styleinclude>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+        <style>
+            body { 
+            background-color: #E5E5E5;
+            }
+            
+            .form-control, .btn { 
+            border-radius: 0; 
+            }
+            
+			/* 其他Tabs*/
+            .nav-tabs .nav-link { 
+            padding:0;
+            width:99px;
+            height:48px;
+            background-color:rgba(204, 187, 176, 1);
+            color:white;
+            border-radius: 4px;
+            margin-right: 1px;
+            }
+            
+            /* 選中的 tab*/
+            .nav-tabs .nav-link.active {
+            padding:0;
+            width:104px;
+            height:48px;
+            background-color: rgba(142, 114, 72, 1);
+            color: white;
+            margin-right: 1px;
+            }
+            
+            /* 選中的 tab*/
+            .nav-tabs .nav-link.active:hover {
+            background-color: rgba(142, 114, 72, 1);
+            color: white;
+            }
+            
+            .nav-tabs .nav-link:hover {
+            background-color:rgba(204, 187, 176, 1);
+            color: white;
+            }
+            
+            
+            
+            .table th { 
+            text-align:center;
+            border-top: 2px solid rgba(204, 187, 176, 1);
+            border-bottom: 2px solid rgba(204, 187, 176, 1);
+            color: #495057;
+            font-weight: bold;
+            vertical-align: middle;
+            }
+            
+            .table td { 
+            vertical-align: middle;
+            text-align: center;
+            }
+            
+            /* 調整合併儲存格的樣式 */
+            .table td[rowspan] {
+            height:190px;
+            vertical-align: middle;
+            background-color: #fff;
+            }
+            
+            .travel-document {
+            padding: 4px 8px;
+            border-radius: 4px;
+            display: inline-block;
+            }
+
+            .table tbody tr:last-child td {
+            border-bottom: 2px solid #dee2e6;
+            }
+
+            .input-group-text { 
+            background-color: white; 
+            }
+            
+            .content-wrapper {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            }
+            .container {
+            margin-top:115px;
+            width: 100%;
+            max-width: 1230px;
+            }
+            
+            #flightSearchForm{
+            background-color: white; 
+            padding:24px;
+            }
+            
+            #searchResults{
+            background-color: white; 
+            }
+            
+            .form-label{
+            color:rgba(115, 91, 75, 1);
+            }
+            
+            #outerWrapper{
+            height:500px;
+            }
+
+            .fixed-bottom-buttons {
+            margin-top:300px;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 999;
+            padding-left:250px;
+            }
+            
+            .fixed-bottom-buttons .container {
+            max-width: 1800px;
+            height:76px;
+            border-radius: 0;
+            border-left:2px solid #EAEAEA;
+            display: flex;
+            justify-content: flex-end;
+            gap: 16px;
+            padding: 20px;
+            background-color: #fff;
+            }
+            
+            .fixed-bottom-buttons .btn {
+            width: 120px;
+            height: 40px;
+            border-radius: 4px;
+            font-size: 16px;
+            }
+            
+            ::placeholder {
+            color: #ccc;
+            opacity: 1;
+            }
+            
+            .form-control::placeholder {
+            color: #ccc;
+            opacity: 1;
+            }
+            
+            .form-control:focus {
+            border-color: rgba(142, 114, 72, 1);
+            box-shadow: 0 0 0 0.2rem rgba(232, 224, 218, 0.5);
+            } 
+            
+            .form-select:focus {
+            border-color: rgba(142, 114, 72, 1);
+            box-shadow: 0 0 0 0.2rem rgba(232, 224, 218, 0.5);
+            } 
+
+            .notification-panel2 {
+            	width: 200px !important;
+            }
+			
+            .close-button{
+            margin-right:30px !important;
+            }
+
+            .form-control.is-invalid, .was-validated .form-control:invalid{
+            background-image:none;
+            padding-right:0;
+            }
+            
+            .is-invalid {
+                border-color: #dc3545 !important;
+            }
+        </style>
+    </head>
+    <body class="d-flex align-items-center py-4">
+        <c:B2BNavbar ></c:B2BNavbar>
+        <apex:outputPanel id="SearchSuccessPanel" style="display:none">
+            <c:successNotification message="搜尋成功"/>
+        </apex:outputPanel>
+        <apex:outputPanel id="editSuccessPanel" style="display:none">
+            <c:successNotification message="編輯成功"/>
+        </apex:outputPanel>
+        
+        <div id="content-wrapper" class="content-wrapper">
+            <div class="container">
+                <form id="flightSearchForm" style="margin-bottom:30px;border-radius:4px">
+                    <div class="row g-3 align-items-end">
+                        <div class="col-md-2">
+                            <label for="flightNumber" class="form-label">航班號碼*</label>
+                            <div class="input-group d-flex align-items-center">
+                                <input type="text" class="form-control" id="flightPrefix" value="{!flightPrefix}" disabled="true" style="width: 20%; border-radius: 0;" />
+                                <span class="input-group-text" style="border: none; background: none;">-</span>
+                                <input type="text" class="form-control" id="flightNumber" value="{!flightNumber}" style="width: 50%; border-radius: 0;" />
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="departureDate" class="form-label">起飛日期*</label>
+                            <input type="date" class="form-control" id="departureDate" value="{!departureDate}" />
+                        </div>
+                        <div class="col-md-2">
+                            <label for="departure" class="form-label">起飛地*</label>
+                            <select id="departure" class="form-select" required="true" style="border-radius: 2px;">
+                                <option value="">請選擇</option>
+                                <apex:repeat value="{!origins}" var="origin">
+                                    <option value="{!origin}">{!origin}</option>
+                                </apex:repeat>
+                            </select>
+                        </div>
+                        
+                        <!--<div class="selectOption col-md-2" style="width:12.499999995%;">
+                            <label for="departure" class="form-label required">起飛地</label>
+                            <select id="departure" class="form-select" required="true" style="border-radius: 2px;">
+                                <option value="">請選擇</option>
+                            </select>
+                            <div class="invalid-feedback">
+                                必填
+                            </div>
+                        </div>-->
+                        
+                        <div class="col-md-4">
+                            <label for="bookingCodes" class="form-label">訂位代號*</label>
+                            <input type="text" class="form-control" id="bookingCodes" value="{!bookingCodes}" />
+                        </div>
+                        <apex:form id="searchForm">
+                            <div class="col-md-2 d-flex justify-content-end">
+                                <button id="clearButton" type="button" class="btn me-2" style="height:48px;width: 80px;color:#8E7248;background-color:white;border-radius: 4px;">清除</button>
+                                <!--<button id="submitButton" type="submit" class="btn" onclick="document.getElementById('{!$Component.hsubmit}').click();" style="height:48px;width: 80px;background-color:#8E7248;color:white;border-radius: 4px;">搜尋</button>-->
+                                <apex:commandButton value="搜尋" action="{!searchPnr}" reRender="tabResults, searchResults" styleClass="btn" style="height:48px;width: 80px;background-color:#8E7248;color:white;border-radius: 5px;" oncomplete="showTabs()"/>
+                            </div>
+                        </apex:form>
+                    </div>
+                    <!--飛機飛飛等待-->
+                    <section class="table__header">
+                        <div>
+                            <span id="ajaxloading">
+                                <span id="ajaxloading_start" style="display: none">
+                                    <div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; opacity: .9; z-index: 1000; background-color: #F4F4F4;">
+                                        &nbsp;
+                                    </div>
+                                    <div style="position: fixed; left: 0; top: 0; bottom: 0; right: 0; z-index: 1001; display: flex; justify-content: center; align-items: center;">
+                                        <img height="240" width="240" src="{!$Resource.SVG_Flight_Loader_Horizontal}" style="border-radius: 50%;"/>
+                                    </div>
+                                </span>
+                            </span>
+                        </div>
+                    </section>
+                </form>
+                
+                
+                
+                <!-- 搜尋結果容器 -->
+                <div class="mt-4 mb-0" id="tabResults" style="display: none;">
+                    <ul class="nav nav-tabs" id="resultTabs" role="tablist">
+                        <apex:repeat value="{!pnrKeys}" var="pnrKey">
+                            <li class="nav-item" style="font-size:16px" role="presentation">
+                                <button class="nav-link {!IF(pnrKey == firstTabKey, 'active', '')}" id="tab{!pnrKey}-tab"
+                                        data-bs-toggle="tab"
+                                        data-bs-target="#tab{!pnrKey}"
+                                        type="button"
+                                        role="tab"
+                                        aria-controls="tab{!pnrKey}">
+                                    {!pnrKey}
+                                </button>
+                            </li>
+                        </apex:repeat>
+                    </ul>
+                </div>
+                
+                <!-- 外層容器，包含提示文字和搜尋結果 -->
+                <div id="outerWrapper" style="background-color:white;border-radius:4px">
+                    <!-- 當未搜尋時顯示的提示文字 -->
+                    <div id="searchPrompt" style="text-align:center; padding: 20px; color: gray; display: none;">
+                        <p style="margin-top:220px">
+                        	請搜尋資料
+                        </p>
+                    </div>
+                    
+                    <div id="searchResults" style="display: none;">
+                        <div class="pagination-controls d-flex align-items-center justify-content-between" style="height:78px">
+                            <div>
+                                <!--<button type="reset" class="btn" style="width:105px;height:48px;background-color:rgba(142, 114, 72, 1);color:white;border-radius: 4px;margin-left:12px;box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;font-weight:500px">美國地址</button>
+<button type="reset" class="btn" style="width:105px;height:48px;background-color:white;color:black;border-radius: 4px;margin-left:8px;box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;font-weight:500px">團體簽證</button>-->
+                            </div>
+                            <div>
+                                <span class="me-2">頁面 1 of 1</span>
+                                <button class="btn border-0" style="color:#8e7248;font-weight:bold">&lt;</button>
+                                <button class="btn border-0" style="margin-right:12px;color:#8e7248;font-weight:bold">&gt;</button>
+                            </div>
+                        </div>
+                        
+                        <div class="tab-content" id="resultTabContent">
+                            <apex:repeat value="{!pnrKeys}" var="pnrKey">
+                                <div class="tab-pane fade show active" id="tab{!pnrKey}" role="tabpanel">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead style="height:94px">
+                                                <tr>
+                                                    <th style="width: 15%;max-width: 15%;min-width: 200px;position: sticky;left: 0;z-index: 2;background-color: white;">旅客姓名/稱謂</th>
+                                                    <th style="width:10%;max-width:10%">性別</th>
+                                                    <th style="width:10%;max-width:10%">國籍</th>
+                                                    <th style="width:15%;max-width:15%">出生日期</th>
+                                                    <th style="width:15%;max-width:15%">旅行文件</th>
+                                                    <th style="width:15%;max-width:15%">證件號碼</th>
+                                                    <th style="width:15%;max-width:15%">到期日</th>
+                                                    <th style="width:10%;max-width:10%">發照國家<br/></th>
+                                                    <th style="width:20%;min-width:200px">美國地址</th>
+                                                    <th style="width:10%;min-width:100px">城市</th>
+                                                    <th style="width:10%;min-width:100px">州別</th>
+                                                    <th style="width:10%;min-width:100px">國家</th>
+                                                    <th style="width:15%;min-width:150px">聯絡區號</th>
+                                                    <th style="width:15%;min-width:150px">緊急聯絡人姓名</th>
+                                                    <th style="width:15%;min-width:150px">緊急聯絡人關係</th>
+                                                    <th style="width:15%;min-width:150px">緊急聯絡人電話</th>
+                                                    <th style="width:15%;min-width:150px"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody style="height:212px">
+                                                <apex:repeat value="{!tabData[pnrKey]}" var="person">
+                                                    <apex:repeat value="{!person.documents}" var="doc">
+                                                        <tr style="border-bottom:1px solid #dee2e6">
+                                                            <apex:outputPanel rendered="{!doc.docType == '護照'}">
+                                                                <td rowspan="{!person.docCount}" style="font-weight: bolder;position: sticky;left: 0;z-index: 1;background-color: white;">
+                                                                    {!person.name}
+                                                                </td>
+                                                                <td rowspan="{!person.docCount}" class="text-center">
+                                                                    <input type="text" style="width:68px;height:160px" class="form-control form-control-sm editable-field" value="{!person.gender}" placeholder="請輸入"/>
+                                                                </td>
+                                                                <td rowspan="{!person.docCount}" class="text-center">
+                                                                    <input type="text" style="width:68px;height:160px" class="form-control form-control-sm editable-field" value="{!person.nationality}" placeholder="請輸入" />
+                                                                </td>
+                                                                <td rowspan="{!person.docCount}" class="text-center">
+                                                                    <input type="date" style="width:148px;height:160px" class="form-control form-control-sm editable-field" value="{!person.birthDate}" placeholder="請輸入" />
+                                                                </td>
+                                                            </apex:outputPanel>
+                                                            <td class="text-center">
+                                                                <span class="travel-document" style="width:84px">{!doc.docType}</span>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <input type="text" style="width:140px;height:60px" class="ClearItems form-control form-control-sm editable-field" value="{!doc.docNumber}" placeholder="請輸入" />
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <input type="text" style="width:140px;height:60px" class="ClearItems form-control form-control-sm editable-field" value="{!doc.expiryDate}" placeholder="請輸入" />
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <input type="text" style="width:84px;height:60px" class="ClearItems form-control form-control-sm editable-field" value="{!doc.issuingCountry}" placeholder="請輸入" />
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <input type="text" style="width:300px;height:60px;" class="ClearItems form-control form-control-sm editable-field" value="{!doc.USaddress}" placeholder="請輸入" />
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <input type="text" style="width:150px;height:60px" class="ClearItems form-control form-control-sm editable-field" value="{!doc.UScity}" placeholder="請輸入" />
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <input type="text" style="width:150px;height:60px" class="ClearItems form-control form-control-sm editable-field" value="{!doc.USstate}" placeholder="請輸入" />
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <input type="text" style="width:150px;height:60px" class="ClearItems form-control form-control-sm editable-field" value="{!doc.UScountry}" placeholder="請輸入" />
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <input type="text" style="width:150px;height:60px" class="ClearItems form-control form-control-sm editable-field" value="{!doc.USpostalcode}" placeholder="請輸入" />
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <input type="text" style="width:150px;height:60px" class="ClearItems form-control form-control-sm editable-field" value="{!doc.UScontact}" placeholder="請輸入" />
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <input type="text" style="width:150px;height:60px" class="ClearItems form-control form-control-sm editable-field" value="{!doc.UScontactRelation}" placeholder="請輸入" />
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <input type="text" style="width:150px;height:60px" class="ClearItems form-control form-control-sm editable-field" value="{!doc.UScontactphone}" placeholder="請輸入" />
+                                                            </td>
+                                                            <td class="text-center" style="padding-left: 0;">
+                                                                <div style="display: flex; justify-content: center; gap: 15px;">
+                                                                    <button class="btn actionbtn" style="width: 34px; height: 34px; padding: 0; border: none; background: none;" title="清除">
+                                                                        <span class="material-symbols-outlined" style="width: 34px; height: 34px; background-color: rgba(200, 86, 90, 1); color: white; display: flex; align-items: center; justify-content: center; border-radius: 4px;">
+                                                                            close
+                                                                        </span>
+                                                                    </button>
+                                                                    <button class="btn actionbtn USaddressbtn" style="width: 34px; height: 34px; padding: 0; border: none; background: none;" title="美國住址">
+                                                                        <span class="material-symbols-outlined" style="width: 34px; height: 34px; background-color: #8E7248; color: white; display: flex; align-items: center; justify-content: center; border-radius: 4px;">
+                                                                            home
+                                                                        </span>
+                                                                    </button>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </apex:repeat>
+                                                </apex:repeat>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </apex:repeat>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="fixed-bottom-buttons" id="fixedBottomButtons" style="display:none">
+            <div class="container" style="margin-top:0">
+                <button type="button" class="btn" id="cancelBtn" style="width:73px;height:48px;background-color:white;color:#8E7248;border:none;display:none">取消</button>
+                <button type="reset" id="testbtn" class="btn" style="width:73px;height:48px;background-color:#8E7248;color:white;border-radius: 4px;">編輯</button>
+                <button type="submit" id="nextStep1" class="btn me-2" style="width: 89px;height:48px;border-color:#8E7248;color:#8E7248;background-color:white;border-radius: 4px;">下一步</button>
+                <input type="file" id="fileUpload" style="display: none" multiple='multiple' accept=".xlsx,.xls,.csv,.pdf,.doc,.docx"/>
+                <button type="button" class="btn" id="uploadButton" style="width:73px;height:48px;background-color:#8E7248;color:white;border-radius: 4px;display:none">上傳</button>
+            </div>
+        </div>
+    </body>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js">
+    </script>
+
+    <script type="text/javascript"> 
+    document.addEventListener('click', function(event) {
+        // 尋找所有 notification 面板（可能有多個）
+        const notifications = document.querySelectorAll('.notification-panel');
+        
+        notifications.forEach(function(notification) {
+            // 如果點擊的不是 notification 裡面的東西，就關閉
+            if (!notification.contains(event.target)) {
+                notification.style.display = 'none';
+            }
+        });
+    });
+    
+    // 文件上傳相關的 JavaScript
+    document.addEventListener('DOMContentLoaded', function() {
+        const uploadButton = document.getElementById('uploadButton');
+        const fileInput = document.getElementById('fileUpload');
+    
+        uploadButton.addEventListener('click', function() {
+            fileInput.click();
+        });
+    
+        fileInput.addEventListener('change', function(e) {
+            if (this.files.length > 0) {
+                // 創建文件列表字符串
+                let fileNames = Array.from(this.files)
+                    .map(file => `${file.name} (${formatFileSize(file.size)})`)
+                    .join('\n');
+                
+                // 顯示已選擇的文件
+                alert('已選擇以下文件：\n' + fileNames);
+                
+                // 清空文件輸入框，允許重複上傳相同文件
+                this.value = '';
+            }
+        });
+    
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+    });
+    
+    // Add style for the input fields
+    const style = document.createElement('style');
+    style.textContent = `
+        .form-control-sm {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+            border-radius: 0.2rem;
+            text-align: center;
+        }
+        
+        .editable-field:disabled {
+            background-color: rgba(248, 248, 248, 1) !important;
+            border: 1px solid rgba(223, 220, 215, 1);
+            padding: 0;
+            margin: 0;
+            height: auto;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            text-align: center;
+        }
+    
+        td.text-center {
+            text-align: center;
+            vertical-align: middle;
+        }
+    
+        td.text-center .form-control {
+            margin: 0 auto;
+        }
+    `;
+    document.head.appendChild(style);
+    
+    /*function toggleLoading(show) {
+        if(show) {
+            $('[id$=ajaxloading_start]').show();
+        } else {
+            $('[id$=ajaxloading_start]').hide();
+        }
+    }*/
+    
+    function clearFields(button) {
+        // 找到包含該按鈕的表格行 (tr)
+        const row = button.closest('tr');
+        // 清空該行內 class 為 ClearItems 的輸入框值
+        row.querySelectorAll('input.ClearItems').forEach(input => {
+            input.value = '';
+        });
+    }
+    
+    
+    let originalValues = {};
+    const editButton = document.getElementById('testbtn');
+    const cancelButton = document.getElementById('cancelBtn');
+    const nextStepBtn = document.getElementById('nextStep1');
+    const uploadButton = document.getElementById('uploadButton');
+    const submitButton = document.getElementById('submitButton');
+    let isEditing = false;
+    
+    // 新增驗證函數
+    function validateFields() {
+        const editableFields = document.querySelectorAll('.editable-field:not([disabled])');
+        let isValid = true;
+    
+        editableFields.forEach(field => {
+            // 移除先前的驗證狀態
+            field.classList.remove('is-invalid');
+            
+            // 移除先前的錯誤訊息
+            const existingFeedback = field.parentElement.querySelector('.invalid-feedback');
+            if (existingFeedback) {
+                existingFeedback.remove();
+            }
+    
+            // 檢查欄位是否為空
+            if (!field.value.trim()) {
+                isValid = false;
+                
+                // 添加 Bootstrap 驗證樣式
+                field.classList.add('is-invalid');
+                
+                // 創建並添加錯誤訊息元素
+                const feedback = document.createElement('div');
+                feedback.className = 'invalid-feedback';
+                feedback.innerHTML = '必填';
+                field.parentElement.appendChild(feedback);
+            }
+        });
+    
+        return isValid;
+    }
+            
+            /*submitButton.addEventListener('click', function () {
+            //toggleLoading(true);
+            $('[id$=hsubmit]').click();
+            console.log('hihihi');
+    });*/
+            
+    editButton.addEventListener('click', function () {
+        const editableFields = document.querySelectorAll('.editable-field');
+        const actionButtons = document.querySelectorAll('.actionbtn');
+        
+        if (!isEditing) {
+            // 進入編輯模式
+            isEditing = true;
+            editableFields.forEach(field => {
+                originalValues[field.id] = field.value;
+            });
+    
+            cancelButton.style.display = 'block';
+            nextStepBtn.style.display = 'none';
+            uploadButton.style.display = 'block';
+    
+            editableFields.forEach(field => {
+                field.disabled = false;
+                field.style.backgroundColor = '#fff';
+                field.style.border = '1px solid #ced4da';
+            });
+    
+            actionButtons.forEach(button => {
+                button.disabled = false;
+                button.style.cursor = 'pointer';
+            });
+    
+            editButton.textContent = '儲存';
+        } else {
+            // 驗證表單
+            if (!validateFields()) {
+                return; // 如果驗證失敗，不執行儲存操作
+            }
+    
+            // 儲存模式
+            isEditing = false;
+            cancelButton.style.display = 'none';
+            nextStepBtn.style.display = 'block';
+            uploadButton.style.display = 'none';
+    
+            editableFields.forEach(field => {
+                field.disabled = true;
+                field.style.backgroundColor = 'transparent';
+                field.style.border = 'none';
+                // 移除驗證相關的類別
+                field.classList.remove('is-invalid');
+                const feedback = field.parentElement.querySelector('.invalid-feedback');
+                if (feedback) {
+                    feedback.remove();
+                }
+            });
+    
+            actionButtons.forEach(button => {
+                button.disabled = true;
+                button.style.cursor = 'not-allowed';
+            });
+    
+            editButton.textContent = '編輯';
+    
+            var editSuccessPanel = document.querySelector('[id$=editSuccessPanel]');
+            editSuccessPanel.style.display = "block";
+            setTimeout(function() {
+                editSuccessPanel.style.display = "none";
+            }, 2000);
+        }
+    });
+        
+    function showTabs() {
+        document.getElementById('searchPrompt').style.display = 'none';
+        document.getElementById('tabResults').style.display = 'block';
+        document.getElementById('searchResults').style.display = 'block';
+    }
+            
+    // 取消按鈕
+    cancelButton.addEventListener('click', function () {
+        const editableFields = document.querySelectorAll('.editable-field');
+        const actionButtons = document.querySelectorAll('.actionbtn');
+        
+        // 恢復原始值
+        editableFields.forEach(field => {
+            // 清除驗證狀態
+            field.classList.remove('is-invalid');
+            const feedback = field.parentElement.querySelector('.invalid-feedback');
+            if (feedback) {
+                feedback.remove();
+            }
+    
+            // 恢復原始值（如果有）
+            if (originalValues[field.id]) {
+                field.value = originalValues[field.id];
+            }
+            
+            // 禁用欄位
+            field.disabled = true;
+            field.style.backgroundColor = 'transparent';
+            field.style.border = 'none';
+        });
+    
+        // 禁用操作按鈕
+        actionButtons.forEach(button => {
+            button.disabled = true;
+            button.style.cursor = 'not-allowed';
+        });
+    
+        // 重設相關按鈕狀態
+        isEditing = false;
+        cancelButton.style.display = 'none';
+        nextStepBtn.style.display = 'block';
+        uploadButton.style.display = 'none';
+        editButton.textContent = '編輯';
+    });
+
+	
+    // 顯示美國簽證彈跳視窗的功能
+    function showUSAddressModal() {
+        const modalElement = document.getElementById('usAddressModal');
+        if (modalElement) {
+            const modal = new bootstrap.Modal(modalElement);
+            modal.show();
+        }
+    }
+      
+    // 顯示團體簽證彈跳視窗的功能
+    function showGroupModal() {
+        const modalElement = document.getElementById('groupVisaModal');
+        if (modalElement) {
+            const modal = new bootstrap.Modal(modalElement);
+            modal.show();
+        }
+    }        
+                  
+    function adjustContentWrapper() {
+        var sidebar = document.getElementById('sidebar');
+        var contentWrapper = document.getElementById('content-wrapper');
+        var fixedBottomButtons = document.getElementById('fixedBottomButtons');
+        
+        // 取得 sidebar 的當前樣式
+        var sidebarStyle = window.getComputedStyle(sidebar);
+        var transformValue = sidebarStyle.getPropertyValue('transform');
+        
+        // 檢查 sidebar 是否有 'hidden' class 或 'normal' class
+        if (sidebar.classList.contains('hidden') && window.innerWidth >= 1025) {
+            contentWrapper.style.paddingLeft = '0';
+            fixedBottomButtons.style.paddingLeft = '0';
+        } else if (sidebar.classList.contains('hidden') && window.innerWidth < 1025) {
+            contentWrapper.style.paddingLeft = '0';
+            fixedBottomButtons.style.paddingLeft = '0';
+        }
+        
+        if (sidebar.classList.contains('normal') && window.innerWidth >= 1025) {
+            contentWrapper.style.paddingLeft = '250px';
+            contentWrapper.style.transition = 'padding-left 0.3s ease-in-out';
+            fixedBottomButtons.style.paddingLeft = '250px';
+            fixedBottomButtons.style.transition = 'padding-left 0.3s ease-in-out';
+        } else if (sidebar.classList.contains('normal') && window.innerWidth < 1025) {
+            contentWrapper.style.paddingLeft = '0';
+            fixedBottomButtons.style.paddingLeft = '0';
+        }
+    }
+    
+    // 監聽 sidebar 的 class 變化
+    var observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.type === "attributes" && mutation.attributeName === "class") {
+                adjustContentWrapper();
+            }
+        });
+    });
+    
+    // 當 DOM 內容加載完成後執行
+    document.addEventListener('DOMContentLoaded', function() {
+        var sidebar = document.getElementById('sidebar');
+        observer.observe(sidebar, {
+            attributes: true
+        });
+        
+        // 初始調用 adjustContentWrapper
+        adjustContentWrapper();
+    });
+    
+    // 同時監聽 window resize 事件，讓畫面縮小後也能正確調整
+    window.addEventListener('resize', adjustContentWrapper);
+    
+     
+    //清除鍵把東西都清除
+    document.getElementById('clearButton').addEventListener('click', function() {
+        document.getElementById('bookingCodes').value = '';
+        document.getElementById('flightNumber').value = '';
+        document.getElementById('outerWrapper').style.marginBottom = '0';
+        document.getElementById('fixedBottomButtons').style.display = 'none';
+        document.getElementById('searchResults').style.display = 'none';
+        document.getElementById('searchPrompt').style.display = 'block';
+        document.getElementById('tabResults').style.display = 'none';
+    });
+    </script>
+</apex:page>

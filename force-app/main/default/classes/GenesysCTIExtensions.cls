@@ -81,7 +81,7 @@ global with sharing class GenesysCTIExtensions implements purecloud.CTIExtension
             RecordType rtName = [SELECT Id, Name, IsActive, SobjectType FROM RecordType WHERE SobjectType = 'Case' AND Name =: recordTypeName AND IsActive = true LIMIT 1]; //20250407 Eli
             recordTypeId = rtName.Id;}
         ElSE
-        	{recordTypeId = [SELECT Id, Name, IsActive, SobjectType FROM RecordType WHERE SobjectType = 'Case' AND Name = 'Enquiry and Request' AND IsActive = true LIMIT 1].Id;}//20250407 Eli
+            {recordTypeId = [SELECT Id, Name, IsActive, SobjectType FROM RecordType WHERE SobjectType = 'Case' AND Name = 'Enquiry and Request' AND IsActive = true LIMIT 1].Id;}//20250407 Eli
         
         // 檢查使用者是否可以使用指定的 Record Type
         Id userProfileId = UserInfo.getProfileId();

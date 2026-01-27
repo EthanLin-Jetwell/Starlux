@@ -1,0 +1,50 @@
+<apex:page standardController="Lucky_Draw_Setting__c" extensions="LuckyDrawController">
+    <style>
+        .centered-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        
+        .centered-container .btn {
+            display: inline-block;
+            padding: 15px 20px;
+            font-size: 20px;
+            border: none;
+            color: black;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        
+        .div-cover
+        {
+        	position: absolute;
+    		top: 0;
+    		left: 0;
+    		width: 100%;
+        	height:100%;
+    		z-index: 10;
+    		background-color: rgba(0,0,0,0);
+        }
+        
+        #loading-div img{
+        	margin: 0 auto;
+    		display: block;
+        	max-width: 150px;
+        }
+    </style>
+    <body>
+        <div class="centered-container">
+            <apex:form style="font-family: Arial Unicode MS, Microsoft JhengHei, sans-serif;">
+                <div id="loading-div" >
+                    <div class="text-center" id="image-container" rendered="!{drawing}">
+                        <img src="{!$Resource.Loading}"/>
+                    </div>
+                </div>
+                <apex:actionPoller action="{!refresh}" reRender="counter" interval="5"/>
+            </apex:form>
+        </div>
+    </body>
+</apex:page>

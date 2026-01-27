@@ -3,6 +3,7 @@ public class ReceiveResponseResizePnrWrapper {
     public String sat_no;
     public String status;
     public String error_message;
+    public String pnr;
 
 
     public static ReceiveResponseResizePnrWrapper deserializeJson(String json) {

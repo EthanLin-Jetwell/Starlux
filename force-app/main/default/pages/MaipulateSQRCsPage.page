@@ -1,0 +1,22 @@
+<apex:page standardController="SQRC__c" recordSetVar="sqrclist" lightningStylesheets="true">
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            openFlowPopup();
+        });
+
+        function openFlowPopup() {
+            var selectedRecords = {!GETRECORDIDS($ObjectType.SQRC__c)};
+            if (!selectedRecords || selectedRecords.length === 0) {
+                alert("Please select at least one record from the list view.");
+                return;
+            }
+            
+            var url = '/flow/ManipulateSQRCs?varRecordIds=' + encodeURIComponent(selectedRecords.join(','));
+            var width = 600;
+            var height = 600;
+            var left = (screen.width - width) / 2;
+            var top = (screen.height - height) / 2;
+            window.open(url, "FlowPopup", "width=" + width + ",height=" + height + ",top=" + top + ",left=" + left);
+        }
+    </script>
+</apex:page>

@@ -1,0 +1,5 @@
+<aura:component implements="lightning:isUrlAddressable,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >    
+    <aura:handler name="change" value="{!v.recordId}" action="{!c.doinitChange}"></aura:handler>
+    {!v.recordId}
+    <lightning:flow aura:id="flowData" />
+</aura:component>

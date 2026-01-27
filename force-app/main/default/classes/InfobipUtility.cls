@@ -151,6 +151,10 @@ public without sharing class InfobipUtility implements Queueable, Database.Allow
     
     //@future(callout=true)
     public static void sendBoardingPassEmail(String recipientEmail, Id userManagementId, BoardingPassStats stats) {
+        sendBoardingPassEmail(new String[]{recipientEmail}, userManagementId, stats);
+    }
+    
+    public static void sendBoardingPassEmail(List<String> recipientEmails, Id userManagementId, BoardingPassStats stats) {
         // Step 1: Get user + latest email log
         Id emailLogId = createEmailLog('Boarding Pass', userManagementId);
         
@@ -214,7 +218,7 @@ public without sharing class InfobipUtility implements Queueable, Database.Allow
         
         // Step 4: Send Infobip email using helper
         // Enqueue the job
-        System.enqueueJob(new InfobipUtility(new List<String>{ recipientEmail },
+        System.enqueueJob(new InfobipUtility(recipientEmails,
                                              subject,
                                              body,
                                              emailLogId,

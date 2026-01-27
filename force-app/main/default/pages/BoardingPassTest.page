@@ -1,0 +1,114 @@
+<apex:page controller="BoardingPassPDFController"
+           renderAs="pdf"
+           showHeader="false" sidebar="false"
+           applyHtmlTag="false" standardStylesheets="false">
+
+    <style>
+        @page { size: A4 portrait; margin: 10mm; }
+        body {
+            font-family: Helvetica, Arial, sans-serif;
+        }
+        .ticket {
+            width: 180mm;
+            margin: 0 auto 10mm;
+            page-break-inside: avoid;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f3f3f3;
+            padding: 10px;
+        }
+        .class-label {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .barcode {
+            text-align: center;
+            margin: 10px 0;
+        }
+        .flight-info {
+            margin-top: 10px;
+        }
+        .info-label {
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .info-value {
+            font-size: 16px;
+            margin-bottom: 6px;
+        }
+    </style>
+
+    <!-- Row tracker -->
+    <apex:variable var="rowNum" value="{!0}" />
+
+    <!-- Ticket loop -->
+    <apex:repeat value="{!tickets}" var="t">
+        <apex:variable var="rowNum" value="{!rowNum + 1}" />
+
+        <div class="ticket">
+            <!-- Header -->
+            <div class="header">
+                <apex:image url="{!URLFOR($Resource.STARLUX_ADM)}" width="120" height="30" />
+                <div class="class-label">{!t.cabinLabel}</div>
+                <apex:image url="{!URLFOR($Resource.STARLUX_LOGO_PDF)}" width="120" height="30" />
+            </div>
+
+            <!-- Barcode Image -->
+            <div class="barcode">
+                <apex:image value="{!t.barcodeBase64}" width="250" height="50" />
+            </div>
+
+            <!-- Flight Info -->
+            <div class="flight-info">
+                <div class="info-label">Flight:</div>
+                <div class="info-value">{!t.flightNo}</div>
+
+                <div class="info-label">Date:</div>
+                <div class="info-value">{!t.depDate}</div>
+
+                <div class="info-label">From:</div>
+                <div class="info-value">{!t.depAirport}</div>
+
+                <div class="info-label">To:</div>
+                <div class="info-value">{!t.arrAirport}</div>
+
+                <div class="info-label">Passenger:</div>
+                <div class="info-value">{!t.paxName}</div>
+
+                <div class="info-label">Seat:</div>
+                <div class="info-value">{!t.seat}</div>
+
+                <div class="info-label">Boarding Gate:</div>
+                <div class="info-value">{!IF(t.noGate, '--', t.boardingGate)}</div>
+
+                <div class="info-label">Boarding Time:</div>
+                <div class="info-value">{!t.boardingTime}</div>
+
+                <div class="info-label">Zone:</div>
+                <div class="info-value">{!t.zone}</div>
+
+                <div class="info-label">PNR:</div>
+                <div class="info-value">{!t.pnr}</div>
+
+                <div class="info-label">Ticket:</div>
+                <div class="info-value">{!t.etkt}</div>
+
+                <div class="info-label">Services:</div>
+                <div class="info-value">{!t.mealSvc}</div>
+
+                <div class="info-label">Notice:</div>
+                <div class="info-value">
+                    <apex:outputText value="{!noticeContentBoardingPass}" escape="false"/>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page break every 3 -->
+        <apex:outputPanel rendered="{!MOD(rowNum, 3) = 0}">
+            <div style="page-break-after: always;"></div>
+        </apex:outputPanel>
+    </apex:repeat>
+</apex:page>

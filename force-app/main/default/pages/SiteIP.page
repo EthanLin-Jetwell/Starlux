@@ -1,0 +1,11 @@
+<apex:page controller="SiteIPController" showHeader="false" sidebar="false">
+  <h3>Chosen visitorIP: {!visitorIP}</h3>
+  <p>X-Forwarded-For raw: {!xff}</p>
+  <hr/>
+  <apex:pageBlock title="All Headers">
+    <apex:pageBlockTable value="{!all}" var="k">
+      <apex:column headerValue="Header">{!k}</apex:column>
+      <apex:column headerValue="Value">{!all[k]}</apex:column>
+    </apex:pageBlockTable>
+  </apex:pageBlock>
+</apex:page>

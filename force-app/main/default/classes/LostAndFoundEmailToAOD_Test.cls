@@ -17,6 +17,11 @@ public class LostAndFoundEmailToAOD_Test {
         Agents_Conclusion__c = '123',
         Description = 'QWEASD');
         Insert newCase;
+     
+   EmailMessage newEmail = new EmailMessage(
+   ParentId = newCase.Id);  
+     Insert newEmail;
+     
         List<Case> caseRecord = new List<Case>();
         caseRecord.add(newCase);
         

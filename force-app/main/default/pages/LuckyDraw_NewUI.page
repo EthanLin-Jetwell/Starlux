@@ -56,19 +56,19 @@
                         </table>
                     </section>
                     <section class="table__header">
-                            <div>
-                                <span id="ajaxloading">
-                                    <span id="ajaxloading_start" style="display: none">
-                                        <div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; opacity: .9; z-index: 1000; background-color: #F4F4F4;">
-                                            &nbsp;
-                                        </div>
-                                        <div style="position: fixed; left: 0; top: 0; bottom: 0; right: 0; z-index: 1001; display: flex; justify-content: center; align-items: center;">
-                                            <img height="240" width="240" src="{!$Resource.SVG_Flight_Loader_Horizontal}" style="border-radius: 50%;"/>
-                                        </div>
-                                    </span>
+                        <div>
+                            <span id="ajaxloading">
+                                <span id="ajaxloading_start" style="display: none">
+                                    <div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; opacity: .9; z-index: 1000; background-color: #F4F4F4;">
+                                        &nbsp;
+                                    </div>
+                                    <div style="position: fixed; left: 0; top: 0; bottom: 0; right: 0; z-index: 1001; display: flex; justify-content: center; align-items: center;">
+                                        <img height="240" width="240" src="{!$Resource.SVG_Flight_Loader_Horizontal}" style="border-radius: 50%;"/>
+                                    </div>
                                 </span>
-                            </div>
-                        </section>
+                            </span>
+                        </div>
+                    </section>
                 </main>
                 
                 <apex:pageBlock id="block2" rendered="{!show}">
@@ -117,7 +117,7 @@
                     <section class="table__header">
                         <h1>完成問卷名單</h1>
                         <!--<h1>總筆數：<apex:outputText value="{!participants.size} （本頁面顯示上限1000）" /></h1> -->
-                        <h1>總筆數：<apex:outputText value="14,892 （本頁面顯示上限1000）" /></h1>    
+                        <h1>總筆數：<apex:outputText value="6087 （本頁面顯示上限1000）" /></h1>    
                                  <div style="float: right;">
                                     
                                     <script>

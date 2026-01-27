@@ -1,9 +1,13 @@
 public class MwCancelPnrWrapper {
     
     public String returnSatNo {get; set;}
+    //change
+    public String OfficeID {get; set;}
 
     public MwCancelPnrWrapper(String satNoCancelling) {
         this.returnSatNo = satNoCancelling;
+        //change
+        //this.OfficeID = OfficeID;
     }
 
     public static void fakeMethod(){

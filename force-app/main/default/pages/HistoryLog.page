@@ -390,6 +390,8 @@
                                         <th style="font-weight:bolder">使用者</th>
                                         <th style="font-weight:bolder">作業類型</th>
                                         <th style="font-weight:bolder">操作</th>
+                                        <th style="font-weight:bolder">旅行社代碼</th>
+                                        <th style="font-weight:bolder">訂位代號</th>
                                         <th style="font-weight:bolder">異動值</th>
                                     </tr>
                                 </thead>
@@ -647,6 +649,8 @@ onclick="toggleDetail('detail-{!detail.Id}')">
             <td>${h.UserPassport || ''}</td>
             <td>${h.Menu || ''}</td>
             <td class="operation-column">${h.Operation || ''}</td>
+            <td>${h.IataCode || ''}</td>
+            <td>${h.PNR || ''}</td>
             <td>
                 ${(h.Details || []).map(d => `
                                         <div class="detail-block" style="margin-bottom:10px">

@@ -41,6 +41,20 @@ public class DbUtil {
         System.debug('[4i] Query made:' + query);
         return Database.query(query);
     }
+    
+    //Only for NameList mealList query
+    public static List<SObject> queryAllFieldsOnlyForNameList(String sobjectName, String route, String flightClass) {
+        String query = generateQueryWithAllFields(sobjectName);
+        
+        if (route != NULL && flightClass != NULL) {
+            query += ' WHERE ';
+            query += 'Route__c' + ' LIKE \'' + route + '\'';
+            query += ' AND ';
+            query += 'Class__c' + ' = \'' + flightClass + '\'';
+        }
+		System.debug(query);
+        return Database.query(query);
+    }
 
     public static String generateQueryWithAllFields(String sobjectName) {
         String query = '';

@@ -112,7 +112,7 @@
         // PRESET Picklist Item
         component.find("Origin").set("v.value", "Web Form");
         component.find("CaseSubType").set("v.value", "Special Service Enquiry");
-        component.find("CaseSubTypeDetails").set("v.value", "Animal in Hold");    
+        component.find("CaseSubTypeDetails").set("v.value", "AVIH");    
         //component.find("Case_Sub_type__c").set("v.value", "Invoice");
     }, 
             

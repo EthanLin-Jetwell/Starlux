@@ -15,8 +15,7 @@ public class GetPurchaseInvocableMethod {
                     });
         
         HttpRequest req = new HttpRequest();
-        //req.setEndpoint('https://ecapi-uat.starlux-airlines.com/ctfs/v2/group-certification'); UAT
-        req.setEndpoint('https://ecapi.starlux-airlines.com/ctfs/v2/group-certification'); //PROD
+        req.setEndpoint('https://ecapi-uat.starlux-airlines.com/ctfs/v2/group-certification');
         req.setMethod('POST');
         req.setHeader('Authorization', 'App 177ae8fa48fc5a23674f376161a649e1-2abe7a43-91e9-436a-b69a-7d651c034d9b');
         req.setHeader('Content-Type', 'application/json');

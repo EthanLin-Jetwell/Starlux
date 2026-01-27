@@ -1,0 +1,216 @@
+<apex:page id="pg" standardStylesheets="false" StandardController="AgencyReport__c" extensions="GenerateExcelController" contenttype="application/vnd.ms-excel#MultiSheetExcel.xls" action="{!GetExcelData}">
+    {!xmlheader}
+    <Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" 
+              xmlns:o="urn:schemas-microsoft-com:office:office" 
+              xmlns:x="urn:schemas-microsoft-com:office:excel" 
+              xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet" 
+              xmlns:html="http://www.w3.org/TR/REC-html40">
+        <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+            <WindowHeight>8535</WindowHeight>
+            <WindowWidth>12345</WindowWidth>
+            <WindowTopX>480</WindowTopX>
+            <WindowTopY>90</WindowTopY>
+            <ProtectStructure>False</ProtectStructure>
+            <ProtectWindows>False</ProtectWindows>
+        </ExcelWorkbook>
+        
+        <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+            <Author>Ethan Lin</Author>
+            <LastAuthor></LastAuthor>
+            <Company>Jetwell</Company>
+            <Version>1.0</Version>
+        </DocumentProperties>
+        <OfficeDocumentSettings xmlns="urn:schemas-microsoft-com:office:office">
+            <AllowPNG/>
+        </OfficeDocumentSettings>
+        
+        <Styles>
+            <Style ss:ID="default">
+                <Alignment ss:Horizontal="Center"/>
+                <Borders/>
+                <Font ss:bgcolor="#ff0000"/>
+                <Interior ss:bgcolor="#ff0000"/>
+                <NumberFormat/>
+                <Protection/>
+            </Style>
+            <Style ss:ID="white">
+                <Font ss:FontName="Calibri" x:Family="Swiss" ss:Size="13" ss:Color="#000000" ss:Bold="1" ss:Border="1" />
+                <Alignment ss:Horizontal="Center"/>
+                <Borders>
+                    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+                    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+                    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+                    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+                </Borders>
+                <Interior ss:Color="#ffffff" ss:Pattern="Solid" ss:Border="1"/>
+            </Style>
+            <Style ss:ID="brown">
+                <Font ss:FontName="Calibri" x:Family="Swiss" ss:Size="13" ss:Color="#ffffff" ss:Bold="1" ss:Border="1" />
+                <Alignment ss:Horizontal="Center"/>
+                <Borders>
+                    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+                    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+                    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+                    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+                </Borders>
+                <Interior ss:Color="#806000" ss:Pattern="Solid" ss:Border="1"/>
+            </Style>
+            <Style ss:ID="light_gray">
+                <Font ss:FontName="Calibri" x:Family="Swiss" ss:Size="13" ss:Color="#000000" ss:Bold="1" ss:Border="1" />
+                <Alignment ss:Horizontal="Center"/>
+                <Borders>
+                    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+                    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+                    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+                    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+                </Borders>
+                <Interior ss:Color="#f2f2f2" ss:Pattern="Solid" ss:Border="1"/>
+            </Style>
+            <Style ss:ID="dark_gray">
+                <Font ss:FontName="Calibri" x:Family="Swiss" ss:Size="13" ss:Color="#000000" ss:Bold="1" ss:Border="1" />
+                <Alignment ss:Horizontal="Center"/>
+                <Borders>
+                    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+                    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+                    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+                    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+                </Borders>
+                <Interior ss:Color="#d0cece" ss:Pattern="Solid" ss:Border="1"/>
+            </Style>
+            <Style ss:ID="green">
+                <Font ss:FontName="Calibri" x:Family="Swiss" ss:Size="13" ss:Color="#000000" ss:Bold="1" ss:Border="1" />
+                <Alignment ss:Horizontal="Center"/>
+                <Borders>
+                    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+                    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+                    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+                    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+                </Borders>
+                <Interior ss:Color="#e2efda" ss:Pattern="Solid" ss:Border="1"/>
+            </Style>
+            <Style ss:ID="blue">
+                <Font ss:FontName="Calibri" x:Family="Swiss" ss:Size="13" ss:Color="#000000" ss:Bold="1" ss:Border="1" />
+                <Alignment ss:Horizontal="Center"/>
+                <Borders>
+                    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+                    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+                    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+                    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+                </Borders>
+                <Interior ss:Color="#ddebf7" ss:Pattern="Solid" ss:Border="1"/>
+            </Style>
+            <Style ss:ID="orange">
+                <Font ss:FontName="Calibri" x:Family="Swiss" ss:Size="13" ss:Color="#000000" ss:Bold="1" ss:Border="1" />
+                <Alignment ss:Horizontal="Center"/>
+                <Borders>
+                    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+                    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+                    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+                    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+                </Borders>
+                <Interior ss:Color="#f8cbad" ss:Pattern="Solid" ss:Border="1"/>
+            </Style>
+            <Style ss:ID="yellow">
+                <Font ss:FontName="Calibri" x:Family="Swiss" ss:Size="13" ss:Color="#000000" ss:Bold="1" ss:Border="1" />
+                <Alignment ss:Horizontal="Center"/>
+                <Borders>
+                    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+                    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+                    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+                    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+                </Borders>
+                <Interior ss:Color="#fff2cc" ss:Pattern="Solid" ss:Border="1"/>
+            </Style>
+        </Styles>
+        <!---------------------------------->
+        <Worksheet ss:Name="Record">
+            <Table ss:ExpandedColumnCount="100">
+                <Column ss:Width="90"/>
+                
+                <Row>
+                    <Cell ss:StyleID="white" ss:MergeAcross="{!titleLength}">
+                        <Data ss:Type="String">{!title}</Data></Cell>
+                </Row>
+                
+                <apex:repeat value="{!origins}" var="origin">
+                    <Row>
+                        <Cell ss:StyleID="light_gray" ><Data ss:Type="String">Route</Data></Cell>
+                        <apex:repeat value="{!months}" var="value">
+                            <Cell ss:StyleID="brown" ss:MergeAcross="5">
+                                <Data ss:Type="String">{!value}月</Data></Cell>
+                        </apex:repeat>
+                    </Row>
+                    
+                    <Row>
+                        <Cell ss:StyleID="light_gray" ><Data ss:Type="String">{!origin}</Data></Cell>
+                        <apex:repeat value="{!months}" var="value">
+                            <Cell ss:StyleID="green" ><Data ss:Type="String">原始AU</Data></Cell>
+                            <Cell ss:StyleID="blue" ><Data ss:Type="String">實際發位數</Data></Cell>
+                            <Cell ss:StyleID="light_gray" ><Data ss:Type="String">總對團數</Data></Cell>
+                            <Cell ss:StyleID="light_gray" ><Data ss:Type="String">intake</Data></Cell>
+                            <Cell ss:StyleID="green" ><Data ss:Type="String">原始AU機位使用率</Data></Cell>
+                            <Cell ss:StyleID="blue" ><Data ss:Type="String">實際發位機位使用率</Data></Cell>
+                        </apex:repeat>
+                    </Row>
+                    
+                    <apex:repeat value="{!areas[origin]}" var="tempAreas">
+                        <apex:repeat value="{!tempAreas}" var="area">
+                            <apex:repeat value="{!areaMap[origin][area]}" var="waypoint">
+                                <Row>
+                                    <Cell ss:StyleID="white" ><Data ss:Type="String">{!waypoint}</Data></Cell>
+                                    <apex:repeat value="{!waypointMap[origin][waypoint]}" var="row">
+                                            <Cell ss:StyleID="white" ><Data ss:Type="String">{!row}</Data></Cell>
+                                    </apex:repeat>
+                                </Row>
+                            </apex:repeat>
+                            <Row>
+                                <Cell ss:StyleID="dark_gray" ><Data ss:Type="String">{!area}總計</Data></Cell>
+                                <apex:repeat value="{!areaTotal[origin][area]}" var="areaTotal">
+                                    <apex:repeat value="{!areaTotal}" var="row">
+                                        <Cell ss:StyleID="dark_gray" ><Data ss:Type="String">{!row}</Data></Cell>
+                                    </apex:repeat>
+                                </apex:repeat>
+                            </Row>
+                        </apex:repeat>
+                    </apex:repeat>
+                    <Row>
+                        <Cell ss:StyleID="orange" ><Data ss:Type="String">TTL</Data></Cell>
+                        <apex:repeat value="{!total[origin]}" var="val">
+                            <Cell ss:StyleID="orange" ><Data ss:Type="String">{!val}</Data></Cell>
+                        </apex:repeat>
+                    </Row>
+                    <Row></Row>
+                </apex:repeat>
+                
+                <Row>
+                    <Cell ss:StyleID="light_gray" ></Cell>
+                    <apex:repeat value="{!months}" var="value">
+                        <Cell ss:StyleID="green" ><Data ss:Type="String">原始AU</Data></Cell>
+                        <Cell ss:StyleID="blue" ><Data ss:Type="String">實際發位數</Data></Cell>
+                        <Cell ss:StyleID="light_gray" ><Data ss:Type="String">總對團數</Data></Cell>
+                        <Cell ss:StyleID="light_gray" ><Data ss:Type="String">intake</Data></Cell>
+                        <Cell ss:StyleID="green" ><Data ss:Type="String">原始AU機位使用率</Data></Cell>
+                        <Cell ss:StyleID="blue" ><Data ss:Type="String">實際發位機位使用率</Data></Cell>
+                    </apex:repeat>
+                </Row>
+                
+                
+                <apex:repeat value="{!origins}" var="origin">
+                    <Row>
+                        <Cell ss:StyleID="orange" ><Data ss:Type="String">{!origin}總計</Data></Cell>
+                        <apex:repeat value="{!total[origin]}" var="val">
+                            <Cell ss:StyleID="white" ><Data ss:Type="String">{!val}</Data></Cell>
+                        </apex:repeat>
+                    </Row>
+                </apex:repeat>
+                
+                <Row>
+                    <Cell ss:StyleID="orange" ><Data ss:Type="String">台灣區總計</Data></Cell>
+                    <apex:repeat value="{!grandTotal}" var="grandTtl">
+                        <Cell ss:StyleID="orange" ><Data ss:Type="String">{!grandTtl}</Data></Cell>
+                    </apex:repeat>
+                </Row>
+            </Table>
+        </Worksheet>
+    </Workbook>
+</apex:page>

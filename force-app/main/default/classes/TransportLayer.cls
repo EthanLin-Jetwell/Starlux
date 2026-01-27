@@ -461,7 +461,8 @@ public inherited sharing class TransportLayer {
 
         // configure the request
         req.setMethod(method);
-        req.setTimeout(Integer.valueOf(intSetting.get('timeoutMap')));
+//        req.setTimeout(Integer.valueOf(intSetting.get('timeoutMap')));
+        req.setTimeout(20000);
 
         // configure standard headers
         //req.setHeader('Accept', '*/*');

@@ -32,5 +32,11 @@
       component.set("v.isOpen", false);
       var theCookie = helper.getCookie("iAccept");
 //      alert('thanks for like Us :) '+theCookie);
+	  //Open new tab
+      var urlEvent = $A.get("e.force:navigateToURL");
+      urlEvent.setParams({
+          "url": 'https://www.starlux-airlines.com/'
+      });
+      urlEvent.fire();
    },
 })

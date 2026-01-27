@@ -1,0 +1,810 @@
+<apex:page controller="SeatSelectionController"  docType="html-5.0" applyHtmlTag="true" standardStylesheets="false" showHeader="false">
+    <head>
+        <title>EditTraveler</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no"/>
+        <c:styleinclude ></c:styleinclude>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"/>
+        <link
+              rel="stylesheet"
+              href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+              />
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        
+        <link rel="stylesheet" href="{!$Resource.B2BStyle}" />
+        <!-- Select2 CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        
+        <!-- jQuery (必要) -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        
+        <!-- Select2 JS -->
+            <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        
+        <style>
+            
+            
+        </style>
+    </head>
+    <body class="d-flex py-4">
+        <c:B2BNavbar ></c:B2BNavbar>
+        <apex:outputPanel id="SearchSuccessPanel" style="display:none">
+            <c:successNotification message="搜尋成功"/>
+        </apex:outputPanel>
+        <apex:outputPanel id="SearchErrorPanel" style="display:none">
+            <c:FailNotification />
+        </apex:outputPanel>
+        <apex:outputPanel id="editSuccessPanel" style="display:none">
+            <c:successNotification message="編輯成功"/>
+        </apex:outputPanel>
+        
+        <div class="content-wrapper" id="content-wrapper">
+            <div class="container-fluid">
+                <apex:form id="searchForm">
+                    <!--<apex:pageMessages id="msgs"/>-->
+                    
+                    <div id="flightSearchForm" class="row g-3">
+                        <!-- 航班號碼 -->
+                        <div class="col-md-3">
+                            <label class="form-label">航班號碼*</label>
+                            <div class="d-flex">
+                                <!-- 左邊的 Prefix+dash -->
+                                <div class="input-group me-2" style="width: 40%;">
+                                    <input
+                                           id="flightPrefix"
+                                           class="form-control"
+                                           value="{!flightPrefix}"
+                                           disabled="true"
+                                           style="height: 38px; border-radius: 2px;"/>
+                                    <span class="input-group-text" style="border:none;background:none; height: 38px;">-</span>
+                                </div>
+                                <!-- 右邊的輸入框 -->
+                                <div class="input-group" style="flex:1">
+                                    <!-- 顯示用輸入框 -->
+                                    <input type="text"
+                                           id="flightNumber_display"
+                                           class="form-control required-field"
+                                           placeholder="請輸入"
+                                           oninput="limitFlightInput(this)"
+                                           onblur="formatFlightNumber()"/>
+                                    
+                                    <!-- 實際送出欄位 -->
+                                    <apex:inputHidden value="{!flightNumber}" id="flightNumber" />
+                                </div>
+                                
+                                
+                            </div>
+                            <div class="invalid-feedback w-100 ps-4">
+                                必填
+                            </div>
+                        </div>
+                        
+                        
+                        <!-- 起飛日期 -->
+                        <div class="col-md-2">
+                            <label class="form-label">起飛日期*</label>
+                            <div class="input-group">
+                                <apex:inputText value="{!departureDateStr}"
+                                                id="departureDate"
+                                                styleClass="form-control required-field"
+                                                html-placeholder="請選擇"
+                                                onfocus="this.type='date'; this.showPicker && this.showPicker();"
+                                                onblur="if(!this.value) this.type='text';"
+                                                />
+                            </div>
+                            <div class="invalid-feedback w-100">必填</div>
+                        </div>
+                        
+                        
+                        
+                        <!-- 起飛地 -->
+                        <div class="col-md-1">
+                            <label class="form-label">起飛地*</label>
+                            
+                            <apex:selectList value="{!departureLocation}"
+                                             size="1"
+                                             styleClass="form-select required-field"
+                                             style="border-radius: 2px;">
+                                <apex:selectOptions value="{!originOptions}" />
+                            </apex:selectList>
+                            
+                            <div class="invalid-feedback">必填</div>
+                        </div>
+                        
+                        
+                        <!-- 訂位代號 -->
+                        <div class="col-md-4">
+                            <label class="form-label">訂位代號* FPR3G7,69YAFA</label>
+                            
+                            <!--<apex:inputText value="{!bookingCodes}"
+id="bookingCodes"
+styleClass="form-control required-field"
+html-placeholder="請輸入"/>-->
+                            <apex:inputText value="{!bookingCodes}"
+                                            id="bookingCodes"
+                                            styleClass="form-control required-field"
+                                            html-placeholder="請輸入"/>
+                            
+                            <div class="invalid-feedback w-100">必填</div>
+                        </div>
+                        
+                        
+                        <!-- 按鈕 -->
+                        
+                        <div class="col-md-2 d-flex justify-content-end" style="align-items: anchor-center;">
+                            <button id="clearButton" type="button"
+                                    class="btn me-2"
+                                    style="height:48px;width:80px;color:#8E7248;background:#fff;">
+                                清除
+                            </button>
+                            <apex:actionFunction name="doSearch" action="{!searchPnr}"
+                                                 rerender="resultsBlock,msgs,SearchSuccessPanel,SearchErrorPanel"
+                                                 oncomplete="showTabs();" />
+                            
+                            <button id="validateBtn" type="button"
+                                    class="btn"
+                                    style="height:48px;width:80px;background:#8E7248;color:#fff;"
+                                    onclick="validateSearch();">
+                                搜尋
+                            </button>
+                            
+                        </div>
+                    </div>
+                </apex:form>
+                
+                <!-- ======== 結果區 (reRender 目標) ======== -->
+                <apex:outputPanel id="resultsBlock" layout="block" style="height:88%;">
+                    
+                    <!-- Tabs (只有搜尋後才顯示) -->
+                    <div class="mt-4" id="tabResults"
+                         style="{!IF(ISBLANK(firstTabKey),'display:none;','')}">
+                        <ul class="nav nav-tabs" role="tablist" style="border: none;">
+                            <apex:repeat value="{!pnrKeys}" var="pnr">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link {!IF(pnr==firstTabKey,'active','')}"
+                                            data-bs-toggle="tab"
+                                            data-bs-target="#tab{!pnr}"
+                                            type="button" role="tab"
+                                            style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin-right: 4px; border-radius: 0.375rem;">
+                                        {!pnr}
+                                    </button>
+                                </li>
+                            </apex:repeat>
+                        </ul>
+                    </div>
+                    
+                    
+                    <!-- 外框 -->
+                    <div id="outerWrapper" class="mt-0"
+                         style="background:#fff;border-radius:4px;
+                                {!IF(ISBLANK(firstTabKey),'display:block;','')}
+                                ">
+                        
+                        <!-- 沒資料時提示 -->
+                        <div id="searchPrompt"
+                             class="search-prompt"
+                             style="{!IF(ISBLANK(firstTabKey),'','display:none;')}">
+                            請搜尋資料
+                        </div>
+                        
+                        <!-- 結果表格 -->
+                        <div id="searchResults"
+                             style="{!IF(ISBLANK(firstTabKey),'display:none;','')}; overflow-y: auto; position: relative;">
+                            <!-- 這裡可放分頁控制 -->
+                            <div class="pagination-controls d-flex
+                                        align-items-center justify-content-between"
+                                 style="position: sticky; top: 0; z-index: 10; height:78px; margin-top:3px;">
+                                <div></div>
+                                
+                                圖利
+                            </div>
+                          
+                            <div class="tab-content" id="resultTabContent">
+                                <apex:repeat value="{!pnrKeys}" var="pnr">
+                                    <div id="tab{!pnr}" role="tabpanel"
+                                         class="tab-pane fade {!IF(pnr==firstTabKey,'show active','')}">
+                                       
+                                    </div>
+                                </apex:repeat>
+                            </div>
+                        </div> <!-- /searchResults -->
+                    </div>   <!-- /outerWrapper -->
+                </apex:outputPanel>
+            </div>
+        </div>
+        
+        
+        <div class="fixed-bottom-buttons" id="fixedBottomButtons" style="display:none">
+            <div class="container" style="margin-top:0; box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.2); z-index: 1050; background-color: #fff;">
+                <button type="button" class="btn" id="cancelBtn" style="width:73px;height:48px;background-color:white;color:#8E7248;border:none;display:none">取消</button>
+                <button type="reset" id="testbtn" class="btn" style="width:73px;height:48px;background-color:#8E7248;color:white;border-radius: 4px;">編輯</button>
+                <button type="submit" id="nextStep1" class="btn me-2" style="width: 89px;height:48px;border-color:#8E7248;color:#8E7248;background-color:white;border-radius: 4px;">下一步</button>
+                <input type="file" id="fileUpload" style="display: none" multiple='multiple' accept=".xlsx,.xls,.csv,.pdf,.doc,.docx"/>
+                <button type="button" class="btn" id="uploadButton" style="width:73px;height:48px;background-color:#8E7248;color:white;border-radius: 4px;display:none">上傳</button>
+            </div>
+        </div>
+        <div id="loadingOverlay" style="display: none;">
+            <div style="
+                        position: fixed;
+                        top: 0; left: 0; right: 0; bottom: 0;
+                        background-color: rgba(255, 255, 255, 0.7);
+                        z-index: 99999;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        ">
+                <div class="spinner-border" role="status" style="width: 4rem; height: 4rem; color: #212121;">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                
+            </div>
+        </div>
+        
+    </body>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    
+    
+    <script type="text/javascript">
+        
+        //bookingCodes卡控
+        document.addEventListener('DOMContentLoaded', function () {
+            const bookingInput = document.getElementById('{!$Component.searchForm.bookingCodes}');
+            if (bookingInput) {
+                bookingInput.setAttribute('maxlength', '50');
+                
+                bookingInput.addEventListener('input', function () {
+                    this.value = this.value.toUpperCase().replace(/[^A-Z0-9,]/g, '');
+                });
+            }
+        });
+    
+    
+    //航班號碼
+    function limitFlightInput(el) {
+        let raw = el.value.toUpperCase().replace(/[^0-9A-Z]/g, ''); 
+        raw = raw.slice(0, 5); 
+        
+        const match = raw.match(/^(\d*)([A-Z]*)$/);
+        if (!match) {
+            el.value = raw;
+            return;
+        }
+        
+        let numberPart = match[1];
+        let letterPart = match[2];
+        
+        if (letterPart.length === 0) {
+            numberPart = numberPart.slice(0, 4);
+        } else {
+            const maxDigits = 5 - letterPart.length;
+            numberPart = numberPart.slice(0, maxDigits);
+        }
+        
+        el.value = numberPart + letterPart;
+    }
+    
+    
+    function formatFlightNumber() {
+        const displayEl = document.getElementById('flightNumber_display');
+        const hiddenEl = document.getElementById('{!$Component.searchForm.flightNumber}');
+        
+        let raw = displayEl.value.trim().toUpperCase();
+        const match = raw.match(/^(\d*)([A-Z]*)$/);
+        
+        if (!match) {
+            hiddenEl.value = raw;
+            displayEl.value = raw;
+            return;
+        }
+        
+        let numberPart = match[1];
+        const letterPart = match[2];
+        
+        if (letterPart.length === 0) {
+            // 純數字：補 0 到 4 碼
+            numberPart = numberPart.padStart(4, '0');
+        } else {
+            // 含英文：補 0 到總長 5 碼
+            const padLength = 5 - letterPart.length;
+            numberPart = numberPart.padStart(padLength, '0');
+        }
+        
+        const formatted = numberPart + letterPart;
+        
+        displayEl.value = formatted;
+        hiddenEl.value = raw;
+    }
+    
+    
+    
+  
+   
+    //20250607 Rich日期鎖定，要用再打開
+        document.addEventListener('DOMContentLoaded', function () {
+        
+        /* 1️⃣ 取得日期輸入框 */
+        const dateEl = document.getElementById(
+        '{!$Component.searchForm.departureDate}'
+        );
+        
+        /* 2️⃣ 算出「今天 – 4 天」 */
+        const today  = new Date();
+        //const minDay = new Date(today.getFullYear(),   
+        //today.getMonth(),      
+        //today.getDate() - 4);  
+        
+        /* 3️⃣ 轉成 yyyy-MM-dd 格式 (date input 需要) */
+        const pad = n => n.toString().padStart(2, '0');
+        const minStr = [
+        minDay.getFullYear(),
+        pad(minDay.getMonth() + 1),
+        pad(minDay.getDate())
+        ].join('-');
+        
+        /* 4️⃣ 寫入 min 屬性 */
+        dateEl.setAttribute('min', minStr);
+        
+        /* 5️⃣ 若欄位預設值 < min，也同步調整 */
+        if (dateEl.value && dateEl.value < minStr) {
+        dateEl.value = minStr;
+    }
+    });
+        
+        
+        document.addEventListener('click', function(event) {
+        // 尋找所有 notification 面板（可能有多個）
+        const notifications = document.querySelectorAll('.notification-panel');
+        
+        notifications.forEach(function(notification) {
+        // 如果點擊的不是 notification 裡面的東西，就關閉
+        if (!notification.contains(event.target)) {
+        notification.style.display = 'none';
+    }
+    });
+    });
+        
+        
+        
+        function showErrorToast(message) {
+        const toastId = 'customToast';
+        let existing = document.getElementById(toastId);
+        if (existing) existing.remove();
+        
+        const toast = document.createElement('div');
+        toast.id = toastId;
+        toast.className = 'toast align-items-center text-white bg-danger border-0 show';
+        toast.style.position = 'fixed';
+        toast.style.bottom = '100px';
+        toast.style.right = '20px';
+        toast.style.zIndex = '9999';
+        toast.style.minWidth = '200px';
+        
+        toast.innerHTML = `
+        <div class="d-flex">
+        <div class="toast-body">${message}</div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" onclick="this.parentElement.parentElement.remove();"></button>
+        </div>
+        `;
+        
+        document.body.appendChild(toast);
+        
+        setTimeout(() => {
+        if (document.body.contains(toast)) toast.remove();
+    }, 5000);
+    }
+  
+            
+            
+            let originalValues = {};
+            const editButton = document.getElementById('testbtn');
+            const cancelButton = document.getElementById('cancelBtn');
+            const nextStepBtn = document.getElementById('nextStep1');
+            const uploadButton = document.getElementById('uploadButton');
+            const submitButton = document.getElementById('submitButton');
+            let isEditing = false;
+           
+    
+    //搜尋按鈕驗證資料是否必填
+            function validateFields() {
+            const editableFields = document.querySelectorAll('.editable-field:not([disabled])');
+            let ok = true;
+            
+            editableFields.forEach(f => {
+            const tag = f.tagName.toLowerCase();
+            
+            f.classList.remove('is-invalid');
+            
+        
+            
+            const old = f.parentElement.querySelector('.invalid-feedback');
+            if (old) old.remove();
+            
+            const value = f.value.trim();
+            
+            if ((tag === 'input' || tag === 'select') && !value) {
+            ok = false;
+            f.classList.add('is-invalid');
+            
+            const div = document.createElement('div');
+            div.className = 'invalid-feedback';
+            div.textContent = '必填';
+            f.parentElement.appendChild(div);
+        }
+        });
+            
+            return ok;
+        }
+
+            editButton.addEventListener('click',()=>{
+            const editableFields = document.querySelectorAll('.editable-field');
+            const actionButtons = document.querySelectorAll('.actionbtn');
+            
+            /* ---------- 進入「編輯」 ---------- */
+            if(!isEditing){
+            isEditing = true;
+            editButton.textContent = '儲存';
+            
+            // 將 flightSearchForm 裡的欄位 disable
+            const flightSearchForm = document.getElementById('flightSearchForm');
+            if (flightSearchForm) {
+            flightSearchForm.querySelectorAll('input, select, button').forEach(el => {
+            el.disabled = true;
+            el.classList.add('disabled-by-edit'); // 若日後需要取消可用此 class 區分
+        });
+        }
+            
+            cancelButton.style.display = 'block';
+            nextStepBtn.style.display  = 'none';
+            uploadButton.style.display = 'block';
+            
+            document.querySelectorAll('.edit-only').forEach(td => {
+            td.style.display = 'table-cell';
+        });
+            
+            editableFields.forEach(f=>{
+            f.dataset.orig = f.value;          // 拍下原值
+            f.disabled  = false;
+            f.style.backgroundColor = '#fff';
+            f.style.border = '1px solid #ced4da';
+            if (f.type === 'date' && (f.dataset.api === 'expiryDate' || f.dataset.api === 'VisaExpiryDate__c')) {
+        const departureDate = document.getElementById('{!$Component.searchForm.departureDate}').value;
+        f.setAttribute('min', departureDate);
+    }
+        });
+
+        }
+            
+            /* ---------- 點「儲存」 ---------- */
+            if(!validateFields()) return;             // 驗證沒過直接跳走
+            document.querySelectorAll('.edit-only').forEach(td => {
+            td.style.display = 'none';
+        });
+            
+            /* 這裡如果要呼叫 Apex save()，請在此觸發 hidden commandButton 或 actionFunction */
+            
+            isEditing = false;
+            editButton.textContent = '編輯';
+            
+            cancelButton.style.display = 'none';
+            nextStepBtn.style.display  = 'block';
+            uploadButton.style.display = 'none';
+            
+            editableFields.forEach(f=>{
+            f.disabled  = true;
+            f.style.backgroundColor = 'transparent';
+            f.style.border = 'none';
+            if (f.tagName.toLowerCase() === 'select') {
+            $(f).select2(); // 重建 select2，避免變成 plain select
+        }
+            f.classList.remove('is-invalid');
+            delete f.dataset.orig;                // 真正儲存成功後把快照移除
+            const fb = f.parentElement.querySelector('.invalid-feedback');
+            if(fb) fb.remove();
+        });
+            
+            actionButtons.forEach(b=>{
+            b.disabled = true;
+            b.style.cursor = 'not-allowed';
+        });
+            
+            // 成功提示
+            const okPanel = document.querySelector('[id$=editSuccessPanel]');
+            if(okPanel){
+            okPanel.style.display='block';
+            setTimeout(()=>{ okPanel.style.display='none'; },2000);
+        }
+        });
+            
+            /* ==============  取   消  ============== */
+            cancelButton.addEventListener('click',()=>{
+            const flightSearchForm = document.getElementById('flightSearchForm');
+            if (flightSearchForm) {
+            flightSearchForm.querySelectorAll('.disabled-by-edit').forEach(el => {
+            el.disabled = false;
+            el.classList.remove('disabled-by-edit');
+        });
+        }
+            document.querySelectorAll('.edit-only').forEach(td => {
+            td.style.display = 'none';
+        });
+            
+            
+            const editableFields = document.querySelectorAll('.editable-field');
+            const actionButtons  = document.querySelectorAll('.actionbtn');
+            
+            editableFields.forEach(f=>{
+            // 用快照還原原值
+            if(f.dataset.orig !== undefined){
+            f.value = f.dataset.orig;
+        }
+            
+            f.disabled = true;
+            if (f.tagName.toLowerCase() === 'select' && $(f).hasClass('select2-hidden-accessible')) {
+            $(f).prop('disabled', true).select2();
+            
+            const $selection = $(f).next('.select2-container').find('.select2-selection');
+            $selection.css({
+            height: '60px',
+            'line-height': '60px',
+            'border-radius': '4px',
+            'font-size': '0.875rem',
+            'padding': '0',
+            'text-align': 'center',
+            'box-shadow': 'none',
+            'outline': 'none',
+            'background-color': '#f8f8f8',
+            'border': '1px solid #dfdcd7',
+            'cursor': 'not-allowed'
+        });
+    }
+    f.style.backgroundColor = 'transparent';
+    f.style.border = '1px solid #ced4da';
+    f.classList.remove('is-invalid');
+    const fb = f.parentElement.querySelector('.invalid-feedback');
+    if(fb) fb.remove();
+    delete f.dataset.orig;                // 還原後也可刪掉
+    });
+    
+    actionButtons.forEach(b=>{
+        b.disabled = true;
+        b.style.cursor = 'not-allowed';
+    });
+        
+        isEditing = false;
+        editButton.textContent = '編輯';
+        cancelButton.style.display = 'none';
+        nextStepBtn.style.display  = 'block';
+        uploadButton.style.display = 'none';
+    });
+        
+        function showTabs() {
+        const msgs        = document.getElementById('{!$Component.msgs}');
+        const successTip  = document.getElementById('{!$Component.SearchSuccessPanel}');
+        const ErrorTip  = document.getElementById('{!$Component.SearchErrorPanel}');
+        const tabResults  = document.getElementById('tabResults');
+        const searchResults = document.getElementById('searchResults');
+        const fixedBtns   = document.getElementById('fixedBottomButtons');
+        const searchPrompt = document.getElementById('searchPrompt');
+        
+        // 有後端錯誤 or Info （使用 pageMessages 或 SearchErrorPanel）
+        const hasError = msgs && msgs.querySelector('.messageError, .messageInfo');
+        
+        if (hasError) {
+        // 失敗：隱藏資料區、底部按鈕、成功提示
+        tabResults.style.display     = 'none';
+        searchResults.style.display  = 'none';
+        fixedBtns.style.display      = 'none';
+        searchPrompt.style.display   = '';
+        successTip.style.display     = 'none';
+    } else {
+        // 成功：顯示資料、底部按鈕，把「搜尋成功」吐出來
+        searchPrompt.style.display   = 'none';
+        tabResults.style.display     = 'block';
+        searchResults.style.display  = 'block';
+        fixedBtns.style.display      = 'flex';
+        successTip.style.display     = 'block';
+        // 兩秒後自動隱藏
+        setTimeout(() => {
+        successTip.style.display = 'none';
+    }, 2000);
+    }
+        document.getElementById('loadingOverlay').style.display = 'none';
+        refreshPageUI(); // 加這行
+        
+    }
+        
+        
+        // 取消按鈕
+        cancelButton.addEventListener('click', function () {
+        const editableFields = document.querySelectorAll('.editable-field');
+        const actionButtons = document.querySelectorAll('.actionbtn');
+        
+        // 恢復原始值
+        editableFields.forEach(field => {
+        // 清除驗證狀態
+        field.classList.remove('is-invalid');
+        const feedback = field.parentElement.querySelector('.invalid-feedback');
+        if (feedback) {
+        feedback.remove();
+    }
+        
+        // 恢復原始值（如果有）
+        if (originalValues[field.id]) {
+        field.value = originalValues[field.id];
+    }
+        
+        // 禁用欄位
+        field.disabled = true;
+        field.style.backgroundColor = 'transparent';
+        field.style.border = '1px solid #ced4da';
+    });
+        
+        // 禁用操作按鈕
+        actionButtons.forEach(button => {
+        button.disabled = true;
+        button.style.cursor = 'not-allowed';
+    });
+        
+        // 重設相關按鈕狀態
+        isEditing = false;
+        cancelButton.style.display = 'none';
+        nextStepBtn.style.display = 'block';
+        uploadButton.style.display = 'none';
+        editButton.textContent = '編輯';
+    });
+        
+        
+        // 顯示美國簽證彈跳視窗的功能
+        function showUSAddressModal(button) {
+        const recordId = button.getAttribute('data-id');
+        
+        // 將這個 recordId 填入 modal 所有 input
+        document.querySelectorAll('#usAddressModal input[data-api], #usAddressModal select[data-api]').forEach(input => {
+        input.setAttribute('data-id', recordId);
+    });
+        
+        const modalElement = document.getElementById('usAddressModal');
+        const modal = new bootstrap.Modal(modalElement);
+        modal.show();
+        setTimeout(() => {
+        initSelect2States();  // 等待 modal DOM 初始化後再套用 select2
+    }, 300);
+    }
+        
+        
+        // 顯示團體簽證彈跳視窗的功能
+        function showGroupModal() {
+        const modalElement = document.getElementById('groupVisaModal');
+        if (modalElement) {
+        const modal = new bootstrap.Modal(modalElement);
+        modal.show();
+    }
+    }        
+        
+        function adjustContentWrapper() {
+        var sidebar = document.getElementById('sidebar');
+        var contentWrapper = document.getElementById('content-wrapper');
+        var fixedBottomButtons = document.getElementById('fixedBottomButtons');
+        
+        // 取得 sidebar 的當前樣式
+        var sidebarStyle = window.getComputedStyle(sidebar);
+        var transformValue = sidebarStyle.getPropertyValue('transform');
+        
+        // 檢查 sidebar 是否有 'hidden' class 或 'normal' class
+        if (sidebar.classList.contains('hidden') && window.innerWidth >= 1025) {
+        contentWrapper.style.paddingLeft = '0';
+        fixedBottomButtons.style.paddingLeft = '0';
+    } else if (sidebar.classList.contains('hidden') && window.innerWidth < 1025) {
+        contentWrapper.style.paddingLeft = '0';
+        fixedBottomButtons.style.paddingLeft = '0';
+    }
+        
+        if (sidebar.classList.contains('normal') && window.innerWidth >= 1025) {
+        contentWrapper.style.paddingLeft = '250px';
+        contentWrapper.style.transition = 'padding-left 0.3s ease-in-out';
+        fixedBottomButtons.style.paddingLeft = '250px';
+        fixedBottomButtons.style.transition = 'padding-left 0.3s ease-in-out';
+    } else if (sidebar.classList.contains('normal') && window.innerWidth < 1025) {
+        contentWrapper.style.paddingLeft = '0';
+        fixedBottomButtons.style.paddingLeft = '0';
+    }
+    }
+        
+        // 監聽 sidebar 的 class 變化
+        var observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+        if (mutation.type === "attributes" && mutation.attributeName === "class") {
+        adjustContentWrapper();
+    }
+    });
+    });
+        
+        // 當 DOM 內容加載完成後執行
+        document.addEventListener('DOMContentLoaded', function() {
+        var sidebar = document.getElementById('sidebar');
+        observer.observe(sidebar, {
+        attributes: true
+    });
+    
+    // 初始調用 adjustContentWrapper
+    adjustContentWrapper();
+    });
+    
+    // 同時監聽 window resize 事件，讓畫面縮小後也能正確調整
+    window.addEventListener('resize', adjustContentWrapper);
+    
+    //清除鍵把東西都清除
+    document.addEventListener('DOMContentLoaded', function() {
+        const btnClear = document.getElementById('clearButton');
+        btnClear.addEventListener('click', function() {
+            // 拿到 VF 真正產生的 input id
+            
+            const idFlightNum = '{!$Component.searchForm.flightNumber}';
+            const idDepart    = '{!$Component.searchForm.departureDate}';
+            const idBooking   = '{!$Component.searchForm.bookingCodes}';
+            
+            // 1. 清空欄位值
+            document.getElementById('flightNumber_display').value = '';
+            document.getElementById(idFlightNum).value = '';
+            document.getElementById(idDepart).value    = '';
+            document.getElementById(idBooking).value   = '';
+            
+            // 2. 移除所有驗證樣式 & 訊息
+            document.querySelectorAll('#flightSearchForm .required-field').forEach(field => {
+                field.classList.remove('is-invalid');
+                const fb = field.parentElement.querySelector('.invalid-feedback');
+                if (fb) fb.remove();
+            });
+                
+                // 3. 還原介面顯示
+                document.getElementById('outerWrapper').style.marginBottom   = '0';
+                document.getElementById('fixedBottomButtons').style.display  = 'none';
+                document.getElementById('searchResults').style.display      = 'none';
+                document.getElementById('searchPrompt').style.display       = 'block';
+                document.getElementById('tabResults').style.display         = 'none';
+            });
+            });
+                
+                
+                function validateSearch () {
+                
+                const fields = document.querySelectorAll('#flightSearchForm .required-field');
+                let ok = true;
+                
+                fields.forEach(field => {
+                field.classList.remove('is-invalid');
+                const old = field.parentElement.querySelector('.invalid-feedback');
+                if (old) old.remove();
+                
+                if (!field.value.trim()) {
+                ok = false;
+                field.classList.add('is-invalid');
+                
+                const div = document.createElement('div');
+                div.className = 'invalid-feedback w-100';
+                div.textContent = '必填';
+                field.insertAdjacentElement('afterend', div);
+            }
+            });
+                
+                if (ok) {
+                // 顯示 loading 遮罩
+                document.getElementById('loadingOverlay').style.display = 'block';
+                document.body.style.overflow = 'hidden';  // 禁止滾動
+                
+                // 驗證通過 → 觸發隱藏的 commandButton
+                doSearch();
+            }
+            }
+                
+                
+                
+                
+                </script>
+</apex:page>

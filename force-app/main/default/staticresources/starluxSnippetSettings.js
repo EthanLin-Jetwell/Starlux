@@ -35,6 +35,7 @@ window._snapinsSnippetSettingsFile = (function() {
     "transcriptFields": ["LastName__c"]
   }];
   
+  
   embedded_svc.snippetSettingsFile.directToButtonRouting = function(prechatFormData) {
 	//console.log(prechatFormData[1].value);
 	//console.log(prechatFormData[2].value);
@@ -42,17 +43,17 @@ window._snapinsSnippetSettingsFile = (function() {
 	if(prechatFormData[3].value === "Chinese") {
 	//console.log("direct to TW button routing initiated.");
 	//alert("Alert: direct to TW button routing initiated!");
-	return "5732u000000TN1Z";
+	return "5736D0000004CWb";
 	}
 	else if(prechatFormData[3].value === "English") {
 	//console.log("direct to TW button routing initiated.");
 	//alert("Alert: direct to TW button routing initiated!");
-	return "5732u000000TN1e";
+	return "5736D0000004CWg";
 	}
 	else if(prechatFormData[3].value === "Japanese") {
 	//console.log("direct to JP button routing initiated.");
 	//alert("Alert: direct to JP button routing initiated!");
-	return "5732u000000TN1U";
+	return "5736D0000004CSP";
 	}
 	
 	}

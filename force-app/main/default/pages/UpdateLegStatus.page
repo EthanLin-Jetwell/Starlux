@@ -1,2 +1,22 @@
 <apex:page standardController="Seat_Allocation_and_Ticketing__c" extensions="UpdateLegStatus" action="{!SATUpdateLegStatus}">
+    <head>
+        <apex:stylesheet value="{!$Resource.custom_style}"/>
+        <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css"  rel="stylesheet" type="text/css"/>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+        <script>
+            $(function() {
+                //alert('已執行，請重新整理頁面');
+                sforce.one.showToast({
+                    "title": "成功",
+                    "message": "KK動作執行中",
+                    "type": "success",
+                    "mode": "dismissible"
+                });
+                //returnList();
+                history.back();
+            });
+        </script>
+        
+    </head>
 </apex:page>
