@@ -1385,7 +1385,25 @@ public without sharing class AmadeusUtil {
     // 3 封裝
     // 產出「每批最多 N 人、且 INF 與同 PT 綁一起、盡量湊滿」的批次清單
     public static List<List<TravellerInfo__c>> makeBatchesKeepINF(List<TravellerInfo__c> travelerData){
-        return packBatchesByClustersFillSingles(travelerData, 4);
+        Integer paramValue = 4; // ✅ 預設 4
+        
+        List<B2B_Parameter__c> ps = [
+            SELECT Value__c
+            FROM B2B_Parameter__c
+            WHERE ParameterCode__c = 'C3Batch'
+            LIMIT 1
+        ];
+        
+        if (!ps.isEmpty() && !String.isBlank(ps[0].Value__c)) {
+            try {
+                paramValue = Integer.valueOf(ps[0].Value__c.trim());
+            } catch (Exception e) {
+                // 轉失敗就維持預設 4（可選擇加 log）
+                System.debug('C3Batch param parse failed: ' + ps[0].Value__c);
+            }
+        }
+        
+        return packBatchesByClustersFillSingles(travelerData, paramValue);
     }
         
     //C3 Check-in

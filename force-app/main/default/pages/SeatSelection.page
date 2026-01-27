@@ -1276,6 +1276,38 @@
                 structure: [["A"], ["D", "G"], ["K"]],
                 aisleWidths: [1, 1], // ✨ NEW: Two standard aisles.
             },
+            "351-Y": {
+                // 3-3-3 layout has two aisles.
+                headerLetters: ["A", "B", "C", "D", "E", "G", "H", "J", "K"],
+                structure: [
+                    ["A", "B", "C"],
+                    ["D", "E", "G"],
+                    ["H", "J", "K"],
+                ],
+                aisleWidths: [2, 2], // ✨ NEW: Two standard aisles.
+            },
+            "351-W": {
+                // 2-4-2 layout has two aisles.
+                headerLetters: ["A", "C", "D", "E", "F", "G", "H", "K"],
+                structure: [
+                    ["A", "C"],
+                    ["D", "E", "F", "G"],
+                    ["H", "K"],
+                ],
+                aisleWidths: [1, 1], // ✨ NEW: Two standard aisles.
+            },
+            "351-J": {
+                // 1-2-1 layout has two aisles.
+                headerLetters: ["A", "D", "G", "K"],
+                structure: [["A"], ["D", "G"], ["K"]],
+                aisleWidths: [1, 1], // ✨ NEW: Two standard aisles.
+            },
+            "351-F": {
+                // 1-2-1 layout has two aisles.
+                headerLetters: ["A", "D", "G", "K"],
+                structure: [["A"], ["D", "G"], ["K"]],
+                aisleWidths: [1, 1], // ✨ NEW: Two standard aisles.
+            },
         };
 
         const toiletSVG = `
@@ -1693,6 +1725,7 @@
                 </div></div>
                     ${generateExitRow()}
                 </div>`;
+                
                 case "339-J": // ✅ SOLVED: Staggered business class layout
                     return `
                 <div class="cabin-section">
@@ -1794,7 +1827,97 @@
                 ${generateSeatHeader(aircraftType, cabinClass)}
                 ${generateFlexibleRow({ ...baseConfig, rowNumber: 1, seatTypes: ["general"] })}
                 </div>`;
-
+                
+                case "351-F":
+                    return `
+                <div class="cabin-section">
+                    ${generateFlexibleRow({ ...baseConfig, rowNumber: null, seatTypes: [{ type: "toilet" }, "empty", "empty"] })}
+                ${generateExitRow()}
+                ${generateSeatHeader(aircraftType, cabinClass)}
+                ${generateFlexibleRow({ ...baseConfig, rowNumber: 1, seatTypes: ["general"] })}
+                </div>`;
+                
+                case "351-J":
+                    return `
+                <div class="cabin-section">
+                    ${generateSeatHeader(aircraftType, cabinClass)}
+                ${generateFlexibleRows(2, 11, { ...baseConfig, seatTypes: ["general"] })}
+                ${generateFlexibleRow({ ...baseConfig, rowNumber: null, seatTypes: [{ type: "toilet" }, "empty", { type: "toilet" }] })}
+                ${generateExitRow()}
+                </div>`;
+                
+                case "351-W":
+                    return `
+                <div class="cabin-section">
+                    ${generateExitRow()}
+                ${generateFlexibleRow({ ...baseConfig, rowNumber: null, seatTypes: ["empty", "empty", { type: "toilet", rowSpan: 2 }] })}
+                ${generateSeatHeader(aircraftType, cabinClass)}
+                ${generateFlexibleRow({ ...baseConfig, rowNumber: 20, seatTypes: ["general", "disabled", "general"] })}
+                ${generateFlexibleRows(21, 23, { ...baseConfig, seatTypes: ["general"] })}
+                ${generateFlexibleRow({ ...baseConfig, rowNumber: 24, seatTypes: ["general", "empty", "general"] })}
+                </div>`;
+                
+                case "351-Y":
+                    return `
+                <div class="cabin-section">
+                    ${generateSeatHeader(aircraftType, cabinClass)}
+                ${generateFlexibleRow({ ...baseConfig, rowNumber: 30, seatTypes: ["empty", "disabled", "empty"] })}
+                ${generateFlexibleRows(31, 41, { ...baseConfig, seatTypes: ["general"] })}
+                ${generateGalley()}
+                
+                <!-- Middle toilet row -->
+                    <div class="row-wrap">
+                        <div class="toilet" style="width: 101px; height: 101px; display: flex; align-items: center; justify-content: center;">
+                            ${toiletSVG}
+                </div>
+                <div class="walkway" style="width: 101px;">
+                    <div class="row-num"></div>
+                    </div>
+                    <div class="toilet" style="width: 101px; height: 101px; display: flex; align-items: center; justify-content: center;">
+                        ${toiletSVG}
+                </div>
+                <div class="toilet" style="width: 101px; height: 101px; display: flex; align-items: center; justify-content: center;">
+                    ${toiletSVG}
+                </div>
+                <div class="walkway" style="width: 101px;">
+                    <div class="row-num"></div>
+                    </div>
+                    <div class="toilet" style="width: 101px; height: 101px; display: flex; align-items: center; justify-content: center;">
+                        ${toiletSVG}
+                </div>
+                </div>
+                
+                ${generateExitRow()}
+                ${generateGalley()}
+                ${generateFlexibleRow({ ...baseConfig, rowNumber: 50, seatTypes: ["empty", "disabled", "empty"] })}
+                ${generateFlexibleRow({ ...baseConfig, rowNumber: 51, seatTypes: ["disabled", "general", "disabled"] })}
+                ${generateFlexibleRows(52, 53, { ...baseConfig, seatTypes: ["general"] })}
+                ${generateFlexibleRow({ ...baseConfig, rowNumber: 54, seatTypes: ["empty", "general", "empty"] })}
+                ${generateFlexibleRows(55, 69, { ...baseConfig, seatTypes: ["general"] })}
+                ${generateExitRow()}
+                
+                <!-- Bottom toilet row with seats -->
+                    <div class="row-wrap">
+                        <div class="toilet" style="width: 101px; height: 101px; display: flex; align-items: center; justify-content: center; margin-right: 25.5px;">
+                            ${toiletSVG}
+                </div>
+                <div class="walkway" style="width: 101px;">
+                    <div class="row-num"></div>
+                    </div>
+                    <div class="seat-group">
+                        <div class="seat" data-seat="SPEC-D"></div>
+                        <div class="seat" data-seat="SPEC-E"></div>
+                        <div class="seat" data-seat="SPEC-G"></div>
+                        </div>
+                        <div class="walkway" style="width: 101px;">
+                            <div class="row-num"></div>
+                            </div>
+                            <div class="toilet" style="width: 101px; height: 101px; display: flex; align-items: center; justify-content: center; margin-left: 25.5px;">
+                                ${toiletSVG}
+                </div>
+                </div>
+                </div>`;
+                
                 default:
                     console.warn(`❌ Layout template not implemented: ${layoutKey}`);
                     return `<div class="cabin-section"><div class="cabin-title">Layout not implemented: ${layoutKey}</div></div>`;
@@ -3169,6 +3292,10 @@
                     return ["11A", "12C", "18K"];
                 case "359-F":
                     return ["1A", "4K"];
+                case "351-W":
+                    return ["20D", "20E", "20F", "20G"];
+				case "351-Y":
+                    return ["30D", "31A", "41B", "51H", "60G"];
                 default:
                     return [];
             }
@@ -3242,6 +3369,10 @@
                 ["359", "W"],
                 ["359", "J"],
                 ["359", "F"],
+                ["351", "Y"],
+                ["351", "W"],
+                ["351", "J"],
+                ["351", "F"],
             ];
 
             let index = 0;

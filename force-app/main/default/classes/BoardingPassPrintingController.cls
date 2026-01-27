@@ -224,12 +224,13 @@ new List<String>{ bookingCodes.trim() };
         // 篩選出兩者交集的 PNR 清單
         List<String> matchedPnrKeys = new List<String>();
         List<String> unmatchedPnrKeys = new List<String>();
+        Set<String> unmatchedSet = new Set<String>();
         System.debug('起飛地:'+departureLocation);
         for (String p : rawPnrKeys) {
             if (extractedPNRs.containsKey(p) && extractedPNRs.get(p) == departureLocation) {
                 matchedPnrKeys.add(p);
             } else {
-                unmatchedPnrKeys.add(p);
+                if (unmatchedSet.add(p)) unmatchedPnrKeys.add(p);
             }
         }
         System.debug('符合的PNR:'+matchedPnrKeys);
@@ -246,15 +247,6 @@ new List<String>{ bookingCodes.trim() };
         //433
         OperationHistoryUtil.log('search', PAGENAME, flightPrefix+'-'+flightNumber, departureDate, departureLocation, bookingCodes, CommonController.getAccountIdFromCookie());
 
-        /*
-        for (TravellerInfo__c t : travelerList) {
-            System.debug('group_code__c:'+t.group_code__c);
-            if (t.group_code__c!='OK') {
-                AmadeusUtil.DCSCPR_EditCPR_Add_NextComment(travelerList);
-                break; // 有一筆是 true 就可以停了
-            }
-        }
-		*/
         List<TravellerInfo__c> CHECK_PPT = new List<TravellerInfo__c>();
         for (TravellerInfo__c t : travelerList) {
             if (t.group_code__c != 'OK'&& t.CAS__c == 'CAC') CHECK_PPT.add(t);
@@ -265,29 +257,8 @@ new List<String>{ bookingCodes.trim() };
         if(travelerList.size() > 0){
             upsert travelerList External_ID__c;
         }
-        // 若 unmatched 有內容，顯示錯誤訊息，但不中斷流程
-        if (!unmatchedPnrKeys.isEmpty()) {
-            //error toast
-            /*
-String missingMsg = '查無PNR : ' + String.join(unmatchedPnrKeys, ',');
-
-ApexPages.addMessage(
-new ApexPages.Message(ApexPages.Severity.ERROR, missingMsg)
-);
-ApexPages.currentPage().getHeaders().put('pnr-missing', missingMsg);
-*/
-            errorMessage = '查無部分PNR : ' + String.join(unmatchedPnrKeys, ',');
-        }
         // 若完全沒交集（matched 為空），就中斷
         if (matchedPnrKeys.isEmpty()) {
-            //error toast
-            /*
-String missingMsg = '查無PNR : ' + String.join(unmatchedPnrKeys, ',');
-ApexPages.addMessage(
-new ApexPages.Message(ApexPages.Severity.ERROR, missingMsg)
-);
-ApexPages.currentPage().getHeaders().put('pnr-missing', missingMsg);
-*/
             errorMessage = '查無PNR : ' + String.join(unmatchedPnrKeys, ',');
             return null;
         }
@@ -308,8 +279,9 @@ ApexPages.currentPage().getHeaders().put('pnr-missing', missingMsg);
             //WHERE  PNR__c                 IN :pnrKeys
             WHERE  PNR__c                 IN :matchedPnrKeys
             //AND    FlightNumber__c        =  :fn
+            AND External_ID__c != null
             AND    DepartureLocation__c=  :departureLocation
-            AND    IATA_MSO_Code__c    =  :IATAcode
+            //AND    IATA_MSO_Code__c    =  :IATAcode
             //AND    DepartureLocationGMTLocal__c >= :startOfDay
             //AND    DepartureLocationGMTLocal__c <= :endOfDay
             ORDER  BY PTOrderBy__c ASC,
@@ -320,9 +292,48 @@ ApexPages.currentPage().getHeaders().put('pnr-missing', missingMsg);
             return null;
         }
         
-        showActionButtons = true;
+        // 依 PNR 判斷是否有任何一筆符合 IATA
+        Map<String, Boolean> pnrHasSameIata = new Map<String, Boolean>();
+        for (TravellerInfo__c t : oldMap.values()) {
+            if (String.isBlank(t.PNR__c)) continue;
+    
+            Boolean ok = (!String.isBlank(IATAcode) && t.IATA_MSO_Code__c == IATAcode);
+            if (!pnrHasSameIata.containsKey(t.PNR__c)) {
+                pnrHasSameIata.put(t.PNR__c, ok);
+            } else {
+                pnrHasSameIata.put(t.PNR__c, pnrHasSameIata.get(t.PNR__c) || ok);
+            }
+        }
+    
+        // 把 IATA 不符的 PNR 從 matched 移除，並加入 unmatched（不揭露原因）
+        List<String> filteredMatched = new List<String>();
+        for (String pnr : matchedPnrKeys) {
+            if (pnrHasSameIata.containsKey(pnr) && pnrHasSameIata.get(pnr) == true) {
+                filteredMatched.add(pnr);
+            } else {
+                if (unmatchedSet.add(pnr)) unmatchedPnrKeys.add(pnr);
+            }
+        }
+        matchedPnrKeys = filteredMatched;
+    
+        // 若 unmatched 有內容，顯示錯誤訊息，但不中斷流程
+        if (!unmatchedPnrKeys.isEmpty()) {
+            errorMessage = '查無部分PNR : ' + String.join(unmatchedPnrKeys, ',');
+        }
+    
+        // 若最後完全沒有可用 PNR，就中斷（全部查無）
+        if (matchedPnrKeys.isEmpty()) {
+            errorMessage = '查無PNR : ' + String.join(unmatchedPnrKeys, ',');
+            return null;
+        }
         
-        travelerList = oldMap.values();
+        Set<String> matchedSet = new Set<String>(matchedPnrKeys);
+        travelerList = new List<TravellerInfo__c>();
+        for (TravellerInfo__c t : oldMap.values()) {
+            if (matchedSet.contains(t.PNR__c)) travelerList.add(t);
+        }
+        
+        showActionButtons = true;
         
         c4OperationDisabled = false; // 預設可操作
         for (TravellerInfo__c t : travelerList) {
@@ -381,6 +392,22 @@ ApexPages.currentPage().getHeaders().put('pnr-missing', missingMsg);
         tabData.clear();
         
         tabData = new PassengerDataWrapper(travelerList).passengerData;
+        
+        if (!String.isBlank(IATAcode) && tabData != null) {
+            Map<String, List<PassengerDataWrapper.PassengerInfo>> newMap = new Map<String, List<PassengerDataWrapper.PassengerInfo>>();
+        
+            for (String pnr : tabData.keySet()) {
+                List<PassengerDataWrapper.PassengerInfo> ps = tabData.get(pnr);
+                List<PassengerDataWrapper.PassengerInfo> kept = new List<PassengerDataWrapper.PassengerInfo>();
+        
+                for (PassengerDataWrapper.PassengerInfo p : ps) {
+                    if (p != null && p.IATA == IATAcode) kept.add(p);
+                }
+        
+                if (!kept.isEmpty()) newMap.put(pnr, kept);
+            }
+            tabData = newMap;
+        }
         
         /* 4. 產生分頁籤索引 */
         // 分頁用 key 集合

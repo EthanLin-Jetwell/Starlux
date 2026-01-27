@@ -1,397 +1,389 @@
 <apex:page controller="BoardingPassPDFController"
            showHeader="false" sidebar="false"
            applyHtmlTag="false" standardStylesheets="false" lightningStylesheets="false" action="{!retrieveRecords}">
-    <head>
-        
-        <meta name="format-detection" content="telephone=no, email=no, address=no, date=no"/>
+  <head>
+    <meta name="format-detection" content="telephone=no, email=no, address=no, date=no"/>
+  </head>
 
-    </head>
-    
-    <!--───── 樣式區 ─────-->
-    <style>
-        @page { size: A4 portrait; margin: 10mm; }
-        * {
-        box-sizing: border-box;
-        font-family: Helvetica, Arial, sans-serif;
-        text-align: -webkit-center;
-        }
-        .ticket {
-        width: 180mm;
-        margin: 0 auto 6mm;
-        page-break-inside: avoid;
-        }
-        .header, .body { display: flex; }
-        .header {
-        width: 100%;
-        align-items: center;
-        background: #f3f3f3;
-        }
-        .header-left {
-        flex: 1;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding: 12px 18px;
-        border-right: 2px dotted #000;
-        }
-        .header-right {
-        width: 30%;
-        display: flex;
-        justify-content: center;
-        padding: 12px 18px;
-        }
-        
-        .header img { 
-        height: 29px; 
-        }
-        
-        .class-label { 
-        font-size: 18px; 
-        font-weight: 700; 
-        letter-spacing: 1px; 
-        white-space: nowrap; 
-        }
-        
-        .barcode-col {            /* 已經把欄寬鎖在 90px */
-        display: flex;
-        align-items: stretch;
-        flex-shrink: 0; /* 防止被壓縮 */
-        background: #f3f3f3;
-        }
-        
-        .barcode-img {
-        position: relative;
-        transform: rotate(90deg);
-        height: auto;
-        display: block;
-        margin: 37px -37px;
-        height: 76px;
-        }   
-        
-        .left-stub, .right-stub {
-        background: #f3f3f3;
-        padding: 0 24px 0 24px;
-        }
-        
-        .left-stub {
-        flex: 1;
-        border-right: 2px dotted #000;
-        }
-        
-        .left-stub{
-        width: 70%;
-        height: 152px;
-        //padding-bottom: 24px;
-        display: flex;
-        flex-direction: column;
-        justify-content: end;
-        align-items: stretch;
-        
-        }
-        .right-stub {
-        width: 30%;
-        height:152px;
-        //padding-bottom: 24px;
-        display: flex;
-        flex-direction: column;
-        justify-content: stretch;
-        align-items: stretch;
-        }
-        
-        .right-stub > .top-row,
-        .right-stub > .info-grid,
-        .right-stub > .extra-info-passenger {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        justify-content: end;
-        }
-        
-        
-        .top-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: baseline;
-        margin-bottom: 5px;
-        }
-        .flight { 
-        font-size: 32px; 
-        font-weight: 700; 
-        }
-        
-        .flight-date { 
-        font-size: 20px; 
-        font-weight: 600; 
-        }
-        
-        .route { 
-        font-size: 22px; 
-        font-weight: 600; 
-        word-break: break-all;
-        }
-        
-        .passenger-name { 
-        font-size: 12px; 
-        font-weight: 600; 
-        word-break: break-all;
-        }
-        
-        .info-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        background: #fff;
-        border-radius: 8px;
-        margin-bottom:5px;
-        }
-        .info-grid div { padding: 1px; text-align: left; }
-        .label {
-        font-size: 10px;
-        text-transform: uppercase;
-        font-weight: bold;
-        margin-bottom: 4px;
-        }
-        .value {
-        font-size: 24px;
-        font-weight: 700;
-        text-align: center !important;
-        width: 100%;
-        }
-        
-        .extra-info, .extra-info-passenger {
-        font-size: 10px;
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-        //margin-top: 25px;
-        }
-        //.extra-info-passenger { margin-top: 37px; }
-        
-        .extra-row {
-        display: flex;
-        justify-content: space-between;
-        }
-        
-        .seat-label { font-size: 10px; text-transform: uppercase; margin-bottom: 8px; }
-        .seat { font-size: 28px; font-weight: 800; border: 1px solid #dcdcdc; padding: 12px 32px; }
-        
-        .header-divider {
-        width: 100%;
-        height: 1px;
-        background-color: #ccc;
-        margin: 9px 0 9px 0;
-        }
-        
-        
-    </style>
-    
-    <!--── 2. 行號變數 ──-->
-    <apex:variable var="rowNum" value="{!0}"/>
-    
-    <!--── 3. 票證迴圈 ──-->
+  <style>
+    /* ✅ 以整張 A4 為基準，折線才會準 */
+    @page { size: A4 portrait; margin: 0mm; }
+    html, body { margin:0 !important; padding:0 !important; }
+
+    *{
+      box-sizing: border-box;
+      font-family: Helvetica, Arial, sans-serif;
+      text-align: -webkit-center;
+    }
+
+    /* ✅ 外層容器：用 nth-child 精準抓 ticket */
+    .tickets-wrap{ width: 100%; }
+
+    /* ✅ A4 297mm / 4 = 74.25mm */
+    .ticket{
+      height: 73.5mm;
+      width: 180mm;            /* 需要更貼近紙寬可改 190mm */
+      margin: 0 auto !important;
+      overflow: hidden;
+      box-sizing: border-box;
+
+      /* ✅ 每格留白（折線安全距離），上下對稱 */
+      padding: 8mm 0;          /* 想更安全：10mm；想更大：6mm */
+    }
+
+    /* ✅ 不要讓 html2pdf 自己「猜」是否要挪到下一頁 */
+    .ticket{ page-break-inside: auto !important; }
+
+      
+    /* ✅ 分頁節點一定要 0 高度 0 行高，否則後面每頁會少一張 */
+    .html2pdf__page-break{
+      height: 0 !important;
+      line-height: 0 !important;
+      font-size: 0 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      border: 0 !important;
+      display: block !important;
+      page-break-before: always;
+    }
+     
+
+    /* ======= 你原本票面樣式（保留） ======= */
+    .header, .body { display: flex; }
+    .header {
+      width: 100%;
+      align-items: center;
+      background: #f3f3f3;
+    }
+    .header-left {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 18px;
+      border-right: 2px dotted #000;
+    }
+    .header-right {
+      width: 30%;
+      display: flex;
+      justify-content: center;
+      padding: 12px 18px;
+    }
+
+    .header img { height: 29px; }
+
+    .class-label {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      white-space: nowrap;
+    }
+
+    .barcode-col{
+      display: flex;
+      align-items: stretch;
+      flex-shrink: 0;
+      background: #f3f3f3;
+    }
+
+    .barcode-img{
+      position: relative;
+      transform: rotate(90deg);
+      height: auto;
+      display: block;
+      margin: 37px -37px;
+      height: 76px;
+    }
+
+    .left-stub, .right-stub{
+      background: #f3f3f3;
+      padding: 0 24px 0 24px;
+    }
+
+    .left-stub{
+      flex: 1;
+      border-right: 2px dotted #000;
+      width: 70%;
+      height: 152px;
+      display: flex;
+      flex-direction: column;
+      justify-content: end;
+      align-items: stretch;
+    }
+
+    .right-stub{
+      width: 30%;
+      height: 152px;
+      display: flex;
+      flex-direction: column;
+      justify-content: stretch;
+      align-items: stretch;
+    }
+
+    .right-stub > .top-row,
+    .right-stub > .info-grid,
+    .right-stub > .extra-info-passenger{
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: end;
+    }
+
+    .top-row{
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 5px;
+    }
+
+    .flight{
+      font-size: 32px;
+      font-weight: 700;
+    }
+
+    .flight-date{
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .route{
+      font-size: 22px;
+      font-weight: 600;
+      word-break: break-all;
+    }
+
+    .passenger-name{
+      font-size: 12px;
+      font-weight: 600;
+      word-break: break-all;
+    }
+
+    .info-grid{
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      background: #fff;
+      border-radius: 8px;
+      margin-bottom: 5px;
+    }
+    .info-grid div{ padding: 1px; text-align: left; }
+
+    .label{
+      font-size: 10px;
+      text-transform: uppercase;
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+
+    .value{
+      font-size: 24px;
+      font-weight: 700;
+      text-align: center !important;
+      width: 100%;
+    }
+
+    .extra-info, .extra-info-passenger{
+      font-size: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .extra-row{
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .seat-label{ font-size: 10px; text-transform: uppercase; margin-bottom: 8px; }
+    .seat{ font-size: 28px; font-weight: 800; border: 1px solid #dcdcdc; padding: 12px 32px; }
+
+    .header-divider{
+      width: 100%;
+      height: 1px;
+      background-color: #ccc;
+      margin: 9px 0 9px 0;
+    }
+  </style>
+
+  <!--── 行號變數 ──-->
+  <apex:variable var="rowNum" value="{!0}"/>
+
+  <!-- ✅ 用 tickets-wrap 包住，nth-child 才抓得到真正的 ticket -->
+  <div class="tickets-wrap">
     <apex:repeat value="{!tickets}" var="t">
-        <apex:variable var="rowNum" value="{!rowNum + 1}" />
-        
-        <div class="ticket">
-            <!-- Header -->
-            <div class="header">
-                <div class="header-left">
-                    <img src="{!URLFOR($Resource.STARLUX_LOGO_PDF)}"/>
-                    <div class="class-label">{!t.cabinLabel}</div>
-                </div>
-                <div class="header-right">
-                    <img src="{!URLFOR($Resource.STARLUX_LOGO_PDF)}"/>
-                </div>
-            </div>
-            
-            <div class="header-divider"></div>
-            
-            
-            <!-- Body -->
-            <div class="body">
-                <!-- Barcode -->
-                <div class="barcode-col">
-                    <canvas class="barcode-img" id="barcode_{!rowNum}"></canvas>
-                </div>
-                
-                <!-- Left stub -->
-                <div class="left-stub">
-                    <div class="top-row">
-                        <div class="flight">{!t.flightNo}<span class="flight-date"> / {!t.depDate}</span></div>
-                        <!--<div class="route">{!t.depAirport} 
-                              <img class="plane-icon" src="{!URLFOR($Resource.plane)}" alt="plane"/>
-
-                            {!t.arrAirport}
-                        </div>-->
-                        <div class="route">
-                            <span class="airport-code">{!t.depAirport}</span>
-                            <span class="plane-icon" aria-hidden="true">&#9992;&#65038;</span>
-                            <span class="airport-code">{!t.arrAirport}</span>
-                        </div>
-                    </div>
-                    
-                    <div class="info-grid">
-                        <div style="border-right:1px solid #CCC;">
-                            <div class="label">Gate</div>
-                            <div class="value">{!IF(t.noGate,'',t.boardingGate)}</div>
-                            <div class="label" style="text-align:center!important;font-size:8px;">CHECK AT AIRPORT</div>
-                        </div>
-                        <div style="border-right:1px solid #CCC;">
-                            <div class="label">Boarding Time</div>
-                            <div class="value">{!t.boardingTime}</div>
-                        </div>
-                        <div>
-                            <div class="label">Zone</div>
-                            <div class="value">{!t.zone}</div>
-                        </div>
-                    </div>
-                    
-                    <div class="extra-info">
-                        <div class="extra-row">
-                            <span class="extra-left">{!t.pnr}</span>
-                        </div>
-                        <div class="extra-row">
-                            <span class="extra-left">{!t.mealSvc}</span>
-                            <span class="extra-right">{!t.seat} / {!t.seq}</span>
-                        </div>
-                        <div class="extra-row">
-                            <span class="extra-left">
-                                <span class="extra-left"><apex:outputText value="{!noticeContentBoardingPass}" escape="true" />
-</span>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Right stub -->
-                <div class="right-stub">
-                    <div class="top-row" style="margin-bottom: 2px; justify-content: center;">
-                        <div class="passenger-name">{!t.paxName}</div>
-                    </div>
-                    <div class="label" style="text-align:left;">{!t.flightNo} / {!t.depDate}</div>
-                    <div class="info-grid">
-                        <div style="padding:2px;" class="label">Seat</div>
-                        <div style="padding:6px 14px 12px 14px" class="value">{!t.seat}</div>
-                    </div>
-                    <div class="extra-info-passenger">
-                        <div class="extra-row"><span class="extra-left"></span><span class="extra-right">{!t.checkppt}</span></div>
-                        <div class="extra-row"><span class="extra-left">{!t.fqtvTier}</span></div>
-                        <div class="extra-row"><span class="extra-left">{!t.etkt}</span><span class="extra-right">{!t.seq}</span></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- 每 3 張換頁 -->
-        <apex:outputPanel rendered="{!MOD(rowNum,3)=0}">
-            <div class="page-break"></div>
+        <apex:outputPanel rendered="{!AND(rowNum > 0, MOD(rowNum,4)=0)}">
+          <div class="html2pdf__page-break"></div>
         </apex:outputPanel>
+      <apex:variable var="rowNum" value="{!rowNum + 1}" />
+
+      <div class="ticket">
+        <!-- Header -->
+        <div class="header">
+          <div class="header-left">
+            <img src="{!URLFOR($Resource.STARLUX_LOGO_PDF)}"/>
+            <div class="class-label">{!t.cabinLabel}</div>
+          </div>
+          <div class="header-right">
+            <img src="{!URLFOR($Resource.STARLUX_LOGO_PDF)}"/>
+          </div>
+        </div>
+
+        <div class="header-divider"></div>
+
+        <!-- Body -->
+        <div class="body">
+          <!-- Barcode -->
+          <div class="barcode-col">
+            <canvas class="barcode-img" id="barcode_{!rowNum}"></canvas>
+          </div>
+
+          <!-- Left stub -->
+          <div class="left-stub">
+            <div class="top-row">
+              <div class="flight">{!t.flightNo}<span class="flight-date"> / {!t.depDate}</span></div>
+              <div class="route">
+                <span class="airport-code">{!t.depAirport}</span>
+                <span class="plane-icon" aria-hidden="true">&#9992;&#65038;</span>
+                <span class="airport-code">{!t.arrAirport}</span>
+              </div>
+            </div>
+
+            <div class="info-grid">
+              <div style="border-right:1px solid #CCC;">
+                <div class="label">Gate</div>
+                <div class="value">{!IF(t.noGate,'',t.boardingGate)}</div>
+                <div class="label" style="text-align:center!important;font-size:8px;">CHECK AT AIRPORT</div>
+              </div>
+              <div style="border-right:1px solid #CCC;">
+                <div class="label">Boarding Time</div>
+                <div class="value">{!t.boardingTime}</div>
+              </div>
+              <div>
+                <div class="label">Zone</div>
+                <div class="value">{!t.zone}</div>
+              </div>
+            </div>
+
+            <div class="extra-info">
+              <div class="extra-row"><span class="extra-left">{!t.pnr}</span></div>
+              <div class="extra-row">
+                <span class="extra-left">{!t.mealSvc}</span>
+                <span class="extra-right">{!t.seat} / {!t.seq}</span>
+              </div>
+              <div class="extra-row">
+                <span class="extra-left">
+                  <span class="extra-left">
+                    <apex:outputText value="{!noticeContentBoardingPass}" escape="true" />
+                  </span>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right stub -->
+          <div class="right-stub">
+            <div class="top-row" style="margin-bottom: 2px; justify-content: center;">
+              <div class="passenger-name">{!t.paxName}</div>
+            </div>
+            <div class="label" style="text-align:left;">{!t.flightNo} / {!t.depDate}</div>
+            <div class="info-grid">
+              <div style="padding:2px;" class="label">Seat</div>
+              <div style="padding:6px 14px 12px 14px" class="value">{!t.seat}</div>
+            </div>
+            <div class="extra-info-passenger">
+              <div class="extra-row"><span class="extra-left"></span><span class="extra-right">{!t.checkppt}</span></div>
+              <div class="extra-row"><span class="extra-left">{!t.fqtvTier}</span></div>
+              <div class="extra-row"><span class="extra-left">{!t.etkt}</span><span class="extra-right">{!t.seq}</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </apex:repeat>
-    
-    <!--── 4. JS 資源 ──-->
-    <script src="https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js"></script>
-    <script src="{!URLFOR($Resource.bwipjs)}"></script>
-    
-    <!--── 5. 條碼 + PDF ──-->
-    <script>
-    
-    
-  /* === 產出 tickets 陣列（沿用你原本的 Apex repeat） === */
-  const tickets = [
-    <apex:variable var="rowJs" value="{!0}" />
-    <apex:repeat value="{!tickets}" var="t">
-      <apex:variable var="rowJs" value="{!rowJs + 1}" />
-      {
-        id  : "barcode_{!rowJs}",
-        text: "{!JSENCODE(t.barcodeTxt)}"
-      }<apex:outputText rendered="{!rowJs < tickets.size}">,</apex:outputText>
-    </apex:repeat>
-  ];
+  </div>
 
-  /* === 檔名與 html2pdf 設定 === */
-  const pnrForFilename = "{!IF(NOT(ISBLANK(tickets)), tickets[0].pnr, 'GROUP')}";
-  const pdfOpt = {
-    margin: 10,
-    filename: pnrForFilename + ',GROUP Boarding Pass.pdf',
-    image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 2, useCORS: true },
-    jsPDF: { unit: 'pt', format: 'a4', orientation: 'p' }
-  };
+  <!--── 4. JS 資源 ──-->
+  <script src="https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js"></script>
+  <script src="{!URLFOR($Resource.bwipjs)}"></script>
 
-  /* === 小工具：把 Blob 轉 Base64（傳回父頁壓 ZIP 用）=== */
-  function blobToBase64(blob) {
-    return new Promise((resolve) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result.split(',')[1]);
-      reader.readAsDataURL(blob);
-    });
-  }
+  <!--── 5. 條碼 + PDF ──-->
+  <script>
+    const tickets = [
+      <apex:variable var="rowJs" value="{!0}" />
+      <apex:repeat value="{!tickets}" var="t">
+        <apex:variable var="rowJs" value="{!rowJs + 1}" />
+        { id: "barcode_{!rowJs}", text: "{!JSENCODE(t.barcodeTxt)}" }<apex:outputText rendered="{!rowJs < tickets.size}">,</apex:outputText>
+      </apex:repeat>
+    ];
 
-  /* === 先把所有條碼畫到各 canvas 上（bwipjs）=== */
-  async function drawBarcodes() {
-    if (!window.bwipjs || !tickets || !tickets.length) return;
-    for (const t of tickets) {
-      const c = document.getElementById(t.id);
-      if (!c || !t.text) continue;
-      try {
-        bwipjs.toCanvas(c, {
-          bcid: 'pdf417',
-          text: t.text,
-          scale: 1.5,
-          columns: 4,
-          includetext: false
-        });
-      } catch (e) {
-        console.error('Barcode error:', e);
+    const pnrForFilename = "{!IF(NOT(ISBLANK(tickets)), tickets[0].pnr, 'GROUP')}";
+
+    /* ✅ 一定要 0，不然折線會對不到 */
+    const pdfOpt = {
+      margin: 0,
+      filename: pnrForFilename + ',GROUP Boarding Pass.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true },
+      jsPDF: { unit: 'pt', format: 'a4', orientation: 'p' },
+      pagebreak: { mode: ['legacy'] }
+    };
+
+    function blobToBase64(blob) {
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result.split(',')[1]);
+        reader.readAsDataURL(blob);
+      });
+    }
+
+    async function drawBarcodes() {
+      if (!window.bwipjs || !tickets || !tickets.length) return;
+      for (const t of tickets) {
+        const c = document.getElementById(t.id);
+        if (!c || !t.text) continue;
+        try {
+          bwipjs.toCanvas(c, {
+            bcid: 'pdf417',
+            text: t.text,
+            scale: 1.5,
+            columns: 4,
+            includetext: false
+          });
+        } catch (e) {
+          console.error('Barcode error:', e);
+        }
       }
     }
-  }
 
-  /* === 單一入口：依 mode 處理（zip / 非 zip）=== */
-  document.addEventListener('DOMContentLoaded', async () => {
-    try {
-      await drawBarcodes();
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        await drawBarcodes();
 
-      const params = new URLSearchParams(location.search);
-      const mode = params.get('mode');
+        const params = new URLSearchParams(location.search);
+        const mode = params.get('mode');
 
-      if (mode === 'zip') {
-        // ZIP 模式：只回傳 PDF blob，父頁打包
-        const blob = await html2pdf()
-          .set(pdfOpt)
-          .from(document.body)
-          .output('blob'); // 不直接下載
+        if (mode === 'zip') {
+          const blob = await html2pdf().set(pdfOpt).from(document.body).output('blob');
+          const base64 = await blobToBase64(blob);
 
-        const base64 = await blobToBase64(blob);
+          if (window.parent !== window) {
+            window.parent.postMessage({
+              type: 'PDF_BLOB',
+              filename: pdfOpt.filename || 'BoardingPass.pdf',
+              base64
+            }, '*');
+            window.parent.postMessage('BP_PDF_READY', '*');
+          }
+          return;
+        }
+
+        await html2pdf().set(pdfOpt).from(document.body).save();
 
         if (window.parent !== window) {
-          // 先把檔案內容送回去
-          window.parent.postMessage({
-            type: 'PDF_BLOB',
-            filename: pdfOpt.filename || 'BoardingPass.pdf',
-            base64
-          }, '*');
-
-          // 全部檔案傳完後（此頁只有一份），最後送 READY
           window.parent.postMessage('BP_PDF_READY', '*');
         }
-        return; // zip 分支結束
+      } catch (err) {
+        console.error('PDF generation error:', err);
+        try { if (window.parent !== window) window.parent.postMessage('BP_PDF_READY', '*'); } catch(e){}
       }
-
-      // 非 zip：維持原本直接下載
-      await html2pdf()
-        .set(pdfOpt)
-        .from(document.body)
-        .save();
-
-      if (window.parent !== window) {
-        window.parent.postMessage('BP_PDF_READY', '*');
-      }
-    } catch (err) {
-      console.error('PDF generation error:', err);
-      // 失敗時也可通知父頁避免卡住（可選）
-      try { if (window.parent !== window) window.parent.postMessage('BP_PDF_READY', '*'); } catch(e){}
-    }
-  });
-</script>
-
+    });
+  </script>
 </apex:page>

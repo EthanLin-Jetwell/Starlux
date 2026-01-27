@@ -214,12 +214,14 @@ new List<String>{ bookingCodes.trim() };
         // 篩選出兩者交集的 PNR 清單
         List<String> matchedPnrKeys = new List<String>();
         List<String> unmatchedPnrKeys = new List<String>();
+        Set<String> unmatchedSet = new Set<String>();
+
         System.debug('起飛地:'+departureLocation);
         for (String p : rawPnrKeys) {
             if (extractedPNRs.containsKey(p) && extractedPNRs.get(p) == departureLocation) {
                 matchedPnrKeys.add(p);
             } else {
-                unmatchedPnrKeys.add(p);
+                if (unmatchedSet.add(p)) unmatchedPnrKeys.add(p);
             }
         }
         System.debug('符合的PNR:'+matchedPnrKeys);
@@ -242,11 +244,6 @@ new List<String>{ bookingCodes.trim() };
         if(travelerList.size() > 0){
             upsert travelerList External_ID__c;
         }
-        // 若 unmatched 有內容，顯示錯誤訊息，但不中斷流程
-        if (!unmatchedPnrKeys.isEmpty()) {
-            //error toast
-            errorMessage = '查無部分PNR : ' + String.join(unmatchedPnrKeys, ',');
-        }
         // 若完全沒交集（matched 為空），就中斷
         if (matchedPnrKeys.isEmpty()) {
             //error toast
@@ -264,14 +261,15 @@ new List<String>{ bookingCodes.trim() };
             USAEmergencyContactName__c, USAEmergencyContactNationality__c, USAEmergencyContactPhone__c,	Seat__c,
             CheckDisable__c, C3ExternalFinished__c, C3Finished__c, C4BoardingPassPrinted__c, C4BoardingPassPrintedTime__c,
             C4EBoardingPass__c, C4PaperBoardingPass__c, PrintDisable__c, DepartureLocationGMTLocal__c, Barcode__c, PAX__c, Service__c, Meal__c, IATA_MSO_Code__c, RQST_OT__c,
-            C1Finished__c, UCI__c ,DID__c ,CAS__c ,DepartureDate__c ,DepartureDate2__c ,FlightNumber__c ,Destination__c ,C3Status__c,C3CheckboxDisplay__c,C4CheckboxDisplay__c,
+            C1Finished__c, UCI__c, DID__c, CAS__c, DepartureDate__c, DepartureDate2__c, FlightNumber__c, Destination__c, C3Status__c, C3CheckboxDisplay__c, C4CheckboxDisplay__c,
             C1OperationDisable__c, C2OperationDisable__c, C3OperationDisable__c, C4OperationDisable__c, APE__c, APM__c, C4BoardingPassPrintedTimeGMTLocal__c,C4Finished__c
             FROM   TravellerInfo__c
             //WHERE  PNR__c                 IN :pnrKeys
             WHERE  PNR__c                 IN :matchedPnrKeys
             //AND    FlightNumber__c        =  :fn
+            AND External_ID__c != null
             AND    DepartureLocation__c=  :departureLocation
-            AND    IATA_MSO_Code__c    =  :IATAcode
+            //AND    IATA_MSO_Code__c    =  :IATAcode
             //AND    DepartureLocationGMTLocal__c >= :startOfDay
             //AND    DepartureLocationGMTLocal__c <= :endOfDay
             ORDER  BY PTOrderBy__c ASC,
@@ -282,10 +280,48 @@ new List<String>{ bookingCodes.trim() };
             return null;
         }
         
+        // 依 PNR 判斷是否有任何一筆符合 IATA
+        Map<String, Boolean> pnrHasSameIata = new Map<String, Boolean>();
+        for (TravellerInfo__c t : oldMap.values()) {
+            if (String.isBlank(t.PNR__c)) continue;
+    
+            Boolean ok = (!String.isBlank(IATAcode) && t.IATA_MSO_Code__c == IATAcode);
+            if (!pnrHasSameIata.containsKey(t.PNR__c)) {
+                pnrHasSameIata.put(t.PNR__c, ok);
+            } else {
+                pnrHasSameIata.put(t.PNR__c, pnrHasSameIata.get(t.PNR__c) || ok);
+            }
+        }
+    
+        // 把 IATA 不符的 PNR 從 matched 移除，並加入 unmatched（不揭露原因）
+        List<String> filteredMatched = new List<String>();
+        for (String pnr : matchedPnrKeys) {
+            if (pnrHasSameIata.containsKey(pnr) && pnrHasSameIata.get(pnr) == true) {
+                filteredMatched.add(pnr);
+            } else {
+                if (unmatchedSet.add(pnr)) unmatchedPnrKeys.add(pnr);
+            }
+        }
+        matchedPnrKeys = filteredMatched;
+    
+        // 若 unmatched 有內容，顯示錯誤訊息，但不中斷流程
+        if (!unmatchedPnrKeys.isEmpty()) {
+            errorMessage = '查無部分PNR : ' + String.join(unmatchedPnrKeys, ',');
+        }
+    
+        // 若最後完全沒有可用 PNR，就中斷（全部查無）
+        if (matchedPnrKeys.isEmpty()) {
+            errorMessage = '查無PNR : ' + String.join(unmatchedPnrKeys, ',');
+            return null;
+        }
         
+        Set<String> matchedSet = new Set<String>(matchedPnrKeys);
+        travelerList = new List<TravellerInfo__c>();
+        for (TravellerInfo__c t : oldMap.values()) {
+            if (matchedSet.contains(t.PNR__c)) travelerList.add(t);
+        }
+
         showActionButtons = true;
-        
-        travelerList = oldMap.values();   
         
         c3OperationDisabled = false; // 預設可操作
         for (TravellerInfo__c t : travelerList) {
@@ -345,6 +381,22 @@ new List<String>{ bookingCodes.trim() };
         tabData.clear();
         
         tabData = new PassengerDataWrapper(travelerList).passengerData;
+        
+        if (!String.isBlank(IATAcode) && tabData != null) {
+            Map<String, List<PassengerDataWrapper.PassengerInfo>> newMap = new Map<String, List<PassengerDataWrapper.PassengerInfo>>();
+        
+            for (String pnr : tabData.keySet()) {
+                List<PassengerDataWrapper.PassengerInfo> ps = tabData.get(pnr);
+                List<PassengerDataWrapper.PassengerInfo> kept = new List<PassengerDataWrapper.PassengerInfo>();
+        
+                for (PassengerDataWrapper.PassengerInfo p : ps) {
+                    if (p != null && p.IATA == IATAcode) kept.add(p);
+                }
+        
+                if (!kept.isEmpty()) newMap.put(pnr, kept);
+            }
+            tabData = newMap;
+        }
         
         /* 4. 產生分頁籤索引 */
         // 分頁用 key 集合
@@ -621,24 +673,42 @@ public PageReference checkInSelected() {
             // ✅ 使用已內建的轉換方法：PassengerInfo ➜ TravellerInfo__c
             List<TravellerInfo__c> newList = PassengerDataWrapper.parsePassengerInfo(selectedPassengerInfos);
             
-            oldMap = new Map<Id, TravellerInfo__c>(newList);
+            //oldMap = new Map<Id, TravellerInfo__c>(newList);
             AmadeusUtil.CheckIn(departureLocation, currentTabKey, newList);
-            AmadeusUtil.retrievePNR(departureLocation, currentTabKey);
+            travelerList = AmadeusUtil.retrievePNR(departureLocation, currentTabKey);
+            
+            /*if(travelerList.size() > 0){
+                upsert travelerList External_ID__c;
+            }*/
+            
+            Map<String, TravellerInfo__c> travelerMap = new Map<String, TravellerInfo__c>();
+            
+            for (TravellerInfo__c traveler : travelerList) {
+                travelerMap.put(traveler.External_ID__c, traveler);
+            }
             
             ApexPages.addMessage(new ApexPages.Message(
                 ApexPages.Severity.CONFIRM,
                 '報到完成，共 ' + newList.size() + ' 人'
             ));
             List<TravellerInfo__c> updateList = new List<TravellerInfo__c>();
-            for (TravellerInfo__c t : newList) {
+            /*for (TravellerInfo__c t : newList) {
+                //TravellerInfo__c updatedTraveler = travelerMap.get(t.External_ID__c);
                 TravellerInfo__c traveller = new TravellerInfo__c(Id=t.Id, firstName__c=t.firstName__c, LastName__c=t.LastName__c, C3Finished__c=true);
-                //t.C3Finished__c = true;
                 updateList.add(traveller);
             }
-            update updateList;
+            update updateList;*/
             
-            OperationHistoryUtil.log('update', PAGENAME, flightPrefix+'-'+flightNumber, departureDate, departureLocation, bookingCodes, CommonController.getAccountIdFromCookie(), oldMap, updateList);
-            oldMap = new Map<Id, TravellerInfo__c>(newList);
+            // for c3 change
+            for (TravellerInfo__c temp : AmadeusUtil.retrievePNR(departureLocation, currentTabKey)) {
+                if (temp.Channel__c == 'WSJXGCK') {
+                    Boolean isFinished = false;
+                    if (temp.CAS__c == 'CAC') isFinished = true;
+                    updateList.add(new TravellerInfo__c(Id=temp.External_Id__c, firstName__c=temp.firstName__c, LastName__c=temp.LastName__c, C3Finished__c=isFinished));
+                } 
+            }
+                
+            OperationHistoryUtil.log('update', PAGENAME, flightPrefix+'-'+flightNumber, departureDate, departureLocation, currentTabKey, CommonController.getAccountIdFromCookie(), oldMap, updateList);
         } catch (Exception ex) {
             ApexPages.addMessage(new ApexPages.Message(
                 ApexPages.Severity.ERROR, '報到失敗：' + ex.getMessage()
