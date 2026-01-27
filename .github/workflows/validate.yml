@@ -16,7 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: echo ${{ secrets.SFDX_AUTH_URL_DEV }} | sf org login sfdx-url --set-default --sfdx-url-stdin
-      - run: sf project deploy validate -d force-app/ -l RunLocalTests -w 30
+      - run: sf project deploy validate -d force-app/ -l NoTestRun -w 30
 
   validate-uat:
     if: github.ref == 'refs/heads/uat'

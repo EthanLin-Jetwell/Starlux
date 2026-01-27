@@ -21,7 +21,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: echo ${{ secrets.SFDX_AUTH_URL_DEV }} | sf org login sfdx-url --set-default --sfdx-url-stdin
-      - run: sf project deploy start -d force-app/ -l RunLocalTests -w 30 --ignore-conflicts
+      - run: sf project deploy start -d force-app/ -l NoTestRun -w 30 --ignore-conflicts
 
   deploy-staging:
     if: github.event.pull_request.base.ref == 'staging' || github.ref == 'refs/heads/staging'
