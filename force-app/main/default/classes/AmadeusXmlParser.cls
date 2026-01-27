@@ -1151,6 +1151,12 @@ public class AmadeusXmlParser {
                                 'customerData', 'paxDetails', 'type'
                             });
                             if (typeNode != null) t.paxDetails_type__c = typeNode.getText();
+                            
+                            // Channel (checkInInformation.sourceType.sourceQualifier1)
+                            Dom.XmlNode channelNode = AmadeusXmlParser.findChildByPath(customerLevel, new String[] {
+                                'checkInInformation', 'systemCode'
+                            });
+                            if (channelNode != null) t.Channel__c = channelNode.getText();
 
                             Dom.XmlNode seatNumberNode = null;
                             Dom.XmlNode seatInformationNode = AmadeusXmlParser.findChildByName(customerLevel, 'seatInformation');

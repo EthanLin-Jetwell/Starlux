@@ -326,6 +326,7 @@ public without sharing class SeatSelectionController {
         // 篩選出兩者交集的 PNR 清單
         List<String> matchedPnrKeys = new List<String>();
         List<String> unmatchedPnrKeys = new List<String>();
+        Set<String> unmatchedSet = new Set<String>();
         Set<String> noSeatMapPNRKeys = new Set<String>();
         List<String> failedRetrievePNRKeys = new List<String>(); // Track PNRs that failed to retrieve
         
@@ -333,7 +334,7 @@ public without sharing class SeatSelectionController {
             if (extractedPNRs.containsKey(p) && extractedPNRs.get(p) == departureLocation) {
                 matchedPnrKeys.add(p);
             } else {
-                unmatchedPnrKeys.add(p);
+                if (unmatchedSet.add(p)) unmatchedPnrKeys.add(p);
             }
         }
         System.debug(matchedPnrKeys);
@@ -534,8 +535,9 @@ public without sharing class SeatSelectionController {
             //WHERE  PNR__c                 IN :pnrKeys
             WHERE  PNR__c                 IN :matchedPnrKeys
             //AND    FlightNumber__c        =  :fn
+            AND External_ID__c != null
             AND    DepartureLocation__c=  :departureLocation
-			AND    IATA_MSO_Code__c    =  :IATAcode
+			//AND    IATA_MSO_Code__c    =  :IATAcode
             //AND    DepartureLocationGMTLocal__c >= :startOfDay
             //AND    DepartureLocationGMTLocal__c <= :endOfDay
             ORDER  BY PTOrderBy__c ASC,
@@ -546,8 +548,46 @@ public without sharing class SeatSelectionController {
             return null;
         }
         
+        // 依 PNR 判斷是否有任何一筆符合 IATA
+        Map<String, Boolean> pnrHasSameIata = new Map<String, Boolean>();
+        for (TravellerInfo__c t : oldMap.values()) {
+            if (String.isBlank(t.PNR__c)) continue;
+    
+            Boolean ok = (!String.isBlank(IATAcode) && t.IATA_MSO_Code__c == IATAcode);
+            if (!pnrHasSameIata.containsKey(t.PNR__c)) {
+                pnrHasSameIata.put(t.PNR__c, ok);
+            } else {
+                pnrHasSameIata.put(t.PNR__c, pnrHasSameIata.get(t.PNR__c) || ok);
+            }
+        }
+    
+        // 把 IATA 不符的 PNR 從 matched 移除，並加入 unmatched（不揭露原因）
+        List<String> filteredMatched = new List<String>();
+        for (String pnr : matchedPnrKeys) {
+            if (pnrHasSameIata.containsKey(pnr) && pnrHasSameIata.get(pnr) == true) {
+                filteredMatched.add(pnr);
+            } else {
+                if (unmatchedSet.add(pnr)) unmatchedPnrKeys.add(pnr);
+            }
+        }
+        matchedPnrKeys = filteredMatched;
+    
+        // 若 unmatched 有內容，顯示錯誤訊息，但不中斷流程
+        if (!unmatchedPnrKeys.isEmpty()) {
+            errorMessage = '查無部分PNR : ' + String.join(unmatchedPnrKeys, ',');
+        }
+    
+        // 若最後完全沒有可用 PNR，就中斷（全部查無）
+        if (matchedPnrKeys.isEmpty()) {
+            errorMessage = '查無PNR : ' + String.join(unmatchedPnrKeys, ',');
+            return null;
+        }
         
-        travelerList = new List<TravellerInfo__c>(oldMap.values());
+        Set<String> matchedSet = new Set<String>(matchedPnrKeys);
+        travelerList = new List<TravellerInfo__c>();
+        for (TravellerInfo__c t : oldMap.values()) {
+            if (matchedSet.contains(t.PNR__c)) travelerList.add(t);
+        }
         
         // Build per-PNR C2OperationDisable map (only check first passenger per PNR since it's a formula field)
         pnrC2DisabledMap.clear();
@@ -951,7 +991,7 @@ public without sharing class SeatSelectionController {
             System.debug(oldMap);
             System.debug(newList);
             
-            OperationHistoryUtil.log('update', PAGENAME, flightPrefix+'-'+flightNumber, departureDate, departureLocation, bookingCodes, CommonController.getAccountIdFromCookie(), oldMap, newList);
+            OperationHistoryUtil.log('update', PAGENAME, flightPrefix+'-'+flightNumber, departureDate, departureLocation, currentTabKey, CommonController.getAccountIdFromCookie(), oldMap, newList);
             oldMap = new Map<Id, TravellerInfo__c>(newList);
             
             System.debug('✅ Successfully saved seat assignments + ' + successMessage);

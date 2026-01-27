@@ -6,10 +6,20 @@ global class RestMiddlewarePfaApi {
     
     @HttpPost
     global static ResponseModelPfa doPost() {
+        RestRequest request = RestContext.request;
+        RestResponse response = Restcontext.response;
+        
         PfaData req = (PfaData) JSON.deserialize(
-            RestContext.request.requestBody.toString(),
+            request.requestBody.toString(),
             PfaData.class);
-        return handlePfaRequest(req.data);
+        
+        ResponseModelPfa pfaResponse = handlePfaRequest(req.data);
+        
+        response = ResponseUtil.buildRestResponse(response, null, null, pfaResponse.message.code);
+        
+        ApiLogger.log(request, response);
+        
+        return pfaResponse;
     }
 
     global static ResponseModelPfa handlePfaRequest(PfaRequest req)
