@@ -1,0 +1,379 @@
+<apex:page controller="BoardingPassPDFController"
+           showHeader="false" sidebar="false"
+           applyHtmlTag="false" standardStylesheets="false" action="{!retrieveRecords}">
+    
+    <!--──────────────── 1. Global styles ────────────────-->
+    <style>
+        @page {
+        /* A4 - 210 × 297 mm, keep 10 mm margin on all sides */
+        size: A4 portrait;
+        margin: 10mm;
+        }
+        
+        * {
+        box-sizing: border-box;
+        font-family: Helvetica, Arial, sans-serif;
+        color: #000;
+        }
+        
+        /* ---------- Main wrapper ---------- */
+        .ticket {
+        width: 190mm;              /* allow a little breathing room inside A4 */
+        margin: 0 auto;
+        border: 1px solid #d9d9d9;
+        padding: 24px;
+        }
+        
+        /* ---------- Header ---------- */
+        .header {
+        display: flex;
+        /*justify-content: space-between;*/
+        align-items: flex-start;
+        }
+        .logo {
+        height: 30pt;       /* 30pt ≈ 0.4167in ≈ 10.6mm（原本 40px 對等） */
+        width: auto;
+        max-height: 30pt;
+        display: block;
+        }
+        .terminal-box {
+        text-align: left;
+        font-size: 12px;
+        padding-left: 200px;
+        }
+        .terminal-number {
+        font-size: 64px;
+        font-weight: 800;
+        line-height: 1;
+        }
+        
+        /* ---------- Route row ---------- */
+        .route-row {
+        margin-top: 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline; /* keep all items on the same text baseline */
+        }
+        .airport-code {
+        font-size: 64px;
+        font-weight: 800;
+        line-height: 1;
+        }
+        .plane-icon {
+        font-size: 64px;     /* match design scale */
+        line-height: 1;      /* remove extra vertical gap */
+        margin: 0 8px;       /* horizontal gap */
+        display: inline-block;
+        vertical-align: middle; /* align center with codes */
+        }
+        
+        /* ---------- Passenger flight info ---------- */
+        .info-block { margin-top: 22px; }
+        .name {
+        font-size: 25px;
+        font-weight: 700;
+        text-transform: uppercase;
+        margin-bottom: 30px;
+        }
+        .info-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr); /* 4 equal columns */
+        gap: 30px;
+        font-size: 12px;
+        }
+        .span-2 { grid-column: span 2; }
+        
+        .label {
+        text-transform: uppercase;
+        font-weight: 700;
+        font-size: 16px;
+        letter-spacing: 0.5px;
+        }
+        .value {
+        font-size: 25px;
+        font-weight: 800;
+        }
+        
+        /* ---------- QR code ---------- */
+        .qr-wrapper {
+        margin: 16px 0 16px;
+        display: flex;
+        justify-content: center;
+        }
+        .qr-code {
+        width: 130px;
+        height: 130px;
+        }
+        .meal-code {
+        text-align: center;
+        font-size: 12px;
+        font-weight: 700;
+        margin-bottom: 24px;
+        }
+        
+        /* ---------- Notice ---------- */
+        .notice {
+        background: #f3f3f3;
+        padding: 12px 18px;
+        font-size: 14px;
+        line-height: 1.4;
+        }
+        .notice-title {
+        font-weight: 700;
+        margin-bottom: 6px;
+        }
+        .notice ol {
+        margin: 0;
+        padding-left: 18px; /* keep number alignment */
+        }
+        .notice li {
+        margin-bottom: 4px;
+        }
+        
+        .page-break {
+        page-break-before: always;
+        break-before: page;
+        height: 0;
+        margin: 0;
+        padding: 0;
+        border: none;
+        }
+        
+    </style>
+    
+    <!--──────────────── 2. Boarding-pass content ────────────────-->
+    <div class="main-wrapper">
+        
+        <apex:variable var="index" value="{!0}" />
+        <apex:repeat value="{!tickets}" var="t">
+            <div class="ticket">
+                <!-- Header -->
+                <div class="header">
+                    <div><img class="logo" src="{!URLFOR($Resource.STARLUX_LOGO_PDF)}"/></div>
+                    <div class="terminal-box">
+                        <div style="padding-bottom: 14px;">TERMINAL:</div>
+                        <!--<div class="terminal-number">{!t.terminal}</div>-->
+                        <div class="terminal-number">{!t.terminal}</div>
+                    </div>
+                </div>
+                
+                <!-- Route row -->
+                <div class="route-row">
+                    <div>FROM:</div>
+                    <div>TO:</div>
+                </div>
+                <div style="border-bottom: 1px solid #DFDCD7;
+                            padding-bottom: 20px;" 
+                     class="route-row">
+                    <div class="airport-code">{!t.depAirport}</div>
+                    <div class="plane-icon" aria-hidden="true">&#9992;&#65038;</div> 
+                    <!--<div class="plane-icon">
+<img src="{!URLFOR($Resource.BoardingPassIcon)}" width="88" height="88"/>
+</div>-->
+                    <div class="airport-code">{!t.arrAirport}</div>
+                </div>
+                
+                <!-- Passenger & flight info -->
+                <!-- Passenger & flight info -->
+                <div class="info-block" style="border-bottom: 1px solid #DFDCD7; padding-bottom: 16px;">
+                    <div class="label">NAME:</div>
+                    <div class="name">{!t.paxName}</div>
+                    <div class="pnr" style="display:none">{!t.pnr}</div>
+                    
+                    
+                    <div class="info-grid">
+                        <!-- Row 1 : two wide cells -->
+                        <div class="span-2">
+                            <div class="label">GATE:</div>
+                            <div class="value">{!IF(t.noGate, '--', t.boardingGate)}(Check At Airport)</div>
+                        </div>
+                        <div class="span-2">
+                            <div class="label">BOARDING:</div>
+                            <div class="value">{!t.boardingTime}</div>
+                        </div>
+                        
+                        <!-- Row 2 : four equal cells -->
+                        <div>
+                            <div class="label">FLIGHT:</div>
+                            <div class="value">{!t.flightNo}</div>
+                        </div>
+                        <div>
+                            <div class="label">DATE:</div>
+                            <div class="value">{!t.depDate2}</div>
+                        </div>
+                        <div>
+                            <div class="label">ZONE:</div>
+                            <div class="value">{!t.zone}</div>
+                        </div>
+                        <div>
+                            <div class="label">SEAT:</div>
+                            <div class="value">{!t.seat}</div>
+                            <div class="label" style="margin-top:25px;">{!t.checkppt}</div>                            
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- QR code -->
+                <div class="qr-wrapper">
+                    
+                    <div class="qr-code" id="qrcode_{!t.seat}" data-barcode="{!t.barcodeTxt}"></div>
+                    
+                </div>
+                
+                <div class="meal-code">{!t.mealSvc}</div>
+                
+                <!-- Notice -->
+                
+                <div class="notice">
+                    <div class="notice-title">注意事項</div>
+                    <apex:outputText value="{!noticeContentEBoardingPass}" escape="false"/>
+                </div>
+            </div>
+            
+            <!-- Force new sheet for the next ticket -->
+            <apex:variable var="index" value="{!index + 1}" />
+            <div class="page-break" rendered="{!AND(index != tickets.size, tickets.size > 1)}"></div>
+        </apex:repeat>
+    </div>
+    
+    <!--──────────────── 5. 轉成 PDF 並下載 ────────────────-->
+    <!-- 若已上傳成 Static Resource，請改用 apex:includeScript -->
+    <script src="https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    
+    
+    
+    <script>
+    
+    
+    /* =========================
+   *  EBoardingPassPDF 專用 JS
+   *  - 支援一般下載與 mode=zip
+   *  - 逐張產生 QR、逐張輸出 PDF
+   *  - zip 模式：回傳 {type:'PDF_BLOB', filename, base64}，全部完成後再送 'EBP_PDF_READY'
+   * ========================= */
+    
+    // ─── 小工具：Blob → Base64（回傳給父頁打包 zip 用） ───
+    function blobToBase64(blob) {
+        return new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result.split(',')[1]);
+            reader.readAsDataURL(blob);
+        });
+    }
+    
+    // ─── 產生 QR（QRCode.js 版本）───
+    function generateQRCodeWithQRCodeJS(el, data) {
+        return new Promise((resolve) => {
+            try {
+            if (!data) {
+            el.innerHTML = '<div style="color:red; font-size:10px;">NO DATA</div>';
+            return resolve();
+        }
+                           const byteLength = new TextEncoder().encode(data).length;
+        const MAX_BYTES = 2953; // QR Code capacity（低容錯級別）保守值
+        if (byteLength > MAX_BYTES) {
+            el.innerHTML = `<div style="color:red; font-size:10px;">QR TOO LONG<br/>(${byteLength} bytes)</div>`;
+            return resolve();
+        }
+        el.innerHTML = '';
+        new QRCode(el, {
+            text: data,
+            width: 130,
+            height: 130,
+            correctLevel: QRCode.CorrectLevel.L
+        });
+        // 等待 QR 實際畫完
+        setTimeout(resolve, 50);
+    } catch (e) {
+        console.error('QR Error:', e);
+        el.innerHTML = '<div style="color:red; font-size:10px;">QR ERROR</div>';
+        resolve();
+    }
+    });
+    }
+    
+    // ─── 取單張票的輸出選項（含檔名）───
+    function buildPdfOptions(filename) {
+        return {
+            margin: 10,
+            filename, // 每張票各自的檔名
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2, useCORS: true },
+            jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' }
+        };
+    }
+    
+    // ─── 稍作間隔，避免瀏覽器視為大量下載 ───
+    function sleep(ms) {
+        return new Promise((res) => setTimeout(res, ms));
+    }
+    
+    document.addEventListener('DOMContentLoaded', async () => {
+        try {
+        // 取得所有 .ticket 元素（每個旅客一張）
+        const ticketEls = document.querySelectorAll('.ticket');
+        const params = new URLSearchParams(location.search);
+        const mode = params.get('mode'); // 'zip' | null
+        
+        // 逐張處理
+        for (let i = 0; i < ticketEls.length; i++) {
+        const ticketEl = ticketEls[i];
+        
+        // 取出此張票的資料（供 QR 與檔名使用）
+        const qrEl    = ticketEl.querySelector('.qr-code');
+        const barcode = qrEl?.getAttribute('data-barcode') || '';
+        const paxName = (ticketEl.querySelector('.name')?.textContent || `PAX${i + 1}`)
+    .trim()
+    .replace(/\s+/g, '_');
+    const pnr     = (ticketEl.querySelector('.pnr')?.textContent || 'GROUP').trim();
+                     //const filename = `${pnr}_${paxName}.pdf`;
+                     const safe = s => (s || '')
+                     .trim()
+                     .replace(/[^\w.\-]+/g, '_'); // 把 / \ 空白 : * ? " < > | 等都換成 _
+                     const filename = `${safe(pnr)}_${safe(paxName)}.pdf`;
+                     
+                     // 先畫 QR，避免 PDF 截圖時是空白
+                     await generateQRCodeWithQRCodeJS(qrEl, barcode);
+                     
+                     if (mode === 'zip') {
+                     // zip：輸出成 blob，轉 base64 回傳給父頁
+                     const blob = await html2pdf()
+                     .set(buildPdfOptions(filename))
+                     .from(ticketEl)
+                     .output('blob'); // 不下載
+                     
+                     const base64 = await blobToBase64(blob);
+                     
+                     if (window.parent !== window) {
+                     window.parent.postMessage({ type: 'PDF_BLOB', filename, base64 }, '*');
+    }
+    } else {
+        // 一般模式：直接存檔
+        await html2pdf()
+        .set(buildPdfOptions(filename))
+        .from(ticketEl)
+        .save();
+        
+        // 兩張之間稍等，降低被瀏覽器擋下載風險
+        await sleep(400);
+    }
+    }
+    
+    // 全部完成後才通知父頁 Ready（zip 與一般模式都送，父頁有在用就會接到）
+    if (window.parent !== window) {
+        window.parent.postMessage('EBP_PDF_READY', '*');
+    } else {
+        // 開新分頁測試時自動關閉（可保留/移除）
+        setTimeout(() => window.close(), 800);
+    }
+    } catch (err) {
+        console.error('EBoardingPass PDF generation error:', err);
+        // 防卡死：通知父頁流程結束（即使失敗）
+        try { if (window.parent !== window) window.parent.postMessage('EBP_PDF_READY', '*'); } catch (e) {}
+    }
+    });
+    </script>
+    
+    
+</apex:page>

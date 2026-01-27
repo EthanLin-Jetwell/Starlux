@@ -1,0 +1,182 @@
+<!--
+  @Component Name     : DynamicListComp.cmp
+  @Description        : 
+  @Author             : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Group              : 
+  @Last Modified By   : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Last Modified On   : 4/2/2019, 3:02:00 PM
+  @Modification Log   : 
+  ==============================================================================
+  Ver         Date                     Author      		      Modification
+  ==============================================================================
+  1.0    4/2/2019, 3:02:00 PM   ChangeMeIn@UserSettingsUnder.SFDoc     Initial Version
+-->
+<aura:component controller="DynamicListCompController" implements="force:appHostable,flexipage:availableForAllPageTypes,force:hasRecordId" >
+    <!-- This set of attributes are meant for design attribute-->
+    <aura:attribute name="interfaceName" type="String"/>
+    <aura:attribute name="apiEndPoint" type="String"/>
+    <aura:attribute name="cmpTitle" type="String"/>
+    <aura:attribute name="cmpLtIcon" type="String"/>
+    <aura:attribute name="contentbody" type="String"/>
+    <aura:attribute name="contentsubbody" type="String"/>
+    <aura:attribute name="contentsecondsubbody" type="String"/>
+    <aura:attribute name="format" type="String" default="Table"/>
+    <aura:attribute name="useCase" type="String"/>
+    <!-- This set of attributes are for processing the data -->
+    <aura:attribute name="recordId" type="Id"/>
+    <aura:attribute name="ResponseWrapper" type="Object" />
+    <aura:attribute name="TableHeader" type="List"/>
+    <aura:attribute name="TableRecords" type="List"/>
+    <!-- <aura:attribute name="EntitlementRows" type="List"/> -->
+    <aura:attribute name="FormRecords" type="List"/>
+    <aura:attribute name="pageIndex" type="Integer" default="1"/>
+    <aura:attribute name="isMaxRecordsReached" type="Boolean" default="false" />
+
+    <!-- This set of attributes are for controlling the UI -->
+    <aura:attribute name="Error" type="Boolean" default ="false"/>
+    <aura:attribute name="StateError" type="Boolean" default ="false"/>
+    <aura:attribute name="NoSpinner" type="Boolean" default ="false"/>
+
+
+    <!-- This set of attributes are for navigating to the next component -->
+    <lightning:navigation aura:id="navService"/>
+    <lightning:workspaceAPI aura:id="workspace" />
+
+ 
+    <!-- Starts of the process -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler event="force:refreshView" action="{!c.recalculate}"/>
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+    
+    
+    <!-- For displaying Active Entitlements -->
+    <aura:if isTrue="{!v.NoSpinner}">
+        <div class="slds-is-relative">
+            <lightning:spinner variant="brand" size="small" aura:id="spinner" class="slds-show"/>
+            <lightning:card title="{!v.cmpTitle}" iconName="{!v.cmpLtIcon}">
+                <aura:set attribute="title">
+                    <a>{!v.cmpTitle}</a>
+                </aura:set>
+            </lightning:card>
+        </div>
+
+        <aura:set attribute="else">
+
+            <aura:if isTrue="{!v.Error}">
+				
+                <lightning:card title="{!v.cmpTitle}" iconName="{!v.cmpLtIcon}">
+                    <aura:set attribute="title">
+                        <a onclick="{!c.showAll}">{!v.cmpTitle}</a> 
+                        <!--a>{!v.cmpTitle}</a-->
+                    </aura:set>
+
+                    <aura:set attribute="actions">
+                        <lightning:button class="slds-theme_neutral" iconPosition="right" variant="neutral" label="Refresh" iconName="action:refresh" onclick="{!c.refreshComponent}"></lightning:button>
+                    </aura:set>
+
+                    <aura:if isTrue="{!v.StateError}">
+                        <div class = "slds-card__body_inner slds-text-color_error">
+                            {!$Label.c.Error}
+                        </div>
+                        <aura:set attribute="else">
+                            <div class="slds-card__body_inner slds-text-color_error">
+                                {!v.ResponseWrapper.ErrorMessage}
+                            </div>
+                        </aura:set>
+                    </aura:if>
+                </lightning:card>
+
+
+                <aura:set attribute="else">
+					
+                    	<lightning:card title="{!v.cmpTitle}" iconName="{!v.cmpLtIcon}" footer="{!(v.isMaxRecordsReached) ? '---No More Records---' : ''}" >
+
+                        <aura:set attribute="title">
+                            <a onclick="{!c.showAll}">{!v.cmpTitle} ({!v.TableRecords.length})</a>
+                        </aura:set>
+
+                        <aura:set attribute="actions">
+                            <lightning:button class="slds-theme_neutral" iconPosition="right" variant="neutral" label="Refresh" iconName="action:refresh" onclick="{!c.refreshComponent}"></lightning:button>
+                        </aura:set>
+
+                        <div class="slds-card__body_inner">
+
+                            <div class="slds-scrollable_x">
+
+                                <table class="slds-table slds-table_bordered slds-table_striped slds-table_col-bordered">
+                                    <thead>
+                                        <tr class="slds-text-title_caps">
+                                            <aura:iteration items="{!v.TableHeader}" var="header">
+                                                <th>
+                                                    <div class="slds-text-title slds-text-color_default slds-cell-wrap">{!header.LTC_Field_Label__c}</div>
+                                                </th>
+                                                
+                                            </aura:iteration>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+
+                                        <aura:iteration items="{!v.TableRecords}" var="result">
+                                            <tr class="slds-hint-parent">
+                                                <aura:iteration items="{!result.inside}" var="final">
+
+                                                    <td class="slds-cell-buffer_right">
+                                                        <div class="slds-text-title slds-text-color_default slds-cell-wrap">
+
+                                                        <aura:if isTrue="{!final.type == 'currency'}">
+                                                            <ui:outputCurrency value="{!final.value}" currencySymbol="{!final.currency + ' '}"/>
+                                                        </aura:if>
+
+                                                        <aura:if isTrue="{!final.type == 'epochDate'}">
+                                                            <c:EpochToDDMMYYYYConverter epoch="{!final.value}" />
+                                                        </aura:if>
+
+
+                                                        <aura:if isTrue="{!final.type == 'number'}">
+                                                            <lightning:formattedNumber value="{!final.value}" maximumFractionDigits="2"/>
+                                                        </aura:if>                                                  
+
+
+                                                        <aura:if isTrue="{!final.type == 'datetime'}">
+                                                            <lightning:formattedDateTime value="{!final.value}" year="numeric" month="numeric" day="numeric" hour="2-digit" minute="2-digit" timeZone="UTC" timeZoneName="short" hour12="false"/>             
+                                                        </aura:if>
+
+                                                        <aura:if isTrue="{!final.type == 'boolean'}">
+                                                            <ui:outputCheckbox value="{!final.value}"/>
+                                                        </aura:if>
+
+                                                        <aura:if isTrue="{!final.type == 'text'}">
+                                                            <ui:outputText value="{!final.value}"/>
+                                                        </aura:if>
+
+                                                        </div>
+                                                    </td>
+
+                                                </aura:iteration>
+
+                                            </tr>
+                                        </aura:iteration>
+
+                                    </tbody>
+
+                                </table>
+
+                            </div>
+                            
+                        </div>
+                        <!--div class="slds-m-around_small" align="right">
+                            <lightning:button class="slds-theme_neutral" iconPosition="right" variant="neutral" label="Add More" iconName="action:refresh" aura:id="addMoreButton" onclick="{!c.addMoreRows}" disabled="{!v.isMaxRecordsReached}"></lightning:button>
+                        </div-->
+
+
+                    </lightning:card>
+                    </aura:set>
+				
+            </aura:if>
+
+        </aura:set>
+
+    </aura:if>
+
+</aura:component>

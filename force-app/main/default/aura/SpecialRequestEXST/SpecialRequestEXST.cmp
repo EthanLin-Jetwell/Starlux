@@ -1,0 +1,352 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes,force:hasRecordId,flexipage:availableForRecordHome" access="global" controller="WebFormController">
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="Device" type="String"/>
+    
+    <aura:attribute name="RefundRecordTypeId" type="Id"/>
+    <aura:attribute name="SubType" type="String"/>
+    <aura:attribute name="activeSections" type="List" default="['D','C','B','A']" />
+    <aura:attribute name="options" type="List" default="[]"/>
+    <aura:attribute name="Reason" type="String"/>
+    <aura:attribute name="value" type="String" default="trustee"/>
+    <aura:attribute name="ValidStatus" type="Boolean" default='true'/>
+    <aura:attribute name="CommentsValidStatus" type="Boolean" default='true'/>
+    <aura:attribute name="ConsentCheckStatus" type="Boolean" default='true'/>
+    
+    <aura:attribute name="AcknowledgementList" type="List" default='Consent'/>
+    <aura:attribute name="CommentsList" type="List" default="Reason"/>
+    <aura:attribute name="RequiredList" type="List" default='ContactSalutation,FamilyName,GivenName,ContactEmail,CountryCode,PhoneNumber,DepartureCountry,FlightNumber,Consent'/>
+    <aura:attribute name="TrusteeList" type="List" default='AlternateContactSalutation,AlternateFamilyName,AlternateGivenName,AlternateEmail,AlternateCountryCode,AlternatePhoneNumber'/>
+    
+    <lightning:card title="{!$Label.c.webForm_formSpecialEXST_formTitle}" iconName="action:description">
+    	<Lightning:layout multipleRows="true">
+           <Lightning:layoutItem flexibility="auto" padding="around-small">
+
+				<Lightning:messages />
+
+    			<!-- SET the Case recordType for this FORM -->
+    			<Lightning:recordEditForm aura:id="formSpecialRequest"
+                                         objectApiName="Case"
+                                         recordTypeId="{!v.RefundRecordTypeId}"
+                                         density="comfy"
+                                         onsuccess="{!c.handleSuccess}"
+                                         onsubmit="{!c.handleSubmit}"
+                                         onload="{!c.handleOnload}"
+                                         onerror="{!c.handleError}">
+                    
+<div class="slds-box slds-theme_default" style="border:none">
+        <label class="slds-m-top_medium">{!$Label.c.webForm_formSpecial_formReminderEXST}</label>
+    <div><BR></BR></div>
+               </div>                    
+                    
+<div class="slds-box slds-theme_default">
+        <label class="slds-m-top_medium">{!$Label.c.webForm_message_FormHeader}</label>
+    <div><BR></BR></div>
+                <div class="slds-form" role="list">
+                  <div class="slds-form__row" style="margin-left:0px">
+                        <lightning:radioGroup name="radioGroup"
+                                                  label="{!$Label.c.webForm_formEnquiry_IdentityCheck}"
+                                                  options="{! v.options }"
+                                                  value="{! v.value }"
+                                                  type="radio"
+                                              	  />
+                    </div>
+</div></div>     
+<div><BR></BR></div>
+                    
+<lightning:accordion allowMultipleSectionsOpen="true" aura:id="accordion" activeSectionName="{!v.activeSections}">
+    
+    <aura:renderif isTrue="{!v.value == 'trustee'}">
+    	<lightning:accordionSection name="A" label="{!$Label.c.webForm_formSpecial_AgentInfoHeader}">
+            <div class="slds-form__row">
+                    <div class="slds-form__item" role="listitem">
+                          <div class="slds-form-element slds-form-element_edit slds-form-element_stacked slds-hint-parent" style="max-width:400px">
+                                    <aura:if isTrue="{!v.Device == 'DESKTOP'}">
+                                        <lightning:formattedText value="{!$Label.c.webForm_formSpecial_AgentInfoHeader2}" class="textCustom"/>
+                                    </aura:if>
+                                    <aura:if isTrue="{!v.Device == 'PHONE'}">
+                                        <lightning:formattedText value="{!$Label.c.webForm_formSpecial_AgentInfoHeader2}" class="textCustomPhone"/>
+                                    </aura:if>
+                                    <aura:if isTrue="{!v.Device == 'TABLET'}">
+                                        <lightning:formattedText value="{!$Label.c.webForm_formSpecial_AgentInfoHeader2}" class="textCustomPhone"/>
+                                    </aura:if>
+                              </div>
+                         </div>
+                </div>
+            <div class="slds-form__row slds-is-open">
+                     <div class="slds-form__item" role="listitem">
+                      <div class="slds-form-element slds-form-element_edit slds-form-element_stacked slds-hint-parent" style="max-width:400px">
+                          		<aura:if isTrue="{!v.Device == 'DESKTOP'}">
+                             		<lightning:formattedText value="{!$Label.c.webForm_formEnquiry_Title}" class="textCustom"/>
+                             	</aura:if>
+                             	<aura:if isTrue="{!v.Device == 'PHONE'}">
+                             		<lightning:formattedText value="{!$Label.c.webForm_formEnquiry_Title}" class="textCustomPhone"/>
+                             	</aura:if>
+                             	<aura:if isTrue="{!v.Device == 'TABLET'}">
+                             		<lightning:formattedText value="{!$Label.c.webForm_formEnquiry_Title}" class="textCustomPhone"/>
+                             	</aura:if>
+                         <lightning:inputField aura:id="AlternateContactSalutation" fieldName="Alternate_Contact_Title__c" class="customRequired" variant="label-hidden"/>
+                          </div>
+                     </div>
+                     </div>
+            
+            		<div class="slds-form__row">
+                        <div class="slds-form__item" role="listitem">
+                         <div class="slds-form-element slds-form-element_edit slds-form-element_stacked slds-hint-parent" style="max-width:400px">
+                         <lightning:input aura:id="AlternateFamilyName" label="{!$Label.c.webForm_formEnquiry_FamilyName}" name="AlternateFamilyName" class="customRequired"/>
+                             </div>
+                     </div>
+                     <div class="slds-form__item" role="listitem">
+                         <div class="slds-form-element slds-form-element_edit slds-form-element_stacked slds-hint-parent" style="max-width:400px">
+                         <lightning:input aura:id="AlternateGivenName" label="{!$Label.c.webForm_formEnquiry_GivenName}" name="AlternateGivenName" class="customRequired"/>
+                         </div>
+                     </div>
+                     </div>
+ 
+                  <div class="slds-form__row">
+                     <div class="slds-form__item" role="listitem" style="width:200px">
+                         <div class="slds-form-element slds-form-element_edit slds-form-element_stacked slds-hint-parent" style="max-width:400px">
+                            	 <aura:if isTrue="{!v.Device == 'DESKTOP'}">
+                             		<lightning:formattedText value="{!$Label.c.webForm_formEnquiry_EmailAddress}" class="textCustom"/>
+                             	</aura:if>
+                             	<aura:if isTrue="{!v.Device == 'PHONE'}">
+                             		<lightning:formattedText value="{!$Label.c.webForm_formEnquiry_EmailAddress}" class="textCustomPhone"/>
+                             	</aura:if>
+                             	<aura:if isTrue="{!v.Device == 'TABLET'}">
+                             		<lightning:formattedText value="{!$Label.c.webForm_formEnquiry_EmailAddress}" class="textCustomPhone"/>
+                             	</aura:if>
+                         <Lightning:inputField aura:id="AlternateEmail" fieldName="Alternate_Contact_Email__c" class="customRequired" variant="label-hidden"/>
+                         </div>
+                     </div></div>
+            
+            		<div class="slds-form__row">
+                     <div class="slds-form__item" role="listitem">
+                         <div class="slds-form-element slds-form-element_edit slds-form-element_stacked slds-hint-parent" style="max-width:400px">
+                         <Lightning:inputField aura:id="AlternateCountryCode" fieldName="Alternate_Contact_Country_Code__c" class="customRequired"/>
+                         </div>
+                     </div>
+                     <div class="slds-form__item" role="listitem">
+                         <div class="slds-form-element slds-form-element_edit slds-form-element_stacked slds-hint-parent" style="max-width:400px">
+                         <Lightning:input aura:id="AlternatePhoneNumber" label="{!$Label.c.webForm_formEnquiry_PhoneNumber}" name="AlternatePhoneNumber" class="customRequired"/>
+                         </div>
+                     </div></div>
+            
+        </lightning:accordionSection>
+    </aura:renderif>
+    
+    	<lightning:accordionSection name="B" label="{!$Label.c.webForm_formSpecial_PassengerInfoHeader}">
+            <div class="slds-form" role="list">
+				<div class="slds-form__row">
+                     <div class="slds-form__item" role="listitem">
+                      <div class="slds-form-element slds-form-element_edit slds-form-element_stacked slds-hint-parent" style="max-width:400px">
+                          		<aura:if isTrue="{!v.Device == 'DESKTOP'}">
+                             		<lightning:formattedText value="{!$Label.c.webForm_formSpecial_AgentInfoHeader2}" class="textCustom"/>
+                             	</aura:if>
+                             	<aura:if isTrue="{!v.Device == 'PHONE'}">
+                             		<lightning:formattedText value="{!$Label.c.webForm_formSpecial_AgentInfoHeader2}" class="textCustomPhone"/>
+                             	</aura:if>
+                             	<aura:if isTrue="{!v.Device == 'TABLET'}">
+                             		<lightning:formattedText value="{!$Label.c.webForm_formSpecial_AgentInfoHeader2}" class="textCustomPhone"/>
+                             	</aura:if>
+                          </div>
+                     </div></div>
+                <div class="slds-form__row">
+                     <div class="slds-form__item" role="listitem">
+                      <div class="slds-form-element slds-form-element_edit slds-form-element_stacked slds-hint-parent" style="max-width:400px">
+                          		<aura:if isTrue="{!v.Device == 'DESKTOP'}">
+                             		<lightning:formattedText value="{!$Label.c.webForm_formEnquiry_Title}" class="textCustom"/>
+                             	</aura:if>
+                             	<aura:if isTrue="{!v.Device == 'PHONE'}">
+                             		<lightning:formattedText value="{!$Label.c.webForm_formEnquiry_Title}" class="textCustomPhone"/>
+                             	</aura:if>
+                             	<aura:if isTrue="{!v.Device == 'TABLET'}">
+                             		<lightning:formattedText value="{!$Label.c.webForm_formEnquiry_Title}" class="textCustomPhone"/>
+                             	</aura:if>
+                         <lightning:inputField aura:id="ContactSalutation" fieldName="Passenger_Title__c" class="customRequired" variant="label-hidden"/>
+                          </div>
+                     </div></div>
+                
+                <div class="slds-form__row">
+                    <div class="slds-form__item" role="listitem">
+                         <div class="slds-form-element slds-form-element_edit slds-form-element_stacked slds-hint-parent" style="max-width:400px">
+                         <lightning:input aura:id="FamilyName" label="{!$Label.c.webForm_formEnquiry_FamilyName}" name="FamilyName" class="customRequired"/>
+                             </div>
+                     </div>
+                     <div class="slds-form__item" role="listitem">
+                         <div class="slds-form-element slds-form-element_edit slds-form-element_stacked slds-hint-parent" style="max-width:400px">
+                         <lightning:input aura:id="GivenName" label="{!$Label.c.webForm_formEnquiry_GivenName}" name="GivenName" class="customRequired"/>
+                         </div>
+                     </div></div>
+
+                  <div class="slds-form__row">
+                     <div class="slds-form__item" role="listitem" style="width:200px">
+                         <div class="slds-form-element slds-form-element_edit slds-form-element_stacked slds-hint-parent" style="max-width:400px">
+                         <!--lightning:inputField aura:id="SuppliedEmail" fieldName="SuppliedEmail" class="customRequired"/-->
+                            	 <aura:if isTrue="{!v.Device == 'DESKTOP'}">
+                             		<lightning:formattedText value="{!$Label.c.webForm_formEnquiry_EmailAddress}" class="textCustom"/>
+                             	</aura:if>
+                             	<aura:if isTrue="{!v.Device == 'PHONE'}">
+                             		<lightning:formattedText value="{!$Label.c.webForm_formEnquiry_EmailAddress}" class="textCustomPhone"/>
+                             	</aura:if>
+                             	<aura:if isTrue="{!v.Device == 'TABLET'}">
+                             		<lightning:formattedText value="{!$Label.c.webForm_formEnquiry_EmailAddress}" class="textCustomPhone"/>
+                             	</aura:if>
+                             <lightning:inputField aura:id="ContactEmail" fieldName="Passenger_Email__c" class="customRequired" variant="label-hidden"/>
+                         </div>
+                     </div></div>
+                    
+                    <div class="slds-form__row">
+                     <div class="slds-form__item" role="listitem">
+                         <div class="slds-form-element slds-form-element_edit slds-form-element_stacked slds-hint-parent" style="max-width:400px">
+                         <Lightning:inputField aura:id="CountryCode" fieldName="Country_Code__c" class="customRequired"/>
+                         </div>
+                     </div>
+                     <div class="slds-form__item" role="listitem">
+                         <div class="slds-form-element slds-form-element_edit slds-form-element_stacked slds-hint-parent" style="max-width:400px">
+                         <lightning:input aura:id="PhoneNumber" label="{!$Label.c.webForm_formEnquiry_PhoneNumber}" name="PhoneNumber" class="customRequired"/>
+                         </div>
+                     </div></div>
+                    
+                    <div class="slds-form__row">
+                     <div class="slds-form__item" role="listitem">
+                         <div class="slds-form-element slds-form-element_edit slds-form-element_stacked slds-hint-parent" style="max-width:400px">
+                         <Lightning:inputField aura:id="MembershipNo" fieldName="Membership_No__c"/>
+                         </div>
+                     </div>
+                     </div>
+               
+
+				</div>
+            
+        </lightning:accordionSection>
+    
+    	<lightning:accordionSection name="C" label="{!$Label.c.webForm_formSpecial_FlightInfoHeader}">
+            <div class="slds-form " role="list">
+                <div class="slds-form__row">
+                     <div class="slds-form__item" role="listitem">
+                         <div class="slds-form-element slds-form-element_edit slds-form-element_stacked slds-hint-parent" style="max-width:400px">
+                         <Lightning:inputField aura:id="BookingReference" fieldName="Booking_Reference_PNR__c"/>
+                         </div>
+                     </div>
+                    <div class="slds-form__item" role="listitem">
+                         <div class="slds-form-element slds-form-element_edit slds-form-element_stacked slds-hint-parent" style="max-width:400px">
+                         <Lightning:inputField aura:id="TicketNo" fieldName="Ticket_EMD_Number__c"/>
+                         </div>
+                     </div>
+                </div>
+                
+                <div class="slds-form__row">
+                     <div class="slds-form__item" role="listitem">
+                         <div class="slds-form-element slds-form-element_edit slds-form-element_stacked slds-hint-parent" style="max-width:400px">
+                         		<aura:if isTrue="{!v.Device == 'DESKTOP'}">
+                             		<lightning:formattedText value="{!$Label.c.webForm_formSpecial_FlightDate}" class="customDateRequired"/>
+                             	</aura:if>
+                             	<aura:if isTrue="{!v.Device == 'PHONE'}">
+                             		<lightning:formattedText value="{!$Label.c.webForm_formSpecial_FlightDate}" class="customDateRequiredPhone"/>
+                             	</aura:if>
+                             	<aura:if isTrue="{!v.Device == 'TABLET'}">
+                             		<lightning:formattedText value="{!$Label.c.webForm_formSpecial_FlightDate}" class="customDateRequiredPhone"/>
+                             	</aura:if>
+                         <Lightning:inputField aura:id="FlightDate" fieldName="Flight_Date__c" variant="label-hidden"/>
+                         </div>
+                     </div>
+                    <div class="slds-form__item" role="listitem">
+                         <div class="slds-form-element slds-form-element_edit slds-form-element_stacked slds-hint-parent" style="max-width:400px">
+                         <Lightning:inputField aura:id="FlightNumber" fieldName="Flight_Number__c" class="customRequired"/>
+                         </div>
+                     </div>
+                </div>
+                
+                <div class="slds-form__row">
+                     <div class="slds-form__item" role="listitem">
+                         <div class="slds-form-element slds-form-element_edit slds-form-element_stacked slds-hint-parent" style="max-width:400px">
+                             <aura:if isTrue="{!v.Device == 'DESKTOP'}">
+                                 <lightning:formattedText value="{!$Label.c.webForm_formEnquiry_DepartureLocation}" class="textCustom"/>
+                             </aura:if>
+                             <aura:if isTrue="{!v.Device == 'PHONE'}">
+                                 <lightning:formattedText value="{!$Label.c.webForm_formEnquiry_DepartureLocation}" class="textCustomPhone"/>
+                             </aura:if>
+                             <aura:if isTrue="{!v.Device == 'TABLET'}">
+                                 <lightning:formattedText value="{!$Label.c.webForm_formEnquiry_DepartureLocation}" class="textCustomPhone"/>
+                             </aura:if>
+                         	<Lightning:inputField aura:id="DepartureCountry" fieldName="Departure_Location__c" class="customRequired" variant="label-hidden"/>
+                         </div>
+                     </div>
+                </div>
+                
+                <div class="slds-form__row">
+                     <div class="slds-form__item" role="listitem">
+                         <div class="slds-form-element slds-form-element_edit slds-form-element_stacked slds-hint-parent" style="max-width:400px">
+                         <ui:button aura:id="btn_dep_info" class="btn" label="{!$Label.c.webForm_formEnquiry_GuideInfo}" press="{!c.getGuideInfo}"/>
+                         </div>                         
+                </div></div>
+            </div>
+        </lightning:accordionSection>
+   
+        <lightning:accordionSection name="D" label="{!$Label.c.webForm_formSpecial_SpecialRequestInfoHeader}">
+            <div class="slds-form " role="list">
+                <div class="slds-form__row">
+                	<div class="slds-form__item" role="listitem">
+                             <div class="slds-form-element slds-form-element_edit slds-form-element_stacked slds-hint-parent" style="max-width:1100px">
+                             <Lightning:textArea aura:id="Reason" value="{! v.Reason }" label="{!$Label.c.webForm_formSpecialEXST_Reason}" placeholder="{!$Label.c.webForm_formEnquiry_CommentsHelpText}" class="customRequired"/>
+                             </div>
+                         </div>
+                </div>
+                
+                <div class="slds-form__row">
+                     <div class="slds-form__item" role="listitem">
+                         <!--div class="slds-form-element slds-form-element_edit slds-form-element_stacked slds-hint-parent" style="max-width:1100px"-->
+                             <!--lightning:input aura:id="Consent" type="checkbox" class="customRequired"/--> 
+                         <label class="slds-checkbox">
+                             	<abbr class="slds-required" title="required">*</abbr>
+            					<ui:inputCheckbox aura:id="Consent"/>
+                             <span class="slds-checkbox--faux"/>
+                             <label class="textConsent">
+                           		<aura:unescapedHtml value="{!$Label.c.webForm_text_NewConsentPrivacy}" />
+                                 </label> 
+                         </label>   
+                         <!--/div-->
+                     </div>
+                </div>
+                
+                    <!--div class="slds-form__row">
+                         <div class="slds-form__item" role="listitem">
+                             <div class="slds-form-element slds-form-element_edit slds-form-element_stacked slds-hint-parent" style="max-width:1100px">
+                             <lightning:input aura:id="Consent" type="checkbox" label="{!$Label.c.webForm_text_Consent}" class="customRequired"/>
+                             	<aura:if isTrue="{!v.Device == 'DESKTOP'}">
+                             		<lightning:formattedText value="{!$Label.c.webForm_text_Consent2}" class="textConsent"/>
+                             	</aura:if>
+                             	<aura:if isTrue="{!v.Device == 'PHONE'}">
+                             		<lightning:formattedText value="{!$Label.c.webForm_text_Consent2}" class="textConsentPhone"/>	
+                             	</aura:if>
+                             	<aura:if isTrue="{!v.Device == 'TABLET'}">
+                             		<lightning:formattedText value="{!$Label.c.webForm_text_Consent2}" class="textConsentPhone"/>
+                             	</aura:if>
+                             </div>
+                         </div>
+                	</div-->
+                    
+            </div>
+            
+    	</lightning:accordionSection>
+    
+    </lightning:accordion>
+           
+           
+<div><BR> </BR></div>
+<footer class="slds-card__footer">                    
+                        <Lightning:button variant="brand" class="btn" type="submit" label="{!$Label.c.webForm_text_SubmitButton}"/>
+                        <Lightning:inputField aura:id="Origin" fieldName="Origin" class="slds-hide"/>
+    					<Lightning:inputField aura:id="CaseSubType" fieldName="Case_Sub_type__c" class="slds-hide"/>
+    					<Lightning:inputField aura:id="CaseSubTypeDetails" fieldName="Case_Sub_type_Details__c" class="slds-hide"/>
+                        <Lightning:inputField aura:id="SuppliedName" fieldName="SuppliedName" class="slds-hide"/>
+    					<Lightning:inputField aura:id="SuppliedEmail" fieldName="SuppliedEmail" class="slds-hide"/>
+    					<Lightning:inputField aura:id="AlternateContactPhone" fieldName="Alternate_Contact_Phone__c" class="slds-hide"/>
+    					<Lightning:inputField aura:id="AlternateContactName" fieldName="Alternate_Contact_Name__c" class="slds-hide"/>
+    					<Lightning:inputField aura:id="SuppliedPhone" fieldName="SuppliedPhone" class="slds-hide"/>
+</footer>
+               </Lightning:recordEditForm>
+            </Lightning:layoutItem>
+       </Lightning:layout>
+    </lightning:card>
+    
+</aura:component>

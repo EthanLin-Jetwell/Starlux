@@ -1,0 +1,335 @@
+/* =========  全域參數  ========= */
+:root {
+    /* 色彩 */
+    --primary-brown: #8E7248;
+    --secondary-brown   : #CCBBB0;      /* rgba(204,187,176,1) */
+
+    --bg-page: #EEEDEC;
+    --text-title: #1a3a5a;
+    --text-link: #2c5282;
+    --border-light: #ddd;
+    --text-white: #FFFFFF;
+
+    /* 間距＆尺寸 */
+    --sidebar-gap-top: 115px;
+    --gap-side: 24px;
+    --gap-bottom: 24px;
+    --font-main: "Arial", "Helvetica Neue", sans-serif;
+
+    --primary-brown-40  : rgba(142,114,72,.4);
+    --text-field-label  : rgba(115,91,75,1);
+}
+
+.btn-primary{
+    height:48px;
+    background:#8E7248;
+    color:#fff;
+    border: 1px solid #8E7248;
+
+}
+
+.btn-secondary{
+    height:48px;
+    background: #fff;
+    border: none;
+    color: #000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.20);
+}
+
+
+.btn-primary:hover{
+    background:#8E7248;
+    color:#fff;
+    border: 1px solid #8E7248;
+}
+
+.btn-secondary:hover{
+    background: #fff;
+    border: none;
+    color: #000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.20);
+}
+
+/* =========  基本文字與排版  ========= */
+html,
+body,
+.content-wrapper-home {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    /*overflow: hidden;*/          /* 整頁不滾動 */
+    font-family: var(--font-main);
+}
+
+body {
+    background: var(--bg-page);
+}
+
+.content-wrapper-home {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+/* =========  容器  ========= */
+.container-fluid-home {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: calc(100vh - var(--sidebar-gap-top));
+    margin: var(--sidebar-gap-top) var(--gap-side) 0 var(--gap-side);
+}
+
+/* =========  Bulletin Board  ========= */
+.bulletin-board {
+    flex: 1 1 auto;
+    background: #fff;
+    margin-bottom: var(--gap-bottom);
+    max-height: calc(100vh - var(--sidebar-gap-top) - var(--gap-bottom) - var(--gap-bottom));
+    
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* 保留裁切，只讓 .bulletin-content 捲動 */
+}
+
+/* 內文區塊（如需內部捲軸，把 overflow 改回 auto） */
+.bulletin-content {
+    flex: 1 1 auto;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    overflow-y: auto; /* 只垂直捲動更佳 */
+    line-height: 1.6;
+    font-size: 16px;
+}
+
+/* 內文圖片、表格自動縮放 */
+.bulletin-content img,
+.bulletin-content table {
+    max-width: 100%;
+    height: auto;
+}
+
+/* 文字強制換行避免 overflow */
+.bulletin-content p,
+.bulletin-content div,
+.bulletin-content span {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* =========  標題與表格  ========= */
+.bulletin-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--text-title);
+    color: var(--text-title);
+}
+
+.bulletin-item-title {
+    font-weight: bold;
+    color: var(--text-link);
+}
+
+.bulletin-table {
+    width: 100%;
+    margin-top: 10px;
+    border-collapse: collapse;
+}
+
+.bulletin-table th,
+.bulletin-table td {
+    border: 1px solid var(--border-light);
+    padding: 8px;
+    text-align: left;
+}
+
+.bulletin-table th {
+    background: #f2f2f2;
+    font-weight: bold;
+}
+
+/* =========  Modal 按鈕  ========= */
+.CancelBtn,
+.UpdateBtn {
+    width: 105px;
+    height: 48px;
+    border-radius: 4px;
+}
+
+.CancelBtn {
+    width: 73px;
+    color: var(--primary-brown);
+    background: #fff;
+    border: none;
+}
+
+.UpdateBtn {
+    color: #fff;
+    background: var(--primary-brown);
+    border: none;
+}
+
+.UpdateBtn:hover {
+    background: var(--primary-brown); /* 同色保持一致；若要變色可再調 */
+}
+
+/* Modal 標題 */
+#passwordExpirationModalLabel { 
+    font-weight: bold; 
+}
+
+::placeholder { color:#ccc; opacity:1; }
+
+/* ---------- 表單 ---------- */
+.form-control,
+.form-select          { border-radius:2px; }
+.form-control:focus,
+.form-select:focus    {
+    border-color:var(--primary-brown);
+    box-shadow:0 0 0 .2rem rgba(232,224,218,.5);
+}
+.form-control:disabled{ background:#f8f8f8; }
+
+.form-control.is-invalid,
+.was-validated .form-control:invalid { background-image:none; padding-right:0; }
+
+.form-select:disabled {
+    background-color: #f8f8f8;
+}
+
+.input-group .form-control.is-invalid{
+    border-right-width:1px !important; z-index:1;
+}
+.input-group-text     { background:#fff; }
+
+.is-invalid           { border-color:#dc3545 !important; }
+.invalid-feedback     { text-align:left !important; }
+
+/* ---------- Tabs ---------- */
+.nav-tabs .nav-link{
+    padding:0; width:99px; height:48px;
+    background:var(--secondary-brown); color:#fff;
+    border-radius:4px; margin-right:1px;
+}
+.nav-tabs .nav-link:hover{ background:var(--secondary-brown); }
+.nav-tabs .nav-link.active,
+.nav-tabs .nav-link.active:hover{
+    width:104px; background:var(--primary-brown);
+    color: var(--text-white);
+}
+
+/* ---------- 表格 ---------- */
+.table th{
+    text-align:center; vertical-align:middle;
+    font-weight:bold;  color:#495057;
+    border-top:2px solid var(--secondary-brown);
+    border-bottom:2px solid var(--secondary-brown);
+}
+.table td              { text-align:center; vertical-align:middle; }
+.table td[rowspan]     { height:190px; background:#fff; }
+.table tbody tr:last-child td{ border-bottom:2px solid var(--border-light); }
+
+.travel-document       { padding:4px 8px; border-radius:2px; display:inline-block; }
+
+/* ---------- 搜尋與結果區 ---------- */
+#outerWrapper,
+#searchResults,          /* 若外層不同請改成對應 ID */
+.search-prompt {
+    height: 90%;
+}
+
+.btn.disabled, .btn:disabled, fieldset:disabled .btn{
+    border: none;
+}
+
+/* ───────── 表格列統一高度 ───────── */
+#searchResults table tbody tr {
+    height: 88px;        
+}
+
+/* ───────── 每個儲存格預留訊息空間 ───────── */
+#searchResults table tbody td {
+    position: relative;   
+    padding-bottom: 24px; 
+    padding-top: 24px; 
+    vertical-align: middle;
+    justify-items: center;
+}
+
+/* ───────── 浮貼式錯誤訊息 ───────── */
+#searchResults .invalid-feedback {
+    position: absolute;
+    bottom: -20px;          
+    left: 8;
+    width: 100%;
+    margin: 0;
+    font-size: 12px;
+    line-height: 14px;
+    color: #C8565A;       
+    white-space: nowrap;  
+    pointer-events: none; 
+}
+
+/* 搜尋提示區：上下各 24px，其他用 flex 撐滿置中 */
+.search-prompt{
+    margin: 24px 0;                 /* ↑↓ 24px 空隙 */
+    height: calc(100% - 48px);      /* 剩餘高度全部占滿 */
+    display: flex;
+    align-items: center;            /* 垂直置中 */
+    justify-content: center;        /* 水平置中 */
+    padding: 0 20px;                /* 左右 20px 內距 */
+    font-size: 20px;
+    color: #666;                    /* 原本的 grayscale 可自行調整 */
+    box-sizing: border-box;         /* 避免內距影響計算 */
+}
+
+.content-wrapper{ 
+    display:flex; 
+    justify-content:center; 
+    width:100%; 
+    overflow: scroll;
+}
+
+.container-fluid{
+    margin:var(--sidebar-gap-top) var(--gap-side) 0 var(--gap-side);
+    width:calc(100% - (var(--gap-side)*2));
+    box-sizing:border-box;
+}
+
+#flightSearchForm      { background:#fff; padding:24px; margin:0; }
+#searchResults         { background:#fff; }
+
+.form-label            { color:var(--text-field-label); }
+
+/* ---------- 固定底部按鈕列 ---------- */
+.fixed-bottom-buttons{
+    position:fixed; left:0; right:0; bottom:0;
+    z-index:999; margin-top:300px; padding-left:250px;
+}
+.fixed-bottom-buttons .container{
+    max-width:1920px; height:76px; display:flex;
+    justify-content:flex-end; gap:16px; padding:20px;
+    background:#fff; border-left:2px solid var(--border-light);
+    box-shadow:0 -4px 12px rgba(0,0,0,.2);
+}
+.fixed-bottom-buttons .btn{
+    width:120px; height:40px; font-size:16px; border-radius:4px;
+}
+
+/* ---------- 分頁控制列 ---------- */
+.pagination-controls{
+    position:sticky; top:0; z-index:5;
+    display:flex; align-items:center; justify-content:space-between;
+    height:78px; padding:0 16px; background:#fff;
+    box-shadow:0 2px 4px rgba(0,0,0,.05);
+}
+
+/* ---------- 其他 ---------- */
+.notification-panel2   { width:200px !important; }
+.close-button          { margin-right:30px !important; }
+.edit-only             { display:none; }
+
+            

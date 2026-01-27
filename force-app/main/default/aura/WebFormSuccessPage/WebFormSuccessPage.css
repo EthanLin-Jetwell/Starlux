@@ -1,0 +1,39 @@
+.THIS .customRequired{
+    font-weight: 400; 
+} 
+
+.THIS .textCustom{
+    overflow-wrap: break-word;
+    display: inline-block;
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 0.75rem;
+    padding-right: 0.5rem;
+    padding-top: 0.25rem;
+    margin-bottom: 0.125rem;
+}
+
+.THIS .textComments:before{    
+    content: "*";
+    margin: 0 0.125rem 0 0.125rem;
+    color: rgb(194, 57, 52);
+    float: left; }
+
+.THIS .textComments{
+    overflow-wrap: break-word;
+    display: inline-block;
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 0.75rem;
+    padding-right: 0.5rem;
+    padding-top: 0.25rem;
+    margin-bottom: 0.125rem;
+}
+
+.THIS .customRequired:before{    
+    content: "*";
+    margin: 0 0.125rem 0 0.125rem;
+    color: rgb(194, 57, 52);
+    float: left; } 
+
+.THIS .none{
+	display:none; 
+}

@@ -1,0 +1,341 @@
+<apex:page standardController="External_Tickets__c" extensions="ExternalTicketsController" renderAs="PDF"  applyBodyTag="false" sidebar="false" showHeader="false" standardStylesheets="false" cache="false" docType="html-5.0" >
+   <apex:outputPanel rendered="{!IF(Tickets.Item_Status__c == 'Approve (Final)',false,true)}">
+            <div style="color: black; 
+                        text-align: center;                      
+                        font-family: Arial Unicode MS, Microsoft JhengHei, sans-serif;
+                        font-size: 48px;">
+                申請單須完成核可後才會產生
+            </div>  
+ </apex:outputPanel> 
+    <apex:outputPanel rendered="{!IF(Tickets.Item_Status__c == 'Approve (Final)',true,false)}">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" />
+        
+        <div style="display: table;">
+            <div style="display: table-cell;">
+                <apex:image id="SRARLUX_Logo"
+                            value="https://starlux--starluxtrn.sandbox.file.force.com/sfc/dist/version/renditionDownload?rendition=ORIGINAL_Png&versionId=0686D000002KITo&operationContext=DELIVERY&contentId=05T6D00000EMqcI&page=0&d=/a/6D0000000YAn/VC._0MWgz96KWZ1kMR_EMKwfCpRZNoYnYsv7mYWiNsg&oid=00D6D0000008d3p&dpt=null&viewId=="
+                            width="200" height="100%" alt="STARLUX Logo"/>
+            </div>
+            <div style="color: #6b6b6b; 
+                        margin-left: 170px; 
+                        display: flex; 
+                        font-family: Arial Unicode MS, Microsoft JhengHei, sans-serif;">
+                產品交換機票申請書Barter Tickets Application
+            </div>
+        </div>
+        
+        
+    </head>
+    
+    <body>
+        
+        <div style="display: table;">
+            <div style="display: table-cell;">
+                案件編號Case No.
+            </div>
+            <div style="margin-left: 440px; 
+                        display: flex; 
+                        font-family: Arial Unicode MS, Microsoft JhengHei, sans-serif;">
+                申請日期Date: 
+                <apex:outputText value="{0,date,dd-MMM-yyyy}">
+                    <apex:param value="{!Tickets.Apply_Date__c}" />
+                </apex:outputText>
+            </div>
+        </div>
+        
+        <!--申請資訊Application Information-->
+        <apex:form >          
+            <table style="border-collapse: collapse; 
+                          border: 1px solid #000000; 
+                          width: 100%; 
+                          font-family: Arial Unicode MS, Microsoft JhengHei, sans-serif; ">
+                
+                <tr style="color:#fff; 
+                           background-color:#000000; 
+                           border: 1px solid #000000;
+                           text-align: center;">
+                    <th colspan="8" style=" height: 50px;">
+                        申請資訊  Application Information
+                    </th>
+                </tr>
+                <tr style="color:#000; background-color:#fff; text-align:center;">
+                    <td style="border: 1px solid #000000; margin: 0;">
+                        <span style="display: block; padding: 3px;">公司名稱</span>
+                        <span>Company</span>
+                    </td>
+                    <td colspan="2" style="border: 1px solid #000000; margin: 0;">
+                        <apex:outputText value="{!Tickets.Company__c}" />
+                    </td>
+                    <td colspan="2" style="border: 1px solid #000000; margin: 0;">
+                        <span style="display: block; padding: 3px;">統一編號</span>
+                        <span>TAX ID Number</span>
+                    </td>
+                    <td colspan="2" style="border: 1px solid #000000; margin: 0;">
+                        <apex:outputText value="{!Tickets.Business_Number__c}" />
+                    </td>
+                </tr>
+                
+                
+                <tr style="color:#000; background-color:#fff; text-align:center;">
+                    <td rowspan="3" style="border: 1px solid #000000; width: 20%; ">
+                        <span style="display: block; padding: 3px;">機票資訊</span>
+                        <span>Travel Info.</span>                        
+                    </td>
+                    <td colspan="1" style="border: 1px solid #000000;">
+                        <span style="display: block; padding: 3px;">護照姓名</span>
+                        <span>Name</span>
+                    </td>
+                    <td colspan="2" style="border: 1px solid #000000;">
+                        <span style="display: block; padding: 3px;">航班日期</span>
+                        <span>Flight Date</span>
+                    </td>
+                    <td style="border: 1px solid #000000;">
+                        <span style="display: block; padding: 3px;">行程</span>
+                        <span>Itinerary</span>
+                    </td>
+                    <td style="border: 1px solid #000000;">
+                        <span style="display: block; padding: 3px;">航班號碼</span>
+                        <span>Flight Number</span>
+                    </td>
+                    <td style="border: 1px solid #000000;">
+                        <span style="display: block; padding: 3px;">訂位艙等</span>
+                        <span>Booking Class</span>
+                    </td>                    
+                </tr>
+                
+                <tr style="color:#000; background-color:#fff; text-align:center;">
+                    <td colspan="1" style="border: 1px solid #000000;">
+                        <apex:outputText value="{!Tickets.Last_Name_EN__c}" />
+                    </td>
+                    <td colspan="2" style="border: 1px solid #000000;">
+                <apex:outputText value="{0,date,dd-MMM-yyyy}">
+                            <apex:param value="{!Tickets.Flight_Date_Departure_External__c}" />
+                        </apex:outputText>
+                    </td>
+                     <td style="border: 1px solid #000000;">
+                        <apex:outputText value="{!Tickets.Itinerary_Departure__c }" /> 
+                    </td>  
+                    <td style="border: 1px solid #000000;">
+                        <apex:outputText value="{!Tickets.Flight_Number_Departure_External__c}" />
+                    </td>
+                    <td style="border: 1px solid #000000;">
+                        <apex:outputText value="{!Tickets.RBD_Departure__c}" />
+                    </td>
+                </tr>
+                
+                <tr style="color:#000; background-color:#fff; text-align:center;">
+                    <td colspan="1" style="border: 1px solid #000000; ;">
+                       <apex:outputText value="{!Tickets.First_Name_EN__c}" />
+                    </td>
+                    <td colspan="2" style="border: 1px solid #000000;">
+                <apex:outputText value="{0,date,dd-MMM-yyyy}">
+                            <apex:param value="{!Tickets.Flight_Date_Returning_External__c}" />
+                        </apex:outputText>
+                    </td>
+                      <td style="border: 1px solid #000000;">
+                        <apex:outputText value="{!Tickets.Itinerary_Return__c}" /> 
+                    </td> 
+                    <td style="border: 1px solid #000000;">
+                        <apex:outputText value="{!Tickets.Flight_Number_Returning_External__c }" />
+                    </td>
+                    <td style="border: 1px solid #000000;">
+                        <apex:outputText value="{!Tickets.RBD_Returning__c}" />
+                    </td>
+                </tr>
+                <tr style="color:#000; background-color:#fff; text-align:center;">
+                    <td style="border: 1px solid #000000;">
+                        <span style="display: block; padding: 3px;">旅客資訊</span>
+                        <span>Pax Info.</span>
+                    </td>
+                    <td style="border: 1px solid #000000;">
+                        <span style="display: block; padding: 3px;">連絡電話</span>
+                        <span>Phone</span>
+                    </td>
+                    <td colspan="2" style="border: 1px solid #000000;">
+                        <apex:outputText value="{!Tickets.Phone__c}" />
+                    </td>
+                    <td style="border: 1px solid #000000;">
+                        <span style="display: block; padding: 3px;">電子信箱</span>
+                        <span>Email</span>
+                    </td>
+                    <td colspan="2" style="border: 1px solid #000000;">
+                        <apex:outputText value="{!Tickets.Email__c}" />
+                    </td>
+                </tr>
+                
+                <tr style="color:#000; background-color:#fff; text-align:center; height: 120px;">
+                    <td style="border: 1px solid #000000; ">
+                        <span style="display: block; padding: 3px;">公司印鑑</span>
+                        <span>Company Seal</span>
+                    </td>
+                    <td colspan="2" style="border: 1px solid #000000; text-align:center;"></td>
+                    <td colspan="2" style="border: 1px solid #000000;">
+                        <span style="display: block; padding: 3px;">申請廠商經辦人</span>
+                        <span>Applicant</span>
+                    </td>
+                    <td colspan="2" style="border: 1px solid #000000;">
+                        <apex:outputText value="{!Tickets.Applicant__c}" />
+                    </td>        
+                </tr>
+                
+            </table>
+        </apex:form>
+        
+        <!--星宇航空內部控管資訊Internal Control Information-->
+        <apex:form >
+            <table style="border-collapse: collapse; 
+                          border: 1px solid #000000; 
+                          width: 100%; 
+                          font-family: Arial Unicode MS, Microsoft JhengHei, sans-serif; ">
+                <tr style="color:#fff; 
+                           background-color:#000000; 
+                           border: 1px solid #000000;
+                           text-align: center;">
+                    <th colspan="8" style=" height: 50px;">
+                        星宇航空內部控管資訊  Internal Control Information
+                    </th>
+                </tr>
+                
+                <tr style="color:#000; background-color:#fff; text-align:center;">
+                    <td style="border: 1px solid #000000;">
+                        <span style="display: block; padding: 3px;">提案書文號</span>
+                        <span>PFA No.</span>
+                    </td>
+                    <td style="border: 1px solid #000000;">
+                        <apex:outputText value="{!Tickets.PFA_No__c}" />
+                    </td>                     
+                    <td colspan="1" style="border: 1px solid #000000;">
+                        <span style="display: block; padding: 3px;">申請單位</span>
+                        <span>Department</span>
+                    </td>
+                    <td style="border: 1px solid #000000;">
+                        <apex:outputText value="{!Tickets.Office__c}" />
+                    </td>                     
+                    <td colspan="2" style="border: 1px solid #000000;">
+                        <span style="display: block; padding: 3px;">經辦人</span>
+                        <span>PIC</span>
+                    </td>
+                    <td style="border: 1px solid #000000;">
+                        <apex:outputText value="{!Tickets.PIC__c}" />
+                    </td>                   
+                </tr>
+                
+                <tr style="color:#000; background-color:#fff; text-align:center;">
+                    <td rowspan="2" style="border: 1px solid #000000; width: 20%; ">
+                        <span style="display: block; padding: 3px;">預算</span>
+                        <span>Budget</span>
+                    </td>
+                    <td colspan="1" style="border: 1px solid #000000;">
+                        <span style="display: block; padding: 3px;">預算額度</span>
+                        <span>Budget</span>
+                    </td>
+                    <td colspan="1" style="border: 1px solid #000000;">
+                        <span style="display: block; padding: 3px;">目前剩餘額度</span>
+                        <span>Budget Left</span>
+                    </td>
+                    <td colspan="1" style="border: 1px solid #000000;">
+                        <span style="display: block; padding: 3px;">本次使用額度</span>
+                        <span>Case Used</span>
+                    </td>
+                    <td colspan="3" style="border: 1px solid #000000;">
+                        <span style="display: block; padding: 3px;">使用後剩餘額度</span>
+                        <span>Budget Left after Used</span>
+                    </td>
+                </tr>
+                
+                <tr style="color:#000; background-color:#fff; text-align:center;">
+                    <td colspan="1" style="border: 1px solid #000000;">
+                        <apex:outputText value="{!Tickets.Budget__c}" />
+                    </td>
+                    <td colspan="1" style="border: 1px solid #000000;">
+                        <apex:outputText value="{!Tickets.Budget_Left__c}" />
+                    </td>
+                    <td colspan="1" style="border: 1px solid #000000;">
+                        <apex:outputText value="{!Tickets.Case_Used__c}" />
+                    </td>
+                    <td colspan="3" style="border: 1px solid #000000;">
+                        <apex:outputText value="{!Tickets.Budget_Left_after_Used__c}" />
+                    </td>                    
+                </tr>
+                
+                <tr style="color:#000; background-color:#fff; text-align:center;">
+                    <td rowspan="2" style="border: 1px solid #000000;">
+                        <span style="display: block; padding: 3px;">開票資訊</span>
+                        <span>Ticket Info.</span>
+                    </td>
+                    <td colspan="2" style="border: 1px solid #000000;">
+                        <span style="display: block; padding: 3px;">訂位代號</span>
+                        <span>PNR</span>
+                    </td>
+                    <td colspan="2" style="border: 1px solid #000000;">
+                        <span style="display: block; padding: 3px;">票號</span>
+                        <span>Ticket Number</span>
+                    </td>
+                    <td colspan="2" style="border: 1px solid #000000;">
+                        <span style="display: block; padding: 3px;">經辦人</span>
+                        <span>PIC</span>
+                    </td>       
+                </tr>
+                
+                <tr style="color:#000; background-color:#fff; text-align:center;">
+                    <td colspan="2" style="border: 1px solid #000000;">
+                        <apex:outputText value="{!Tickets.PNR__c}" />
+                    </td>
+                    <td colspan="2" style="border: 1px solid #000000;">
+                        <apex:outputText value="{!Tickets.Ticket_Number_External_Use__c}" />
+                    </td>
+                    <td colspan="2" style="border: 1px solid #000000;">
+                        <apex:outputText value="{!Tickets.PIC__c}" />
+                    </td>
+                    
+                </tr>
+                
+            </table>
+        </apex:form>
+        
+        <!--審核Approval-->
+        <apex:form >
+            <table style="border-collapse: collapse; 
+                          border: 1px solid #000000; 
+                          width: 100%; 
+                          font-family: Arial Unicode MS, Microsoft JhengHei, sans-serif;">
+                <tr style="color:#fff; 
+                           background-color:#000000; 
+                           border: 1px solid #000000;
+                           text-align: center;">
+                    <th colspan="8" style="border: 1px solid #000000; text-align: center; height: 50px;">審核  Approval</th>
+                </tr>
+                <tr style="color:#000; background-color:#fff; text-align:center;">
+                    <td style="border: 1px solid #000000; width: 50%;">
+                        <span style="display: block; padding: 3px;">申請單位主管</span>
+                        <span>Head of Department</span>
+                    </td>                    
+                    <td colspan="2" style="border: 1px solid #000000; width: 50%;">
+                        <span style="display: block; padding: 3px;">客運處</span>
+                        <span>PMD</span>
+                    </td>                    
+                </tr>
+                <tr style="color:#fff; background-color:#fff; height: 50px;">
+                    <td style="border: 1px solid #000000; width: 50%;">
+                        <apex:outputText value="" />
+                    </td>
+                    <td style="border: 1px solid #000000; width: 50%;">
+                        <apex:outputText value="" />
+                    </td>                                      
+                </tr>
+                <div style="font-family: Arial Unicode MS">
+                    <span>注意事項：</span>
+                    <apex:outputText value="{!formattedNotice}" />
+                    <br/><span>Notice: </span><br/>
+                    <apex:outputText value="{!Tickets.Notice2__c }"/> 
+                </div>            
+            </table>
+            
+        </apex:form>
+    
+              
+    </body>
+  </apex:outputPanel>     
+</apex:page>

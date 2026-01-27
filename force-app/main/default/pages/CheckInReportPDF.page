@@ -1,0 +1,459 @@
+<apex:page controller="CheckINReportPDFController" showHeader="false" applyHtmlTag="false" applyBodyTag="false" action="{!searchPnr}">
+    <html xmlns="http://www.w3.org/1999/xhtml">
+        <head>
+            <style type="text/css">
+                
+                body {
+                font-family: Arial Unicode MS, Microsoft JhengHei, sans-serif;
+                font-size: 11px;
+                color: #000;
+                }
+                .header-table, .passenger-table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-bottom: 15px;
+                }
+                
+                
+                .header-table td {
+                padding: 5px;
+                font-weight: bold;
+                }
+                .summary-table,
+                .summary-table2 {
+                width: 100%;
+                border-collapse: collapse;
+                margin-bottom: 15px;
+                }
+                
+                .summary-table th,
+                .summary-table2 th {
+                border: 1px solid #000;
+                background-color: #EEEEEE;
+                padding: 10px;
+                text-align: center;
+                color: #333333;
+                width: 12.5%; /* 確保等寬且兩表對齊 */
+                }
+                
+                .passenger-table thead th {
+                background-color: #F2F2F2;
+                color: #3A2E26;
+                font-weight: normal;
+                border-bottom: 1.5px solid #000;
+                border-top: 1.5px solid #000;
+                padding: 8px;
+                text-align: center ;
+                white-space: nowrap;
+                }
+                
+                .passenger-table tbody td {
+                border-bottom: 1px solid #DDDDDD;
+                padding: 10px 10px;
+                text-align: center;
+                }
+                
+                .passenger-table tbody td.text-left {
+                text-align: left;
+                }
+                
+                .section-title {
+                font-size: 25px;
+                font-weight: bold;
+                text-align: center;
+                margin-bottom: 10px;
+                }
+                
+                .text-left {
+                text-align: left;
+                }
+                
+                @media print {
+                tr, td, th {
+                page-break-inside: avoid !important;
+                }
+                }
+                
+                /* === 每頁容器 === */
+                #pdf-output .pdf-page {
+                position: relative;             /* 讓 header / footer 可 absolute */
+                width: 100%;
+                min-height: 560pt;              /* 視需要微調 */
+                box-sizing: border-box;
+                page-break-before: always;
+                padding: 10pt 12pt;             /* 與 pdfOpt.margin 對齊 */
+                }
+                #pdf-output .pdf-page:first-of-type { page-break-before: auto; }
+                
+                /* === 第二頁起的頁首（固定到同一條水平線）=== */
+                .page-header {
+                position: absolute;
+                top: 10pt;                      /* 與容器 padding 對齊 */
+                left: 12pt;
+                right: 12pt;
+                height: 60pt;                   /* 視需要微調 */
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                }
+                
+                /* === 內容區：預留 header / footer 空間（第二頁起）=== */
+                .page-content {
+                /* 讓表格不會被 header/Footer 蓋到 */
+                padding-top: 60pt;              /* 和 .page-header 高度一致 */
+                padding-bottom: 40pt;           /* 和 .page-footer 高度一致 */
+                }
+                
+                /* === 頁尾（固定到底部同一位置）=== */
+                .page-footer {
+                position: absolute;
+                left: 12pt;
+                right: 12pt;
+                bottom: 10pt;
+                height: 40pt;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                font-size: 10px;
+                }
+                
+                /* === 第一頁專用：不顯示 header，也不需要上內距 === */
+                .pdf-page--first .page-header { display: none; }
+                .pdf-page--first .page-content { padding-top: 0; }
+                
+                /* 其他原有樣式保留 */
+                @media print { tr, td, th { page-break-inside: avoid !important; } }
+                
+                
+            </style>
+        </head>
+        <body>
+            <div id="prelude">
+                
+                <div class="section-title">團體報到結果綜整</div>
+                
+                <!-- Header Info -->
+                <table class="header-table">
+                    <tr>
+                        <td>航班號碼：JX-{!flightNumber}</td>
+                        <td  style="text-align: end;">起飛航段：{!departureLocation} - {!tabData[firstPnrKey][0].Destination}</td>
+                    </tr>
+                    <tr>
+                        <td>起飛日期(當地）：{!departureDateStr}</td>
+                        <td style="text-align: end;">訂位代號：{!bookingCodes}</td>
+                    </tr>
+                </table>
+                
+                <!-- Summary Table -->
+                <table class="summary-table">
+                    <thead>
+                        <apex:outputPanel rendered="{!NOT(ISBLANK(firstPnrKey))}">
+                            <apex:variable var="pnr" value="{!firstPnrKey}" />
+                            <tr>
+                                <th>團體總人數<br/>{!aggrMap[pnr][0]}</th>
+                                <th>有座位<br/>{!aggrMap[pnr][1]}</th>
+                                <th>無座位<br/>{!aggrMap[pnr][2]}</th>
+                                <th>有護照資料<br/>{!aggrMap[pnr][3]}</th>
+                                <th>無護照資料<br/>{!aggrMap[pnr][4]}</th>
+                                <th>已報到<br/>{!aggrMap[pnr][5]}</th>
+                                <th>未報到<br/>{!aggrMap[pnr][6]}</th>
+                                <th style="border:none;
+                                           background-color: transparent;
+                                           padding: 4px;
+                                           text-align: center;
+                                           color: #fff;
+                                           width: 12.5%;"></th>
+                            </tr>
+                        </apex:outputPanel>
+                    </thead>
+                </table>
+                
+                <table class="summary-table2">
+                    <thead>
+                        <apex:outputPanel rendered="{!NOT(ISBLANK(firstPnrKey))}">
+                            <apex:variable var="pnr" value="{!firstPnrKey}" />
+                            <tr>
+                                <th>已列印登機證<br/>{!aggrMap[pnr][7]}</th>
+                                <th>未列印登機證<br/>{!aggrMap[pnr][8]}</th>
+                                <th>有訂特別餐<br/>{!aggrMap[pnr][9]}</th>
+                                <th>無訂特別餐<br/>{!aggrMap[pnr][10]}</th>
+                                <th>有特殊服務<br/>{!aggrMap[pnr][11]}</th>
+                                <th>無特殊服務<br/>{!aggrMap[pnr][12]}</th>
+                                <th style="border:none;
+                                           background-color: transparent;
+                                           padding: 4px;
+                                           text-align: center;
+                                           color: #fff;
+                                           width: 12.5%;"></th>
+                                <th style="border:none;
+                                           background-color: transparent;
+                                           padding: 4px;
+                                           text-align: center;
+                                           color: #fff;
+                                           width: 12.5%;"></th>
+                            </tr>
+                        </apex:outputPanel>
+                    </thead>
+                </table>
+            </div>
+            
+            <!-- Passenger Table -->
+            <div id="passenger-data" style="display:none;">
+                <table style="height:460px;">
+                    <tbody>
+                        <apex:repeat value="{!tabData[firstPnrKey]}" var="p" >
+                            <tr>
+                                <td>{!p.lastName}/{!p.firstName}</td>
+                                <td>{!p.PAX}</td>
+                                <td>{!p.Seat}</td>
+                                <td>{!IF(p.C1Finished, '已完成', '未完成')}</td>
+                                <td>{!IF(p.C3Finished, '已報到', '未報到')}</td>
+                                <td>{!IF(p.C4Finished, '已列印', '未列印')}</td>
+                                <td>
+                                  <!-- 非 INF：顯示值 -->
+                                  <apex:outputPanel layout="none" rendered="{!p.passengerType != 'INF'}">
+                                    <apex:outputText value="{!p.Meal}" />
+                                  </apex:outputPanel>
+                                
+                                  <!-- INF：顯示破折號或留白 -->
+                                  <apex:outputPanel layout="none" rendered="{!p.passengerType = 'INF'}">
+                                    <apex:outputText value="" />
+                                    <!-- 或想留空可用 &nbsp;，記得 escape="false" -->
+                                    <!-- <apex:outputText value="&nbsp;" escape="false" /> -->
+                                  </apex:outputPanel>
+                                </td>
+                                
+                                <td>
+                                  <apex:outputPanel layout="none" rendered="{!p.passengerType != 'INF'}">
+                                    <apex:outputText value="{!p.Service}" />
+                                  </apex:outputPanel>
+                                  <apex:outputPanel layout="none" rendered="{!p.passengerType = 'INF'}">
+                                    <apex:outputText value="" />
+                                  </apex:outputPanel>
+                                </td>
+                            </tr>
+                        </apex:repeat>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div id="pdf-output"></div>
+            
+            
+            <!--<div style="text-align:right; font-size:10px; margin-top:20px;">
+列印人：{!printUserName}<br/>
+<apex:outputText value="{0,date,yyyy/MM/dd HH:mm}">
+<apex:param value="{!NOW()}" />
+</apex:outputText>
+第1頁
+</div>-->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+            <script>
+                const printUserName = decodeURIComponent("{!JSENCODE(printUserName)}");
+            
+            function generatePagedTables() {
+                const sourceRows = Array.from(document.querySelectorAll("#passenger-data tbody tr"));
+                const container = document.getElementById("pdf-output");
+                const prelude = document.getElementById("prelude");
+                
+                let globalIndex = 1;
+                const FIRST_PAGE_ROWS = 7;      // 第一頁顯示 7 筆
+                const SUBSEQUENT_ROWS = 12;     // 第二頁起每頁最多 12 筆（不足不補）
+                
+                // ===== 第一頁：prelude + 前 6 筆 =====
+                const firstPage = document.createElement("div");
+                firstPage.className = "pdf-page pdf-page--first";
+                
+                const firstHeader = `<div class="page-header"></div>`; // 第一頁不顯示（由 CSS 隱藏）
+                
+                let firstContent = `<div class="page-content">`;
+                if (prelude) firstContent += prelude.innerHTML;        // 把上半部搬進第一頁
+                firstContent += `
+                <table class="passenger-table">
+                    <thead>
+                    <tr>
+                    <th style="width:5%;"></th>
+                    <th style="width:20%;">旅客姓名 / 稱謂</th>
+                    <th>機票編號</th>
+                    <th>座位編號</th>
+                    <th>旅行文件</th>
+                    <th>報到狀況</th>
+                    <th>登機證</th>
+                    <th>餐點</th>
+                    <th>特殊服務</th>
+                    </tr>
+                    </thead>
+                    <tbody></tbody>
+                    </table>
+                    `;
+                firstContent += `</div>`;
+                
+                const firstFooter = `
+                <div class="page-footer">
+                    <div>${new Date().toLocaleString('zh-TW', {year:'numeric', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit'})}</div>
+                    <div>第1頁</div>
+                    <div>列印人：${printUserName}</div>
+                    </div>
+                    `;
+                
+                firstPage.innerHTML = firstHeader + firstContent + firstFooter;
+                
+                // 填入第一頁 7 筆
+                const firstTbody = firstPage.querySelector(".passenger-table tbody");
+                const firstRows = sourceRows.slice(0, FIRST_PAGE_ROWS);
+                firstRows.forEach(row => {
+                    const tr = document.createElement("tr");
+                    const cells = Array.from(row.cells);
+                    const isLastRow = globalIndex === sourceRows.length;
+                    if (isLastRow) tr.style.borderBottom = "1.5px solid #000";
+                    tr.innerHTML = `<td>${globalIndex}</td>` + cells.map(c => `<td>${c.innerHTML}</td>`).join("");
+                firstTbody.appendChild(tr);
+                globalIndex++;
+            });
+            
+            container.appendChild(firstPage);
+            
+            // 隱藏原始 prelude，避免佔位導致額外分頁
+            if (prelude) prelude.style.display = "none";
+            
+            // ===== 第二頁起：每頁最多 13 筆，page-header 會顯示標題（位置固定）=====
+            let start = FIRST_PAGE_ROWS;
+            let page = 2;
+            
+            while (start < sourceRows.length) {
+                const pageRows = sourceRows.slice(start, start + SUBSEQUENT_ROWS);
+                
+                const pageDiv = document.createElement("div");
+                pageDiv.className = "pdf-page";
+                
+                const headerHtml = `
+                <div class="page-header">
+                    <div class="section-title">團體報到結果綜整</div>
+                    </div>
+                    `;
+                
+                let tableHtml = `
+                <div class="page-content">
+                    <table class="passenger-table">
+                        <thead>
+                        <tr>
+                        <th style="width:5%;"></th>
+                        <th style="width:20%;">旅客姓名 / 稱謂</th>
+                        <th>機票編號</th>
+                        <th>座位編號</th>
+                        <th>旅行文件</th>
+                        <th>報到狀況</th>
+                        <th>登機證</th>
+                        <th>餐點</th>
+                        <th>特殊服務</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            `;
+                
+                pageRows.forEach(row => {
+                    const cells = Array.from(row.cells);
+                    const isLastRow = globalIndex === sourceRows.length;
+                    const border = isLastRow ? ' style="border-bottom: 1.5px solid #000;"' : "";
+                    tableHtml += `<tr${border}><td>${globalIndex}</td>${cells.map(c => `<td>${c.innerHTML}</td>`).join('')}</tr>`;
+                globalIndex++;
+            });
+            
+            tableHtml += `</tbody></table></div>`;
+            
+            const footerHtml = `
+            <div class="page-footer">
+                <div>${new Date().toLocaleString('zh-TW', {year:'numeric', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit'})}</div>
+                <div>第${page}頁</div>
+                <div>列印人：${printUserName}</div>
+                </div>
+                `;
+            
+            pageDiv.innerHTML = headerHtml + tableHtml + footerHtml;
+            container.appendChild(pageDiv);
+            
+            start += SUBSEQUENT_ROWS;
+            page += 1;
+            }
+            }
+            
+            /* === 小工具：把 Blob 轉 Base64（傳回父頁壓 ZIP 用）=== */
+            function blobToBase64(blob) {
+                return new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.onload = () => resolve(reader.result.split(',')[1]);
+                    reader.readAsDataURL(blob);
+                });
+            }
+            
+            window.addEventListener('load', async () => {
+                // 建議：加入 class，方便你針對 PDF 模式調整樣式（如隱藏按鈕等）
+                generatePagedTables();
+                
+                const params = new URLSearchParams(location.search);
+                const mode = params.get('mode');
+                
+                document.body.classList.add('pdf-mode');
+                
+                // 自訂 PDF 檔名：用航班＋日期
+                const pnr = "{!firstPnrKey}";
+                const fileName = `${pnr},Group Summary.pdf`;
+                
+                const pdfOpt = {
+                margin: 10,
+                filename: fileName,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 1.2, useCORS: true },
+                jsPDF: { unit: 'pt', format: [595.28, 841.89], orientation: 'landscape' }, // A4 landscape
+                pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+            };
+                
+                if (mode === 'zip') {
+                // ZIP 模式：只回傳 PDF blob，父頁打包
+                const blob = await html2pdf()
+                .set(pdfOpt)
+                .from(document.body)
+                .output('blob'); // 不直接下載
+                
+                const base64 = await blobToBase64(blob);
+                
+                if (window.parent !== window) {
+                // 先把檔案內容送回去
+                window.parent.postMessage({
+                type: 'PDF_BLOB',
+                filename: fileName,
+                base64
+            }, '*');
+                
+                // 全部檔案傳完後（此頁只有一份），最後送 READY
+                window.parent.postMessage('PDF_READY', '*');
+                console.log('PDF_READY');
+            }
+                return; // zip 分支結束
+            }
+                                    
+                setTimeout(() => {
+                html2pdf()
+                .set(pdfOpt)
+                .from(document.body)
+                .toContainer()
+                .toCanvas()
+                .toPdf()
+                .save()
+                .then(() => {
+                // 在 iframe 中 → 回報父頁完成
+                if (window.top !== window && window.parent) {
+                // 同網域可用 window.location.origin，加強安全性；若有子網域差異，可維持 '*'
+                window.parent.postMessage('CHECKIN_PDF_READY', '*');
+            } else {
+                // 直接開這頁時
+                try { window.close(); } catch (e) {}
+            }
+            });
+            }, 800);
+            });
+                </script>
+            
+        </body>
+    </html>
+</apex:page>

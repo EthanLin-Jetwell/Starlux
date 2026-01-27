@@ -1,0 +1,1424 @@
+<apex:page controller="CheckINController"  docType="html-5.0" applyHtmlTag="true" standardStylesheets="false" showHeader="false">
+    <head>
+        <title>CheckIN</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no"/>
+        <c:styleinclude ></c:styleinclude>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"/>
+        <link
+              rel="stylesheet"
+              href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+              />
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        
+        <link rel="stylesheet" href="{!$Resource.B2BStyle}" />
+        <!-- Select2 CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        
+        <!-- jQuery (必要) -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        
+        <!-- Select2 JS -->
+            <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        
+        <style>
+            
+            
+            .form-select.is-invalid:not([multiple]):not([size]), .form-select.is-invalid:not([multiple])[size="1"], .was-validated .form-select:invalid:not([multiple]):not([size]), .was-validated .form-select:invalid:not([multiple])[size="1"] {
+            /* --bs-form-select-bg-icon: url(data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e); */
+            padding-right: 4.125rem;
+            background-position: right .75rem center, center right 2.25rem;
+            background-size: 16px 12px, calc(.75em + .375rem) calc(.75em + .375rem);
+            }
+            
+            /* ─────────── 隱藏被停用欄位的 placeholder ─────────── */
+            input:disabled::placeholder {          /* 標準寫法 */
+            color: transparent !important;
+            opacity: 0 !important;
+            }
+            
+            /* WebKit 舊寫法（部分 Safari／舊 Chrome 仍會用到）*/
+            input:disabled::-webkit-input-placeholder {
+            color: transparent !important;
+            opacity: 0 !important;
+            }
+            
+            /* Edge / IE 兼容（IE 只到 11，但保險起見）*/
+            input:disabled::-ms-input-placeholder {
+            color: transparent !important;
+            opacity: 0 !important;
+            }
+            
+            /* 預設情況：所有 disabled 的 date input 都隱藏值 */
+            input[type="date"]:disabled {
+            color: transparent !important;
+            -webkit-text-fill-color: transparent !important;
+            opacity: 1;
+            }
+            
+            /* 有值的時候要顯示（靠 JS 加上 always-visible） */
+            input[type="date"].always-visible:disabled {
+            color: inherit !important;
+            -webkit-text-fill-color: initial !important;
+            opacity: 1;
+            }
+            
+            /* 隱藏原生按鈕 */
+            input[type="date"]:disabled:not(.always-visible)::-webkit-clear-button,
+            input[type="date"]:disabled:not(.always-visible)::-webkit-calendar-picker-indicator {
+            display: none !important;
+            }
+            /* 移除 select 驗證紅色 icon（Chrome/Bootstrap 5） */
+            select.form-select.is-invalid {
+            background-image: none !important;
+            }
+            
+            /* 隱藏原始 checkbox */
+            input[type="checkbox"] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #999999;
+            border-radius: 4px;
+            background-color: #fff;
+            cursor: pointer;
+            position: relative;
+            display: inline-block;
+            vertical-align: middle;
+            }
+            
+            /* 勾選後的背景和勾勾 */
+            input[type="checkbox"]:checked {
+            background-color: #8e6448;
+            border-color: #8e6448;
+            }
+            
+            /* 勾勾：使用偽元素畫出來 */
+            input[type="checkbox"]:checked::after {
+            content: '';
+            position: absolute;
+            left: 6px;
+            top: 1px;
+            width: 6px;
+            height: 12px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+            }
+            
+            /* 初始 checkbox 樣式（未勾選） */
+            input[type="checkbox"].headerCheckbox {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #999999;
+            border-radius: 4px;
+            background-color: transparent;
+            position: relative;
+            cursor: pointer;
+            }
+            
+            /* 勾選後：背景填滿，橫線顯示 */
+            input[type="checkbox"].headerCheckbox:checked {
+            background-color: #8e6448;
+            border-color: #8e6448;
+            }
+            
+            /* 白色水平線（修正為水平） */
+            input[type="checkbox"].headerCheckbox:checked::after {
+            content: '';
+            position: absolute;
+            top: 7px;         /* 垂直置中 */
+            left: 3px;
+            width: 12px;
+            height: 2px;
+            background-color: white;
+            transform: rotateY(45deg);
+            }
+            
+            button.btn.btn-primary:disabled {
+            background-color: #CCBBB0 !important;
+            border-color: #CCBBB0 !important;
+            color: white; /* 或 #fff */
+            cursor: not-allowed;
+            }
+            
+            
+            
+            .table th,
+            .table td {
+            text-align: left !important;
+            }
+            
+            @media (max-width: 576px) {
+            .table thead th {
+            white-space: nowrap;  
+            overflow: visible;    
+            text-overflow: clip;   
+            vertical-align: middle;
+            }
+            
+            .table tbody td { 
+            white-space: nowrap; 
+            } 
+            
+            .table-responsive {
+            overflow-x: auto;              
+            -webkit-overflow-scrolling: touch;
+            }
+            .table-responsive > .table {
+            width: max-content;            
+            width: -moz-max-content;
+            }
+            
+            .table {
+            --bs-table-cell-padding-y: .6rem;
+            --bs-table-cell-padding-x: .9rem;
+            }
+            
+            .table th[style*="position:sticky"],
+            .table td[style*="position:sticky"] {
+            background: #fff;
+            z-index: 2;
+            }
+            
+            
+            .table>:not(caption)>*>*:first-child {
+            padding-left: 30px !important;
+            padding-right: 30px !important;
+            }
+            
+            #fixedBottomButtons .btn {
+            flex: 1 1 0;
+            width: auto !important;         
+            }            
+            
+            }
+            
+        </style>
+    </head>
+    <body class="d-flex py-4">
+        <c:B2BNavbar ></c:B2BNavbar>
+        <apex:outputPanel id="SearchSuccessPanel" style="display:none">
+            <c:successNotification message="搜尋成功"/>
+        </apex:outputPanel>
+        <apex:outputPanel id="SearchErrorPanel" style="display:none">
+            <c:FailNotification message="{!errorMessage}"/>
+        </apex:outputPanel>
+        <apex:outputPanel id="editSuccessPanel" style="display:none">
+            <c:successNotification message="作業完成，請再次點選【搜尋】以檢視最新狀態"/>
+        </apex:outputPanel>
+        
+        <div class="content-wrapper" id="content-wrapper">
+            <div class="container-fluid">
+                <apex:form id="searchForm">                    
+                    <!--<apex:pageMessages id="msgs"/>-->
+                    <apex:actionFunction name="saveTravelerUpdates"
+                                         action="{!save}"
+                                         rerender="editSuccessPanel"
+                                         >
+                        <apex:param name="jsonData" assignTo="{!jsonInput}" value=""/>
+                    </apex:actionFunction>
+                    <apex:actionFunction name="goToNextPage" action="{!nextPage}" rerender="resultsBlock"/>
+                    <apex:actionFunction name="goToPrevPage" action="{!prevPage}" rerender="resultsBlock"/>
+                    <apex:actionFunction name="doReset" action="{!reset}" rerender="resultsBlock,SearchSuccessPanel,SearchErrorPanel"/>
+                    <apex:actionFunction name="switchTabAF" rerender="pnrCountPanel,resultTabContent">
+                        <apex:param name="newKey" assignTo="{!currentTabKey}" value=""/>
+                    </apex:actionFunction>
+                    <div id="flightSearchForm" class="row g-3">
+                        <!-- 航班號碼 -->
+                        <div class="col-md-3">
+                            <label class="form-label">航班號碼*</label>
+                            <div class="d-flex">
+                                <!-- 左邊的 Prefix+dash -->
+                                <div class="input-group me-2" style="width: 40%;">
+                                    <input
+                                           id="flightPrefix"
+                                           class="form-control"
+                                           value="{!flightPrefix}"
+                                           disabled="true"
+                                           style="height: 38px; border-radius: 2px;"/>
+                                    <span class="input-group-text" style="border:none;background:none; height: 38px;">-</span>
+                                </div>
+                                <!-- 右邊的輸入框 -->
+                                <div class="input-group" style="flex:1">
+                                    <!-- 顯示用輸入框 -->
+                                    <input type="text"
+                                           id="flightNumber_display"
+                                           class="form-control required-field"
+                                           placeholder="請輸入"
+                                           oninput="limitFlightInput(this)"
+                                           onblur="formatFlightNumber()"/>
+                                    
+                                    <!-- 實際送出欄位 -->
+                                    <apex:inputHidden value="{!flightNumber}" id="flightNumber" />
+                                </div>
+                                
+                                
+                            </div>
+                            <div class="invalid-feedback w-100 ps-4">
+                                必填
+                            </div>
+                        </div>
+                        
+                        
+                        <!-- 起飛日期 -->
+                        <div class="col-md-2">
+                            <label class="form-label">起飛日期*</label>
+                            <div class="input-group">
+                                <apex:inputText value="{!departureDateStr}"
+                                                id="departureDate"
+                                                styleClass="form-control required-field always-visible" 
+                                                onkeydown="return false;"/>
+                            </div>
+                            <div class="invalid-feedback w-100">必填</div>
+                        </div>
+                        
+                        
+                        
+                        <!-- 起飛地 -->
+                        <div class="col-md-2">
+                            <label class="form-label">起飛地*</label>
+                            
+                            <apex:selectList id="departureLocation"
+                                             value="{!departureLocation}"
+                                             size="1"
+                                             styleClass="form-select required-field"
+                                             style="border-radius: 2px;">
+                                <apex:selectOptions value="{!originOptions}" />
+                            </apex:selectList>
+                            
+                            <div class="invalid-feedback">必填</div>
+                        </div>
+                        
+                        
+                        <!-- 訂位代號 -->
+                        <div class="col-md-3">
+                            <label class="form-label">訂位代號*</label>
+                            
+                            <apex:inputText value="{!bookingCodes}"
+                                            id="bookingCodes"
+                                            styleClass="form-control required-field"
+                                            html-placeholder="請輸入"/>
+                            
+                            <div class="invalid-feedback w-100">必填</div>
+                        </div>
+                        
+                        
+                        <!-- 按鈕 -->
+                        
+                        <div class="col-md-2 d-flex justify-content-end" style="align-items: anchor-center;">
+                            <button id="clearButton" type="button"
+                                    class="btn me-2"
+                                    style="height:48px;width:80px;color:#8E7248;background:#fff;">
+                                清除
+                            </button>
+                            <apex:actionFunction name="doSearch" action="{!searchPnr}"
+                                                 rerender="resultsBlock,msgs,SearchSuccessPanel,SearchErrorPanel"
+                                                 oncomplete="showTabs();" />
+                            
+                            <button id="validateBtn" type="button"
+                                    class="btn"
+                                    style="height:48px;width:80px;background:#8E7248;color:#fff;"
+                                    onclick="validateSearch();">
+                                搜尋
+                            </button>
+                            
+                        </div>
+                    </div>
+                </apex:form>
+                
+                <!-- ======== 結果區 (reRender 目標) ======== -->
+                <apex:outputPanel id="resultsBlock" layout="block" style="height:88%;">
+                    
+                    <!-- Tabs (只有搜尋後才顯示) -->
+                    <div class="mt-4" id="tabResults"
+                         style="{!IF(ISBLANK(currentTabKey),'display:none;','')}">
+                        <ul class="nav nav-tabs" role="tablist" style="border: none;">
+                            <apex:repeat value="{!pnrKeys}" var="pnr">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link {!IF(pnr==currentTabKey,'active','')}"
+                                            data-bs-toggle="tab"
+                                            data-bs-target="#tab{!pnr}"
+                                            type="button" role="tab"
+                                            style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); margin-right: 4px; border-radius: 0.375rem;"
+                                            onclick="switchTabAF('{!JSENCODE(pnr)}');">
+                                        {!pnr}
+                                    </button>
+                                </li>
+                            </apex:repeat>
+                        </ul>
+                    </div>
+                    
+                    
+                    
+                    
+                    <!-- 外框 -->
+                    <div id="outerWrapper" class="mt-0"
+                         style="background:#fff;border-radius:4px;
+                                {!IF(ISBLANK(currentTabKey),'display:block;','')}
+                                ">
+                        
+                        <!-- 沒資料時提示 -->
+                        <div id="searchPrompt"
+                             class="search-prompt"
+                             style="{!IF(ISBLANK(currentTabKey),'','display:none;')}">
+                            請搜尋資料
+                        </div>
+                        
+                        <!-- 結果表格 -->
+                        <div id="searchResults"
+                             style="{!IF(ISBLANK(currentTabKey),'display:none;','')}; overflow-y: auto; position: relative;">
+                            <apex:form >
+                                <!-- 這裡可放分頁控制 -->
+                                <div class="{!IF(
+                                            c3OperationDisabled,
+                                            'pagination-controls d-flex align-items-center justify-content-end',
+                                            'pagination-controls d-flex align-items-center justify-content-between'
+                                            )}"
+                                     style="position: sticky; top: 0; z-index: 10; height:78px; margin-top:3px;">
+                                    <apex:outputPanel rendered="{!NOT(c3OperationDisabled)}">
+                                        <button id="checkinBtn" type="button" class="btn btn-primary px-3 py-1" onclick="prepareCheckin()" disabled="true">
+                                            報到
+                                        </button>
+                                    </apex:outputPanel>
+                                    
+                                    
+                                    <div>
+                                        <!-- Switch : 1-{資料總筆數} of {資料總筆數} 2025/06/04 Aaron-->
+                                        <apex:outputPanel id="pnrCountPanel">
+                                            <span class="me-2">
+                                                {!IF(currentTabCount > 0, 1, 0)} - {!currentTabCount} of {!currentTabCount}
+                                            </span>
+                                        </apex:outputPanel>
+                                        
+                                        <!-- Prev Button -->
+                                        <apex:outputPanel rendered="{!IF(NOT(ISBLANK(currentPage)), currentPage > 1, false)}">
+                                            <button class="btn border-0" onclick="goToPrevPage();">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                                    <path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z"/>
+                                                </svg>
+                                            </button>
+                                        </apex:outputPanel>
+                                        <apex:outputPanel rendered="{!IF(NOT(ISBLANK(currentPage)) && currentPage <= 1, true, false)}">
+                                            <button class="btn border-0" disabled="disabled" style="color: #d6ccbd; cursor: not-allowed;">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                                    <path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z"/>
+                                                </svg>
+                                            </button>
+                                        </apex:outputPanel>
+                                        
+                                        <!-- Next Button -->
+                                        <apex:outputPanel rendered="{!IF(NOT(ISBLANK(currentPage)) && NOT(ISBLANK(totalPages)) && currentPage < totalPages, true, false)}">
+                                            <button class="btn border-0 me-2" onclick="goToNextPage();">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                                    <path d="M8.59 16.59L13.17 12l-4.58-4.59L10 6l6 6-6 6z"/>
+                                                </svg>
+                                            </button>
+                                        </apex:outputPanel>
+                                        <apex:outputPanel rendered="{!IF(NOT(ISBLANK(currentPage)) && NOT(ISBLANK(totalPages)) && currentPage >= totalPages, true, false)}">
+                                            <button class="btn border-0 me-2" disabled="disabled" style="color: #d6ccbd; cursor: not-allowed;">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                                    <path d="M8.59 16.59L13.17 12l-4.58-4.59L10 6l6 6-6 6z"/>
+                                                </svg>
+                                            </button>
+                                        </apex:outputPanel>
+                                        
+                                        
+                                    </div>
+                                </div>
+                                
+                                <div class="tab-content" id="resultTabContent">
+                                    <apex:repeat value="{!pnrKeys}" var="pnr">
+                                        <div id="tab{!pnr}" role="tabpanel"
+                                             class="tab-pane fade {!IF(pnr==currentTabKey,'show active','')}">
+                                            
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <thead style="height:94px">
+                                                        <!-- ⇢ 表頭略 (與原來一致) -->
+                                                        <tr>
+                                                            <th style="width:5%; text-align-last: center;">
+                                                                <apex:outputPanel rendered="{!NOT(c3OperationDisabled)}">
+                                                                <input type="checkbox"
+                                                                       id="selectAll_{!pnr}"
+                                                                       class="headerCheckbox"
+                                                                       onclick="toggleAllInTab(this)" />       
+                                                                </apex:outputPanel>
+                                                            </th>
+                                                            <th style="width:10%; color:#8e6448; cursor:pointer;" class="sortable" onclick="sortTableByNumber(this)">No. ↓</th>
+                                                            <th style="width:20%;
+                                                                       position:sticky;left:0;z-index:2;
+                                                                       background:#fff">旅客姓名 / 稱謂</th>
+                                                            <th>座位</th>
+                                                            <th>文件狀態</th>
+                                                            <th>報到結果</th>
+                                                            
+                                                        </tr>
+                                                    </thead>
+                                                    
+                                                    <tbody>
+                                                        <apex:variable var="index" value="{!0}" />
+                                                        <apex:repeat value="{!tabData[pnr]}" var="p">
+                                                            <tr data-id="{!p.recordId}" style="border-bottom:1px solid #dee2e6">
+                                                                <td style="text-align: center !important;">
+                                                                    <!-- <apex:outputPanel layout="none" rendered="{!AND(NOT(OR(p.CheckDisable, p.C3ExternalFinished)), NOT(ISNULL(p.CAS)))}">
+<input type="checkbox" class="rowCheckbox" />
+</apex:outputPanel>-->
+                                                                    
+                                                                    <apex:outputPanel rendered="{!NOT(c3OperationDisabled)}">
+                                                                        <apex:outputPanel layout="none" rendered="{!p.C3CheckboxDisplay}">
+                                                                            <input type="checkbox"
+                                                                                   class="rowCheckbox"
+                                                                                   style="{!IF(p.passengerType == 'INF',
+                                                                                          'visibility: hidden; position: absolute;',
+                                                                                          '')}" />
+                                                                        </apex:outputPanel>
+                                                                    </apex:outputPanel>
+                                                                    
+                                                                </td>
+                                                                
+                                                                <td data-index="{!index + 1}">{!index + 1}</td>
+                                                                <td style="font-weight:bold; position:sticky;left:0; z-index:1; background:#fff">
+                                                                    <apex:outputText rendered="{!p.passengerType == 'INF'}"> └ </apex:outputText>
+                                                                    {!p.lastName}/{!p.firstName} {!p.title}
+                                                                </td>
+                                                                <td>{!p.Seat}</td>
+                                                                <td>
+                                                                    {!IF(p.isDocumentCompleted, '已完成', '未完成')}
+                                                                    
+                                                                </td>
+                                                                <td>
+                                                                    <apex:outputText value="{!p.C3Status}" />
+                                                                </td>
+                                                                
+                                                                
+                                                                <!-- 隱藏 document 資料 -->
+                                                                <td style="display:none;">
+                                                                    <apex:repeat value="{!p.documents}" var="d">
+                                                                        <input type="hidden" data-id="{!d.Id}" data-api="LastName__c" value="{!p.lastName}" />
+                                                                        <input type="hidden" data-id="{!d.Id}" data-api="firstName__c" value="{!p.firstName}" />
+                                                                        <input type="hidden" data-id="{!d.Id}" data-api="PT__c" value="{!p.PT}" />
+                                                                        <input type="hidden" data-id="{!d.Id}" data-api="ST01__c" value="{!p.ST}" />
+                                                                        <input type="hidden" data-id="{!d.Id}" data-api="ST02__c" value="{!p.ST2}" />
+                                                                    </apex:repeat>
+                                                                </td>
+                                                            </tr>
+                                                            <!-- index 累加 -->
+                                                            <apex:variable var="index" value="{!index + 1}" />
+                                                        </apex:repeat>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </apex:repeat>
+                                </div>
+                                <apex:actionFunction name="doCheckIn"
+                                                     action="{!checkInSelected}"
+                                                     rerender="resultTabContent,SearchErrorPanel,editSuccessPanel"
+                                                     oncomplete="afterSaveSuccess();">
+                                    <apex:param name="ids" assignTo="{!selectedTravellerIdsJson}" value=""/>
+                                </apex:actionFunction>
+                                
+                                <apex:actionFunction name="doUploadDocument"
+                                                     action="{!uploadDocument}"
+                                                     rerender="resultTabContent"
+                                                     oncomplete="afterSaveSuccess()" 
+                                                     >
+                                </apex:actionFunction>
+                                
+                            </apex:form>
+                        </div> <!-- /searchResults -->
+                    </div>   <!-- /outerWrapper -->
+                </apex:outputPanel>
+            </div>
+        </div>
+        
+        <div class="modal fade" id="checkinConfirmModal" tabindex="-1" aria-labelledby="checkinConfirmLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-sm">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <p class="mb-0" style="padding: 10px;">確認要報到嗎？</p>
+                    </div>
+                    <div class="modal-footer d-flex border-0">
+                        
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="width:80px;">取消</button>
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="handleCheckin()" style="width:80px;">確認</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        <div class="fixed-bottom-buttons" id="fixedBottomButtons">
+            <div class="container" style="margin-top:0; box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.2); z-index: 1050; background-color: #fff;">
+                <button type="submit" class="btn" id="lastStep" style="width:90px;height:48px;background-color:white;color:#8E7248;border:1px solid #8E7248;">上一步</button>
+                <!--<button type="submit" id="nextStep1" class="btn me-2" style="width:90px;height:48px;background-color:white;color:#8E7248;border:1px solid #8E7248;">下一步</button>-->
+                <button type="button"
+                        id="nextStep1"
+                        class="btn me-2"
+                        style="width:90px;height:48px;background-color:white;color:#8E7248;border:1px solid #8E7248;"
+                        onclick="goToNextStep();">下一步</button>
+                
+            </div>
+        </div>
+        <div id="loadingOverlay" style="display: none;">
+            <div style="
+                        position: fixed;
+                        top: 0; left: 0; right: 0; bottom: 0;
+                        background-color: rgba(255, 255, 255, 0.7);
+                        z-index: 99999;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        ">
+                <div class="spinner-border" role="status" style="width: 4rem; height: 4rem; color: #212121;">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                
+            </div>
+        </div>
+    </body>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    
+    
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const flightNumber = urlParams.get('flightNumber') || '';
+            const departureDate = urlParams.get('departureDate') || '';
+            const bookingCodes = urlParams.get('bookingCodes') || '';
+            const departureLocation = urlParams.get('departureLocation') || '';
+            
+            
+            // 設置值到對應欄位
+            document.getElementById('flightNumber_display').value = flightNumber;
+            document.getElementById('{!$Component.searchForm.flightNumber}').value = flightNumber;
+            document.getElementById('{!$Component.searchForm.departureDate}').value = departureDate;
+            const depEl = document.getElementById('{!$Component.searchForm.departure}');
+            if (depEl && departureLocation) depEl.value = departureLocation;
+            document.getElementById('{!$Component.searchForm.bookingCodes}').value = bookingCodes;
+            
+            // 如果 select 元素是由 apex:selectList 生成的，可能需要額外處理:
+            const depSelect = document.getElementById('{!$Component.searchForm.departure}');
+            if(depSelect){
+                for (let option of depSelect.options) {
+                    if (option.value === departureLocation) {
+                        option.selected = true;
+                        break;
+                    }
+                }
+            }
+            
+            // 可觸發搜尋
+            if (flightNumber && departureDate && (depEl?.value || departureLocation) && bookingCodes) {
+                                                  // ✅ 顯示 loading 畫面
+                                                  const overlay = document.getElementById('loadingOverlay');
+                                                  if (overlay) {
+                                                  overlay.style.display = 'block';
+                                                  document.body.style.overflow = 'hidden';
+                                                  }
+                                                  
+                                                  // ✅ 執行搜尋
+                                                  doSearch();
+                                                  }
+                                                  });
+                                                  
+                                                  
+                                                  function goToNextStep() {
+                                                  const flightPrefix = document.getElementById('flightPrefix').value;
+                                                  const flightNumber = document.getElementById('flightNumber_display').value;
+                                                  const departureDate = document.getElementById('{!$Component.searchForm.departureDate}').value;
+                                                  const departureLocation = document.querySelector('[id$="departureLocation"]').value;
+                                                  const bookingCodes = document.getElementById('{!$Component.searchForm.bookingCodes}').value;
+                                                  
+                                                  if (!flightNumber || !departureDate || !departureLocation || !bookingCodes) {
+                                                  alert('請先填寫所有必填欄位。');
+                                                  return;
+                                                  }
+                                                  
+                                                  // 組合URL並跳轉至下一頁
+                                                  const params = new URLSearchParams({
+                                                  flightPrefix,
+                                                  flightNumber,
+                                                  departureDate,
+                                                  departureLocation,
+                                                  bookingCodes
+                                                  });
+                                                  
+                                                  window.location.href = '/apex/BoardingPassPrinting?' + params.toString();
+                                                  }
+                                                  
+                                                  
+                                                  let hasSearched = false;
+                                                  
+                                                  function prepareCheckin() {
+                                                      const activePane =
+                                                        document.querySelector('#resultTabContent .tab-pane.show.active') ||
+                                                        document.querySelector('#resultTabContent .tab-pane.active');
+                                                    if (!activePane) return;
+                                                  const selectedCheckboxes = activePane.querySelectorAll('.rowCheckbox:checked');
+                                                  if (selectedCheckboxes.length === 0) {
+                                                  alert('請先勾選旅客');
+                                                  return;
+                                                  }
+                                                  
+                                                  // 儲存目前選取的 row（若日後需要傳值）
+                                                  window.selectedCheckinRows = Array.from(selectedCheckboxes).map(cb => cb.closest('tr'));
+                                                  
+                                                  // 顯示 modal
+                                                  const modal = new bootstrap.Modal(document.getElementById('checkinConfirmModal'));
+                                                  modal.show();
+                                                  }
+                                                  
+                                                  /*function handleCheckin() {
+        const selectedRows = window.selectedCheckinRows || [];
+        
+        // 取得每位旅客姓名
+        const passengers = selectedRows.map(row => {
+            const lastName = row.querySelector('input[data-api="LastName__c"]')?.value || '';
+            const firstName = row.querySelector('input[data-api="firstName__c"]')?.value || '';
+            return `${lastName}/${firstName}`;
+                                            });
+        
+        // 👉 真正的報到邏輯（你可改為呼叫 Apex 或更新 UI）
+        console.log('✅ 已報到乘客：', passengers);
+        
+        // TODO：你可在這裡呼叫 Apex 或刷新 UI
+    }*/
+                                                  
+                                                  function handleCheckin() {
+                                                  const selectedRows = window.selectedCheckinRows || [];
+                                                  const ids = selectedRows
+                                                  .map(row => row.dataset.id)
+                                                  .filter(v => !!v);
+                                                  
+                                                  if (!ids.length) {
+                                                  alert('未選擇任何旅客');
+                                                  return;
+                                                  }
+                                                  
+                                                  
+                                                  // 顯示 loading 遮罩
+                                                  document.getElementById('loadingOverlay').style.display = 'block';
+                                                  document.body.style.overflow = 'hidden'; // 禁止滾動
+                                                  window.needToRefresh = true; // 在全域記錄需要刷新
+                                                  
+                                                  doCheckIn(JSON.stringify(ids));
+                                                  }
+                                                  
+                                                  
+                                                  
+                                                  document.addEventListener('DOMContentLoaded', function () {
+                                                  var backBtn = document.getElementById('lastStep');
+                                                  if (!backBtn) return;
+                                                  
+                                                  backBtn.addEventListener('click', function (e) {
+                                                  // 不讓 submit 觸發預設提交
+                                                  e.preventDefault();
+                                                  
+                                                  // 讀取目前表單值
+                                                  var flightPrefix = document.getElementById('flightPrefix')?.value || '';
+                                                  var flightNumber = document.getElementById('flightNumber_display')?.value || '';
+                                                  var departureDate = document.getElementById('{!$Component.searchForm.departure}') 
+                                                  ? document.getElementById('{!$Component.searchForm.departureDate}').value
+                                                  : document.querySelector('[id$="departureDate"]')?.value || '';
+                                                  // departure（BoardingPassPrinting 的 select id 叫 "departure"）
+                                                  var depEl = document.getElementById('{!$Component.searchForm.departure}') 
+                                                  || document.querySelector('[id$="departure"]');
+                                                  var departureLocation = depEl ? depEl.value : '';
+                                                  
+                                                  var bookingCodes = document.getElementById('{!$Component.searchForm.bookingCodes}') 
+                ? document.getElementById('{!$Component.searchForm.bookingCodes}').value
+                : document.querySelector('[id$="bookingCodes"]')?.value || '';
+                
+                // 組 QueryString（沿用 CheckIn → BoardingPassPrinting 的 key 命名）
+                var params = new URLSearchParams({
+                flightPrefix: flightPrefix,
+                flightNumber: flightNumber,
+                departureDate: departureDate,
+                departureLocation: departureLocation,  // 關鍵：用 departureLocation 這個 key
+                bookingCodes: bookingCodes
+                });
+            
+            // 導回 CheckIn
+            window.location.href = '/apex/SeatSelection?' + params.toString();
+        });
+    // 初始 disable 上一步 & 下一步
+    document.getElementById('lastStep').disabled = true;
+    document.getElementById('nextStep1').disabled = true;
+    
+    const checkinBtn = document.getElementById('checkinBtn');
+    
+  window.updateCheckinButtonState = function(scope){
+    const container = scope 
+      || document.querySelector('.tab-pane.show.active') 
+      || document;
+    const anyChecked = !!container.querySelector('.rowCheckbox:checked');
+    const btn = document.getElementById('checkinBtn');
+    if (btn) btn.disabled = !anyChecked;
+  };
+    function updateCheckinButtonState(scope){
+      return window.updateCheckinButtonState(scope);
+    }
+  // 初始化時呼叫一次
+  window.updateCheckinButtonState();
+    
+    // 綁定所有 checkbox 的變更事件
+    document.addEventListener('change', function (e) {
+        if (e.target.classList.contains('rowCheckbox')) {
+            updateCheckinButtonState();
+            
+            const clickedCheckbox = e.target;
+            const row = clickedCheckbox.closest('tr');
+            if (!row) return;
+            
+            const nextRow = row.nextElementSibling;
+            if (!nextRow) return;
+            
+            const nameCell = nextRow.querySelector('td:nth-child(3)');
+            if (!nameCell) return;
+            
+            const isInf = nameCell.textContent.trim().startsWith('└');
+            if (!isInf) return;
+            
+            const infCheckbox = nextRow.querySelector('.rowCheckbox');
+            if (infCheckbox) {
+                infCheckbox.checked = clickedCheckbox.checked;
+                console.log(`🍼 嬰兒 checkbox 已同步為：${clickedCheckbox.checked}`);
+            }
+        }
+    });
+    
+    // 如果 selectAll checkbox 也需要影響按鈕狀態
+    const selectAll = document.getElementById('selectAll');
+    if (selectAll) {
+        selectAll.addEventListener('change', updateCheckinButtonState);
+    }
+    });
+    
+    
+    function toggleAllInTab(master){
+      const pane = master.closest('.tab-pane') || document.querySelector('.tab-pane.show.active');
+      if (!pane) return;
+    
+      const boxes = pane.querySelectorAll('.rowCheckbox');
+      boxes.forEach(cb => {
+        cb.checked = master.checked;
+        // 觸發原本綁在 .rowCheckbox 的 change 邏輯（含 INF 連動等）
+        cb.dispatchEvent(new Event('change', { bubbles: true }));
+      });
+    
+      // 同步 INF（若你保留這段邏輯）
+      syncInfCheckboxes(pane);
+    
+      // 立即更新「報到」按鈕狀態
+      window.updateCheckinButtonState(pane);
+    }
+    
+    function syncInfCheckboxes(scope){
+      const rows = scope.querySelectorAll('tbody tr');
+      for (let i = 1; i < rows.length; i++){
+        const curr = rows[i], prev = rows[i-1];
+        const nameCell = curr.querySelector('td:nth-child(3)');
+        if (!nameCell) continue;
+        const isInf = nameCell.textContent.trim().startsWith('└');
+        if (!isInf) continue;
+    
+        const infCb = curr.querySelector('.rowCheckbox');
+        const adtCb = prev.querySelector('.rowCheckbox');
+        if (infCb && adtCb) infCb.checked = adtCb.checked;
+      }
+    }
+
+    
+    let ascending = true;
+    function sortTableByNumber(headerEl) {
+        const table = headerEl.closest('table');
+        const tbody = table.querySelector('tbody');
+        const rows = Array.from(tbody.querySelectorAll('tr'));
+        
+        rows.sort((a, b) => {
+            const aText = a.querySelector('td[data-index]').textContent.trim();
+            const bText = b.querySelector('td[data-index]').textContent.trim();
+            const aNo = parseInt(aText, 10);
+            const bNo = parseInt(bText, 10);
+            return ascending ? aNo - bNo : bNo - aNo;
+        });
+        
+        rows.forEach(row => tbody.appendChild(row));
+        ascending = !ascending;
+        headerEl.innerHTML = `No. ${ascending ? '↑' : '↓'}`;
+    }
+    
+    
+    //bookingCodes卡控
+    /*
+    document.addEventListener('DOMContentLoaded', function () {
+        const bookingInput = document.getElementById('{!$Component.searchForm.bookingCodes}');
+        if (bookingInput) {
+            bookingInput.setAttribute('maxlength', '50');
+            
+            bookingInput.addEventListener('input', function () {
+                this.value = this.value.toUpperCase().replace(/[^A-Z0-9,]/g, '');
+            });
+        }
+    });*/
+    document.addEventListener('DOMContentLoaded', function () {
+        const bookingInput = document.getElementById('{!$Component.searchForm.bookingCodes}');
+        if (bookingInput) {
+            bookingInput.setAttribute('maxlength', '50');
+            
+            let isComposing = false;
+            
+            bookingInput.addEventListener('compositionstart', function () {
+                isComposing = true;
+            });
+            
+            bookingInput.addEventListener('compositionend', function () {
+                isComposing = false;
+                // 組字結束後再清理輸入
+                this.value = this.value.toUpperCase().replace(/[^A-Z0-9,]/g, '');
+            });
+            
+            bookingInput.addEventListener('input', function () {
+                if (isComposing) return; // 組字中不處理
+                this.value = this.value.toUpperCase().replace(/[^A-Z0-9,]/g, '');
+            });
+        }
+    });
+// ✅ 用事件委派方式處理 tab 切換（不用管 VF 重繪幾次）
+document.addEventListener('shown.bs.tab', function (e) {
+  const btn = e.target;
+  if (!btn.matches('button[data-bs-toggle="tab"]')) return;
+
+  // ① 切換分頁就先強制關閉「報到」按鈕
+  const checkinBtn = document.getElementById('checkinBtn');
+  if (checkinBtn) {
+    checkinBtn.disabled = true;
+  }
+
+  // ② 找到新顯示的那個 PNR pane
+  const target = btn.getAttribute('data-bs-target');
+  const pane =
+    target
+      ? document.querySelector(target)
+      : document.querySelector('#resultTabContent .tab-pane.show.active');
+  if (!pane) return;
+
+  // ③ 清掉該分頁所有 rowCheckbox 勾選
+  pane.querySelectorAll('.rowCheckbox:checked').forEach(cb => {
+    cb.checked = false;
+  });
+
+  // ④ headerCheckbox 一起清掉
+  const headerCb = pane.querySelector('.headerCheckbox');
+  if (headerCb) headerCb.checked = false;
+
+  // ⑤ 再跑一次你的共用狀態判斷（保險）
+  if (typeof window.updateCheckinButtonState === 'function') {
+    window.updateCheckinButtonState(pane);
+  }
+});
+
+
+    
+    //航班號碼
+    function limitFlightInput(el) {
+        let raw = el.value.toUpperCase().replace(/[^0-9A-Z]/g, ''); 
+        raw = raw.slice(0, 5); 
+        
+        const match = raw.match(/^(\d*)([A-Z]*)$/);
+        if (!match) {
+            el.value = raw;
+            return;
+        }
+        
+        let numberPart = match[1];
+        let letterPart = match[2];
+        
+        if (letterPart.length === 0) {
+            numberPart = numberPart.slice(0, 4);
+        } else {
+            const maxDigits = 5 - letterPart.length;
+            numberPart = numberPart.slice(0, maxDigits);
+        }
+        
+        el.value = numberPart + letterPart;
+    }
+    
+    
+    function formatFlightNumber() {
+        const displayEl = document.getElementById('flightNumber_display');
+        const hiddenEl = document.getElementById('{!$Component.searchForm.flightNumber}');
+        
+        let raw = displayEl.value.trim().toUpperCase();
+        const match = raw.match(/^(\d*)([A-Z]*)$/);
+        
+        if (!match) {
+            hiddenEl.value = raw;
+            displayEl.value = raw;
+            return;
+        }
+        
+        let numberPart = match[1];
+        const letterPart = match[2];
+        
+        if (letterPart.length === 0) {
+            // 純數字：補 0 到 4 碼
+            numberPart = numberPart.padStart(4, '0');
+        } else {
+            // 含英文：補 0 到總長 5 碼
+            const padLength = 5 - letterPart.length;
+            numberPart = numberPart.padStart(padLength, '0');
+        }
+        
+        const formatted = numberPart + letterPart;
+        
+        displayEl.value = formatted;
+        hiddenEl.value = raw;
+    }
+    
+    
+    document.addEventListener('DOMContentLoaded', function () {
+        
+        /* 1️⃣ 取得日期輸入框 */
+        const dateEl = document.getElementById(
+            '{!$Component.searchForm.departureDate}'
+        );
+        
+        /* 2️⃣ 算出「今天 – 4 天」 */
+        const today  = new Date();
+        const minDay = new Date(today.getFullYear(),   
+                                today.getMonth(),      
+                                today.getDate() - 4);  
+        
+        /* 3️⃣ 轉成 yyyy-MM-dd 格式 (date input 需要) */
+        const pad = n => n.toString().padStart(2, '0');
+        const minStr = [
+            minDay.getFullYear(),
+            pad(minDay.getMonth() + 1),
+            pad(minDay.getDate())
+        ].join('-');
+        
+        /* 4️⃣ 寫入 min 屬性 */
+        dateEl.setAttribute('min', minStr);
+        
+        /* 5️⃣ 若欄位預設值 < min，也同步調整 */
+        if (dateEl.value && dateEl.value < minStr) {
+            dateEl.value = minStr;
+        }
+    });
+    
+    document.addEventListener('DOMContentLoaded', function () {
+        const rows = document.querySelectorAll('table tbody tr');
+        
+        for (let i = 1; i < rows.length; i++) {
+            const currRow = rows[i];
+            const prevRow = rows[i - 1];
+            
+            const nameCell = currRow.querySelector('td:nth-child(3)');
+            if (!nameCell) continue;
+            
+            // 透過「└」判斷是否為嬰兒
+            const isInf = nameCell.textContent.trim().startsWith('└');
+            if (!isInf) continue;
+            
+            const infCheckbox = currRow.querySelector('.rowCheckbox');
+            const adtCheckbox = prevRow.querySelector('.rowCheckbox');
+            
+            if (infCheckbox && adtCheckbox) {
+                // 初始同步狀態
+                infCheckbox.checked = adtCheckbox.checked;
+                
+                // 成人旅客勾選時，連動嬰兒
+                adtCheckbox.addEventListener('change', function () {
+                    infCheckbox.checked = this.checked;
+                });
+            }
+        }
+    });
+    
+    document.addEventListener('click', function(event) {
+        // 尋找所有 notification 面板（可能有多個）
+        const notifications = document.querySelectorAll('.notification-panel');
+        
+        notifications.forEach(function(notification) {
+            // 如果點擊的不是 notification 裡面的東西，就關閉
+            if (!notification.contains(event.target)) {
+                notification.style.display = 'none';
+            }
+        });
+    });
+    
+    
+    
+    // Add style for the input fields
+    const style = document.createElement('style');
+    style.textContent = `
+    .form-control-sm {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.875rem;
+        border-radius: 0.2rem;
+        text-align: center;
+    }
+    
+    .editable-field:disabled {
+        background-color: rgba(248, 248, 248, 1) !important;
+        border: 1px solid rgba(223, 220, 215, 1);
+        padding: 0;
+        margin: 0;
+        height: auto;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        text-align: center;
+    }
+    
+    td.text-center {
+        text-align: center;
+        vertical-align: middle;
+    }
+    
+    td.text-center .form-control {
+        margin: 0 auto;
+    }
+    `;
+    document.head.appendChild(style);
+    
+    function clearFields(button) {
+        const row = button.closest('tr');
+        row.querySelectorAll('input.ClearItems, select.ClearItems').forEach(i=>{
+            i.value = '';
+        });
+        }
+            
+            
+            let originalValues = {};
+            const lastStepBtn = document.getElementById('lastStep');
+            const nextStepBtn = document.getElementById('nextStep1');
+            const submitButton = document.getElementById('submitButton');
+            
+            function showTabs() {
+            const msgs        = document.getElementById('{!$Component.msgs}');
+            const successTip  = document.getElementById('{!$Component.SearchSuccessPanel}');
+            const errorTip    = document.getElementById('{!$Component.SearchErrorPanel}');
+            const tabResults  = document.getElementById('tabResults');
+            const searchResults = document.getElementById('searchResults');
+            const fixedBtns   = document.getElementById('fixedBottomButtons');
+            const searchPrompt = document.getElementById('searchPrompt');
+            
+            const shouldFlashCheckin = !!window.flashCheckinSuccess;
+            if (shouldFlashCheckin) window.flashCheckinSuccess = false;
+            
+            const errorMessage = errorTip.textContent.trim()
+            .split('//<![CDATA[')[0].split('/*<![CDATA[')[0].trim();
+            const hasErrorText = !(errorMessage === null) && !(errorMessage.trim().length === 0);
+            
+            if (hasErrorText) {
+            // --- 有錯誤 ---
+            if (errorMessage.startsWith('查無部分PNR')) {
+            // 有資料但部分缺（半成功）
+            searchPrompt.style.display   = 'none';
+            tabResults.style.display     = 'block';
+            searchResults.style.display  = 'block';
+            fixedBtns.style.display      = 'flex';
+            errorTip.style.display       = 'block';
+            
+            // ✅ 修改處：部分成功不顯示任何成功 toast
+            if (successTip) successTip.style.display = 'none';
+            const okPanel = document.querySelector('[id$=editSuccessPanel]');
+            if (okPanel) okPanel.style.display = 'none';
+            
+        } else {
+            // 純錯誤：只顯示錯誤，不顯示任何成功提示
+            searchPrompt.style.display   = '';
+            searchPrompt.textContent     = '查詢無結果';
+            tabResults.style.display     = 'none';
+            searchResults.style.display  = 'none';
+            fixedBtns.style.display      = 'none';
+            if (successTip) successTip.style.display = 'none';
+            errorTip.style.display       = 'block';
+        }
+        } else {
+            // --- 正常成功 ---
+            searchPrompt.style.display   = 'none';
+            tabResults.style.display     = 'block';
+            searchResults.style.display  = 'block';
+            fixedBtns.style.display      = 'flex';
+            errorTip.style.display       = 'none';
+            
+            if (shouldFlashCheckin) {
+            // 報到情境：只顯示「報到成功」
+            if (successTip) successTip.style.display = 'none';
+            const okPanel = document.querySelector('[id$=editSuccessPanel]');
+            if (okPanel) {
+            okPanel.style.display = 'block';
+            setTimeout(() => { okPanel.style.display = 'none'; }, 2000);
+        }
+        } else {
+            // 一般搜尋：顯示「搜尋成功」
+            if (successTip) {
+            successTip.style.display = 'block';
+            setTimeout(() => { successTip.style.display = 'none'; }, 2000);
+        }
+        }
+            
+            document.getElementById('lastStep').disabled = false;
+            document.getElementById('nextStep1').disabled = false;
+        }
+            
+            document.getElementById('loadingOverlay').style.display = 'none';
+            refreshPageUI();
+            updateCheckinButtonState();
+        }
+            
+            (function() {
+            var sidebar = document.getElementById('sidebar');
+            if (sidebar) {
+            sidebar.classList.add('hidden');
+            sidebar.classList.remove('normal');
+        }
+        })();            
+            function adjustContentWrapper() {
+            var sidebar = document.getElementById('sidebar');
+            var contentWrapper = document.getElementById('content-wrapper');
+            var fixedBottomButtons = document.getElementById('fixedBottomButtons');
+            
+            // 取得 sidebar 的當前樣式
+            var sidebarStyle = window.getComputedStyle(sidebar);
+            var transformValue = sidebarStyle.getPropertyValue('transform');
+            
+            // 檢查 sidebar 是否有 'hidden' class 或 'normal' class
+            if (sidebar.classList.contains('hidden') && window.innerWidth >= 1025) {
+            contentWrapper.style.paddingLeft = '0';
+            fixedBottomButtons.style.paddingLeft = '0';
+        } else if (sidebar.classList.contains('hidden') && window.innerWidth < 1025) {
+            contentWrapper.style.paddingLeft = '0';
+            fixedBottomButtons.style.paddingLeft = '0';
+        }
+            
+            if (sidebar.classList.contains('normal') && window.innerWidth >= 1025) {
+            contentWrapper.style.paddingLeft = '250px';
+            contentWrapper.style.transition = 'padding-left 0.3s ease-in-out';
+            fixedBottomButtons.style.paddingLeft = '250px';
+            fixedBottomButtons.style.transition = 'padding-left 0.3s ease-in-out';
+        } else if (sidebar.classList.contains('normal') && window.innerWidth < 1025) {
+            contentWrapper.style.paddingLeft = '0';
+            fixedBottomButtons.style.paddingLeft = '0';
+        }
+        }
+            
+            // 監聽 sidebar 的 class 變化
+            var observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+            if (mutation.type === "attributes" && mutation.attributeName === "class") {
+            adjustContentWrapper();
+        }
+        });
+        });
+            
+            // 當 DOM 內容加載完成後執行
+            document.addEventListener('DOMContentLoaded', function() {
+            var sidebar = document.getElementById('sidebar');
+            observer.observe(sidebar, {
+            attributes: true
+        });
+        
+        // 初始調用 adjustContentWrapper
+        adjustContentWrapper();
+    });
+    
+    // 同時監聽 window resize 事件，讓畫面縮小後也能正確調整
+    window.addEventListener('resize', adjustContentWrapper);
+    
+    //清除鍵把東西都清除
+    document.addEventListener('DOMContentLoaded', function() {
+        const btnClear = document.getElementById('clearButton');
+        btnClear.addEventListener('click', function() {
+            doReset(); 
+            // 拿到 VF 真正產生的 input id
+            
+            const idFlightNum = '{!$Component.searchForm.flightNumber}';
+            const idDepart    = '{!$Component.searchForm.departureDate}';
+            const idBooking   = '{!$Component.searchForm.bookingCodes}';
+            
+            // 1. 清空欄位值
+            document.getElementById('flightNumber_display').value = '';
+            document.getElementById(idFlightNum).value = '';
+            document.getElementById(idDepart).value    = '';
+            document.getElementById(idBooking).value   = '';
+            
+            // 2. 移除所有驗證樣式 & 訊息
+            document.querySelectorAll('#flightSearchForm .required-field').forEach(field => {
+                field.classList.remove('is-invalid');
+                const fb = field.parentElement.querySelector('.invalid-feedback');
+                if (fb) fb.remove();
+            });
+                
+                // 3. 還原介面顯示
+                document.getElementById('outerWrapper').style.marginBottom   = '0';
+                document.getElementById('fixedBottomButtons').style.display  = 'none';
+                document.getElementById('searchResults').style.display      = 'none';
+                //document.getElementById('searchPrompt').style.display       = 'block';
+                document.getElementById('searchPrompt').textContent         = '請搜尋資料';
+                document.getElementById('tabResults').style.display         = 'none';
+                
+                hasSearched = false;
+            });
+            });
+                
+                
+                function validateSearch () {
+                
+                const fields = document.querySelectorAll('#flightSearchForm .required-field');
+                let ok = true;
+                
+                fields.forEach(field => {
+                field.classList.remove('is-invalid');
+                const old = field.parentElement.querySelector('.invalid-feedback');
+                if (old) old.remove();
+                
+                if (!field.value.trim()) {
+                ok = false;
+                field.classList.add('is-invalid');
+                
+                const div = document.createElement('div');
+                div.className = 'invalid-feedback w-100';
+                div.textContent = '必填';
+                field.insertAdjacentElement('afterend', div);
+            }
+            });
+                
+                if (ok) {
+                // 顯示 loading 遮罩
+                document.getElementById('loadingOverlay').style.display = 'block';
+                document.body.style.overflow = 'hidden';  // 禁止滾動
+                
+                // 驗證通過 → 觸發隱藏的 commandButton
+                doSearch();
+            }
+            }
+                
+                function afterSaveSuccess() {
+                console.log('✅ 儲存完成，開始處理後續 UI');
+                
+                if (window.needToRefresh) {
+                // ✅ 告訴下一步（showTabs）這次是報到成功後的重新整理
+                window.flashCheckinSuccess = true;
+                window.needToRefresh = false;
+                doSearch();  // 再撈最新資料
+                return;
+            }
+                
+                // ✅ 隱藏 loading
+                document.getElementById('loadingOverlay').style.display = 'none';
+                document.body.style.overflow = 'auto';
+                
+                // ✅ 顯示儲存成功提示
+                const okPanel = document.querySelector('[id$=editSuccessPanel]');
+                if (okPanel) {
+                okPanel.style.display = 'block';
+                setTimeout(() => {
+                okPanel.style.display = 'none';
+            }, 2000);
+            }
+                
+                // ✅ 顯示搜尋結果畫面（留在目前頁面）
+                showTabs(); // ← 你已定義的函式，會顯示 tabResults、searchResults
+                
+            }
+                
+                
+                
+                
+                </script>
+    <script>
+    (function () {
+        // 直接用 getElementById，避免 selector 需要冒號轉義的問題
+        var fieldId = '{!$Component.searchForm:departureDate}';
+        
+        function isMobileLike() {
+            try {
+                if (window.matchMedia && window.matchMedia('(pointer: coarse)').matches) return true;
+            } catch (e) {}
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        }
+        
+        function supportsNativeDate() {
+            var i = document.createElement('input');
+            i.setAttribute('type', 'date');
+            return i.type === 'date' && ('valueAsDate' in i);
+        }
+        
+        function initDateField() {
+            var el = document.getElementById(fieldId);
+            if (!el) return;
+            
+            // 避免重複初始化
+            if (el._flatpickr) { el._flatpickr.destroy(); }
+            
+            var mobile = isMobileLike();
+            
+            if (mobile) {
+                // 手機：強制用 flatpickr（避免原生與套件同時出現）
+                el.setAttribute('type', 'text');
+                if (window.flatpickr) {
+                    flatpickr(el, {
+                        dateFormat: 'Y-m-d',
+                        allowInput: false,
+                        clickOpens: true,
+                        disableMobile: true,  // 關鍵：行動裝置也只顯示 flatpickr，而非原生
+                        minDate: new Date().fp_incr(-4) 
+                    });
+                }
+            } else {
+                // 桌機：優先原生；若瀏覽器不支援，再退回 flatpickr
+                if (supportsNativeDate()) {
+                    el.setAttribute('type', 'date'); // 只用原生，不初始化 flatpickr
+                } else {
+                    el.setAttribute('type', 'text');
+                    if (window.flatpickr) {
+                        flatpickr(el, {
+                            dateFormat: 'Y-m-d',
+                            allowInput: false,
+                            clickOpens: true,
+                            disableMobile: true
+                        });
+                    }
+                }
+            }
+        }
+        
+        // 初次載入
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initDateField);
+        } else {
+            initDateField();
+        }
+        window.addEventListener('load', initDateField);
+        
+        // VF/JSF 局部重繪後重掛
+        // 1) 原生 JSF AJAX（若頁面有用）
+        if (window.jsf && jsf.ajax && jsf.ajax.addOnEvent) {
+            jsf.ajax.addOnEvent(function(data){
+                if (data && data.status === 'success') initDateField();
+            });
+        }
+        // 2) jQuery AJAX（若有）
+        if (window.jQuery) {
+            jQuery(document).on('ajaxComplete', initDateField);
+        }
+        // 3) 讓 apex:commandButton/commandLink 可在 oncomplete 呼叫
+        window.initDateField = initDateField;
+    })();
+    </script>
+</apex:page>

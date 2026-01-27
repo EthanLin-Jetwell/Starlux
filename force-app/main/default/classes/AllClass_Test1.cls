@@ -1,0 +1,76 @@
+@isTest(SeeAllData=FALSE)
+public class AllClass_Test1 {
+    public static testMethod Void testAll() {
+        ReceiveResponseAddNamelistApi.fakeMethod();
+        ReceiveResponseCancelPnrApi.fakeMethod();
+        ReceiveResponseCreatePnrApi.fakeMethod();
+        ReceiveResponseGetUpdateApi.fakeMethod();
+        ReceiveResponseIssueTicketApi.fakeMethod();
+        ReceiveResponseResizePnrApi.fakeMethod();
+        NameListController.fakeMethod();
+        AddPaxInvocableMethod.fakeMethod();
+        DisableIntegrationInvocableMethod.fakeMethod();
+        GetTaxInvocableMethod.fakeMethod();
+        GetTicketFareInvocableMethod.fakeMethod();
+        GetUpdateInvocableMethod.fakeMethod();
+        IssueTicketInvocableMethod.fakeMethod();
+        SyncSatInvocableMethod.fakeMethod();
+        SyncSstInvocableMethod.fakeMethod();
+        IssueTicketScheduler.fakeMethod();
+        CreatePnrBulkBatch.fakeMethod();
+        CreatePnrBulkScheduler.fakeMethod();
+        GetMiddlewareAccessTokenScheduler.fakeMethod();
+        ApexErrorUtil.fakeMethod();
+        ApiLogger.fakeMethod();
+        CaseUtil.fakeMethod();
+        Constants.fakeMethod();
+        CreateUpdateMetadataUtil.fakeMethod();
+        DbUtil.fakeMethod();
+        DebugUtil.fakeMethod();
+        GetUpdateUtil.fakeMethod();
+        HttpRequestUtil.fakeMethod();
+        IssueTicketUtil.fakeMethod();
+        MiddlewareUtil.fakeMethod();
+        PaxUtil.fakeMethod();
+        ResponseUtil.fakeMethod();
+        SeatAllocationUtil.fakeMethod();
+        SObjectUtil.fakeMethod();
+        TaxUtil.fakeMethod();
+        TicketFareUtil.fakeMethod();
+        MwAddPaxWrapper.fakeMethod();
+        MwCancelPnrWrapper.fakeMethod();
+        MwCaseListWrapper.fakeMethod();
+        MwCreatePnrWrapper.fakeMethod();
+        MwGetTaxResponseWrapper.fakeMethod();
+        MwGetTaxWrapper.fakeMethod();
+        MwGetUpdateResponseWrapper.fakeMethod();
+        MwIssueTicketWrapper.fakeMethod();
+        MwResizePnrWrapper.fakeMethod();
+        MwSyncSstWrapper.fakeMethod();
+        PageNameListWrapper.fakeMethod();
+        ReceiveResponseAddNamelistWrapper.fakeMethod();
+        ReceiveResponseCancelPnrWrapper.fakeMethod();
+        ReceiveResponseCreatePnrWrapper.fakeMethod();
+        ReceiveResponseGetUpdateWrapper.fakeMethod();
+        ReceiveResponseIssueTicketWrapper.fakeMethod();
+        ReceiveResponseResizePnrWrapper.fakeMethod();
+        SimpleResponseWrapper.fakeMethod();
+        CaseTriggerHandler.fakeMethod();
+        SeatAllocationTriggerHandler.fakeMethod();
+        UpdateTicketFare.fakeMethod();
+        CaseCouponTriggerHandler.fakeMethod();
+        GetTicketedPnrWrapper.fakeMethod();
+        GtasGetTicketedPnrApi.fakeMethod();
+        AddPaxInvocableMethod.fakeMethod();
+        ApexErrorUtil.fakeMethod();
+        AirportOperationTriggerHandler.fakeMethod();
+        CaseUtil.fakeMethod();
+        
+        
+        UpdateLegStatus.fakeMethod();
+        PNR_KKController.fakeMethod();
+        List<String> testlist=new List<String>();
+        testlist.add('1');
+        MwLegStatusWrapper test=new MwLegStatusWrapper(testlist);
+        }
+}

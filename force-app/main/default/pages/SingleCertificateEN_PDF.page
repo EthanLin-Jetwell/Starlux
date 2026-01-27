@@ -1,0 +1,289 @@
+<apex:page controller="SingleCertENController" renderAs="PDF"  applyBodyTag="false" sidebar="false" showHeader="false" standardStylesheets="false" cache="false" docType="html-5.0" action="{!prepareDownload}">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" />
+        
+        <style>
+            /* Footer styles */
+            footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            line-height: 1.2;
+            text-align: right;
+            }
+        </style>
+        
+    </head>
+    
+    <body>
+        <apex:form style="padding-bottom: 120px;">          
+            
+            <div>
+                <h1>STARLUX Complimentary Ticket Certificate</h1>
+                <div style="line-height: 2;">
+                    Congratulations! You have received a STARLUX Complimentary Ticket for flight departure from {!Tickets.External_Tickets__r.DepatureID__c},{!Tickets.External_Tickets__r.Depature__c} to 
+                    {!Tickets.External_Tickets__r.ArrivalID__c},{!Tickets.External_Tickets__r.Arrival__c} point to point Round Trip in {!Tickets.External_Tickets__r.Booking_Class__c} 
+                    to sponsor {!Tickets.External_Tickets__r.Organizer_Event_Title__c}.
+                </div>
+                <div style="line-height: 2;">
+                    Please present this certificate at a STARLUX Customer Service Center (except for Airport Ticketing Counters) to redeem the ticket. Please read the terms and conditions 
+                    printed on the back of this certificate for details. STARLUX wishes you a pleasant journey！
+                </div>
+                <br/><br/><br/>
+                <div>Passenger Information</div>
+                <br/>                
+            </div>
+            
+            <table style="border-collapse: collapse; 
+                          border: 1px solid #000000; 
+                          width: 100%; 
+                          font-family: Arial Unicode MS, Microsoft JhengHei, sans-serif;">
+                  <colgroup>
+                      <col style="width:25%"/>
+                      <col style="width:25%"/>
+                      <col style="width:25%"/>
+                      <col style="width:25%"/>
+                  </colgroup>
+                <!-- 一人：單列四格 -->
+                <apex:outputPanel layout="none" rendered="{!Tickets.External_Tickets__r.Two_People__c='N'}">
+                  <tr style="color:#000; background:#fff; text-align:center;">
+                    <td style="border:1px solid #000; background:#e7e6e6; padding:3px; vertical-align:middle;">Name:</td>
+                    <td style="border:1px solid #000; padding:10px 8px; height:32px;"></td>
+                
+                    <td style="border:1px solid #000; background:#e7e6e6; padding:3px; vertical-align:middle;">Name on Passport:</td>
+                    <td style="border:1px solid #000; padding:10px 8px; height:32px;"></td>
+                  </tr>
+                </apex:outputPanel>
+                
+                <!-- 兩人：兩列；左右標題各自 rowspan=2 -->
+                <apex:outputPanel layout="none" rendered="{!Tickets.External_Tickets__r.Two_People__c='Y'}">
+                  <tr style="color:#000; background:#fff; text-align:center;">
+                    <td style="border:1px solid #000; background:#e7e6e6; padding:3px; vertical-align:middle;" rowspan="2">Name:</td>
+                    <td style="border:1px solid #000; padding:10px 8px; height:32px;"></td>
+                
+                    <td style="border:1px solid #000; background:#e7e6e6; padding:3px; vertical-align:middle;" rowspan="2">Name on Passport::</td>
+                    <td style="border:1px solid #000; padding:10px 8px; height:32px;"></td>
+                  </tr>
+                  <tr style="color:#000; background:#fff; text-align:center;">
+                    <td style="border:1px solid #000; padding:10px 8px; height:32px;"></td>
+                    <td style="border:1px solid #000; padding:10px 8px; height:32px;"></td>
+                  </tr>
+                </apex:outputPanel>
+                
+                <tr style="color:#000; background-color:#fff; text-align:center;">
+                    <td style="border: 1px solid #000000; background-color: #e7e6e6;">
+                        <span style="display: block; padding: 3px;">Itinerary:</span>
+                    </td> 
+                    <td style="border: 1px solid #000000;">
+                        <apex:outputText value="" />                      
+                    </td> 
+                    <td style="border: 1px solid #000000;">
+                        <span style="display: block; padding: 3px; background-color: #e7e6e6;">Booking Class:</span>
+                    </td>                    
+                    <td style="border: 1px solid #000000;">
+                        <apex:outputText value="{!Tickets.External_Tickets__r.Booking_Class__c}" />                        
+                    </td>                    
+                </tr>
+                
+                
+                <tr style="color:#000; background-color:#fff; text-align:center;">
+                    <td style="border: 1px solid #000000; background-color: #e7e6e6;">
+                        <span style="display: block; padding: 3px;">Departure Date:</span>
+                    </td> 
+                    <td style="border: 1px solid #000000;">
+                    </td> 
+                    <td style="border: 1px solid #000000;">
+                        <span style="display: block; padding: 3px; background-color: #e7e6e6;">Return Date:</span>
+                    </td>                    
+                    <td style="border: 1px solid #000000;">
+                    </td>                    
+                </tr>
+                
+                <tr style="color:#000; background-color:#fff; text-align:center;">
+                    <td style="border: 1px solid #000000; background-color: #e7e6e6;">
+                        <span style="display: block; padding: 3px;">Ticket Discount Rate:</span>
+                    </td> 
+                    <td style="border: 1px solid #000000;">
+                            <apex:outputText value="{!IF(Tickets.External_Tickets__r.Discount__c='00', '100', Tickets.External_Tickets__r.Discount__c)}%"/>            
+                    </td> 
+                    <td style="border: 1px solid #000000;">
+                        <span style="display: block; padding: 3px; background-color: #e7e6e6;">Certificate Expiration:</span>
+                    </td>                    
+                    <td style="border: 1px solid #000000;">
+                        <apex:outputText value="{0,date,dd-MMM-yyyy}">
+                            <apex:param value="{!Tickets.External_Tickets__r.Expiration_Date__c}" />
+                        </apex:outputText>
+                    </td>                    
+                </tr>   
+                <tr style="color:#000; background-color:#fff; text-align:center;">
+                    <td style="border: 1px solid #000000; background-color: #e7e6e6;">
+                        <span style="display: block; padding: 3px;">Waiver:</span>
+                    </td>
+                    <td colspan="3" style="border: 1px solid #000000; text-align:left; padding:3px;">
+                      <!-- YQ -->
+                      <apex:outputPanel layout="none" rendered="{!Tickets.External_Tickets__r.Exemption_YQ__c}">YQ</apex:outputPanel>
+                    
+                      <!-- , TAX -->
+                      <apex:outputPanel layout="none" 
+                        rendered="{!AND(Tickets.External_Tickets__r.Exemption_Tax__c,
+                                        Tickets.External_Tickets__r.Exemption_YQ__c)}">, </apex:outputPanel>
+                      <apex:outputPanel layout="none" rendered="{!Tickets.External_Tickets__r.Exemption_Tax__c}">TAX</apex:outputPanel>
+                    
+                      <!-- , YR -->
+                      <apex:outputPanel layout="none" 
+                        rendered="{!AND(Tickets.External_Tickets__r.Exemption_YR__c,
+                                        OR(Tickets.External_Tickets__r.Exemption_YQ__c,
+                                           Tickets.External_Tickets__r.Exemption_Tax__c))}">, </apex:outputPanel>
+                      <apex:outputPanel layout="none" rendered="{!Tickets.External_Tickets__r.Exemption_YR__c}">YR</apex:outputPanel>
+                    
+                      <!-- , EP -->
+                      <apex:outputPanel layout="none" 
+                        rendered="{!AND(Tickets.External_Tickets__r.Embargo__c,
+                                        OR(Tickets.External_Tickets__r.Exemption_YQ__c,
+                                           Tickets.External_Tickets__r.Exemption_Tax__c,
+                                           Tickets.External_Tickets__r.Exemption_YR__c))}">, </apex:outputPanel>
+                      <apex:outputPanel layout="none" rendered="{!Tickets.External_Tickets__r.Embargo__c}">EP</apex:outputPanel>
+
+                    </td>
+                </tr>
+            </table>
+            <br/><br/><br/><br/>
+            <div>I hereby certify that I have fully read, understood and agree to all the conditions.</div>
+            <table style="border-collapse: collapse; 
+                          border: 1px solid #000000; 
+                          width: 100%; 
+                          font-family: Arial Unicode MS, Microsoft JhengHei, sans-serif;">
+                
+                <tr style="color:#000; background-color:#fff; text-align:center;">
+                    <td>
+                        <div style="flex: 1; text-align: left;">
+                            <img src="{!QRcode}" style="max-width: 100%; height: auto;"/>
+                        </div>
+                    </td>
+                    <td>
+                        <div style="flex: 1; text-align: right;">
+                            <br/><br/>
+                            <div>Signature:________________________________</div>
+                            <br/><br/>
+                            <div>Date:________________________________</div>
+                            <br/><br/>
+                            <div style="text-align: right;">Invalid without STARLUX Complimentary Ticket Certificate stamp.</div>
+                        </div>
+                    </td>
+                </tr>
+                
+            </table>
+        </apex:form>
+        <apex:form >
+            
+            <div>
+                <div style="line-height: 1.05;padding-top: 30px;">
+                    <div style="font-size: 18px; font-weight: bold;">*Conditions of Use</div>
+                    <ol style="padding-left: 20px;">
+                        <li>No reissuance of this certificate if lost, stolen, expired, or damaged.</li>
+                        <li>Certificate is invalid if expired, copied, or altered.</li>
+                        <li>STARLUX Complimentary Ticket is only applicable to STARLUX. Codeshare flights; group travel, ancillary, or any other travel products are not applicable.</li>
+                        <li>Starlux complimentary flight ticket is only valid for use by the person who redeemed it. And the passenger's information should be completely correct.</li>
+                        <li>Starlux complimentary flight ticket must be used within one year from the issuance date. Any unused ticket after the expiration date can be refunded (only actual payment of fare and unused taxes can be returned.) through our global customer service center (including in-person service, phone support, online support, and website applications, excluding airport ticketing counters). Reissuance of the ticket will not be permitted.</li>
+                        <li>The taxes and ticket fare, if any, should be paid by the passenger. The passenger can make the payment at a STARLUX Customer Service Center (except for Airport Ticketing Counters). Acceptable payment methods may differ from each service center.</li>
+                        
+                        
+                        <!--<apex:outputPanel rendered="{!Tickets.Prizes_and_Awards_won_by_chance__c == 'Y'}">
+<span>In case of war, natural disasters, or other force majeure factors, the company may cancel the transportation service in accordance with the published transportation terms. For conditions not included hereby, please refer to STARLUX for more details. STARLUX reserves the right to interpret the terms and relevant rules and restrictions, and where any conflict in interpretation exists, the Chinese version shall prevail.</span>
+</apex:outputPanel>-->
+                        
+                        <li>STARLUX Complimentary Ticket cannot be used during embargo periods listed below:
+                            <apex:outputPanel rendered="{!NOT(Tickets.Embargo__c)}">
+                                <table style="border-collapse: collapse; 
+                                              border: 1px solid #000000; 
+                                              width: 100%; 
+                                              font-family: Arial Unicode MS, Microsoft JhengHei, sans-serif;">
+                                    <colgroup>
+                                        <col style="width:25%"/>
+                                        <col style="width:25%"/>
+                                        <col style="width:0%"/>
+                                        <col style="width:25%"/>
+                                        <col style="width:25%"/>
+                                    </colgroup>
+                                    <tr>
+                                        <th colspan="2" style="border: 1px solid #000000; text-align: center; height: 25px;">Taiwan to World</th>
+                                        <th colspan="1" style="border: none; "></th>
+                                        <th colspan="2" style="border: 1px solid #000000; text-align: center; height: 25px;">World to Taiwan</th>
+                                        
+                                    </tr>
+                                    <!--<tr style="color:#000; background-color:#fff; text-align:center;">
+                                        <td style="border: 1px solid #000000; background-color: #e7e6e6;">
+                                            <span style="display: block; padding: 3px;">This Year</span>
+                                        </td> 
+                                        <td style="border: 1px solid #000000;">
+                                            <span style="display: block; padding: 3px; background-color: #e7e6e6;">Next Year</span>
+                                        </td> 
+                                        <td style="border: none;"></td>
+                                        <td style="border: 1px solid #000000; background-color: #e7e6e6;">
+                                            <span style="display: block; padding: 3px;">This Year</span>
+                                        </td> 
+                                        <td style="border: 1px solid #000000;">
+                                            <span style="display: block; padding: 3px; background-color: #e7e6e6;">Next Year</span>
+                                        </td> 
+                                        
+                                    </tr>-->
+                                    <tr style="color:#000; background-color:#fff; text-align:center; font-size:12px;">
+                                        <td style="border: 1px solid #000000;">
+                                            <apex:outputText value="{!Tickets.External_Tickets__r.Embargo_This_Year_Taiwan_to_World__c}" />                        
+                                        </td> 
+                                        <td style="border: 1px solid #000000;">
+                                            <apex:outputText value="{!Tickets.External_Tickets__r.Embargo_Next_Year_Taiwan_to_World__c}" />                        
+                                        </td> 
+                                        <td style="border: none;"></td>
+                                        <td style="border: 1px solid #000000;">
+                                            <apex:outputText value="{!Tickets.External_Tickets__r.Embargo_This_Year_World_to_Taiwan__c}" />                        
+                                        </td> 
+                                        <td style="border: 1px solid #000000;">
+                                            <apex:outputText value="{!Tickets.External_Tickets__r.Embargo_Next_Year_World_to_Taiwan__c}" />                        
+                                        </td>
+                                    </tr>
+                                </table>
+                            </apex:outputPanel>
+                            <apex:outputPanel rendered="{!Tickets.Embargo__c}">
+                                <div>None</div>
+                            </apex:outputPanel>
+                        </li>                        
+                        <li>
+                            <ol style="list-style-type: none; padding-left: 0px; margin: 0;">
+                              <li>(1)&nbsp;Before redeeming this certificate, please call or visit STARLUX Customer Service Center at your departure location to make a reservation, and inform them that you will be using this certificate. The availability of seats in different  classes on each flight is limited, and reservations will be subject to availability based on the actual situation.</li>
+                              <li>(2)&nbsp;If the specified destination or class of service on the certificate is unable to be issued due to flight network planning  or scheduling factors, the company reserves the right to alter the destination or class of service for the certificate.</li>
+                              <li>(3)&nbsp;After issuing STARLUX Complimentary Ticket , the destination or class of service cannot be changed, but the date or flight can be changed. If there is a fare or tax difference due to changes in the outbound or return date or flight, no refund will be issued if the new amount is less than the original amount. However, if the new amount is higher, the difference must be paid.</li>
+                            </ol>
+                        </li>
+                        <li>STARLUX Complimentary Ticket is not applicable to COSMILE program.</li>
+                        <li>No children or infant discount can be applied to STARLUX Complimentary Tickets.</li>
+                        <li>The refund and reissue fee of a STARLUX complimentary tickets will be charged based on the fare product terms.</li>
+                        <li>In case of war, natural disasters, or other force majeure factors, the company may cancel the transportation service in accordance with the published transportation terms. For conditions not included hereby, please refer to STARLUX for more details. STARLUX reserves the right to interpret the terms and relevant rules and restrictions, and where any conflict in interpretation exists, the Chinese version shall prevail.
+                        </li>
+                    </ol>
+                </div>               
+            </div>            
+        </apex:form>       
+    </body>
+    
+    <footer>        
+        <div style="border-top: 1px solid #000000; line-height: 1.2;  font-size: 12px;">
+            <div style="display: flex; align-items: center;">
+                <span style="margin-right: 295px;">STARLUX Customer Service Center: +886-2-2791-1199</span>
+                <span>Coupon Number:
+                    <apex:outputText value="{!Tickets.Name}({!Tickets.Prizes_and_Awards_won_by_chance__c})" />
+                </span>
+            </div>
+            <div style="text-align: right;">
+                Item Number:{!Tickets.External_Tickets__r.SerialID__c}
+            </div>
+            <div style="text-align: right;">Date of printing:
+                <apex:outputText value="{0,date,dd-MMM-yyyy}">
+                    <apex:param value="{!TODAY()}" />
+                </apex:outputText>
+            </div>
+            <div style="text-align: center;">©2025 STARLUX Airlines Co., Ltd.</div>
+        </div>       
+    </footer>   
+</apex:page>

@@ -1,0 +1,1084 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
+    
+    <!--Attributes to render the form-->
+	<aura:attribute name="theLanguage" type="String"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <aura:renderif isTrue="{!v.theLanguage=='en_US'}">
+	<lightning:card title="Contact Information">
+    <lightning:layout multipleRows="true" verticalAlign="stretch">
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <h2 class="contactUs-title1">Taiwan</h2>
+                <br></br>
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <h2>&nbsp;&nbsp;&nbsp;</h2>
+                <br></br>
+                <h2 class="contactUs-title2">Taipei Headquarters</h2>
+                <br></br>                
+                <!--p style="font-weight:900">Taipei</p-->
+                <p class="contactUs-title3">Hotline Service</p>
+                <p class="contactUs-content">- Hotline :  +886-2-27911199</p>
+                <p class="contactUs-content"><tr><td>- Open Hours :&nbsp;</td><td><ul><li>Monday to Saturday &amp; Public Holidays : 09:30 - 17:30 (Sunday Closed)</li></ul></td></tr></p>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <p class="contactUs-title3">Live Chat Service</p>
+                <p class="contactUs-content"><tr><td>- Open Hours :&nbsp;</td><td><ul><li>Monday to Saturday &amp; Public Holidays : 09:30 - 17:30 (Sunday Closed)</li></ul></td></tr></p>
+
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <p class="contactUs-title3">Service Location</p>
+                <p class="contactUs-content">- Office Address :  No. 168, Sec. 3, Nanjing E. Rd., Zhongshan Dist., Taipei City, Taiwan (R.O.C.)</p>
+                <p class="contactUs-content">- Open Hours :  Monday to Friday : 09:30 - 17:30 (Saturday/Sunday &amp; Public Holidays Closed)</p>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <p style="font-weight:700"><a href="https://support.starlux-airlines.com/s/formEnquiry?language=en_US" class="contactUs-link">Enquiry and Request</a></p>
+                <br></br>
+                <p style="font-weight:700"><a href="https://www.starlux-airlines.com/en-US/Book/Manage/airportAndTransportation" target="_blank" class="contactUs-link">Airport and Transportation</a></p>
+            </div>
+        </lightning:layoutItem>
+        
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <h2 class="contactUs-title1">Macau</h2>
+                <br></br>
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <h2>&nbsp;&nbsp;&nbsp;</h2>
+                <br></br>
+                <h2 class="contactUs-title2">Macau Branch</h2>
+                <br></br>
+                <!--p style="font-weight:900">Taipei</p-->
+                <p class="contactUs-title3">Hotline Service</p>
+                <p class="contactUs-content">- Hotline :  +853-2881-8889</p>
+                <p class="contactUs-content">- Fax :  +853-2872-1888</p>
+                <p class="contactUs-content">- Open Hours :  Monday to Friday : 09:00 - 18:00 (Saturday/Sunday &amp; Public Holidays Closed)</p>
+
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <p class="contactUs-title3">Service Location</p>
+                <p class="contactUs-content">- Office Address :  Flat A, 10F, No.105, Ave. Xian Xing Hai, Golden Dragon Centre, Macau</p>
+                <p class="contactUs-content">- Open Hours :  Monday to Friday : 09:00 - 18:00 (Saturday/Sunday &amp; Public Holidays Closed)</p>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <p style="font-weight:700"><a href="https://support.starlux-airlines.com/s/formEnquiry?language=en_US" class="contactUs-link">Enquiry and Request</a></p>
+                <br></br>
+                <p style="font-weight:700"><a href="https://www.starlux-airlines.com/en-US/Book/Manage/airportAndTransportation" target="_blank" class="contactUs-link">Airport and Transportation</a></p>
+            </div>
+        </lightning:layoutItem>
+                
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <h2 class="contactUs-title1">Malaysia</h2>
+                <br></br>
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <h2>&nbsp;&nbsp;&nbsp;</h2>
+                <br></br>
+                <h2 class="contactUs-title2">Malaysia Branch</h2>
+                <br></br>
+                <!--p style="font-weight:900">Taipei</p-->
+                <p class="contactUs-title3">Hotline Service</p>
+                <p class="contactUs-content">- Hotline :  +604-2919901</p>
+                <p class="contactUs-content">- Fax :  +604-2919801</p>
+                <p class="contactUs-content">- Open Hours :  Monday to Friday : 09:00 - 18:00 (Saturday/Sunday &amp; Public Holidays Closed)</p>
+
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <p class="contactUs-title3">Service Location</p>
+                <p class="contactUs-content">- Office Address :  Menara Boustead, Unit 6.02, 39, Jalan Sultan Ahmad Shah, 10050, Penang</p>
+                <p class="contactUs-content">- Open Hours :  Monday to Friday : 09:00 - 18:00 (Saturday/Sunday &amp; Public Holidays Closed)</p>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <p style="font-weight:700"><a href="https://support.starlux-airlines.com/s/formEnquiry?language=en_US" class="contactUs-link">Enquiry and Request</a></p>
+                <br></br>
+                <p style="font-weight:700"><a href="https://www.starlux-airlines.com/en-US/Book/Manage/airportAndTransportation" target="_blank" class="contactUs-link">Airport and Transportation</a></p>
+            </div>
+        </lightning:layoutItem>
+        
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <h2 class="contactUs-title1">Vietnam</h2>
+                <br></br>
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <h2>&nbsp;&nbsp;&nbsp;</h2>
+                <br></br>
+                <h2 class="contactUs-title2">Vietnam Branch</h2>
+                <br></br>
+                <!--p style="font-weight:900">Taipei</p-->
+                <p class="contactUs-title3">Hotline Service</p>
+                <p class="contactUs-content">- Hotline : +84-28-3535-0000 # 8001</p>
+                <p class="contactUs-content">- Open Hours :  Monday to Friday : 08:00 - 17:00 (Saturday/Sunday &amp; Public Holidays Closed)</p>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <p style="font-weight:700"><a href="https://support.starlux-airlines.com/s/formEnquiry?language=en_US" class="contactUs-link">Enquiry and Request</a></p>
+                <br></br>
+                <p style="font-weight:700"><a href="https://www.starlux-airlines.com/en-US/Book/Manage/airportAndTransportation" target="_blank" class="contactUs-link">Airport and Transportation</a></p>
+            </div>
+        </lightning:layoutItem>
+        
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <h2 class="contactUs-title1">Thailand</h2>
+                <br></br>
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <h2>&nbsp;&nbsp;&nbsp;</h2>
+                <br></br>
+                <h2 class="contactUs-title2">Thailand Branch</h2>
+                <br></br>
+                <!--p style="font-weight:900">Taipei</p-->
+                <p class="contactUs-title3">Hotline Service</p>
+                <p class="contactUs-content">- Hotline :  +66-2-005-0990</p>
+                <p class="contactUs-content">- Fax :  +66-2-003-7700</p>
+                <p class="contactUs-content">- Open Hours :  Monday to Friday : 08:30 - 17:30 (Saturday/Sunday &amp; Public Holidays Closed)</p>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <p class="contactUs-title3">Service Location</p>
+                <p class="contactUs-content">- Office Address :  Unit 702, 11/1 South Sathorn Road, Yannawa, Sathorn, Bangkok 10120</p>
+                <p class="contactUs-content">- Open Hours :  Monday to Friday : 08:30 - 17:30 (Saturday/Sunday &amp; Public Holidays Closed)</p>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <p style="font-weight:700"><a href="https://support.starlux-airlines.com/s/formEnquiry?language=en_US" class="contactUs-link">Enquiry and Request</a></p>
+                <br></br>
+                <p style="font-weight:700"><a href="https://www.starlux-airlines.com/en-US/Book/Manage/airportAndTransportation" target="_blank" class="contactUs-link">Airport and Transportation</a></p>
+            </div>
+        </lightning:layoutItem>
+        
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <h2 class="contactUs-title1">Japan</h2>
+                <br></br>
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <h2>&nbsp;&nbsp;&nbsp;</h2>
+                <br></br>
+                <h2 class="contactUs-title2">Japan Branch</h2>
+                <br></br>
+                <!--p style="font-weight:900">Taipei</p-->
+                <p class="contactUs-title3">Hotline Service</p>
+                <p class="contactUs-content">- Hotline :  +81-(0)3-6822-8700</p>
+                <p class="contactUs-content">- Open Hours :  Monday to Friday : 09:00 - 18:00 (Saturday, Sunday Closed)</p>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <p class="contactUs-title3">Live Chat Service</p>
+                <p class="contactUs-content">- Open Hours :  Monday to Friday : 09:00 - 17:30 (Saturday, Sunday Closed)</p>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <p style="font-weight:700"><a href="https://support.starlux-airlines.com/s/formEnquiry?language=en_US" class="contactUs-link">Enquiry and Request</a></p>
+                <br></br>
+                <p style="font-weight:700"><a href="https://www.starlux-airlines.com/en-US/Book/Manage/airportAndTransportation" target="_blank" class="contactUs-link">Airport and Transportation</a></p>
+            </div>
+        </lightning:layoutItem>
+		
+		<lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <h2 class="contactUs-title1">Philippines</h2>
+                <br></br>
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <h2>&nbsp;&nbsp;&nbsp;</h2>
+                <br></br>
+                <h2 class="contactUs-title2">Philippines Branch</h2>
+                <br></br>
+                <!--p style="font-weight:900">Taipei</p-->
+                <p class="contactUs-title3">Hotline Service</p>
+                <p class="contactUs-content">- Hotline :  +63-32494-7630</p>
+                <p class="contactUs-content">- Fax :  +63-32494-7638</p>
+                <p class="contactUs-content">- Open Hours : Monday to Friday : 09:00-18:00 (Saturday/Sunday &amp; Public Holidays Closed)</p>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <p style="font-weight:700"><a href="https://support.starlux-airlines.com/s/formEnquiry?language=en_US" class="contactUs-link">Enquiry and Request</a></p>
+                <br></br>
+                <p style="font-weight:700"><a href="https://www.starlux-airlines.com/en-US/Book/Manage/airportAndTransportation" target="_blank" class="contactUs-link">Airport and Transportation</a></p>
+            </div>
+        </lightning:layoutItem>
+        
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <h2 class="contactUs-title1">Singapore</h2>
+                <br></br>
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <h2>&nbsp;&nbsp;&nbsp;</h2>
+                <br></br>
+                <h2 class="contactUs-title2">Singapore Branch</h2>
+                <br></br>
+                <!--p style="font-weight:900">Taipei</p-->
+                <p class="contactUs-title3">Hotline Service</p>
+                <p class="contactUs-content">- Hotline :  +65-96880013</p>
+                <p class="contactUs-content">- Open Hours :  Monday to Friday : 08:30-17:30 (Saturday/Sunday &amp; Public Holidays Closed)</p>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <p style="font-weight:700"><a href="https://support.starlux-airlines.com/s/formEnquiry?language=en_US" class="contactUs-link">Enquiry and Request</a></p>
+                <br></br>
+                <p style="font-weight:700"><a href="https://www.starlux-airlines.com/en-US/Book/Manage/airportAndTransportation" target="_blank" class="contactUs-link">Airport and Transportation</a></p>
+            </div>
+        </lightning:layoutItem>
+                                
+    </lightning:layout>
+    </lightning:card>
+    </aura:renderif>
+
+    <aura:renderif isTrue="{!v.theLanguage=='zh_TW'}">
+	<lightning:card title="各地聯絡資訊">
+    <lightning:layout multipleRows="true" verticalAlign="stretch">
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <h2 class="contactUs-title1">台灣</h2>
+                <br></br>
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <h2>&nbsp;&nbsp;&nbsp;</h2>
+                <br></br>
+                <h2 class="contactUs-title2">台北總公司</h2>
+                <br></br>                
+                <!--p style="font-weight:900">台北</p-->
+                <p class="contactUs-title3">話務服務</p>
+                <p class="contactUs-content">- 付費專線 :  +886-2-27911199</p>
+                <p class="contactUs-content"><tr><td>- 服務時間 :&nbsp;</td><td><ul><li>週一至週六(含國定假日) 09:30 - 17:30 (週日不營業)</li></ul></td></tr></p>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <p class="contactUs-title3">線上即時對談</p>
+                <p class="contactUs-content"><tr><td>- 服務時間 :&nbsp;</td><td><ul><li>週一至週六(含國定假日) 09:30 - 17:30 (週日不營業)</li></ul></td></tr></p>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <p class="contactUs-title3">服務據點</p>
+                <p class="contactUs-content">- 地址 :  台北市中山區南京東路三段168號</p>
+                <p class="contactUs-content">- 服務時間 :  週一至週五 09:30 - 17:30 (週六、日及國定假日不營業)</p>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <p style="font-weight:700"><a href="https://support.starlux-airlines.com/s/formEnquiry?language=zh_TW" class="contactUs-link">諮詢與申請</a></p>
+                <br></br>
+                <p style="font-weight:700"><a href="https://www.starlux-airlines.com/Book/Manage/AirportAndTransportation" target="_blank" class="contactUs-link">機場與交通資訊</a></p>
+            </div>
+        </lightning:layoutItem>
+        
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <h2 class="contactUs-title1">澳門</h2>
+                <br></br>
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <h2>&nbsp;&nbsp;&nbsp;</h2>
+                <br></br>
+                <h2 class="contactUs-title2">澳門分公司</h2>
+                <br></br>
+                <!--p style="font-weight:900">台北</p-->
+                <p class="contactUs-title3">話務服務</p>
+                <p class="contactUs-content">- 付費專線 :  +853-2881-8889</p>
+                <p class="contactUs-content">- 傳真電話 :  +853-2872-1888</p>
+                <p class="contactUs-content">- 服務時間 :  週一至週五 09:00 - 18:00 (週六、日及國定假日不營業)</p>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <p class="contactUs-title3">服務據點</p>
+                <p class="contactUs-content">- 地址 :  澳門新口岸冼星海大馬路105號金龍中心10樓A座</p>
+                <p class="contactUs-content">- 服務時間 :  週一至週五 09:00 - 18:00 (週六、日及國定假日不營業)</p>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <p style="font-weight:700"><a href="https://support.starlux-airlines.com/s/formEnquiry?language=zh_TW" class="contactUs-link">諮詢與申請</a></p>
+                <br></br>
+                <p style="font-weight:700"><a href="https://www.starlux-airlines.com/Book/Manage/AirportAndTransportation" target="_blank" class="contactUs-link">機場與交通資訊</a></p>
+            </div>
+        </lightning:layoutItem>
+                
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <h2 class="contactUs-title1">馬來西亞</h2>
+                <br></br>
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <h2>&nbsp;&nbsp;&nbsp;</h2>
+                <br></br>
+                <h2 class="contactUs-title2">馬來西亞分公司</h2>
+                <br></br>
+                <!--p style="font-weight:900">台北</p-->
+                <p class="contactUs-title3">話務服務</p>
+                <p class="contactUs-content">- 付費專線 :  +604-2919901</p>
+                <p class="contactUs-content">- 傳真電話 :  +604-2919801</p>
+                <p class="contactUs-content">- 服務時間 :  週一至週五 09:00 - 18:00 (週六、日及國定假日不營業)</p>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <p class="contactUs-title3">服務據點</p>
+                <p class="contactUs-content">- 地址 :  Menara Boustead, Unit 6.02, 39, Jalan Sultan Ahmad Shah, 10050, Penang</p>
+                <p class="contactUs-content">- 服務時間 :  週一至週五 09:00 - 18:00 (週六、日及國定假日不營業)</p>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <p style="font-weight:700"><a href="https://support.starlux-airlines.com/s/formEnquiry?language=zh_TW" class="contactUs-link">諮詢與申請</a></p>
+                <br></br>
+                <p style="font-weight:700"><a href="https://www.starlux-airlines.com/Book/Manage/AirportAndTransportation" target="_blank" class="contactUs-link">機場與交通資訊</a></p>
+            </div>
+        </lightning:layoutItem>
+        
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <h2 class="contactUs-title1">越南</h2>
+                <br></br>
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <h2>&nbsp;&nbsp;&nbsp;</h2>
+                <br></br>
+                <h2 class="contactUs-title2">越南分公司</h2>
+                <br></br>
+                <!--p style="font-weight:900">台北</p-->
+                <p class="contactUs-title3">話務服務</p>
+                <p class="contactUs-content">- 付費專線 : +84-28-3535-0000 # 8001</p>
+                <p class="contactUs-content">- 服務時間 :  週一至週五 08:00 - 17:00 (週六、日及國定假日不營業)</p>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <p style="font-weight:700"><a href="https://support.starlux-airlines.com/s/formEnquiry?language=zh_TW" class="contactUs-link">諮詢與申請</a></p>
+                <br></br>
+                <p style="font-weight:700"><a href="https://www.starlux-airlines.com/Book/Manage/AirportAndTransportation" target="_blank" class="contactUs-link">機場與交通資訊</a></p>
+            </div>
+        </lightning:layoutItem>
+        
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <h2 class="contactUs-title1">泰國</h2>
+                <br></br>
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <h2>&nbsp;&nbsp;&nbsp;</h2>
+                <br></br>
+                <h2 class="contactUs-title2">泰國分公司</h2>
+                <br></br>
+                <!--p style="font-weight:900">台北</p-->
+                <p class="contactUs-title3">話務服務</p>
+                <p class="contactUs-content">- 付費專線 :  +66-2-005-0990</p>
+                <p class="contactUs-content">- 傳真電話 :  +66-2-003-7700</p>
+                <p class="contactUs-content">- 服務時間 :  週一至週五 08:30 - 17:30 (週六、日及國定假日不營業)</p>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem><lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <p class="contactUs-title3">服務據點</p>
+                <p class="contactUs-content">- 地址 :  Unit 702, 11/1 South Sathorn Road, Yannawa, Sathorn, Bangkok 10120</p>
+                <p class="contactUs-content">- 服務時間 :  週一至週五 08:30 - 17:30 (週六、日及國定假日不營業)</p>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <p style="font-weight:700"><a href="https://support.starlux-airlines.com/s/formEnquiry?language=zh_TW" class="contactUs-link">諮詢與申請</a></p>
+                <br></br>
+                <p style="font-weight:700"><a href="https://www.starlux-airlines.com/Book/Manage/AirportAndTransportation" target="_blank" class="contactUs-link">機場與交通資訊</a></p>
+            </div>
+        </lightning:layoutItem>
+        
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <h2 class="contactUs-title1">日本</h2>
+                <br></br>
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <h2>&nbsp;&nbsp;&nbsp;</h2>
+                <br></br>
+                <h2 class="contactUs-title2">日本分公司</h2>
+                <br></br>
+                <!--p style="font-weight:900">台北</p-->
+                <p class="contactUs-title3">話務服務</p>
+                <p class="contactUs-content">- 付費專線 :  +81-(0)3-6822-8700</p>
+                <p class="contactUs-content">- 服務時間 :  週一至週五 09:00 - 18:00 (週六、日不營業)</p>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem><lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <p class="contactUs-title3">線上即時對談</p>
+                <p class="contactUs-content">- 服務時間 :  週一至週五 09:00 - 17:30 (週六、日不營業)</p>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <p style="font-weight:700"><a href="https://support.starlux-airlines.com/s/formEnquiry?language=zh_TW" class="contactUs-link">諮詢與申請</a></p>
+                <br></br>
+                <p style="font-weight:700"><a href="https://www.starlux-airlines.com/Book/Manage/AirportAndTransportation" target="_blank" class="contactUs-link">機場與交通資訊</a></p>
+            </div>
+        </lightning:layoutItem>
+		
+		<lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <h2 class="contactUs-title1">菲律賓</h2>
+                <br></br>
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <h2>&nbsp;&nbsp;&nbsp;</h2>
+                <br></br>
+                <h2 class="contactUs-title2">菲律賓分公司</h2>
+                <br></br>
+                <!--p style="font-weight:900">台北</p-->
+                <p class="contactUs-title3">話務服務</p>
+                <p class="contactUs-content">- 付費專線:  +63-32494-7630</p>
+                <p class="contactUs-content">- 傳真電話:  +63-32494-7638</p>
+                <p class="contactUs-content">- 服務時間:  週一至週五 09:00-18:00 (週六、週日及國定日不營業)</p>
+            </div>
+        </lightning:layoutItem>        
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <p style="font-weight:700"><a href="https://support.starlux-airlines.com/s/formEnquiry?language=zh_TW" class="contactUs-link">諮詢與申請</a></p>
+                <br></br>
+                <p style="font-weight:700"><a href="https://www.starlux-airlines.com/Book/Manage/AirportAndTransportation" target="_blank" class="contactUs-link">機場與交通資訊</a></p>
+            </div>
+        </lightning:layoutItem>
+        
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <h2 class="contactUs-title1">新加坡</h2>
+                <br></br>
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <h2>&nbsp;&nbsp;&nbsp;</h2>
+                <br></br>
+                <h2 class="contactUs-title2">新加坡分公司</h2>
+                <br></br>
+                <!--p style="font-weight:900">台北</p-->
+                <p class="contactUs-title3">話務服務</p>
+                <p class="contactUs-content">- 付費專線 :  +65-96880013</p>
+                <p class="contactUs-content">- 服務時間 :  週一至週五 08:30-17:30 (週六、週日及國定假日不營業)</p>
+            </div>
+        </lightning:layoutItem>        
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <p style="font-weight:700"><a href="https://support.starlux-airlines.com/s/formEnquiry?language=zh_TW" class="contactUs-link">諮詢與申請</a></p>
+                <br></br>
+                <p style="font-weight:700"><a href="https://www.starlux-airlines.com/Book/Manage/AirportAndTransportation" target="_blank" class="contactUs-link">機場與交通資訊</a></p>
+            </div>
+        </lightning:layoutItem>
+        
+                
+    </lightning:layout>
+    </lightning:card>
+    </aura:renderif>        
+	
+    <aura:renderif isTrue="{!v.theLanguage=='ja'}">
+	<lightning:card title="各地の連絡先">
+    <lightning:layout multipleRows="true" verticalAlign="stretch">
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <h2 class="contactUs-title1">台湾</h2>
+                <br></br>
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <h2>&nbsp;&nbsp;&nbsp;</h2>
+                <br></br>
+                <h2 class="contactUs-title2">台北本社</h2>
+                <br></br>                
+                <!--p style="font-weight:900">台北</p-->
+                <p class="contactUs-title3">電話</p>
+                <p class="contactUs-content">- 有料ホットライン： +886-2-27911199</p>
+                <p class="contactUs-content"><tr><td>- 営業時間：&nbsp;</td><td><ul><li>月曜日から土曜日（祝日を含む）  09:30 - 17:30（日曜休み）</li></ul></td></tr></p>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <p class="contactUs-title3">ライブチャットサービス</p>
+                <p class="contactUs-content"><tr><td>- 営業時間：&nbsp;</td><td><ul><li>月曜日から土曜日（祝日を含む）  09:30 - 17:30（日曜休み）</li></ul></td></tr></p>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <p class="contactUs-title3">サービス拠点</p>
+                <p class="contactUs-content">- 住所： No. 168, Sec. 3, Nanjing E. Rd., Zhongshan Dist., Taipei City, Taiwan (R.O.C.)</p>
+                <p class="contactUs-content">- 営業時間： 月曜日から金曜日：  09:30 - 17:30 ( 土・日・祝休）</p>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <p style="font-weight:700"><a href="https://support.starlux-airlines.com/s/formEnquiry?language=ja" class="contactUs-link">お問い合わせ・申請</a></p>
+                <br></br>
+                <p style="font-weight:700"><a href="https://www.starlux-airlines.com/ja-JP/Book/Manage/AirportAndTransportation" target="_blank" class="contactUs-link">空港とアクセス情報</a></p>
+            </div>
+        </lightning:layoutItem>
+        
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <h2 class="contactUs-title1">マカオ</h2>
+                <br></br>
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <h2>&nbsp;&nbsp;&nbsp;</h2>
+                <br></br>
+                <h2 class="contactUs-title2">マカオ支社</h2>
+                <br></br>
+                <!--p style="font-weight:900">台北</p-->
+                <p class="contactUs-title3">電話</p>
+                <p class="contactUs-content">- 有料ホットライン： カスタマーズサービス電話： +853-2881-8889</p>
+                <p class="contactUs-content">- FAX： +853-2872-1888</p>
+                <p class="contactUs-content">- 営業時間： 月曜日から金曜日： 09:00 - 18:00 ( 土・日・祝休 )</p>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <p class="contactUs-title3">サービス拠点</p>
+                <p class="contactUs-content">- 住所： Flat A, 10F, No.105, Ave. Xian Xing Hai, Golden Dragon Centre, Macau</p>
+                <p class="contactUs-content">- 営業時間： 月曜日から金曜日： 09:00 - 18:00 ( 土・日・祝休 )</p>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <p style="font-weight:700"><a href="https://support.starlux-airlines.com/s/formEnquiry?language=ja" class="contactUs-link">お問い合わせ・申請</a></p>
+                <br></br>
+                <p style="font-weight:700"><a href="https://www.starlux-airlines.com/ja-JP/Book/Manage/AirportAndTransportation" target="_blank" class="contactUs-link">空港とアクセス情報</a></p>
+            </div>
+        </lightning:layoutItem>
+                
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <h2 class="contactUs-title1">マレーシア</h2>
+                <br></br>
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <h2>&nbsp;&nbsp;&nbsp;</h2>
+                <br></br>
+                <h2 class="contactUs-title2">マレーシア支社</h2>
+                <br></br>                
+                <!--p style="font-weight:900">台北</p-->
+                <p class="contactUs-title3">電話</p>
+                <p class="contactUs-content">- 有料ホットライン： +604-2919901</p>
+                <p class="contactUs-content">- FAX： +604-2919801</p>
+                <p class="contactUs-content">- 営業時間： 月曜日から金曜日： 09:00 - 18:00 ( 土・日・祝休 )</p>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <p class="contactUs-title3">サービス拠点</p>
+                <p class="contactUs-content">- 住所： Menara Boustead, Unit 6.02, 39, Jalan Sultan Ahmad Shah, 10050, Penang</p>
+                <p class="contactUs-content">- 営業時間： 月曜日から金曜日： 09:00 - 18:00 ( 土・日・祝休 )</p>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <p style="font-weight:700"><a href="https://support.starlux-airlines.com/s/formEnquiry?language=ja" class="contactUs-link">お問い合わせ・申請</a></p>
+                <br></br>
+                <p style="font-weight:700"><a href="https://www.starlux-airlines.com/ja-JP/Book/Manage/AirportAndTransportation" target="_blank" class="contactUs-link">空港とアクセス情報</a></p>
+            </div>
+        </lightning:layoutItem>
+        
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <h2 class="contactUs-title1">ベトナム</h2>
+                <br></br>
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <h2>&nbsp;&nbsp;&nbsp;</h2>
+                <br></br>
+                <h2 class="contactUs-title2">ベトナム支社</h2>
+                <br></br>
+                <!--p style="font-weight:900">台北</p-->
+                <p class="contactUs-title3">電話</p>
+                <p class="contactUs-content">- 有料ホットライン： +84-28-3535-0000 # 8001</p>
+                <p class="contactUs-content">- 営業時間： 月曜日から金曜日： 08:00 - 17:00 ( 土・日・祝休 )</p>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <p style="font-weight:700"><a href="https://support.starlux-airlines.com/s/formEnquiry?language=ja" class="contactUs-link">お問い合わせ・申請</a></p>
+                <br></br>
+                <p style="font-weight:700"><a href="https://www.starlux-airlines.com/ja-JP/Book/Manage/AirportAndTransportation" target="_blank" class="contactUs-link">空港とアクセス情報</a></p>
+            </div>
+        </lightning:layoutItem>
+        
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <h2 class="contactUs-title1">タイ</h2>
+                <br></br>
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <h2>&nbsp;&nbsp;&nbsp;</h2>
+                <br></br>
+                <h2 class="contactUs-title2">タイ支社</h2>
+                <br></br>
+                <!--p style="font-weight:900">台北</p-->
+                <p class="contactUs-title3">電話</p>
+                <p class="contactUs-content">- 有料ホットライン： +66-2-005-0990</p>
+                <p class="contactUs-content">- FAX： +66-2-003-7700</p>
+                <p class="contactUs-content">- 営業時間： 月曜日から金曜日： 08:30 - 17:30 ( 土・日・祝休 )</p>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem><lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <p class="contactUs-title3">サービス拠点</p>
+                <p class="contactUs-content">- 住所： Unit 702, 11/1 South Sathorn Road, Yannawa, Sathorn, Bangkok 10120</p>
+                <p class="contactUs-content">- 営業時間： 月曜日から金曜日： 08:30 - 17:30 ( 土・日・祝休 )</p>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <p style="font-weight:700"><a href="https://support.starlux-airlines.com/s/formEnquiry?language=ja" class="contactUs-link">お問い合わせ・申請</a></p>
+                <br></br>
+                <p style="font-weight:700"><a href="https://www.starlux-airlines.com/ja-JP/Book/Manage/AirportAndTransportation" target="_blank" class="contactUs-link">空港とアクセス情報</a></p>
+            </div>
+        </lightning:layoutItem>
+        
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <h2 class="contactUs-title1">日本</h2>
+                <br></br>
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <h2>&nbsp;&nbsp;&nbsp;</h2>
+                <br></br>
+                <h2 class="contactUs-title2">日本支社</h2>
+                <br></br>
+                <!--p style="font-weight:900">台北</p-->
+                <p class="contactUs-title3">電話</p>
+                <p class="contactUs-content">- 有料ホットライン： +81-(0)3-6822-8700</p>
+                <p class="contactUs-content">- 営業時間： 月曜日から金曜日： 09:00 - 18:00  ( 土・日休 )</p>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem><lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <p class="contactUs-title3">ライブチャットサービス</p>
+                <p class="contactUs-content">- 営業時間： 月曜日から金曜日： 09:00 - 17:30 ( 土・日休 )</p>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <p style="font-weight:700"><a href="https://support.starlux-airlines.com/s/formEnquiry?language=ja" class="contactUs-link">お問い合わせ・申請</a></p>
+                <br></br>
+                <p style="font-weight:700"><a href="https://www.starlux-airlines.com/ja-JP/Book/Manage/AirportAndTransportation" target="_blank" class="contactUs-link">空港とアクセス情報</a></p>
+            </div>
+        </lightning:layoutItem>
+		
+		<lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <h2 class="contactUs-title1">フィリピン</h2>
+                <br></br>
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <h2>&nbsp;&nbsp;&nbsp;</h2>
+                <br></br>
+                <h2 class="contactUs-title2">フィリピン支社</h2>
+                <br></br>
+                <!--p style="font-weight:900">台北</p-->
+                <p class="contactUs-title3">電話</p>
+                <p class="contactUs-content">- 有料ホットライン： +63-32494-7630</p>
+                <p class="contactUs-content">- FAX： +63-32494-7638</p>
+                <p class="contactUs-content">- 営業時間：  月曜日から金曜日： 09:00 - 18:00 ( 土・日・祝休 )</p>
+            </div>
+        </lightning:layoutItem>        
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <p style="font-weight:700"><a href="https://support.starlux-airlines.com/s/formEnquiry?language=ja" class="contactUs-link">お問い合わせ・申請</a></p>
+                <br></br>
+                <p style="font-weight:700"><a href="https://www.starlux-airlines.com/ja-JP/Book/Manage/AirportAndTransportation" target="_blank" class="contactUs-link">空港とアクセス情報</a></p>
+            </div>
+        </lightning:layoutItem>
+        
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <h2 class="contactUs-title1">シンガポール</h2>
+                <br></br>
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <h2>&nbsp;&nbsp;&nbsp;</h2>
+                <br></br>
+                <h2 class="contactUs-title2">シンガポール支社</h2>
+                <br></br>
+                <!--p style="font-weight:900">台北</p-->
+                <p class="contactUs-title3">電話</p>
+                <p class="contactUs-content">- 有料ホットライン： +65-96880013</p>
+                <p class="contactUs-content">- 営業時間：  月曜日から金曜日： 08:30 - 17:30 ( 土・日・祝休 )</p>
+            </div>
+        </lightning:layoutItem>        
+        <lightning:layoutItem padding="around-small" size="2">
+            <div class="page-section page-right">
+                <!--p align="center" class="paraStyle"><img src="{!$Resource.TestImage}"/>
+                </p-->
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="10">
+            <div class="page-section page-main">
+                <p style="font-weight:700"><a href="https://support.starlux-airlines.com/s/formEnquiry?language=ja" class="contactUs-link">お問い合わせ・申請</a></p>
+                <br></br>
+                <p style="font-weight:700"><a href="https://www.starlux-airlines.com/ja-JP/Book/Manage/AirportAndTransportation" target="_blank" class="contactUs-link">空港とアクセス情報</a></p>
+            </div>
+        </lightning:layoutItem>
+                
+    </lightning:layout>
+    </lightning:card>
+    </aura:renderif>
+    
+</aura:component>

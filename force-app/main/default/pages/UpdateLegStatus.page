@@ -1,0 +1,2 @@
+<apex:page standardController="Seat_Allocation_and_Ticketing__c" extensions="UpdateLegStatus" action="{!SATUpdateLegStatus}">
+</apex:page>

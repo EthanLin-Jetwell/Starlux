@@ -1,0 +1,76 @@
+th .wrap-content {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100px;
+}
+
+th .wrap-content-select {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 75px;
+}
+
+td > input.input-smaller {
+    width: 100px;
+}
+
+select.input-smaller {
+    width: 75px;
+}
+
+.spacing-margin {
+    margin: 10px -5px 5px 10px;
+}
+
+.dateFormat{
+   display:none;
+}
+
+.th-no-side-padding {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+
+.centered-text {
+    text-align: center;
+}
+
+.border-left {
+    border-left: #cfcfcf 1px solid;
+}
+.border-right {
+    border-right: #cfcfcf 1px solid;
+}
+
+table {
+    font-weight: bold;
+}
+
+table td {
+    color: #804827;
+}
+
+table th div {
+    color: #202a36;
+}
+
+input.slds-button.slds-button_neutral,
+label.slds-button.slds-button_neutral{
+    color: #804827;
+}
+
+input.slds-button {
+    font-weight: bold !important; 
+}
+
+.slds-col.slds-text-heading_medium > span {
+    color: #804827;
+    font-weight: bold;
+}
+
+.messageText {
+    padding-left: 10px;
+    color: #cc0000;
+}

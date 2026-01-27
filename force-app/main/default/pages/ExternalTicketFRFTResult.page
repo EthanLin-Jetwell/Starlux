@@ -1,0 +1,401 @@
+<apex:page controller="ExternalTicketFRFTResultController" action="{!ensureAuth}"
+           docType="html-5.0" applyHtmlTag="true" 
+           standardStylesheets="false" showHeader="false">
+  <head>
+    <title>F1 - Free &amp; Reduced Fare Tickets Search</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,shrink-to-fit=no"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <style>
+      	body{ background:#E9ECEF; }
+      	.shell{ width: 96%; margin: 20px auto; max-width: 1400px; }
+      	.header{ display:flex; justify-content:flex-end; align-items:center; gap:14px; margin-bottom:16px; }
+      	.btn{ background:#2F3B52; color:#fff; border-radius:999px; padding:.45rem .9rem; font-weight:700; letter-spacing:.3px; font-size:14px; box-shadow: 0 2px 6px rgba(0,0,0,.08); }
+		.badge-dept{ background:#FFF; color:#2F3B52;text-shadow: 0.2px 0 0 currentColor, -0.2px 0 0 currentColor;  border:none; border-radius:999px; padding:.45rem 1.1rem; font-weight:700; font-size:14px; box-shadow: 0 2px 6px rgba(0,0,0,.08); }      	.canvas{ background:#fff; border-radius:12px; padding:48px 40px; min-height: calc(100vh - 160px); box-shadow:0 2px 10px rgba(0,0,0,.06); }
+      	.grid-wrap{ padding: 20px 12px 40px; }
+      	@media (max-width: 991px){ .header{ justify-content:space-between; } .grid-wrap{ padding:10px; } }
+      	.notification-panel{ position: relative; display: flex; justify-content: center; align-items: center; font-weight: bold; font-size: 16px; border-radius: 6px; box-sizing: border-box; padding: 14px 48px 14px 24px; min-width: 450px; margin: 12px auto; }
+      	.success-notification{ background-color: #73AB5D; color: #fff; }
+      	.slds-notify__close{ position: absolute; right: 16px; top: 50%; transform: translateY(-50%); appearance: none; background: transparent; border: 0; color: inherit; font-weight: 800; font-size: 18px; line-height: 1; cursor: pointer; opacity: .9; }
+      	.slds-notify__close:hover { opacity: 1; }
+      	.notify-wrap { position: fixed; top: 26px; left: 50%; transform: translateX(-50%); z-index: 1080; padding: 0 16px; }
+        .btn:hover{ background:#5F6F8A; color: #fff;}
+        .btn-cancel{ background: #E2E2E2; color:#2F3B52; border-radius:999px; padding:.45rem .9rem; font-weight:700; letter-spacing:.3px; font-size:14px; box-shadow: 0 2px 6px rgba(0,0,0,.08); }
+        .btn-cancel:hover{ background:#DEE2E6; color: #fff;}
+        .btn:active {
+          background: #7F8FA9; /* 更淺灰藍 */
+          color: #fff;
+        }
+        .btn-cancel:active {
+          background: #7F8FA9; /* 更淺灰藍 */
+          color: #fff;
+        }
+        
+        
+        .table, .table th, .table td {
+            border: 2px solid #2F3B52 !important; /* 原本是 1px */
+        }
+        .table td {
+            font-weight: 700; /* 粗體 */
+        }
+        
+        /* 所有字體加粗 */
+        body, .form-label, .form-control, .radio-group label {
+            font-weight: bold;
+        }
+    	
+		/* 除了 BPM Application : PIC 與輸入框文字外，全部文字顏色改 #B1B5C3 */
+        .form-label {
+            color: #B1B5C3;
+        }
+    	 .radio-group label {
+        	color: #777E90;
+		}
+        /* 輸入框邊框顏色 */
+        .form-control {
+            border-color: #B1B5C3;
+            color: #777E90; /* 讓輸入框的文字顏色也改掉 */
+            background-color: #fff;
+        }
+        .radio-group {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+        }
+        .radio-group label {
+            text-align: left;
+        }
+    </style>
+  </head>
+
+  <body>
+    <!-- 置頂置中通知 -->
+    <div class="notify-wrap">
+      <div id="loginSuccessNotification" class="notification-panel success-notification" style="display:none;">
+        <span>Login Successfully</span>
+        <button type="button" class="slds-notify__close" onclick="this.parentElement.style.display='none';">×</button>
+      </div>
+    </div>
+
+    <div class="shell">
+      <!-- Header -->
+      <div class="header">
+        <span class="badge-dept">{!IF(NOT(ISBLANK(departmentCode)), departmentCode, '—')}</span>
+        <apex:form >
+          <apex:commandButton value="LOG OUT" action="{!logout}" styleClass="btn"/>
+        </apex:form>
+      </div>
+
+      <!-- 白色內容區 -->
+      <div class="canvas">
+        <div class="grid-wrap"> 
+            <div class="container" style="max-width: 960px; margin: 0 auto;">
+            <h5 class="mb-4" style="text-shadow: 0.2px 0 0 currentColor, -0.2px 0 0 currentColor;">BPM Application : {!ticket.SerialID__c}</h5>
+           
+                <!-- 第一行：三欄 -->
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label class="form-label">Applicant</label>
+                        <input type="text" class="form-control" value="{!ticket.Applicant__c}" readonly="true"/>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Applicant Dept</label>
+                        <input type="text" class="form-control" value="{!ticket.Applicant_Dept__c}" readonly="true"/>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Applicant Name</label>
+                        <input type="text" class="form-control" value="{!ticket.Applicant_Name__c}" readonly="true"/>
+                    </div>
+                </div>
+                
+                <!-- 後面全部兩欄 -->
+                <div class="row g-3 mt-2">
+                    <div class="col-md-6">
+                        <label class="form-label">Budget</label>
+                        <input type="text" class="form-control" value="{!ticket.Budget_Type__c}" readonly="true"/>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Company Name</label>
+                        <input type="text" class="form-control" value="{!ticket.Company__c}" readonly="true"/>
+                    </div>
+                
+                    <div class="col-md-6">
+                        <label class="form-label">Reason for Application</label>
+                        <input type="text" class="form-control" value="{!ticket.Reason_for_Application__c}" readonly="true"/>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Fare Basis</label>
+                        <input type="text" class="form-control" value="{!ticket.Fare_Basis__c}" readonly="true"/>
+                    </div>
+                
+                    <div class="col-md-6">
+                        <label class="form-label">Apply For</label>
+                        <input type="text" class="form-control" value="{!ticket.Apply_For__c}" readonly="true"/>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Discount</label>
+                        <input type="text" class="form-control" value="{!ticket.Discount__c}" readonly="true"/>
+                    </div>
+                
+                    <div class="col-12">
+                        <label class="form-label">Exemption</label>
+                        <apex:form >
+                            <div class="radio-group">
+                                <label><apex:inputCheckbox value="{!ticket.Exemption_YQ__c}" disabled="true"/> YQ</label>
+                                <label><apex:inputCheckbox value="{!ticket.Exemption_Tax__c}" disabled="true"/> TAX</label>
+                                <label><apex:inputCheckbox value="{!ticket.Exemption_YR__c}" disabled="true"/> YR</label>
+                                <label><apex:inputCheckbox value="{!ticket.Embargo__c}" disabled="true"/> EMBARGO</label>
+                            </div>
+                        </apex:form>
+
+                    </div>
+                
+                    <div class="col-md-6">
+                        <label class="form-label">Ticket Count</label>
+                        <input type="text" class="form-control" value="{!ticket.Ticket_Count__c}" readonly="true"/>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">PFA No.</label>
+                        <input type="text" class="form-control" value="{!ticket.PFA_No__c}" readonly="true"/>
+                    </div>
+                
+                    <div class="col-md-6">
+                        <label class="form-label">Prizes</label>
+                        <input type="text" class="form-control" value="{!ticket.Prizes_and_Awards_won_by_chance__c}" readonly="true"/>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Expiration Date</label>
+                        <input type="text" class="form-control" value="{!ticket.Expiration_Date__c}" readonly="true"/>
+                    </div>
+                
+                    <div class="col-md-6">
+                        <label class="form-label">Departure Code</label>
+                        <input type="text" class="form-control" value="{!ticket.DepatureID__c}" readonly="true"/>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Arrival Code</label>
+                        <input type="text" class="form-control" value="{!ticket.ArrivalID__c}" readonly="true"/>
+                    </div>
+                
+                    <div class="col-md-6">
+                        <label class="form-label">Departure</label>
+                        <input type="text" class="form-control" value="{!ticket.Depature__c}" readonly="true"/>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Arrival</label>
+                        <input type="text" class="form-control" value="{!ticket.Arrival__c}" readonly="true"/>
+                    </div>
+                
+                    <div class="col-md-6">
+                        <label class="form-label">Booking Class</label>
+                        <input type="text" class="form-control" value="{!ticket.Booking_Class__c}" readonly="true"/>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Language</label>
+                        <input type="text" class="form-control" value="{!ticket.Language__c}" readonly="true"/>
+                    </div>
+                </div>
+			
+                <div style="margin-top: 40px; margin-bottom: 20px; display:flex; gap:16px;">
+                    <a href="{!URLFOR($Page.ExternalTicketHome)}"
+                       class="btn-cancel" 
+                       style="text-decoration:none; padding:.6rem 1.4rem; font-size:16px;">
+                        BACK
+                    </a>
+                    <a href="{!URLFOR($Page.ExternalTicketFRFTSearch)}"
+                       class="btn" 
+                       style="text-decoration:none; padding:.6rem 1.4rem; font-size:16px;">
+                        Re-Search
+                    </a>
+                    
+                    <!-- 中文 PDF 清單 -->
+                    <script id="itemsCN" type="application/json">
+                      <apex:outputText value="{!itemsJsonCN}" escape="false"/>
+                    </script>
+                    
+                    <!-- 英文 PDF 清單 -->
+                    <script id="itemsEN" type="application/json">
+                      <apex:outputText value="{!itemsJsonEN}" escape="false"/>
+                    </script>
+                    
+                    <!--單人-->
+                    <apex:outputPanel layout="none" rendered="{!OR(ticket.Two_People__c = 'N', ISBLANK(ticket.Two_People__c))}">
+                    <a href="#"
+                       class="btn"
+                       style="text-decoration:none; padding:.6rem 1.4rem; font-size:16px;"
+                       onclick="event.preventDefault(); downloadAll('CN');">
+                      PRINT CH CERTIFICATE
+                    </a>
+
+                    <a href="#"
+                       class="btn"
+                       style="text-decoration:none; padding:.6rem 1.4rem; font-size:16px; margin-left:8px;"
+                       onclick="event.preventDefault(); downloadAll('EN');">
+                      PRINT EN CERTIFICATE
+                    </a>
+                    </apex:outputPanel>
+                    
+                    <!--雙人-->
+                    <apex:outputPanel layout="none" rendered="{!ticket.Two_People__c='Y'}">
+                    <a href="#"
+                       class="btn"
+                       style="text-decoration:none; padding:.6rem 1.4rem; font-size:16px;"
+                       onclick="event.preventDefault(); downloadAll('CN');">
+                      PRINT CH TWO CERTIFICATE
+                    </a>
+                    <a href="#"
+                       class="btn"
+                       style="text-decoration:none; padding:.6rem 1.4rem; font-size:16px; margin-left:8px;"
+                       onclick="event.preventDefault(); downloadAll('EN');">
+                      PRINT EN TWO CERTIFICATE
+                    </a>
+                    </apex:outputPanel>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div id="overlay" class="overlay hidden" aria-hidden="true">
+      <div class="overlay__box">
+        <div class="overlay__spinner" aria-label="下載中"></div>
+        <div id="overlayText" class="overlay__text">下載準備中…</div>
+      </div>
+    </div>
+    <style>
+      .overlay { position:fixed; inset:0; background:rgba(0,0,0,.35); display:flex;
+                 align-items:center; justify-content:center; z-index:9999; }
+      .overlay.hidden { display:none; }
+      .overlay__box { background:#fff; padding:20px 24px; border-radius:12px; min-width:240px;
+                      box-shadow:0 8px 30px rgba(0,0,0,.2); text-align:center; }
+      .overlay__spinner {
+        width:36px; height:36px; margin:0 auto 10px; border:4px solid #e5e7eb;
+        border-top-color:#2563eb; border-radius:50%; animation:spin .8s linear infinite;
+      }
+      .overlay__text { font-size:14px; color:#374151; }
+      @keyframes spin { to { transform: rotate(360deg); } }
+    </style> 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      function getUrlParameter(name){
+        name = name.replace(/[\[]/,'\\[').replace(/[\]]/,'\\]');
+        var regex = new RegExp('[\\?&]'+name+'=([^&#]*)');
+        var results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g,' '));
+      }
+
+      document.addEventListener('DOMContentLoaded', function(){
+        var toastParam = getUrlParameter('toast');
+        if (toastParam === 'login') {
+          var el = document.getElementById('loginSuccessNotification');
+          if (el) el.style.display = 'inline-flex';
+        }
+
+        // 讀 cookie 範例
+        var cookies = document.cookie.split(';').reduce((acc, cookie) => {
+          let [name, value] = cookie.split('=');
+          acc[name.trim()] = decodeURIComponent(value);
+          return acc;
+        }, {});
+        console.log('Cookies:', cookies);
+      });
+    </script>
+    <script>
+      function showOverlay(msg){
+          const o = document.getElementById('overlay');
+          const t = document.getElementById('overlayText');
+          if (t && msg) t.textContent = msg;
+          o?.classList.remove('hidden');
+      }
+      function hideOverlay(){ document.getElementById('overlay')?.classList.add('hidden'); }
+    </script> 
+    <script>
+      // 建議參數（很多檔時更穩）
+      const BATCH_SIZE = 8;        // 每批 8 張
+      const PER_FILE_DELAY = 1800; // 每張間隔 1800–2200ms 看網路情況調整
+    
+      function sleep(ms){ return new Promise(r=>setTimeout(r, ms)); }
+    
+      // 讀 JSON 工具
+      function readItems(which){
+        const id = which === 'EN' ? 'itemsEN' : 'itemsCN';
+        const raw = (document.getElementById(id)?.textContent || '[]').trim();
+        try { return JSON.parse(raw); } catch(e){ console.error('JSON parse error', e, raw); return []; }
+      }
+    
+      const state = { running: false };
+    
+    async function downloadAll(which){
+      if (state.running) return;
+      state.running = true;
+    
+      const items = readItems(which);
+      const progress = document.getElementById('progress') || { textContent: '' };
+    
+      if (!items.length){
+        progress.textContent = '沒有可下載的檔案';
+        state.running = false;
+        return;
+      }
+    
+      // ★ 顯示 overlay（開始）
+      showOverlay('下載準備中…');
+    
+      try {
+        // 第一次通常會跳「允許此網站下載多個檔案」
+        alert('若瀏覽器跳出提示，請允許「此網站下載多個檔案」。');
+    
+        let nextIndex = 0, ok = 0, fail = 0;
+    
+        while (nextIndex < items.length){
+          const start = nextIndex;
+          const end   = Math.min(start + BATCH_SIZE, items.length);
+          const batch = items.slice(start, end);
+    
+          for (let i = 0; i < batch.length; i++){
+            const idx = start + i;
+            const { url, name } = batch[i];
+    
+            // ★ 同步更新文字到 overlay
+            const msg = `下載中：${idx+1}/${items.length}（${name}）`;
+            progress.textContent = msg;
+            const ot = document.getElementById('overlayText');
+            if (ot) ot.textContent = msg;
+    
+            try {
+              // 一次性 iframe → 觸發下載
+              const ifr = document.createElement('iframe');
+              ifr.style.display = 'none';
+              const bust = (url.includes('?') ? '&' : '?') + 'dlts=' + Date.now() + '-' + idx;
+              ifr.src = url + bust;
+              document.body.appendChild(ifr);
+    
+              await sleep(PER_FILE_DELAY);
+    
+              ifr.src = 'about:blank';
+              ifr.remove();
+              ok++;
+            } catch (e){
+              console.error('下載失敗', name, e);
+              fail++;
+            }
+          }
+    
+          nextIndex = end;
+          // 可選：每批之間再小休息一下
+          // await sleep(600);
+        }
+    
+        const doneMsg = fail ? `完成：成功 ${ok}，失敗 ${fail}` : `完成：成功 ${ok}`;
+        progress.textContent = doneMsg;
+        const ot = document.getElementById('overlayText');
+        if (ot) ot.textContent = doneMsg;
+    
+      } finally {
+        // ★ 無論如何都關閉 overlay 與重置狀態
+        hideOverlay();
+        state.running = false;
+      }
+    }
+    </script>
+
+  </body>
+</apex:page>

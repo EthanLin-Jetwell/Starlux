@@ -1,0 +1,276 @@
+/********************************************************************************************************
+NAME:			CreateGroupBookingsJob
+AUTHOR:			Aik Meng (aikmeng@salesforce.com)
+PURPOSE:		This is a Schedulable Batch job that creates the following records based on source data
+				from the SeatAllocationByAgency object. 
+				(1) Parent: Case records (Group Booking recordType)
+                (2) Child: SeatAllocation records
+
+UPDATE HISTORY:
+DATE            AUTHOR			COMMENTS
+-------------------------------------------------------------
+05/08/2019      Aik Meng		First version
+2021/08/16      Chris Hsu       Separate SAT when Allocated Seats more than default seats
+                                Get Default SAT Maximum seats 
+2022/01/10      Chris Hsu       Set RBD in SAT
+********************************************************************************************************/
+
+global class CreateGroupBookingsJob extends BatchMaster 
+	implements Schedulable, Database.Batchable<Sobject>, Database.Stateful {
+
+    global String metadata_label_name = 'Create Group Bookings Job';  // Label used in custom metadata SystemSettings
+    global System_Settings__mdt logLevelCMD;
+    global List<Case> newCaseList = new List<Case>();
+    global List<Seat_Allocation_and_Ticketing__c> newSeatAllocationList = new List<Seat_Allocation_and_Ticketing__c>();
+    
+    // CLASS CONSTRUCTORS
+    global CreateGroupBookingsJob() {  // Blank parameter constructor required for Setup>ScheduleApex
+		System.debug('CONSTRUCTOR - CreateGroupBookingsJob()');
+    }
+    
+    global CreateGroupBookingsJob(System_Settings__mdt sysSettingMD) {
+		System.debug('CONSTRUCTOR - CreateGroupBookingsJob(sysSettingMD)');
+        this.logLevelCMD = sysSettingMD;
+        system.debug('DBG Masterlabel: '+sysSettingMD.MasterLabel);
+        init(sysSettingMD.MasterLabel,(Object)this,sysSettingMD); 
+    }
+    
+    // SCHEDULABLE:execute()
+    global void execute(SchedulableContext ctx) {
+        List<System_Settings__mdt> 
+        sysSettingMD = [SELECT Id, MasterLabel, Date_Field_API_Name__c, Additional_Filter__c, Batch_Size__c, Log_Purge_Days__c,
+                        Is_Permanent_Delete__c, SObject_Api_Name__c, Debug__c, Info__c, Warning__c, Error__c 
+                        FROM System_Settings__mdt 
+                        WHERE MasterLabel=:metadata_label_name LIMIT 1];
+
+        Integer batchSize = 10;  // DEFAULT batch size
+
+        System.debug('SCHEDULABLE.execute() - START');
+        
+        if (!sysSettingMD.isEmpty()) {
+	        // OVERRIDE the Batch Size from metadata if available
+            if (sysSettingMD[0].Batch_Size__c>0)	batchSize = Integer.valueof(sysSettingMD[0].Batch_Size__c);
+            // EXECUTE batch 
+            ID BatchId = Database.executeBatch(new CreateGroupBookingsJob(sysSettingMD[0]), batchSize);
+            System.debug('Batch Job ID = ' + BatchId);
+        } else {
+            System.debug('Missing custom metadata for Batch Job:' + metadata_label_name);
+        }
+        
+        System.debug('SCHEDULABLE.execute() - END');
+        
+    } // END - execute(SchedulableContext)
+    
+    
+    // BATCHABLE:start()
+    global Database.QueryLocator start(Database.BatchableContext BC) {
+        String query = 'SELECT Id, CreatedDate, Departing_Flight_Number__c, Returning_Flight_Number__c, Cross_Day_Flight_Departing__c, Cross_Day_Flight_Returning__c, Start_Date__c, ';
+              query += 'End_Date__c, Duration__c, Travel_Agency_ID__c, Travel_Agent_ID__c, Allocation_Type__c, Allocated_Seats__c, ';
+        	  query += 'Travel_Agent_ID__r.ownerId, Travel_Agent_ID__r.owner.managerId, RBD_Departing__c, RBD_Returning__c, ';//add RBD in the search by Chris Hsu 20220110
+              query += 'Route__c, Processed__c, WK_Mon__c, WK_Tue__c, WK_Wed__c, WK_Thu__c, WK_Fri__c, WK_Sat__c, WK_Sun__c ';
+              query += 'FROM Seat_Allocation_by_Agency__c ';
+              query += 'WHERE Processed__c=FALSE ORDER BY CreatedDate ASC';  // UNPROCESSED records in chronological order
+
+		//System.debug('BATCHABLE.start(): '+query);
+		return Database.getQueryLocator(query);
+    } // End - BATCHABLE start()
+
+    
+    // BATCHABLE:execute()
+    global void execute(Database.BatchableContext BC, List<Seat_Allocation_by_Agency__c> sourceRecords) {
+        System.debug('BATCHABLE.execute() - START');
+
+        totalRecords += sourceRecords.size();  // TOTAL records
+        
+        // RESET collections for each BATCH execution
+        newCaseList.clear();
+        newSeatAllocationList.clear();
+        
+system.debug('DBG: sourceRecords size='+ sourceRecords.size());
+system.debug('DBG: sourceRecords ='+ sourceRecords);
+
+        // Get Default SAT Maximum Seats by Chris - Start
+        Group_Default_SAT_Maximum_Seats__mdt mSeats = [SELECT
+                                            	 Id, Number_of_Maximum_Seats__c 
+                                               FROM 
+                                            	 Group_Default_SAT_Maximum_Seats__mdt											   
+                                               LIMIT 1];
+        Integer maximumSeats = 22;  // DEFAULT
+        Integer ns = Integer.valueOf(mSeats.Number_of_Maximum_Seats__c);
+        if (ns>0) maximumSeats = ns;  // OVERWRITE default
+        // Get Default SAT Maximum Seats by Chris - End
+
+        // FOR EACH source record
+        for (Seat_Allocation_by_Agency__c eachRecord: sourceRecords) {
+            // CREATE GroupBooking Case records
+            generateGroupBookingRecords(eachRecord,maximumSeats);
+        }        
+
+	 	// SEQUENCE: parent records followed by child records for single DML using foreign key        
+        List<sObject> recordsToInsert = new List<sObject>();
+        recordsToInsert.addAll(newCaseList); 			// ADD Parent Case records to collection
+        recordsToInsert.addAll(newSeatAllocationList); 	// ADD child SeatAllocation records to collection
+        
+        // DATABASE insert (Case & SeatAllocation records)
+        Database.SaveResult [] srList = Database.insert(recordsToInsert, false);
+        system.debug('DBG insertResult: '+srList);
+        handlerDMLResult(srList);
+
+system.debug('DBG: totalRecords ='+ totalRecords);
+        
+        // DATABASE update (SeatAllocationByAgency)
+        for (Seat_Allocation_By_Agency__c eachRecord: sourceRecords) {
+            eachRecord.Processed__c = TRUE;  // FLAG all source records as processed by Batch Job
+        }
+        update sourceRecords;
+/*        Database.SaveResult [] urList = Database.update(sourceRecords, false);
+        system.debug('DBG updateResult: '+urList);
+        handlerDMLResult(urList);  */
+                        
+        System.debug('BATCHABLE.execute() - END');        
+    } // End - BATCHABLE execute()
+    
+    
+    // BATCHABLE:finish()
+    global void finish(Database.BatchableContext BC) {
+        System.debug('BATCHABLE.finish() - START');
+
+        if(!Test.isRunningTest()){  // SKIP AppLogging IF it's test execution
+            flushProcessResultLog();
+            logfinish(BC,false);
+		}
+        System.debug('BATCHABLE.finish() - END');
+    } // End - BATCHABLE finish()
+
+
+    /* Helper Methods */
+
+	// GroupBooking Records Generator        
+    private void generateGroupBookingRecords(Seat_Allocation_By_Agency__c sourceRecord, Integer maximumSeats) {
+        List<sObject> recordList = new List<Case>();
+		Id groupBookingCaseRT = Schema.SObjectType.Case.getRecordTypeInfosByDeveloperName().get('Group_Booking').getRecordTypeId();
+		Id plannedAllocationRT = Schema.SObjectType.Seat_Allocation_and_Ticketing__c.getRecordTypeInfosByDeveloperName().get('Planned_Allocation').getRecordTypeId();
+		List<Date> dateList = generateDates(sourceRecord.Start_Date__c,
+                                            sourceRecord.End_Date__c,
+                                            sourceRecord.WK_Mon__c,
+                                            sourceRecord.WK_Tue__c,
+                                            sourceRecord.WK_Wed__c,
+                                            sourceRecord.WK_Thu__c,
+                                            sourceRecord.WK_Fri__c,
+                                            sourceRecord.WK_Sat__c,
+                                            sourceRecord.WK_Sun__c);
+        Integer ii=0;
+        Double maxAllocatedSeats = maximumSeats;
+        Double leftSeats=0;
+        Double currntAllocatedSeats=0;
+        // FOR EACH generated Date, CREATE one Case record & one SeatAllocation record
+        for (Date eachDate: dateList) {
+            ii+=1;
+            // CREATE parent Case reference
+            String newReferenceID = String.valueOf(sourceRecord.Id)+'-'+String.valueOf(ii);  // Unique ID = concatenate(sourceRecord.Id,'-',recordCount)
+            Case newCaseReference = new Case(External_ID__c = newReferenceID);            
+			
+            // CREATE child SeatAllocation record
+            leftSeats = sourceRecord.Allocated_Seats__c; 
+            do{
+                // Separate SAT when Allocated Seats more than default by Chris
+                if(leftSeats - maxAllocatedSeats > 0){
+                    currntAllocatedSeats = maxAllocatedSeats;           
+                }else{
+                    currntAllocatedSeats = leftSeats;                    
+                }
+                leftSeats -= currntAllocatedSeats; //count left seats
+
+                Seat_Allocation_and_Ticketing__c newSeatAllocationRecord = new Seat_Allocation_and_Ticketing__c(); 
+                newSeatAllocationRecord.RecordTypeId = plannedAllocationRT;  // "Planned Allocation" record type
+                newSeatAllocationRecord.Account_ID__c = sourceRecord.Travel_Agency_ID__c;
+                newSeatAllocationRecord.Allocation_Type__c = sourceRecord.Allocation_Type__c;
+                newSeatAllocationRecord.Allocated_Seats__c = currntAllocatedSeats;
+                newSeatAllocationRecord.Final_Allocated_Seats__c = currntAllocatedSeats;
+                //Set RBD in SAT by Chris Hsu 20220110 -start
+                newSeatAllocationRecord.RBD_Departing__c = sourceRecord.RBD_Departing__c;
+                newSeatAllocationRecord.RBD_Returning__c = sourceRecord.RBD_Returning__c;
+                //Set RBD in SAT by Chris Hsu 20220110 -end
+                
+                newSeatAllocationRecord.Case_ID__r = newCaseReference;
+                newSeatAllocationList.add(newSeatAllocationRecord);  // ADD new SeatAllocation record to collection
+            }while (leftSeats>0);            
+
+			// CREATE parent Case record
+            Case newCaseRecord = new Case();
+            newCaseRecord.recordTypeId = groupBookingCaseRT;  // SET Case recordType = GroupBooking
+            newCaseRecord.External_ID__c = newReferenceID;
+            // (1) Case.ownerId=TravelAgent.OwnerId, 
+            // (2) Case.OriginalOwner=TravelAgent.OwnerId, 
+            // (3) Case.Tier1Approver=TravelAgent.Owner.ManagerId
+            newCaseRecord.ownerId = sourceRecord.Travel_Agent_ID__r.ownerId;
+            newCaseRecord.AccountID = sourceRecord.Travel_Agency_ID__c;
+            newCaseRecord.ContactID = sourceRecord.Travel_Agent_ID__c;
+            newCaseRecord.Original_Case_Owner__c = sourceRecord.Travel_Agent_ID__r.ownerId;
+            newCaseRecord.Tier_1_Approver__c = sourceRecord.Travel_Agent_ID__r.owner.managerId;
+            newCaseRecord.Route__c = sourceRecord.Route__c;
+//Converted to formula field            newCaseRecord.Duration__c = sourceRecord.Duration__c;
+            newCaseRecord.Departing_Flight_Date__c = eachDate;
+            newCaseRecord.Departing_Flight_Number__c = sourceRecord.Departing_Flight_Number__c;
+            newCaseRecord.Returning_Flight_Date__c = eachDate.addDays((Integer)sourceRecord.Duration__c - 1);
+            newCaseRecord.Returning_Flight_Number__c = sourceRecord.Returning_Flight_Number__c;
+	    //4iDPS Logic
+            if(sourceRecord.Cross_Day_Flight_Departing__c) {
+                newCaseRecord.Departing_Flight_Arrival_Date__c = newCaseRecord.Departing_Flight_Date__c.addDays(1);
+            } else {
+                newCaseRecord.Departing_Flight_Arrival_Date__c = newCaseRecord.Departing_Flight_Date__c;
+            }
+            if(sourceRecord.Cross_Day_Flight_Returning__c) {
+                newCaseRecord.Returning_Flight_Arrival_Date__c = newCaseRecord.Returning_Flight_Date__c.addDays(1);
+            } else {
+                newCaseRecord.Returning_Flight_Arrival_Date__c = newCaseRecord.Returning_Flight_Date__c;
+            }
+            newCaseRecord.Integration_Link_Status__c = false;
+            newCaseRecord.Batch_Processing__c = true;
+            //4iDPS Logic
+            newCaseList.add(newCaseRecord);  // ADD new Case record to collection
+        }  // End - for(each generated Date)
+        
+    }  // End - generateGroupBookingRecords()
+
+
+    // Dates generator
+    public static List<Date> generateDates(Date dateStart, Date dateEnd, Boolean isMON, Boolean isTUE, Boolean isWED, Boolean isTHU, Boolean isFRI, Boolean isSAT, Boolean isSUN) {
+        List<Date> dateList = new List<Date>();
+        Date currentDate;
+        Integer ii = 0;
+        do {
+            currentDate = dateStart.addDays(ii);
+	        
+            // dayOfWeek values: MON=1,TUE=2,WED=3,THU=4,FRI=5,SAT=6,SUN=0;
+            Integer dayOfWeek = Math.mod(Date.newInstance(1900, 1, 7).daysBetween(currentDate),7);  
+            switch on dayOfWeek {
+                when 1 {
+                    if (isMON) dateList.add(currentDate);
+                }
+                when 2 {
+                    if (isTUE) dateList.add(currentDate);
+                }
+                when 3 {
+                    if (isWED) dateList.add(currentDate);
+                }
+                when 4 {
+                    if (isTHU) dateList.add(currentDate);
+                }
+                when 5 {
+                    if (isFRI) dateList.add(currentDate);
+                }
+                when 6 {
+                    if (isSAT) dateList.add(currentDate);
+                }
+                when 0 {
+                    if (isSUN) dateList.add(currentDate);
+                }
+            }
+            ii++;
+        } while (currentDate < dateEnd);
+        
+        return dateList;
+    }  // End - generateDates()
+
+}

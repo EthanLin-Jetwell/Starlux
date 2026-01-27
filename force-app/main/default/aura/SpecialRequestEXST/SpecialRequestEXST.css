@@ -1,0 +1,109 @@
+.THIS .customRequired{
+    font-weight: 400; 
+} 
+
+.THIS .textCustom{
+    overflow-wrap: break-word;
+    display: inline-block;
+    color: rgb(32, 42, 54);
+    font-size: 0.75rem;
+    padding-right: 0.5rem;
+    padding-top: 0.25rem;
+    margin-bottom: 0.125rem;
+}
+
+.THIS .textCustomPhone{
+    overflow-wrap: break-word;
+    display: inline-block;
+    color: rgb(32, 42, 54);
+    font-size: 0.875rem;
+    padding-right: 0.5rem;
+    padding-top: 0.25rem;
+    min-height: 2rem;
+}
+
+.THIS .textConsent{
+    overflow-wrap: break-word;
+    display: inline-block;
+    color: rgb(32, 42, 54);
+    padding-right: 0.5rem;
+    padding-top: 0.25rem;
+    margin-bottom: 0.125rem;
+    margin-left:0.5rem;
+    font-size: 0.8125rem;
+}
+
+.THIS .textConsentPhone{
+    overflow-wrap: break-word;
+    display: inline-block;
+    color: rgb(32, 42, 54);
+    font-size: 1rem;
+    min-height: 2rem;
+    font-weight:400;
+    margin-left:2rem;
+    line-height:150%;
+}
+
+.THIS .slds-textarea {
+    height: 200px;
+} 
+
+.THIS .textComments:before{    
+    content: "*";
+    margin: -4px 0.125rem 0 0.125rem;
+    color: rgb(194, 57, 52);
+    float: left; }
+
+.THIS .textComments{
+    overflow-wrap: break-word;
+    display: inline-block;
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 0.75rem;
+    padding-right: 0.5rem;
+    padding-top: 0.25rem;
+    margin-bottom: 0.125rem;
+}
+
+.THIS .customRequired:before{    
+    content: "*";
+    margin: 0 0.125rem 0 0.125rem;
+    color: rgb(194, 57, 52);
+    float: left; } 
+
+.THIS .customDateRequired{  
+    overflow-wrap: break-word;
+    display: inline-block;
+    color: rgb(32, 42, 54);
+    font-size: 0.75rem;
+    padding-right: 0.5rem;
+    padding-top: 0.25rem;
+    margin-bottom: 0.125rem;
+} 
+
+.THIS .customDateRequired:before{  
+    content: "*";
+    margin: -4px 0.125rem 0 0.125rem;
+    color: rgb(194, 57, 52);
+    float: left; 
+} 
+
+.THIS .customDateRequiredPhone{  
+    overflow-wrap: break-word;
+    display: inline-block;
+    color: rgb(32, 42, 54);
+    font-size: 0.875rem;
+    padding-right: 0.5rem;
+    padding-top: 0.25rem;
+    min-height: 2rem;
+} 
+
+.THIS .customDateRequiredPhone:before{  
+    content: "*";
+    margin: -4px  0.125rem 0 0.125rem;
+    color: rgb(194, 57, 52);
+    float: left; 
+}  
+
+.THIS .none{
+	display:none; 
+}

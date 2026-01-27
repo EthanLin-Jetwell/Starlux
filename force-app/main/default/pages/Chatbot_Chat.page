@@ -1,0 +1,13 @@
+<apex:page standardController="Case" extensions="Chatbot_Chat" action="{!AssignOwner}">
+    <style>
+        #theIframe {
+            width: 100%; /* 調整寬度以顯示右側內容 */
+            height: 100vh;
+            position: absolute;
+            right: 0;
+        }
+    </style>
+    <!--<apex:iframe src="https://starlux.ap-mic.com/live_service/chat?uuid=" scrolling="true" id="theIframe" /> -->
+    <!--<apex:iframe src="{! 'https://starlux.ap-mic.com/live_service/chat?uuid=' + chatbotUID }" scrolling="true" id="theIframe" />-->
+    <apex:iframe src="{!url + chatbotUID}" scrolling="true" id="theIframe" />
+</apex:page>

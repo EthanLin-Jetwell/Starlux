@@ -1,0 +1,466 @@
+<apex:page standardController="Lucky_Draw_Setting__c" extensions="LuckyDrawController" showHeader="false" standardStylesheets="false" lightningStylesheets="false">
+    <html lang="en" title="Lucky Draw">
+        
+        <head>
+            <meta charset="UTF-8"/>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+            <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+            <apex:stylesheet value="{!$Resource.LuckyDraw_css}"/>
+            <apex:stylesheet value="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css" />
+            <apex:stylesheet value="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/themes/base/jquery-ui.min.css" />
+            <apex:stylesheet value="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/themes/base/theme.min.css" />
+            
+            <apex:includeScript value="https://code.jquery.com/jquery-3.3.1.min.js" />
+            <apex:includeScript value="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js" />
+            <apex:includeScript value="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js" />
+            <apex:includeScript value="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js" />
+            <apex:includeScript value="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js" />
+            <apex:includeScript value="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" />
+            <title>Lucky Draw</title>
+        </head>
+        
+        <body>
+            <!----------------------活動名稱：星宇航空 旅客滿意度調查 START------------------>
+            <apex:form >
+                <!--<p style="color:red">{!errtxt}</p>-->
+                <main class="table">
+                    <section class="table__header">
+                        <h1>活動名稱：{!luckyDrawSetting.Drawing_Name__c}</h1>
+                        <td>         
+                            <input type="Button" id="BtnRevise" class="button" value="Draw"/>
+                            <apex:commandButton id="hBtnRevise" style="display:none;" styleClass="button" value="Draw" action="{!draw}"/>
+                        </td>
+                    </section>
+                    <section class="table__body">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>序號</th>
+                                    <th>獎項名稱</th>
+                                    <th>獎項數量</th>
+                                    <th>單位</th>
+                                    <th>問卷類型</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <apex:repeat var="prize" value="{!prizes}">
+                                    <tr>
+                                        <td><apex:outputText value="{!prize.Name}"/></td>
+                                        <td><apex:outputText value="{!prize.Prize_Name__c}"/></td>
+                                        <td><apex:outputText value="{!prize.Prize_Amount__c}"/></td>
+                                        <td><apex:outputText value="{!prize.Unit__c}"/></td>
+                                        <td><apex:outputText value="{!prize.Type__c}"/></td>
+                                    </tr>
+                                </apex:repeat>
+                            </tbody>
+                        </table>
+                    </section>
+                    <section class="table__header">
+                            <div>
+                                <span id="ajaxloading">
+                                    <span id="ajaxloading_start" style="display: none">
+                                        <div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; opacity: .9; z-index: 1000; background-color: #F4F4F4;">
+                                            &nbsp;
+                                        </div>
+                                        <div style="position: fixed; left: 0; top: 0; bottom: 0; right: 0; z-index: 1001; display: flex; justify-content: center; align-items: center;">
+                                            <img height="240" width="240" src="{!$Resource.SVG_Flight_Loader_Horizontal}" style="border-radius: 50%;"/>
+                                        </div>
+                                    </span>
+                                </span>
+                            </div>
+                        </section>
+                </main>
+                
+                <apex:pageBlock id="block2" rendered="{!show}">
+                    <main class="table">
+                        <section class="table__header">
+                            <h1>獲獎名單</h1>
+                            <div style="float: right;">
+                                <apex:commandButton styleClass="button" value="Cancel" action="{!cancel}"/>    
+                                <apex:commandButton styleClass="button" value="Save" action="{!save}"/>
+                            </div>
+                        </section>
+                        <section class="table__body">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>序號</th>
+                                        <th>問卷編號</th>
+                                        <th>電子信箱</th>
+                                        <th>獎項名稱</th>
+                                        <th>數量</th>
+                                        <th>單位</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <apex:repeat var="winner" value="{!winners}">
+                                        <tr>
+                                            <td><apex:outputText value="{!winner.No__c}"/></td>
+                                            <td><apex:outputText value="{!winner.Name}"/></td>
+                                            <td><apex:outputText value="{!winner.Email_Address__c}"/></td>
+                                            <td><apex:outputText value="{!winner.Prize_Name__c}"/></td>
+                                            <td><apex:outputText value="{!winner.Prize_Amount__c}"/></td>
+                                            <td><apex:outputText value="{!winner.Unit__c}"/></td>
+                                        </tr>
+                                    </apex:repeat>
+                                </tbody>
+                            </table>
+                        </section>
+                    </main>
+                </apex:pageBlock>
+            </apex:form>
+            <!----------------------活動名稱：星宇航空 旅客滿意度調查 END------------------>
+            
+            <!----------------------完成問卷名單 START--------------------------------->
+            <apex:form >
+                <main class="table">
+                    <section class="table__header">
+                        <h1>完成問卷名單</h1>
+                        <!--<h1>總筆數：<apex:outputText value="{!participants.size} （本頁面顯示上限1000）" /></h1> -->
+                        <h1>總筆數：<apex:outputText value="14,892 （本頁面顯示上限1000）" /></h1>    
+                                 <div style="float: right;">
+                                    
+                                    <script>
+                                    function openReport()
+                                    {
+                                        window.open("/00O5j000009vxPTEAY",true) // pass report id and account name
+                                    }
+                                    </script>
+                                    <apex:commandButton styleClass="button" value="Full List" onclick="openReport()" />
+                                </div>
+                    </section>
+                    <section class="table__body">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>序號</th>
+                                    <th>問卷編號</th>
+                                    <th>電子郵件</th>
+                                    <th>問卷類型</th>
+                                    <th>狀態</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <apex:variable var="index" value="{!1}" />
+                                <apex:repeat var="participant" value="{!participants}">
+                                    <tr>
+                                        <td>
+                                            <apex:outputText style="text-align: center;" value="{!IF(MOD(index, 1) = 0, TEXT(index), '')}" />
+                                            <apex:variable var="index" value="{!index + 1}" />
+                                        </td>
+                                        <td><apex:outputText value="{!participant.Name}"/></td>
+                                        <td><apex:outputText value="{!participant.Email_Address_For_Lucky_Draw__c}"/></td>
+                                        <td><apex:outputText value="{!participant.Survey_Type__c}"/></td>
+                                        <td><apex:outputText value="完成"/></td>
+                                    </tr>
+                                </apex:repeat>
+                            </tbody>
+                        </table>
+                        <br/><br/>
+                        
+                    </section>
+                    <br/>    
+                </main>
+            </apex:form>
+            
+            <!----------------------完成問卷名單 END------------------>
+            
+            
+        </body>
+        <script type="text/javascript">
+        function toggleLoading(show) {
+            if(show) {
+                $('[id$=ajaxloading_start]').show();
+            } else {
+                $('[id$=ajaxloading_start]').hide();
+            }
+        }
+        $('#BtnRevise').click(function() {
+            toggleLoading(true);
+            $('[id$=hBtnRevise]').click();
+        });
+        
+        
+        const search = document.querySelector('.input-group input'),
+            table_rows = document.querySelectorAll('tbody tr'),
+            table_headings = document.querySelectorAll('thead th');
+        
+        // 1. Searching for specific data of HTML table
+        search.addEventListener('input', searchTable);
+        
+        function searchTable() {
+            table_rows.forEach((row, i) => {
+                let table_data = row
+                .textContent
+                .toLowerCase(),
+                search_data = search
+                .value
+                .toLowerCase();
+                
+                row
+                .classList
+                .toggle('hide', table_data.indexOf(search_data) < 0);
+                row
+                .style
+                .setProperty('--delay', i / 25 + 's');
+            })
+            
+            document
+            .querySelectorAll('tbody tr:not(.hide)')
+            .forEach((visible_row, i) => {
+                visible_row.style.backgroundColor = (i % 2 == 0)
+                ? 'transparent'
+                : '#0000000b';
+            });
+        }
+        
+        // 2. Sorting | Ordering data of HTML table
+        
+        table_headings.forEach((head, i) => {
+            let sort_asc = true;
+            head.onclick = () => {
+            table_headings.forEach(head => head.classList.remove('active'));
+            head
+            .classList
+            .add('active');
+            
+            document
+            .querySelectorAll('td')
+            .forEach(td => td.classList.remove('active'));
+            table_rows.forEach(row => {
+            row
+            .querySelectorAll('td')[i]
+            .classList
+            .add('active');
+        })
+        
+        head
+        .classList
+        .toggle('asc', sort_asc);
+        sort_asc = head
+        .classList
+        .contains('asc')
+        ? false
+        : true;
+        
+        sortTable(i, sort_asc);
+        }
+        })
+        
+        function sortTable(column, sort_asc) {
+            [...table_rows]
+            .sort((a, b) => {
+                let first_row = a
+                .querySelectorAll('td')[column]
+                .textContent
+                .toLowerCase(),
+                second_row = b
+                .querySelectorAll('td')[column]
+                .textContent
+                .toLowerCase();
+                
+                return sort_asc
+                ? (
+                first_row < second_row
+                ? 1
+                : -1
+                )
+                : (
+                first_row < second_row
+                ? -1
+                : 1
+                );
+            })
+            .map(sorted_row => document.querySelector('tbody').appendChild(sorted_row));
+        }
+        
+        // 3. Converting HTML table to PDF
+        
+        const pdf_btn = document.querySelector('#toPDF');
+        const customers_table = document.querySelector('#customers_table');
+        
+        const toPDF = function (customers_table) {
+            const html_code = `
+            <link rel="stylesheet" href="style.css">
+                <main class="table" >${customers_table.innerHTML}</main>
+                `;
+            
+            const new_window = window.open();
+            new_window
+            .document
+            .write(html_code);
+            
+            setTimeout(() => {
+                new_window.print();
+                new_window.close();
+            }, 400);
+            }
+                
+                pdf_btn.onclick = () => {
+                toPDF(customers_table);
+            }
+                
+                // 4. Converting HTML table to JSON
+                
+                const json_btn = document.querySelector('#toJSON');
+                
+                const toJSON = function (table) {
+                let table_data = [],
+                t_head = [],
+                
+                t_headings = table.querySelectorAll('th'),
+                t_rows = table.querySelectorAll('tbody tr');
+                
+                for (let t_heading of t_headings) {
+                let actual_head = t_heading
+                .textContent
+                .trim()
+                .split(' ');
+                
+                t_head.push(
+                actual_head.splice(0, actual_head.length - 1).join(' ').toLowerCase()
+                );
+            }
+                
+                t_rows.forEach(row => {
+                const row_object = {},
+                t_cells = row.querySelectorAll('td');
+                
+                t_cells.forEach((t_cell, cell_index) => {
+                const img = t_cell.querySelector('img');
+                if (img) {
+                row_object['customer image'] = decodeURIComponent(img.src);
+            }
+                row_object[t_head[cell_index]] = t_cell
+                .textContent
+                .trim();
+            })
+                table_data.push(row_object);
+            })
+                
+                return JSON.stringify(table_data, null, 4);
+            }
+                
+                json_btn.onclick = () => {
+                const json = toJSON(customers_table);
+                downloadFile(json, 'json')
+            }
+                
+                // 5. Converting HTML table to CSV File
+                
+                const csv_btn = document.querySelector('#toCSV');
+                
+                const toCSV = function (table) {
+                // Code For SIMPLE TABLE const t_rows = table.querySelectorAll('tr'); return
+                // [...t_rows].map(row => {     const cells = row.querySelectorAll('th, td');
+                // return [...cells].map(cell => cell.textContent.trim()).join(',');
+                // }).join('\n');
+                
+                const t_heads = table.querySelectorAll('th'),
+                tbody_rows = table.querySelectorAll('tbody tr');
+                
+                const headings = [...t_heads]
+                .map(head => {
+                let actual_head = head
+                .textContent
+                .trim()
+                .split(' ');
+                return actual_head
+                .splice(0, actual_head.length - 1)
+                .join(' ')
+                .toLowerCase();
+            })
+                .join(',') + ',image name';
+                
+                const table_data = [...tbody_rows]
+                .map(row => {
+                const cells = row.querySelectorAll('td'),
+                img = decodeURIComponent(row.querySelector('img').src),
+                data_without_img = [...cells]
+                .map(
+                cell => cell.textContent.replace(/,/g, ".").trim()
+                )
+                .join(',');
+                
+                return data_without_img + ',' + img;
+            })
+                .join('\n');
+                
+                return headings + '\n' + table_data;
+            }
+                
+                csv_btn.onclick = () => {
+                const csv = toCSV(customers_table);
+                downloadFile(csv, 'csv', 'customer orders');
+            }
+                
+                // 6. Converting HTML table to EXCEL File
+                
+                const excel_btn = document.querySelector('#toEXCEL');
+                
+                const toExcel = function (table) {
+                // Code For SIMPLE TABLE const t_rows = table.querySelectorAll('tr'); return
+                // [...t_rows].map(row => {     const cells = row.querySelectorAll('th, td');
+                // return [...cells].map(cell => cell.textContent.trim()).join('\t');
+                // }).join('\n');
+                
+                const t_heads = table.querySelectorAll('th'),
+                tbody_rows = table.querySelectorAll('tbody tr');
+                
+                const headings = [...t_heads]
+                .map(head => {
+                let actual_head = head
+                .textContent
+                .trim()
+                .split(' ');
+                return actual_head
+                .splice(0, actual_head.length - 1)
+                .join(' ')
+                .toLowerCase();
+            })
+                .join('\t') + '\timage name';
+                
+                const table_data = [...tbody_rows]
+                .map(row => {
+                const cells = row.querySelectorAll('td'),
+                img = decodeURIComponent(row.querySelector('img').src),
+                data_without_img = [...cells]
+                .map(cell => cell.textContent.trim())
+                .join('\t');
+                
+                return data_without_img + '\t' + img;
+            })
+                .join('\n');
+                
+                return headings + '\n' + table_data;
+            }
+                
+                excel_btn.onclick = () => {
+                const excel = toExcel(customers_table);
+                downloadFile(excel, 'excel');
+            }
+                
+                const downloadFile = function (data, fileType, fileName = '') {
+                const a = document.createElement('a');
+                a.download = fileName;
+                const mime_types = {
+                'json': 'application/json',
+                'csv': 'text/csv',
+                'excel': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            }
+                       a.href = `
+                       data:${mime_types[fileType]};charset=utf-8,${encodeURIComponent(
+                       data
+                      )}
+        `;
+        document
+        .body
+        .appendChild(a);
+        a.click();
+        a.remove();
+        }
+        </script>
+        
+    </html>
+    
+</apex:page>

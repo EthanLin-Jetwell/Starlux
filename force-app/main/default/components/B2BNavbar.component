@@ -1,0 +1,359 @@
+<apex:component controller="NavbarController">
+    <style>
+        body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        }
+        .topbar {
+        background-image: linear-gradient(to right, #8E6448, #AD9483);
+        color: white;
+        height: 60px;
+        width: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-left:13px;
+        font-weight: bold;
+        }
+        .topbar-left {
+        width: 30%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        }
+        .hamburger-menu {
+        font-size: 24px;
+        cursor: pointer;
+        margin-right: 15px;
+        }
+        .topbar-right {
+        height:100%;
+        display: flex;
+        text-align: right;
+        align-items: center;
+        justify-content:flex-end; 
+        }
+        .logout-btn {
+        font-weight: bold;
+        background-color:#AD9483;
+        height: 100%;
+        color: white;
+        border: none;
+        padding:10px;
+        cursor: pointer;
+        }       
+        .pageBar {
+        background-color:white;
+        color: black;
+        border:2px solid #EAEAEA;
+        font-size:20px;
+        height: 50px;
+        width: 2000%;
+        position: fixed;
+        left: 250px;
+        z-index: 1000;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        align-content:center;
+        padding: 0 13px;
+        font-weight: bold;
+        }
+        
+        .sidebar {
+        z-index: 1000;
+        background-color:white ;
+        color: #666666;
+        width: 250px;
+        height: calc(100vh - 50px);
+        position: fixed;
+        left: 0;
+        top: 60px;
+        transition: transform 0.3s ease-in-out;
+        transform: translateX(0);
+        }
+        .sidebar.hidden {
+        transform: translateX(-250px);
+        }
+        .sidebar-nav {
+        height:100%;
+        overflow-y: auto;
+        list-style: none;
+        padding: 0;
+        }
+        .nav-item {
+        font-size: 14px;
+        font-weight: normal;
+        
+        }
+        .nav-link {
+        height:100%;
+        color: #666666;
+        text-decoration: none;
+        display: block;
+        padding: 16px 16px;
+        transition: background-color 0.3s;
+        }
+        .nav-link:hover {
+        text-decoration: none;
+        color: #666666;
+        background-color: #F4F4F4;
+        }
+        .nav-link.active {
+        color: #8E7248;
+        }
+        
+        .bi {
+        margin-right: 10px;
+        }
+        
+        @media screen and (max-width: 1025px) {
+        .sidebar {
+        transform: translateX(-250px);
+        }
+        }
+        
+        
+        
+        @media only screen and (max-width: 450px) {
+        .topbar-right{
+        font-size:13px;
+        }
+        .lefttopbarinfo{
+        font-size:10px;
+        }
+        .topbar-left {
+        width: 38%;
+        }
+        .logo{
+        width:15% !important;
+        }
+        .usericon{
+        width:200% !important;
+        }
+        .page-title{
+        font-size:14px;
+        height: 20px;
+        }
+        .nav-item{
+        font-size:14px;
+        }
+        
+        .topbar-title{
+        	font-size:13px;
+        }
+        
+        .topbar-user{
+        	font-size: 12px !important;
+        	margin-right: 0 !important;
+        }
+        .user-info{
+        	display:none;
+        }
+        
+        }
+    </style>
+    
+    <c:AutoLogout />
+    <div class="topbar">
+        <div class="topbar-left">
+            <div class="hamburger-menu" onclick="toggleSidebar()">☰</div>
+            <img src="{!URLFOR($Resource.Logo2)}" class="logo" alt="Logo" style="width:7%;height:auto"/>
+            <!--<apex:outputText value="旅遊同業資訊平台"/>-->
+            <p style="margin-bottom:0" class="topbar-title">旅遊同業團體作業B2B平台</p>
+            <hr/>
+        </div>
+        <div class="topbar-right">
+            <div style="font-size:14px;text-align:right;margin-right:15px;" class="topbar-user">
+                <apex:outputText value="{!userENGName}"/>&nbsp;<apex:outputText id="userName" value="{!userName}"/><br/>
+                <apex:outputText style="font-weight:normal" value="{!userCompany}"/>/<apex:outputText style="font-weight:normal" value="{!IF(userRole == '0', '管理者', '領隊/導遊')}"/>
+            </div>
+            <div class="user-info" style="margin-right:15px;width:5%">
+                <img src="{!URLFOR($Resource.memberIcon)}" alt="Logo" style="width:100%;height:auto;"/>   
+            </div>
+            <div style="height:100%;border-left:1px solid rgba(0, 0, 0, 0.1);display: flex;align-items: center;text-align: center;margin-right:0;padding:10px">
+                <apex:form >
+                    <span id="accountId" style="display:none;">{!accountId}</span>
+                    <apex:commandButton value="登出" action="{!logout}" styleClass="logout-btn"/>
+                </apex:form>
+            </div>
+
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // 獲取 accountId 值
+            var accountId = document.getElementById('accountId').textContent;
+            var userName = document.querySelector('[id$="userName"]').textContent;
+            //console.log(userName);
+            // 檢查 accountId 長度是否為 18
+            if (!userName || !accountId || accountId.length !== 18) {
+                console.warn("Invalid accountId. Triggering logout.");
+                // 自動點擊登出按鈕
+                document.querySelector('.logout-btn').click();
+            }
+        });
+    </script>
+
+    
+    <aside class="sidebar normal" id="sidebar">
+        <div class="pageBar">
+            <div class="page-title"></div>
+        </div>
+        <ul class="sidebar-nav" id="sidebar-nav">
+            <li class="nav-item">
+                <a href="/apex/Home" class="nav-link" data-page-title="首頁">
+                    <!--<svg style="margin-bottom:3px" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-door-fill" viewBox="0 0 16 16"> <path d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5"/> </svg>-->
+                    <span>首頁</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/apex/EditTraveler" class="nav-link" data-page-title="編輯旅客旅行文件資料">
+                    <!--<svg style="margin-bottom:3px" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                    </svg>-->
+                    <span>編輯旅客旅行文件資料</span>
+                </a>
+            </li>
+            <li class="nav-item"> 
+                <a href="/apex/SeatSelection" class="nav-link" data-page-title="團體選位/換位">
+                    <!--<svg style="margin-bottom:3px" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-airplane-fill" viewBox="0 0 16 16">
+                        <path d="M6.428 1.151C6.708.591 7.213 0 8 0s1.292.592 1.572 1.151C9.861 1.73 10 2.431 10 3v3.691l5.17 2.585a1.5 1.5 0 0 1 .83 1.342V12a.5.5 0 0 1-.582.493l-5.507-.918-.375 2.253 1.318 1.318A.5.5 0 0 1 10.5 16h-5a.5.5 0 0 1-.354-.854l1.319-1.318-.376-2.253-5.507.918A.5.5 0 0 1 0 12v-1.382a1.5 1.5 0 0 1 .83-1.342L6 6.691V3c0-.568.14-1.271.428-1.849"/>
+                    </svg>-->
+                    <span>團體選位/換位</span>
+                </a>
+            </li>
+            <li class="nav-item"> 
+                <a href="/apex/CheckIN" class="nav-link" data-page-title="團體報到">
+                    <!--<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard-check-fill" viewBox="0 0 16 16">
+                        <path d="M6.5 0A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0zm3 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5z"/>
+                        <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1A2.5 2.5 0 0 1 9.5 5h-3A2.5 2.5 0 0 1 4 2.5zm6.854 7.354-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708.708"/>
+                    </svg>-->
+                    <span>團體報到</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/apex/BoardingPassPrinting" class="nav-link" data-page-title="登機證列印/寄送">
+                    <!--<svg style="margin-bottom:3px" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-printer-fill" viewBox="0 0 16 16">
+                        <path d="M5 1a2 2 0 0 0-2 2v1h10V3a2 2 0 0 0-2-2zm6 8H5a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1"/>
+                        <path d="M0 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-1v-2a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2H2a2 2 0 0 1-2-2zm2.5 1a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1"/>
+                    </svg>-->
+                    <span>登機證列印/寄送</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/apex/CheckInReport" class="nav-link" data-page-title="團體報到結果綜整">
+                    <!--<svg style="margin-bottom:3px" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-text" viewBox="0 0 16 16">
+                        <path d="M5 10.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5m0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5"/>
+                        <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2"/>
+                        <path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
+                    </svg>-->
+                    <span>團體報到結果綜整</span>
+                </a>
+            </li>
+            <apex:outputText rendered="{!userRole == '0'}">
+                <li class="nav-item">
+                    <a href="/apex/AccountManagement" class="nav-link" data-page-title="更新領隊/導遊資訊">
+                        <!--<svg style="margin-bottom:3px" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-badge-fill" viewBox="0 0 16 16">
+                            <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2zm4.5 0a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1zM8 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6m5 2.755C12.146 12.825 10.623 12 8 12s-4.146.826-5 1.755V14a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1z"/>
+                            </svg>-->
+                        <span>更新領隊/導遊資訊</span>
+                    </a>
+                </li>
+            </apex:outputText>
+
+            <li class="nav-item">
+                <a href="/apex/AccountMaintain" class="nav-link" data-page-title="帳號維護">
+                    <!--<svg style="margin-bottom:3px" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill-gear" viewBox="0 0 16 16">
+                        <path d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0m-9 8c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4m9.886-3.54c.18-.613 1.048-.613 1.229 0l.043.148a.64.64 0 0 0 .921.382l.136-.074c.561-.306 1.175.308.87.869l-.075.136a.64.64 0 0 0 .382.92l.149.045c.612.18.612 1.048 0 1.229l-.15.043a.64.64 0 0 0-.38.921l.074.136c.305.561-.309 1.175-.87.87l-.136-.075a.64.64 0 0 0-.92.382l-.045.149c-.18.612-1.048.612-1.229 0l-.043-.15a.64.64 0 0 0-.921-.38l-.136.074c-.561.305-1.175-.309-.87-.87l.075-.136a.64.64 0 0 0-.382-.92l-.148-.045c-.613-.18-.613-1.048 0-1.229l.148-.043a.64.64 0 0 0 .382-.921l-.074-.136c-.306-.561.308-1.175.869-.87l.136.075a.64.64 0 0 0 .92-.382zM14 12.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0"/>
+                    </svg>-->
+                    <span>帳號維護</span>
+                </a>
+            </li>
+            <apex:outputText rendered="{!userRole == '0'}">
+            <li class="nav-item">
+                <a href="/apex/HistoryLog" class="nav-link" data-page-title="歷史紀錄">
+                    <span>歷史紀錄</span>
+                </a>
+            </li>
+            </apex:outputText>   
+            <li class="nav-item">
+                <a href="/apex/LoginHistory" class="nav-link" data-page-title="登入紀錄">
+                    <!--<svg style="margin-bottom:3px" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clock-history" viewBox="0 0 16 16">
+                        <path d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022zm2.004.45a7 7 0 0 0-.985-.299l.219-.976q.576.129 1.126.342zm1.37.71a7 7 0 0 0-.439-.27l.493-.87a8 8 0 0 1 .979.654l-.615.789a7 7 0 0 0-.418-.302zm1.834 1.79a7 7 0 0 0-.653-.796l.724-.69q.406.429.747.91zm.744 1.352a7 7 0 0 0-.214-.468l.893-.45a8 8 0 0 1 .45 1.088l-.95.313a7 7 0 0 0-.179-.483m.53 2.507a7 7 0 0 0-.1-1.025l.985-.17q.1.58.116 1.17zm-.131 1.538q.05-.254.081-.51l.993.123a8 8 0 0 1-.23 1.155l-.964-.267q.069-.247.12-.501m-.952 2.379q.276-.436.486-.908l.914.405q-.24.54-.555 1.038zm-.964 1.205q.183-.183.35-.378l.758.653a8 8 0 0 1-.401.432z"/>
+                        <path d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0z"/>
+                        <path d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5"/>
+                    </svg>-->
+                    <span>登入紀錄</span>
+                </a>
+            </li>
+        </ul>
+    </aside>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // 獲取當前頁面的URL
+        var currentPath = window.location.pathname;
+        
+        // 找到匹配的導航項
+        var navLinks = document.querySelectorAll('.nav-link');
+        var pageTitle = ''; // 默認標題
+        
+        navLinks.forEach(function(link) {
+            if (link.getAttribute('href') === currentPath) {
+                pageTitle = link.getAttribute('data-page-title');
+                link.classList.add('active'); // 可選：為當前頁面的導航項添加 active 類
+            }
+        });
+        
+        // 設置頁面標題
+        var pageTitleElement = document.querySelector('.page-title');
+        if (pageTitleElement) {
+            pageTitleElement.textContent = pageTitle;
+        }
+    });
+    
+    
+    
+    
+        function toggleSidebar() {
+            var sidebar = document.getElementById('sidebar');
+            // 如果目前隱藏，就顯示，否則隱藏
+            if (sidebar.classList.contains('hidden')) {
+                sidebar.classList.remove('hidden');
+                sidebar.classList.add('normal');
+                sidebar.style.transform = 'translateX(0)'; // 顯示
+            } else {
+                sidebar.classList.add('hidden');
+                sidebar.classList.remove('normal');
+                sidebar.style.transform = 'translateX(-250px)'; // 隱藏
+            }
+            adjustContentWrapper();
+        }
+    
+    function setActiveNavItem() {
+        var currentPath = window.location.pathname.toLowerCase();
+        var navItems = document.querySelectorAll('.nav-link');
+        
+        navItems.forEach(function(item) {
+            var itemHref = item.getAttribute('href').toLowerCase();
+            if (itemHref === currentPath) {
+                item.classList.add('active');
+            } else {
+                item.classList.remove('active');
+            }
+        });
+    }
+    
+    
+        window.addEventListener('load', setActiveNavItem);
+    
+    </script>
+</apex:component>

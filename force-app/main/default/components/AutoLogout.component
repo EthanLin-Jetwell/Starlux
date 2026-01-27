@@ -1,0 +1,38 @@
+<apex:component controller="AutoLogoutController">
+    <script>
+        (function() {
+            // 直接獲取毫秒值
+            var timeoutMs = {!timeoutMilliseconds};
+            // 計算分鐘數（用於顯示訊息）
+            var timeoutMinutes = Math.floor(timeoutMs / (1000 * 60));
+            
+            var lastActivity = new Date();
+            var timer = null;
+            
+            function resetTimer() {
+                lastActivity = new Date();
+            }
+            
+            function bindEvents() {
+                document.addEventListener('mousemove', resetTimer);
+                document.addEventListener('keypress', resetTimer);
+                document.addEventListener('click', resetTimer);
+                document.addEventListener('scroll', resetTimer);
+            }
+            
+            function checkTimeout() {
+                var currentTime = new Date();
+                var timeDiff = currentTime - lastActivity;
+                
+                if (timeDiff >= timeoutMs) {
+                    clearInterval(timer);
+                    //alert('由於閒置超過 ' + timeoutMinutes + ' 分鐘，系統將自動登出');
+                    window.location.href = '/apex/Login?islogout=true';
+                }
+            }
+            
+            bindEvents();
+            timer = setInterval(checkTimeout, 1000);
+        })();
+    </script>
+</apex:component>

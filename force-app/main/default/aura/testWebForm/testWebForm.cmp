@@ -1,0 +1,67 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes,force:hasRecordId,flexipage:availableForRecordHome" access="global" >
+
+	<lightning:card title="Sample Web Form 1" iconName="action:description">
+    	<Lightning:layout multipleRows="true">
+           <Lightning:layoutItem flexibility="auto" padding="around-small">
+
+				<Lightning:messages />
+
+    			<!-- SET the Case recordType for this FORM -->
+    			<Lightning:recordEditForm aura:id="testWebForm"
+                                         objectApiName="Case"
+                                         recordTypeId="012N0000000hs4kIAA"
+                                         density="comfy"
+                                         onsuccess="{!c.handleSuccess}"
+                                         onsubmit="{!c.handleSubmit}" 
+                                         onload="{!c.handleOnload}">
+
+<div class="slds-box slds-theme_default">
+        <label class="slds-m-top_medium">Passenger Information</label>
+                <div class="slds-form" role="list">
+                  <div class="slds-form__row">
+                     <div class="slds-form__item" role="listitem">
+                         <lightning:input aura:id="GivenName" label="Given Name" name="GivenName" />
+                     </div>
+                     <div class="slds-form__item" role="listitem">
+                         <lightning:input aura:id="FamilyName" label="Family Name" name="FamilyName" />
+                     </div></div>
+
+                  <div class="slds-form__row">
+                     <div class="slds-form__item" role="listitem">
+                         <Lightning:inputField aura:id="Subject" fieldName="Subject" class="customRequired"/>
+                     </div>
+                     <div class="slds-form__item" role="listitem">
+                         <Lightning:inputField aura:id="Status" fieldName="Status" />
+                     </div></div>
+</div></div>
+
+<div><BR> </BR></div>
+
+<div class="slds-box slds-theme_default">
+<div class="slds-form" role="list">
+                  <div class="slds-form__row">
+                     <div class="slds-form__item" role="listitem">
+                         <Lightning:inputField aura:id="SuppliedEmail" fieldName="SuppliedEmail" class="customRequired"/>
+                     </div>
+                     <div class="slds-form__item" role="listitem">
+                         <Lightning:inputField aura:id="SuppliedPhone" fieldName="SuppliedPhone" />
+                     </div></div>
+                    <Lightning:inputField aura:id="Case_Sub_type__c" fieldName="Case_Sub_type__c" class="slds-hide"/>
+                  <div class="slds-form__row">
+                     <div class="slds-form__item" role="listitem">
+                         <Lightning:inputField aura:id="Case_Sub_type_Details__c" fieldName="Case_Sub_type_Details__c" />
+                     </div>
+                     <div class="slds-form__item" role="listitem">
+                         <Lightning:inputField aura:id="Case_Sub_type_Reason__c" fieldName="Case_Sub_type_Reason__c" />
+                     </div></div>
+</div></div>
+<footer class="slds-card__footer">                    
+                        <Lightning:button variant="brand" class="btn" type="submit" label="Create new Case" />
+                        <Lightning:inputField aura:id="Origin" fieldName="Origin" class="slds-hide"/>
+                        <Lightning:inputField aura:id="SuppliedName" fieldName="SuppliedName" class="slds-hide"/>
+</footer>
+               </Lightning:recordEditForm>
+            </Lightning:layoutItem>
+       </Lightning:layout>
+    </lightning:card>
+</aura:component>

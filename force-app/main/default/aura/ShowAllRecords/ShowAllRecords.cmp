@@ -1,0 +1,159 @@
+<!-- This lightning component uses the same Apex Controller as the main lightning component-->
+<aura:component description="ShowAllRecords" controller="DynamicListCompController" access="global" implements="force:appHostable,flexipage:availableForAllPageTypes,lightning:isUrlAddressable">
+    <!-- This set of attributes are required for navigation from other lightning component -->
+    <lightning:navigation aura:id="navService"/>
+    <aura:attribute name="pageReference" type="Object"/>
+    <aura:attribute name="apiEndPoint" type="String"/>
+    <aura:attribute name="TestChildAPI" type="string"/>
+    <aura:attribute name="cmpTitle" type="string"/>
+    <aura:attribute name="cmpLtIcon" type="string"/>
+    <aura:attribute name="contentbody" type="string"/>
+    <aura:attribute name="contentsubbody" type="string"/>
+    <aura:attribute name="contentsecondsubbody" type="string" default="None"/>
+    <aura:attribute name="useCase" type="String"/>
+    <!-- This set of attributes are for processing the data -->
+    <aura:attribute name="recordId" type="Id"/>
+    <aura:attribute name="ResponseWrapper" type="Object" />
+    <aura:attribute name="TableHeader" type="List"/>
+    <aura:attribute name="TableRecords" type="List"/>
+    <aura:attribute name="DataTypes" type="List"/>
+    <aura:attribute name="LabelReference" type="string"/>
+    
+    <!-- This set of attributes are for UI Purposes -->
+    <aura:attribute name="Error" type="Boolean" default ="false"/>
+    <aura:attribute name="StateError" type="Boolean" default ="false"/>
+    <aura:attribute name="NoSpinner" type="Boolean" default ="false"/>
+    
+    <!-- This set of attributes are for the Event Listener -->
+    <aura:attribute name="SuppliedName" type="String"/>
+    <aura:attribute name="CaseId" type="String"/>
+    
+    <!-- This set of attributes are for Activity History only -->
+    <aura:attribute name="EndDate" type="Date" default = ""/>
+    <aura:attribute name="StartDate" type="Date" default = ""/>
+    <aura:attribute name="DateRangeError" type="Boolean" default ="false"/>
+    
+     <!-- Starts of the process -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <center><lightning:spinner variant="brand" size="small" aura:id="spinner"/></center>
+    
+    <aura:if isTrue="{!v.NoSpinner}">
+        <div class="slds-is-relative">
+            <lightning:card title="{!v.cmpTitle}" iconName="{!v.cmpLtIcon}">
+                <aura:set attribute="title">
+                    <a>{!v.cmpTitle}</a>
+                </aura:set>
+            </lightning:card>
+        </div>
+
+        <aura:set attribute="else">
+            <aura:if isTrue="{!v.Error}">        
+                <lightning:card title="{!v.cmpTitle}" iconName="{!v.cmpLtIcon}">
+                    <aura:set attribute="title">
+                        <a>{!v.cmpTitle}</a>
+                    </aura:set>
+                    <aura:set attribute="actions">
+                        <lightning:button class="slds-theme_neutral" iconPosition="right" variant="neutral" label="Refresh" iconName="action:refresh" onclick="{!c.RefreshComponent}"></lightning:button>
+                    </aura:set>
+                    <div class="slds-card__body_inner">
+                        <aura:if isTrue="{!v.apiEndPoint=='Retrieve_Activity_History'}">
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_small">
+                                    <span>
+                                        <lightning:input label="Start Date" type="date" variant="standard" value="{!v.StartDate}"/>
+                                    </span>
+                                </div>
+                                <div class="slds-col slds-size_small">
+                                    <span>
+                                        <lightning:input label="End Date" type="date" variant="standard" value="{!v.EndDate}"/>
+                                    </span>
+                                </div>
+                                <div class="slds-col slds-p-top_large">
+                                    <span>
+                                        <lightning:button class="slds-theme_neutral" iconPosition="left" variant="neutral" type="button" iconName="standard:search" onclick="{!c.Filter}"/>
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <aura:if isTrue="{!v.DateRangeError}">
+                                <div class="slds-card__body_inner slds-text-color_error">
+                                    {!$Label.c.Error_Range_of_Date}  
+                                </div>
+                            </aura:if>
+                            <br/>
+                        </aura:if>  
+                    </div>
+                    <aura:if isTrue="{!v.StateError}">
+                        <div class="slds-card__body_inner slds-text-color_error">
+                            {!$Label.c.Error}
+                        </div>
+                        <aura:set attribute="else">
+                            <div class="slds-card__body_inner slds-text-color_error">
+                                {!v.ResponseWrapper.ErrorMessage}
+                            </div>
+                        </aura:set>
+                    </aura:if>
+                </lightning:card>
+                
+                <aura:set attribute="else">
+                    <lightning:card  class="slds-container_center slds-card slds-card_boundary" title="{!v.cmpTitle}" iconName="{!v.cmpLtIcon}" variant="base">
+                        <aura:set attribute="actions">
+                            <lightning:button class="slds-theme_neutral" iconPosition="right" variant="neutral" label="Refresh" iconName="action:refresh" onclick="{!c.RefreshComponent}"></lightning:button>
+                        </aura:set>
+                        <div class="slds-card__body_inner">
+                            <aura:if isTrue="{!v.apiEndPoint=='Retrieve_Activity_History'}">
+                                <div class="slds-grid slds-gutters">
+                                    <div class="slds-col slds-size_small">
+                                        <span>
+                                            <lightning:input label="Start Date" type="date" variant="standard" value="{!v.StartDate}"/>
+                                        </span>
+                                    </div>
+                                    <div class="slds-col slds-size_small">
+                                        <span>
+                                            <lightning:input label="End Date" type="date" variant="standard" value="{!v.EndDate}"/>
+                                        </span>
+                                    </div>
+                                    <div class="slds-col slds-p-top_large">
+                                        <span>
+                                            <lightning:button class="slds-theme_neutral" iconPosition="left" variant="neutral" type="button" label="Filter" iconName="standard:search" onclick="{!c.Filter}"/>
+                                        </span>
+                                    </div>
+                                </div>
+                                <aura:if isTrue="{!v.DateRangeError}">
+                                    <div class="slds-card__body_inner slds-text-color_error">
+                                        {!$Label.c.Error_Range_of_Date}  
+                                    </div>
+                                </aura:if>
+                                <br/>
+                            </aura:if>            
+                            <table class="slds-table slds-table_bordered slds-table_striped slds-table_col-bordered slds-table--fixed-layout">
+                                <thead>
+                                    <tr class="slds-text-title_caps">
+                                        <aura:iteration items="{!v.TableHeader}" var="header">
+                                            <th>
+                                                <div class="slds-text-title slds-text-color_default slds-cell-wrap">{!header.LTC_Field_Label__c}</div>
+                                            </th>
+                                        </aura:iteration>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <aura:iteration items="{!v.TableRecords}" var="result">
+                                        
+                                        <tr class="slds-hint-parent">
+                                            <aura:iteration items="{!result.inside}" var="final">
+                                                <td class="slds-cell-buffer_right">
+                                                    <div class="slds-text-title slds-text-color_default slds-cell-wrap">{!final.value}</div>
+                                                </td>
+                                            </aura:iteration>    
+                                        </tr>
+                                    </aura:iteration>
+                                </tbody>
+                            </table>
+                        </div>
+                    </lightning:card>
+                </aura:set>
+            </aura:if>
+        </aura:set>
+    </aura:if>
+</aura:component>
