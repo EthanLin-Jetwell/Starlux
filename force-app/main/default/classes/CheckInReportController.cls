@@ -40,7 +40,7 @@ public without sharing class CheckInReportController {
     public String jsonInput { get; set; }
     
     public CheckInReportController() {
-        pageSize = 50; 
+        pageSize = 1000; 
         flightPrefix = 'JX';
         bookingCodes = '';
         currentPage = 1; 

@@ -353,7 +353,9 @@ public class AmadeusXmlParser {
 		//RQST(O) 
 		//MEAL(O)
         Dom.XmlNode dataElementsMaster = findChildByName(pnrReplyNode, 'dataElementsMaster');
+        Boolean foundGRPSWithValue = false;
         if (dataElementsMaster != null) {
+            
             for (Dom.XmlNode indiv : dataElementsMaster.getChildElements()) {
                 if (indiv.getName() != 'dataElementsIndiv') continue;
             
@@ -496,23 +498,43 @@ public class AmadeusXmlParser {
                 // 🔹 先處理 PNR 等級 GRPS（通常沒有 referenceForDataElement/PT/ST）
                 Dom.XmlNode grpsSsrTypeNode = findChildByPath(indiv, new String[]{
                     'serviceRequest', 'ssr', 'type'
-                });
-                if (grpsSsrTypeNode != null && 'GRPS'.equalsIgnoreCase(grpsSsrTypeNode.getText())) {
-                    Dom.XmlNode grpsFreeTextNode = findChildByPath(indiv, new String[]{
-                        'serviceRequest', 'ssr', 'freeText'
                     });
-                    if (grpsFreeTextNode != null && !String.isBlank(grpsFreeTextNode.getText())) {
-                        String iataGroupCode = grpsFreeTextNode.getText();
-                        for (TravellerInfo__c t : travellerList) {
-                            t.IATA_MSO_Code__c = iataGroupCode;
+                if (grpsSsrTypeNode != null && 'GRPS'.equalsIgnoreCase(grpsSsrTypeNode.getText())) {
+                
+                    // 多抓 companyId
+                    Dom.XmlNode companyIdNode = findChildByPath(indiv, new String[]{
+                        'serviceRequest', 'ssr', 'companyId'
+                    });
+                
+                    // 只處理 companyId = JX
+                    if (companyIdNode != null && 'JX'.equalsIgnoreCase(companyIdNode.getText())) {
+                
+                        Dom.XmlNode grpsFreeTextNode = findChildByPath(indiv, new String[]{
+                            'serviceRequest', 'ssr', 'freeText'
+                        });
+                
+                        if (grpsFreeTextNode != null && !String.isBlank(grpsFreeTextNode.getText())) {
+                            String iataGroupCode = grpsFreeTextNode.getText();
+                
+                            for (TravellerInfo__c t : travellerList) {
+                                t.IATA_MSO_Code__c = iataGroupCode;
+                            }
+                
+                            foundGRPSWithValue = true;
+                            System.debug('🏷️ GRPS (JX only) → Set IATA_MSO_Code__c = ' + iataGroupCode + ' to ALL travellers');
+                
+                        } else {
+                            System.debug('⚠️ GRPS SSR (JX) found but freeText is empty');
                         }
-                        System.debug('🏷️ GRPS (PNR-level) → Set IATA_MSO_Code__c = ' + iataGroupCode + ' to ALL travellers');
+                
                     } else {
-                        System.debug('⚠️ GRPS SSR found but freeText is empty');
+                        System.debug('ℹ️ GRPS SSR ignored due to companyId != JX');
                     }
+                
                     // 已經處理完這筆 dataElementsIndiv，不用再跑下面 PT/ST 邏輯
                     continue;
                 }
+
                 
                 Dom.XmlNode refContainer = findChildByName(indiv, 'referenceForDataElement');
                 if (refContainer == null) continue;
@@ -894,7 +916,12 @@ public class AmadeusXmlParser {
                 t.group_code__c = 'OK';
             }
         }
-        
+        //IATA Code為空
+        if (foundGRPSWithValue == false) {
+            for (TravellerInfo__c t : travellerList) {
+                t.IATA_MSO_Code__c = null;
+            }
+        }
         // APE/APM存入供CTCE/CTCM寫入
         if (!String.isBlank(apP02Value)) {
             for (TravellerInfo__c t : travellerList) {

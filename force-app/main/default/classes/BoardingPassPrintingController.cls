@@ -52,7 +52,7 @@ public without sharing class BoardingPassPrintingController {
     public String jsonInput { get; set; }
     
     public BoardingPassPrintingController() {
-        pageSize = 50; 
+        pageSize = 1000; 
         flightPrefix = 'JX';
         bookingCodes = '';
         currentPage = 1; 
@@ -244,15 +244,16 @@ new List<String>{ bookingCodes.trim() };
                 errorMessage = '⚠️ PNR_Retrieve 失敗：' + pnr + '，錯誤：' + ex.getMessage();
             }
         }
-        //433
-        OperationHistoryUtil.log('search', PAGENAME, flightPrefix+'-'+flightNumber, departureDate, departureLocation, bookingCodes, CommonController.getAccountIdFromCookie());
 
         List<TravellerInfo__c> CHECK_PPT = new List<TravellerInfo__c>();
+        
         for (TravellerInfo__c t : travelerList) {
+            System.debug('t.group_code__c'+t.group_code__c+';t.CAS__c='+t.CAS__c);
             if (t.group_code__c != 'OK'&& t.CAS__c == 'CAC') CHECK_PPT.add(t);
         }
 		if (!CHECK_PPT.isEmpty()) {
             AmadeusUtil.DCSCPR_EditCPR_Add_NextComment(CHECK_PPT);
+            System.debug('有加上CHECK_PPT');
         }
         if(travelerList.size() > 0){
             upsert travelerList External_ID__c;
@@ -262,6 +263,10 @@ new List<String>{ bookingCodes.trim() };
             errorMessage = '查無PNR : ' + String.join(unmatchedPnrKeys, ',');
             return null;
         }
+        
+        //403
+        OperationHistoryUtil.log('search', PAGENAME, flightPrefix+'-'+flightNumber, departureDate, departureLocation, bookingCodes, CommonController.getAccountIdFromCookie());
+
         
         oldMap = new Map<Id, TravellerInfo__c>([
             SELECT Id, PNR__c,
@@ -279,7 +284,8 @@ new List<String>{ bookingCodes.trim() };
             //WHERE  PNR__c                 IN :pnrKeys
             WHERE  PNR__c                 IN :matchedPnrKeys
             //AND    FlightNumber__c        =  :fn
-            AND External_ID__c != null
+            AND    PAX__c != null
+            AND    External_ID__c != null
             AND    DepartureLocation__c=  :departureLocation
             //AND    IATA_MSO_Code__c    =  :IATAcode
             //AND    DepartureLocationGMTLocal__c >= :startOfDay

@@ -19,6 +19,7 @@ public class AllClass_Test {
         IssueTicketScheduler.fakeMethod();
         CreatePnrBulkBatch.fakeMethod();
         CreatePnrBulkScheduler.fakeMethod();
+        CreateGroupBookingsJob.fakeMethod();
         GetMiddlewareAccessTokenScheduler.fakeMethod();
         ApexErrorUtil.fakeMethod();
         ApiLogger.fakeMethod();

@@ -9,6 +9,7 @@ public class CreatePnrBulkBatch implements Database.Batchable<SObject>, Database
         
         List<Seat_Allocation_and_Ticketing__c> satToProcess = new List<Seat_Allocation_and_Ticketing__c>();
         List<Id> caseIdList = new List<Id>();
+        
         for (Integer i = 0; i < scope.size(); i++) {
             if (i >= 100) {
                 break;
@@ -16,6 +17,7 @@ public class CreatePnrBulkBatch implements Database.Batchable<SObject>, Database
             Id caseId = (Id) scope.get(i).get('Id');
             caseIdList.add(caseId);
         }
+       
         
         satToProcess = DbUtil.queryAllFieldsWithWhereFieldInList('Seat_Allocation_and_Ticketing__c', 'Case_ID__c', caseIdList);
         

@@ -47,7 +47,7 @@ public without sharing class CheckINController {
     public String jsonInput { get; set; }
     
     public CheckINController() {
-        pageSize = 50; 
+        pageSize = 1000; 
         flightPrefix = 'JX';
         bookingCodes = '';
         currentPage = 1; 
@@ -267,7 +267,8 @@ new List<String>{ bookingCodes.trim() };
             //WHERE  PNR__c                 IN :pnrKeys
             WHERE  PNR__c                 IN :matchedPnrKeys
             //AND    FlightNumber__c        =  :fn
-            AND External_ID__c != null
+            AND    PAX__c != null
+            AND    External_ID__c != null
             AND    DepartureLocation__c=  :departureLocation
             //AND    IATA_MSO_Code__c    =  :IATAcode
             //AND    DepartureLocationGMTLocal__c >= :startOfDay
@@ -692,21 +693,23 @@ public PageReference checkInSelected() {
                 '報到完成，共 ' + newList.size() + ' 人'
             ));
             List<TravellerInfo__c> updateList = new List<TravellerInfo__c>();
-            /*for (TravellerInfo__c t : newList) {
+            for (TravellerInfo__c t : newList) {
                 //TravellerInfo__c updatedTraveler = travelerMap.get(t.External_ID__c);
                 TravellerInfo__c traveller = new TravellerInfo__c(Id=t.Id, firstName__c=t.firstName__c, LastName__c=t.LastName__c, C3Finished__c=true);
                 updateList.add(traveller);
             }
-            update updateList;*/
+            update updateList;
             
             // for c3 change
-            for (TravellerInfo__c temp : AmadeusUtil.retrievePNR(departureLocation, currentTabKey)) {
+            /*for (TravellerInfo__c temp : AmadeusUtil.retrievePNR(departureLocation, currentTabKey)) {
                 if (temp.Channel__c == 'WSJXGCK') {
-                    Boolean isFinished = false;
-                    if (temp.CAS__c == 'CAC') isFinished = true;
-                    updateList.add(new TravellerInfo__c(Id=temp.External_Id__c, firstName__c=temp.firstName__c, LastName__c=temp.LastName__c, C3Finished__c=isFinished));
+                    if (travelerMap.keySet().contains(temp.External_Id__c)) {
+                        updateList.add(new TravellerInfo__c(Id=temp.External_Id__c, firstName__c=temp.firstName__c, LastName__c=temp.LastName__c, C3Finished__c=true));
+                    }
                 } 
             }
+            
+            update updateList;*/
                 
             OperationHistoryUtil.log('update', PAGENAME, flightPrefix+'-'+flightNumber, departureDate, departureLocation, currentTabKey, CommonController.getAccountIdFromCookie(), oldMap, updateList);
         } catch (Exception ex) {

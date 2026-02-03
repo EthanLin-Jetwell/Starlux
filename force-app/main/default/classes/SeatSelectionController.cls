@@ -535,7 +535,8 @@ public without sharing class SeatSelectionController {
             //WHERE  PNR__c                 IN :pnrKeys
             WHERE  PNR__c                 IN :matchedPnrKeys
             //AND    FlightNumber__c        =  :fn
-            AND External_ID__c != null
+            AND    PAX__c != null 
+            AND    External_ID__c != null
             AND    DepartureLocation__c=  :departureLocation
 			//AND    IATA_MSO_Code__c    =  :IATAcode
             //AND    DepartureLocationGMTLocal__c >= :startOfDay
