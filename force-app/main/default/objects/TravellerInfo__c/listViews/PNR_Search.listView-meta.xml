@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PNR_Search</fullName>
+    <columns>NAME</columns>
+    <columns>FlightNumber__c</columns>
+    <columns>DepartureLocationGMTLocal__c</columns>
+    <columns>PNR__c</columns>
+    <columns>DepartureLocation__c</columns>
+    <columns>LastName__c</columns>
+    <columns>firstName__c</columns>
+    <columns>title__c</columns>
+    <columns>US_Bound__c</columns>
+    <columns>Seat__c</columns>
+    <columns>SeatStatus__c</columns>
+    <columns>BookingClass__c</columns>
+    <columns>CabinCode__c</columns>
+    <columns>LAST_UPDATE</columns>
+    <columns>FQTVNumber__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>PNR__c</field>
+        <operation>equals</operation>
+        <value>E3VAWK</value>
+    </filters>
+    <label>PNR查詢</label>
+</ListView>

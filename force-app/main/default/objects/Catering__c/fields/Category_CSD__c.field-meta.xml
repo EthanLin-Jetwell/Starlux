@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Category_CSD__c</fullName>
+    <label>Category(CSD)</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Type__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Main</fullName>
+                <default>false</default>
+                <label>Main</label>
+            </value>
+            <value>
+                <fullName>Starter</fullName>
+                <default>false</default>
+                <label>Starter</label>
+            </value>
+            <value>
+                <fullName>Soup</fullName>
+                <default>false</default>
+                <label>Soup</label>
+            </value>
+            <value>
+                <fullName>Salad</fullName>
+                <default>false</default>
+                <label>Salad</label>
+            </value>
+            <value>
+                <fullName>Cheese</fullName>
+                <default>false</default>
+                <label>Cheese</label>
+            </value>
+            <value>
+                <fullName>Fruits</fullName>
+                <default>false</default>
+                <label>Fruits</label>
+            </value>
+            <value>
+                <fullName>Dessert</fullName>
+                <default>false</default>
+                <label>Dessert</label>
+            </value>
+            <value>
+                <fullName>Dry Goods</fullName>
+                <default>false</default>
+                <label>Dry Goods</label>
+            </value>
+            <value>
+                <fullName>Frozen Food</fullName>
+                <default>false</default>
+                <label>Frozen Food</label>
+            </value>
+            <value>
+                <fullName>Instant Food</fullName>
+                <default>false</default>
+                <label>Instant Food</label>
+            </value>
+            <value>
+                <fullName>Seasoning &amp; Sauce</fullName>
+                <default>false</default>
+                <label>Seasoning &amp; Sauce</label>
+            </value>
+            <value>
+                <fullName>Wine</fullName>
+                <default>false</default>
+                <label>Wine</label>
+            </value>
+            <value>
+                <fullName>Spirits</fullName>
+                <default>false</default>
+                <label>Spirits</label>
+            </value>
+            <value>
+                <fullName>Water</fullName>
+                <default>false</default>
+                <label>Water</label>
+            </value>
+            <value>
+                <fullName>Juice</fullName>
+                <default>false</default>
+                <label>Juice</label>
+            </value>
+            <value>
+                <fullName>Tea</fullName>
+                <default>false</default>
+                <label>Tea</label>
+            </value>
+            <value>
+                <fullName>Coffee</fullName>
+                <default>false</default>
+                <label>Coffee</label>
+            </value>
+            <value>
+                <fullName>Soda</fullName>
+                <default>false</default>
+                <label>Soda</label>
+            </value>
+            <value>
+                <fullName>Cart</fullName>
+                <default>false</default>
+                <label>Cart</label>
+            </value>
+            <value>
+                <fullName>Standard Units &amp; Others</fullName>
+                <default>false</default>
+                <label>Standard Units &amp; Others</label>
+            </value>
+            <value>
+                <fullName>Tray</fullName>
+                <default>false</default>
+                <label>Tray</label>
+            </value>
+            <value>
+                <fullName>Crew Use</fullName>
+                <default>false</default>
+                <label>Crew Use</label>
+            </value>
+            <value>
+                <fullName>Meal Related Equipment</fullName>
+                <default>false</default>
+                <label>Meal Related Equipment</label>
+            </value>
+            <value>
+                <fullName>Rack and Drawer</fullName>
+                <default>false</default>
+                <label>Rack and Drawer</label>
+            </value>
+            <value>
+                <fullName>Bags</fullName>
+                <default>false</default>
+                <label>Bags</label>
+            </value>
+            <value>
+                <fullName>DFS Bags</fullName>
+                <default>false</default>
+                <label>DFS Bags</label>
+            </value>
+            <value>
+                <fullName>Other Linens</fullName>
+                <default>false</default>
+                <label>Other Linens</label>
+            </value>
+            <value>
+                <fullName>Blankets</fullName>
+                <default>false</default>
+                <label>Blankets</label>
+            </value>
+            <value>
+                <fullName>Pillows</fullName>
+                <default>false</default>
+                <label>Pillows</label>
+            </value>
+            <value>
+                <fullName>Mattress</fullName>
+                <default>false</default>
+                <label>Mattress</label>
+            </value>
+            <value>
+                <fullName>Meal Linens</fullName>
+                <default>false</default>
+                <label>Meal Linens</label>
+            </value>
+            <value>
+                <fullName>Amenity</fullName>
+                <default>false</default>
+                <label>Amenity</label>
+            </value>
+            <value>
+                <fullName>Personal Hygiene</fullName>
+                <default>false</default>
+                <label>Personal Hygiene</label>
+            </value>
+            <value>
+                <fullName>Lavatory Supplies</fullName>
+                <default>false</default>
+                <label>Lavatory Supplies</label>
+            </value>
+            <value>
+                <fullName>Headset</fullName>
+                <default>false</default>
+                <label>Headset</label>
+            </value>
+            <value>
+                <fullName>F+C Tableware</fullName>
+                <default>false</default>
+                <label>F+C Tableware</label>
+            </value>
+            <value>
+                <fullName>PEY+Y Tableware</fullName>
+                <default>false</default>
+                <label>PEY+Y Tableware</label>
+            </value>
+            <value>
+                <fullName>Glassware</fullName>
+                <default>false</default>
+                <label>Glassware</label>
+            </value>
+            <value>
+                <fullName>Galley Acc</fullName>
+                <default>false</default>
+                <label>Galley Acc</label>
+            </value>
+            <value>
+                <fullName>Printed Items</fullName>
+                <default>false</default>
+                <label>Printed Items</label>
+            </value>
+            <value>
+                <fullName>Toys</fullName>
+                <default>false</default>
+                <label>Toys</label>
+            </value>
+            <value>
+                <fullName>Stationaries</fullName>
+                <default>false</default>
+                <label>Stationaries</label>
+            </value>
+            <value>
+                <fullName>Locks</fullName>
+                <default>false</default>
+                <label>Locks</label>
+            </value>
+            <value>
+                <fullName>Safety Cards</fullName>
+                <default>false</default>
+                <label>Safety Cards</label>
+            </value>
+            <value>
+                <fullName>Others</fullName>
+                <default>false</default>
+                <label>Others</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Meal</controllingFieldValue>
+            <valueName>Main</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Meal</controllingFieldValue>
+            <valueName>Starter</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Meal</controllingFieldValue>
+            <valueName>Soup</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Meal</controllingFieldValue>
+            <valueName>Salad</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Meal</controllingFieldValue>
+            <valueName>Cheese</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Meal</controllingFieldValue>
+            <valueName>Fruits</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Meal</controllingFieldValue>
+            <valueName>Dessert</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Meal</controllingFieldValue>
+            <controllingFieldValue>Tableware</controllingFieldValue>
+            <controllingFieldValue>Catering Linens</controllingFieldValue>
+            <controllingFieldValue>Equipment</controllingFieldValue>
+            <valueName>Others</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Tableware</controllingFieldValue>
+            <valueName>F+C Tableware</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Tableware</controllingFieldValue>
+            <valueName>PEY+Y Tableware</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Tableware</controllingFieldValue>
+            <valueName>Glassware</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Catering Linens</controllingFieldValue>
+            <valueName>Other Linens</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Catering Linens</controllingFieldValue>
+            <valueName>Blankets</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Catering Linens</controllingFieldValue>
+            <valueName>Pillows</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Catering Linens</controllingFieldValue>
+            <valueName>Mattress</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Catering Linens</controllingFieldValue>
+            <valueName>Meal Linens</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Equipment</controllingFieldValue>
+            <valueName>Cart</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Equipment</controllingFieldValue>
+            <valueName>Standard Units &amp; Others</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Equipment</controllingFieldValue>
+            <valueName>Tray</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Equipment</controllingFieldValue>
+            <valueName>Crew Use</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Equipment</controllingFieldValue>
+            <valueName>Meal Related Equipment</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Equipment</controllingFieldValue>
+            <valueName>Rack and Drawer</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Equipment</controllingFieldValue>
+            <valueName>Bags</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Equipment</controllingFieldValue>
+            <valueName>DFS Bags</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Refund_Reason__c</fullName>
+    <label>Refund Reason</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>重複開票(Multiple Ticketing)</fullName>
+                <default>false</default>
+                <label>重複開票(Multiple Ticketing)</label>
+            </value>
+            <value>
+                <fullName>航班變動及取消(Flight Cancel/Change)</fullName>
+                <default>false</default>
+                <label>航班變動及取消(Flight Cancel/Change)</label>
+            </value>
+            <value>
+                <fullName>機位超賣(Overselling)</fullName>
+                <default>false</default>
+                <label>機位超賣(Overselling)</label>
+            </value>
+            <value>
+                <fullName>簽證問題(Visa Issue)</fullName>
+                <default>false</default>
+                <label>簽證問題(Visa Issue)</label>
+            </value>
+            <value>
+                <fullName>交通事故(Traffic Accident)</fullName>
+                <default>false</default>
+                <label>交通事故(Traffic Accident)</label>
+            </value>
+            <value>
+                <fullName>天災人禍(Uncontrollable Accident)</fullName>
+                <default>false</default>
+                <label>天災人禍(Uncontrollable Accident)</label>
+            </value>
+            <value>
+                <fullName>疾病不能成行(Disease)</fullName>
+                <default>false</default>
+                <label>疾病不能成行(Disease)</label>
+            </value>
+            <value>
+                <fullName>死亡(Death)</fullName>
+                <default>false</default>
+                <label>死亡(Death)</label>
+            </value>
+            <value>
+                <fullName>其它特殊狀況(Other Special Reason)</fullName>
+                <default>false</default>
+                <label>其它特殊狀況(Other Special Reason)</label>
+            </value>
+            <value>
+                <fullName>Dupe Booking</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Dupe Booking</label>
+            </value>
+            <value>
+                <fullName>Flight Cancellation/Delay</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Flight Cancellation/Delay</label>
+            </value>
+            <value>
+                <fullName>Involuntary(Death/Health Issues)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Involuntary(Death/Health Issues)</label>
+            </value>
+            <value>
+                <fullName>No Show</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>No Show</label>
+            </value>
+            <value>
+                <fullName>Others (Please fill in Other Reasons column)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Others (Please fill in Other Reasons column)</label>
+            </value>
+            <value>
+                <fullName>Voluntary</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Voluntary</label>
+            </value>
+            <value>
+                <fullName>一般退票(Normal Refund)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>一般退票(Normal Refund)</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

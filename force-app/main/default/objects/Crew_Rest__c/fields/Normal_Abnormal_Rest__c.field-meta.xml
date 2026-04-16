@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Normal_Abnormal_Rest__c</fullName>
+    <label>Normal/Abnormal Rest</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Normal</fullName>
+                <default>false</default>
+                <label>Normal</label>
+            </value>
+            <value>
+                <fullName>Location Abnormal</fullName>
+                <default>false</default>
+                <label>Location Abnormal</label>
+            </value>
+            <value>
+                <fullName>Rest Time Abnormal</fullName>
+                <default>false</default>
+                <label>Rest Time Abnormal</label>
+            </value>
+            <value>
+                <fullName>Both Abnormal</fullName>
+                <default>false</default>
+                <label>Both Abnormal</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

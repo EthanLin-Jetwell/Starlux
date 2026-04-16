@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Call_Center_Limitation_on_Status</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+OR(
+$Profile.Name = &quot;Call Center Agent&quot;,
+$Profile.Name = &quot;Call Center Data Administrator&quot;,
+$Profile.Name = &quot;Call Center Manager&quot;,
+$Profile.Name = &quot;Call Center Supervisor&quot;),
+
+NOT(ISPICKVAL(  Status__c  , &quot;Accepted and Refund in Progress&quot;) ),
+NOT(ISPICKVAL(  Status__c  , &quot;1A Refunded&quot;) ),
+NOT(ISPICKVAL(  Status__c  , &quot;Pending for Remittance&quot;) ),
+NOT(ISPICKVAL(  Status__c  , &quot;Request for Refund&quot;) ),
+NOT(ISPICKVAL(  Status__c  , &quot;Completed&quot;) )
+)</errorConditionFormula>
+    <errorDisplayField>Status__c</errorDisplayField>
+    <errorMessage>You can not select this Status.</errorMessage>
+</ValidationRule>

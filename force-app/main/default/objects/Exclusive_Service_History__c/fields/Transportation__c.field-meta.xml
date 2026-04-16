@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Transportation__c</fullName>
+    <label>Transportation</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Private_Terminal_Type__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Use_STARLUX_provided_chauffeur_service</fullName>
+                <default>false</default>
+                <label>Use STARLUX-provided chauffeur service</label>
+            </value>
+            <value>
+                <fullName>Pick_up_drop_off_by_friend_or_family_drivers_information_required</fullName>
+                <default>false</default>
+                <label>Pick-up/drop-off by friend or family (driver’s information required)</label>
+            </value>
+            <value>
+                <fullName>Pick_up_drop_off_by_friend_or_family_drivers_ID_required</fullName>
+                <default>false</default>
+                <label>Pick-up/drop-off by friend or family (driver’s ID required)</label>
+            </value>
+            <value>
+                <fullName>Chauffeur_service_self_arranged</fullName>
+                <default>false</default>
+                <label>Chauffeur service (self-arranged)</label>
+            </value>
+            <value>
+                <fullName>Use_Hertz_rental_car_self_arranged</fullName>
+                <default>false</default>
+                <label>Use Hertz rental car (self-arranged)</label>
+            </value>
+            <value>
+                <fullName>Use_Uber_self_arranged</fullName>
+                <default>false</default>
+                <label>Use Uber (self-arranged)</label>
+            </value>
+            <value>
+                <fullName>Use_Lyft_self_arranged</fullName>
+                <default>false</default>
+                <label>Use Lyft (self-arranged)</label>
+            </value>
+            <value>
+                <fullName>Use_taxi_self_arranged</fullName>
+                <default>false</default>
+                <label>Use taxi (self-arranged)</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>LAPS</controllingFieldValue>
+            <valueName>Pick_up_drop_off_by_friend_or_family_drivers_information_required</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>LAPS</controllingFieldValue>
+            <valueName>Chauffeur_service_self_arranged</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>LAPS</controllingFieldValue>
+            <valueName>Use_Hertz_rental_car_self_arranged</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>LAPS</controllingFieldValue>
+            <valueName>Use_Uber_self_arranged</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>LAPS</controllingFieldValue>
+            <valueName>Use_Lyft_self_arranged</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>LAPS</controllingFieldValue>
+            <valueName>Use_taxi_self_arranged</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>HYLG</controllingFieldValue>
+            <valueName>Use_STARLUX_provided_chauffeur_service</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>HYLG</controllingFieldValue>
+            <valueName>Pick_up_drop_off_by_friend_or_family_drivers_ID_required</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>HYLG</controllingFieldValue>
+            <valueName>Other</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

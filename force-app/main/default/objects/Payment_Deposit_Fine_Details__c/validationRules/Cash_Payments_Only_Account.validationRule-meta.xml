@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Cash_Payments_Only_Account</fullName>
+    <active>true</active>
+    <description>Cheque payment is not accepted for cash payments only account</description>
+    <errorConditionFormula>RecordType.DeveloperName = &quot;Payment&quot; &amp;&amp;
+Account_ID__r.Cash_Payment_Only__c = TRUE &amp;&amp; ISPICKVAL(Payment_Mode__c, &quot;Cheque&quot;)</errorConditionFormula>
+    <errorDisplayField>Payment_Mode__c</errorDisplayField>
+    <errorMessage>Cheque payment is not allowed for accounts choosing to transact only in cash</errorMessage>
+</ValidationRule>

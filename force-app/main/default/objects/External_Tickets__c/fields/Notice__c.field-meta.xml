@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Notice__c</fullName>
+    <defaultValue>&quot;本申請書自申請日起三個月內須完成機票開立作業，逾期失效且不得展延，亦不退回兌換額度。&quot;</defaultValue>
+    <description>Mandarin/Chinese</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Mandarin/Chinese</inlineHelpText>
+    <label>Notice</label>
+    <length>255</length>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

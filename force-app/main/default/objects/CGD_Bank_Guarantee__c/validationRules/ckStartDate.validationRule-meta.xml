@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ckStartDate</fullName>
+    <active>true</active>
+    <errorConditionFormula>Bank_Guarantee_Start_Date__c&gt;Bank_Guarantee_End_Date__c</errorConditionFormula>
+    <errorDisplayField>Bank_Guarantee_Start_Date__c</errorDisplayField>
+    <errorMessage>Start Date must be earlier than End Date.</errorMessage>
+</ValidationRule>

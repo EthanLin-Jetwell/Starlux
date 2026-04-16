@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Case_ID__c</fullName>
+    <description>Master-detail to case object to associate/roll up payment details to case object</description>
+    <label>Case ID</label>
+    <referenceTo>Case</referenceTo>
+    <relationshipLabel>Payment / Deposit / Fine Details</relationshipLabel>
+    <relationshipName>Payment_Deposit_Fine_Details</relationshipName>
+    <relationshipOrder>1</relationshipOrder>
+    <reparentableMasterDetail>true</reparentableMasterDetail>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

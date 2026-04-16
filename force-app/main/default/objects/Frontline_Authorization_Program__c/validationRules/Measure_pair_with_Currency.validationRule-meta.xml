@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Measure_pair_with_Currency</fullName>
+    <active>true</active>
+    <description>Measure pair with Currency</description>
+    <errorConditionFormula>(ISPICKVAL( Measure__c , &quot;Cash&quot;) || 
+ISPICKVAL( Measure__c , &quot;Waiver&quot;) || 
+ISPICKVAL( Measure__c , &quot;Promocode&quot;) || 
+ISPICKVAL( Measure__c , &quot;STARLUX Voucher&quot;)||
+ISPICKVAL( Measure__c , &quot;Laundry Voucher&quot;))&amp;&amp;
+ISPICKVAL( Currency__c , &quot;&quot; )</errorConditionFormula>
+    <errorDisplayField>Currency__c</errorDisplayField>
+    <errorMessage>Please input Currency.</errorMessage>
+</ValidationRule>

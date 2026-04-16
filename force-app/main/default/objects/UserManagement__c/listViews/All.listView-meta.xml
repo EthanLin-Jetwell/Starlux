@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All</fullName>
+    <columns>NAME</columns>
+    <columns>Company__c</columns>
+    <columns>IATA_MSO_Code__c</columns>
+    <columns>Account__c</columns>
+    <columns>Password__c</columns>
+    <columns>CN_Passport__c</columns>
+    <columns>EN_Passport__c</columns>
+    <columns>Role__c</columns>
+    <columns>Verify__c</columns>
+    <columns>ExpireDate__c</columns>
+    <columns>State__c</columns>
+    <columns>Createdby__c</columns>
+    <columns>LastModifiedBy__c</columns>
+    <columns>CREATEDBY_USER</columns>
+    <columns>LAST_UPDATE</columns>
+    <filterScope>Everything</filterScope>
+    <label>All</label>
+</ListView>

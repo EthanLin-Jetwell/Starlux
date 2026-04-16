@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>BoardingPass</fullName>
+    <active>true</active>
+    <description>紙本登機證注意事項，僅能留一行字</description>
+    <label>紙本登機證 - 注意事項</label>
+</RecordType>

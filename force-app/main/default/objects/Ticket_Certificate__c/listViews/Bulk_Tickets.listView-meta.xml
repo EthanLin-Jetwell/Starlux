@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Bulk_Tickets</fullName>
+    <columns>External_Tickets__c</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>NAME</columns>
+    <columns>Routing__c</columns>
+    <columns>Itinerary_Departure_CH__c</columns>
+    <columns>Itinerary_Return_CH__c</columns>
+    <columns>Status__c</columns>
+    <columns>Redeem_Valid_Start_Date__c</columns>
+    <columns>Redeem_Valid_End_Date__c</columns>
+    <columns>PIC__c</columns>
+    <columns>Extension__c</columns>
+    <columns>CREATEDBY_USER</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Ticket_Type__c</field>
+        <operation>equals</operation>
+        <value>Bulk Tickets</value>
+    </filters>
+    <label>Bulk Tickets</label>
+</ListView>

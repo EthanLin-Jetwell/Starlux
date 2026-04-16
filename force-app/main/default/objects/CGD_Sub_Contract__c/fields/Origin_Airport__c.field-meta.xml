@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Origin_Airport__c</fullName>
+    <description>起運地 機場</description>
+    <label>Origin Airport</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetName>CGD_Airport_Code</valueSetName>
+    </valueSet>
+    <visibleLines>10</visibleLines>
+</CustomField>

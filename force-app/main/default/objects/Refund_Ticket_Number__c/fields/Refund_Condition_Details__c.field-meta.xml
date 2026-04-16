@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Refund_Condition_Details__c</fullName>
+    <externalId>false</externalId>
+    <formula>Case( Refund_Condition__c,
+&quot;General Refund&quot;, &quot;Base Fare + Tax - BSC - Refund Fee&quot;,
+&quot;Waive Refund Fee&quot;, &quot;Base Fare + Tax - BSC&quot;,
+&quot;Waive No Show Fee&quot;, &quot;Base Fare + Tax - BSC - Refund Fee&quot;,
+&quot;Waive Refund Fee &amp; No Show Fee&quot;, &quot;Base Fare + Tax - BSC&quot;,
+&quot;Refund Tax Only&quot;, &quot;Tax - BSC&quot;,
+&quot;Full Refund&quot;, &quot;Base Fare + Tax&quot;,
+&quot;None&quot;)</formula>
+    <label>Refund Condition Details</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Need_Fill_PNR_for_Adjustment</fullName>
+    <active>true</active>
+    <description>For Adjustment, need fill PNR</description>
+    <errorConditionFormula>And(Text( Allocation_Type__c )=&quot;Adjustment&quot;,  isblank( Booking_Reference_PNR__c ) )</errorConditionFormula>
+    <errorDisplayField>Booking_Reference_PNR__c</errorDisplayField>
+    <errorMessage>For adjustment, please fill Booking Reference No.(PNR)</errorMessage>
+</ValidationRule>

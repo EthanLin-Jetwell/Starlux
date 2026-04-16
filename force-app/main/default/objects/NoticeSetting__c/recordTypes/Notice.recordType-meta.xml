@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Notice</fullName>
+    <active>true</active>
+    <description>C4列印時的告知事項</description>
+    <label>告知事項</label>
+</RecordType>

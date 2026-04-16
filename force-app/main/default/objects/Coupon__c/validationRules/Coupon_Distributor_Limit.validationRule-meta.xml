@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Coupon_Distributor_Limit</fullName>
+    <active>true</active>
+    <description>Only FNP User Can Distribute Coupon</description>
+    <errorConditionFormula>NOT ($UserRole.Id = &quot;00E6D000000Jto6&quot; || $UserRole.Id = &quot;00E2v000000LNAU&quot;)
+&amp;&amp; ISPICKVAL(Coupon_Status__c , &apos;Distributed&apos;)
+&amp;&amp; ISCHANGED(Coupon_Status__c)</errorConditionFormula>
+    <errorMessage>Only FNP User Can Distribute Coupon</errorMessage>
+</ValidationRule>

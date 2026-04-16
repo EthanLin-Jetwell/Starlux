@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Manual_input_fare_and_tax_and_BSC</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+NOT(ISPICKVAL( Refund_Condition__c , &quot;New&quot;)),
+NOT(ISPICKVAL( Refund_Condition__c , &quot;Denied&quot;)),
+OR( 
+ISBLANK( Base_Fare__c ),
+ISBLANK( Tax__c ) ,
+ISBLANK( BSC__c ))
+)</errorConditionFormula>
+    <errorMessage>Please input Base Fare, Tax and BSC.</errorMessage>
+</ValidationRule>

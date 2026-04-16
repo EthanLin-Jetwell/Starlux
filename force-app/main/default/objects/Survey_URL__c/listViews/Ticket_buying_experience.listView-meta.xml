@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Ticket_buying_experience</fullName>
+    <columns>NAME</columns>
+    <columns>Used__c</columns>
+    <columns>Unique_Expired_Date__c</columns>
+    <columns>Survey_Type__c</columns>
+    <columns>Link__c</columns>
+    <columns>LAST_UPDATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Survey_Type__c</field>
+        <operation>equals</operation>
+        <value>Ticket buying experience</value>
+    </filters>
+    <label>Ticket buying experience</label>
+</ListView>

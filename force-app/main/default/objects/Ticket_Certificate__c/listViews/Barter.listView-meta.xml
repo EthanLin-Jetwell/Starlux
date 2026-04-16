@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Barter</fullName>
+    <columns>Apply_Date__c</columns>
+    <columns>NAME</columns>
+    <columns>First_Flight_Date__c</columns>
+    <columns>Second_Flight_Date__c</columns>
+    <columns>Last_Name_EN__c</columns>
+    <columns>First_Name_EN__c</columns>
+    <columns>PIC__c</columns>
+    <columns>Extension__c</columns>
+    <columns>Status__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Ticket_Type__c</field>
+        <operation>equals</operation>
+        <value>Barter Tickets</value>
+    </filters>
+    <filters>
+        <field>Status__c</field>
+        <operation>notContain</operation>
+        <value>Completed</value>
+    </filters>
+    <label>Barter</label>
+</ListView>

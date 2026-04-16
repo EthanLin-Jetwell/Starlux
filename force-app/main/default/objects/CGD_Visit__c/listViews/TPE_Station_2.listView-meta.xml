@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>TPE_Station_2</fullName>
+    <columns>CGD_Account__c</columns>
+    <columns>CGD_Visit_Date_Time__c</columns>
+    <columns>CGD_JX_Attendees__c</columns>
+    <columns>CGD_Title_of_Contact__c</columns>
+    <columns>CGD_Visit_Purpose__c</columns>
+    <columns>CGD_Detail__c</columns>
+    <columns>OWNER.LAST_NAME</columns>
+    <columns>CGD_Follow_Up__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>CGD_Account__c</field>
+        <operation>contains</operation>
+        <value>TPE</value>
+    </filters>
+    <filters>
+        <field>CGD_Visit_Date_Time__c</field>
+        <operation>equals</operation>
+        <value>LAST_MONTH</value>
+    </filters>
+    <label>TPE Station</label>
+    <sharedTo>
+        <group>CGD_TPE_Station</group>
+        <portalRole>HQCustomerManager</portalRole>
+        <portalRole>HQCustomerUser</portalRole>
+        <role>CGD_HDQ</role>
+    </sharedTo>
+</ListView>

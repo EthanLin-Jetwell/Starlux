@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Departing_Date_EN__c</fullName>
+    <externalId>false</externalId>
+    <formula>CASE( TEXT( MONTH(Departing_Date__c) ),
+&apos;1&apos;,&apos;January&apos;,
+&apos;2&apos;,&apos;February&apos;,
+&apos;3&apos;,&apos;March&apos;,
+&apos;4&apos;,&apos;April&apos;,
+&apos;5&apos;,&apos;May&apos;,
+&apos;6&apos;,&apos;June&apos;,
+&apos;7&apos;,&apos;July&apos;,
+&apos;8&apos;,&apos;August&apos;,
+&apos;9&apos;,&apos;September&apos;,
+&apos;10&apos;,&apos;October&apos;,
+&apos;11&apos;,&apos;November&apos;,
+&apos;12&apos;,&apos;December&apos;,&apos;&apos;)
+
+&amp;&quot; &quot;&amp;
+
+CASE( TEXT( DAY(Departing_Date__c) ) ,
+&apos;1&apos;,&apos;1st&apos;,
+&apos;2&apos;,&apos;2nd&apos;,
+&apos;3&apos;,&apos;3rd&apos;,
+&apos;4&apos;,&apos;4th&apos;,
+&apos;5&apos;,&apos;5th&apos;,
+&apos;6&apos;,&apos;6th&apos;,
+&apos;7&apos;,&apos;7th&apos;,
+&apos;8&apos;,&apos;8th&apos;,
+&apos;9&apos;,&apos;9th&apos;,
+&apos;10&apos;,&apos;10th&apos;,
+&apos;11&apos;,&apos;11th&apos;,
+&apos;12&apos;,&apos;12th&apos;,
+&apos;13&apos;,&apos;13th&apos;,
+&apos;14&apos;,&apos;14th&apos;,
+&apos;15&apos;,&apos;15th&apos;,
+&apos;16&apos;,&apos;16th&apos;,
+&apos;17&apos;,&apos;17th&apos;,
+&apos;18&apos;,&apos;18th&apos;,
+&apos;19&apos;,&apos;19th&apos;,
+&apos;20&apos;,&apos;20th&apos;,
+&apos;21&apos;,&apos;21st&apos;,
+&apos;22&apos;,&apos;22nd&apos;,
+&apos;23&apos;,&apos;23rd&apos;,
+&apos;24&apos;,&apos;24th&apos;,
+&apos;25&apos;,&apos;25th&apos;,
+&apos;26&apos;,&apos;26th&apos;,
+&apos;27&apos;,&apos;27th&apos;,
+&apos;28&apos;,&apos;28th&apos;,
+&apos;29&apos;,&apos;29th&apos;,
+&apos;30&apos;,&apos;30th&apos;,
+&apos;31&apos;,&apos;31st&apos;,&apos;&apos;)
+
+&amp;&quot;, &quot;&amp;
+
+TEXT( YEAR(Departing_Date__c) )</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Departing Date (EN)</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

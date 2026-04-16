@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>This is used in lightning component to map the configuration and design attribute</description>
+    <label>Integration Field Display</label>
+    <pluralLabel>Integration Fields Display</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Group_Booking_Fill_on_SRS_or_ADC_Record</fullName>
+    <active>true</active>
+    <description>Please fill Ticketing Requesting Detail on SRS or ADC Record</description>
+    <errorConditionFormula>And( Or( No_of_Adult__c &gt;0,  No_of_Child__c &gt;0,  No_of_Infant__c &gt;0 ), Text(Allocation_Type__c) =&quot;Adjustment&quot;)</errorConditionFormula>
+    <errorMessage>Please fill Ticketing Requesting Detail on SRS or ADC Record</errorMessage>
+</ValidationRule>

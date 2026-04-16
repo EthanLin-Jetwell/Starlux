@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Check_Category_Remark_and_Status</fullName>
+    <active>true</active>
+    <description>Pls check Status = Close , SQRC Closure Category : D/E，Improvement/Remark is required</description>
+    <errorConditionFormula>ISPICKVAL(Status__c ,&quot;CLOSED&quot;) &amp;&amp;  (ISPICKVAL(SQD_Conclusion__c, &quot;D&quot;) || ISPICKVAL(SQD_Conclusion__c, &quot;E&quot;)) &amp;&amp;  ISBLANK(Corrective_Action__c)</errorConditionFormula>
+    <errorMessage>Pls check Status = Close , SQRC Closure Category : D/E，Improvement/Remark is required</errorMessage>
+</ValidationRule>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Reason_for_Crew_Shortages__c</fullName>
+    <label>Reason for Crew Shortages</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Passenger Numbers Increased</fullName>
+                <default>false</default>
+                <label>Passenger Numbers Increased</label>
+            </value>
+            <value>
+                <fullName>Crew Called Sick</fullName>
+                <default>false</default>
+                <label>Crew Called Sick</label>
+            </value>
+            <value>
+                <fullName>Aircraft Changed</fullName>
+                <default>false</default>
+                <label>Aircraft Changed</label>
+            </value>
+            <value>
+                <fullName>Lack of Crew for Dispatch</fullName>
+                <default>false</default>
+                <label>Lack of Crew for Dispatch</label>
+            </value>
+            <value>
+                <fullName>Others</fullName>
+                <default>false</default>
+                <label>Others</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

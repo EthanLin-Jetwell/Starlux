@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Special_Refund_Amount_Reason</fullName>
+    <active>true</active>
+    <errorConditionFormula>OR(
+AND(ISPICKVAL( Refund_Condition__c , &quot;Others&quot;), ISBLANK( Special_Refund_Amount_Reason__c ) ),
+AND(
+Total_Refund_Amount__c != Total_Refund_Amount_System__c,
+ISBLANK( Special_Refund_Amount_Reason__c ) 
+)
+)</errorConditionFormula>
+    <errorDisplayField>Special_Refund_Amount_Reason__c</errorDisplayField>
+    <errorMessage>Reason is needed.</errorMessage>
+</ValidationRule>

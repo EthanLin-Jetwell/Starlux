@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Deployed_in_TRN__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Deployed in TRN</description>
+    <inlineHelpText>Deployed in TRN</inlineHelpText>
+    <label>Deployed in TRN</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

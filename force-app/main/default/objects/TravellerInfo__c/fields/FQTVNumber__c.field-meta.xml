@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>FQTVNumber__c</fullName>
+    <description>String長度共 16 碼，值後面補滿空格，若無值需補 16碼 空格
+/BusinessData/Product/FQTVNumber</description>
+    <externalId>false</externalId>
+    <inlineHelpText>String長度共 16 碼，值後面補滿空格，若無值需補 16碼 空格
+/BusinessData/Product/FQTVNumber</inlineHelpText>
+    <label>FQTVNumber</label>
+    <length>16</length>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

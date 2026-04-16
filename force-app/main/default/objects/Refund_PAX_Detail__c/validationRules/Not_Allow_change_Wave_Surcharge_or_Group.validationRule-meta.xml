@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Not_Allow_change_Wave_Surcharge_or_Group</fullName>
+    <active>true</active>
+    <description>Travel Agent not allow to change waive surcharge or group bulk refund</description>
+    <errorConditionFormula>And(Not isnew(),
+    Contains( $Profile.Name ,&quot;B2B Travel Agent&quot;),
+
+Or(    Ischanged( Waive_Surcharge__c ),  
+       Ischanged ( Group_Bulk_Refund__c )
+
+)
+
+   )</errorConditionFormula>
+    <errorDisplayField>Waive_Surcharge__c</errorDisplayField>
+    <errorMessage>Not allow to change Waive Surcharge Status or check Group bulk refund after creation</errorMessage>
+</ValidationRule>

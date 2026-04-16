@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Cash_Payment_Disallow_Cheque_Details</fullName>
+    <active>true</active>
+    <description>For cash payment, do not allow entering of cheque details</description>
+    <errorConditionFormula>NOT(ISPICKVAL(Payment_Mode__c,&quot;Cheque&quot;)) &amp;&amp; 
+(NOT(ISBLANK( Cheque_No__c )) || NOT(ISBLANK( Cheque_Clearance_Date__c )))</errorConditionFormula>
+    <errorMessage>Please do not enter cheque details for transaction through cash/bank transfer</errorMessage>
+</ValidationRule>

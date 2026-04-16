@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Case_Created_by__c</fullName>
+    <externalId>false</externalId>
+    <formula>CASE(  Case_Number__r.Case_Record_Type__c  ,&quot;AOD - 01 Passenger Handling&quot;,&quot;AOD&quot;,&quot;AOD - 02 Baggage Handling&quot;,&quot;AOD&quot;,&quot;AOD - 03 Ground Operation (Non PAX Related)&quot;,&quot;AOD&quot;,&quot;AOD - 04 Administration (Headquarter Use Only)&quot;,&quot;AOD&quot;,&quot;Crew&quot;,&quot;CCD&quot;,&quot;Feedback&quot;,&quot;CED&quot;,&quot;Reservation and Ticketing&quot;,&quot;CED&quot;,&quot;Enquiry and Request&quot;,&quot;CED&quot;,&quot;N/A&quot;)</formula>
+    <label>Case Created by</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

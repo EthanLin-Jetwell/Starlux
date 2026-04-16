@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>When_JX_Remarks_is_Needed</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+ ISBLANK( Refund_Reason_Remarks__c ) ,
+ ISPICKVAL( Refund_Reason__c , &quot;其他&quot;) 
+)</errorConditionFormula>
+    <errorDisplayField>Refund_Reason_Remarks__c</errorDisplayField>
+    <errorMessage>Remarks is needed.</errorMessage>
+</ValidationRule>

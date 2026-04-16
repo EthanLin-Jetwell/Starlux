@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Deposit_Returned_Without_Details</fullName>
+    <active>true</active>
+    <description>Cannot set the status to deposit return without entering the deposit return details</description>
+    <errorConditionFormula>RecordType.DeveloperName = &quot;Deposit&quot; &amp;&amp;
+ISPICKVAL(Status__c, &quot;Deposit Returned&quot;) &amp;&amp;
+(ISBLANK( Deposit_Amount_Returned__c ) ||
+ISBLANK( Deposit_Returned_Date__c ))</errorConditionFormula>
+    <errorMessage>Please enter Deposit Amount Returned and Deposit Returned Date</errorMessage>
+</ValidationRule>

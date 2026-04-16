@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Coupon_Used_Date_and_Status</fullName>
+    <active>true</active>
+    <description>If Status is not Used, used date and used on should not be changed</description>
+    <errorConditionFormula>NOT(ISPICKVAL( Coupon_Status__c, &quot;Used&quot; )) &amp;&amp;
+(
+  ISCHANGED( Coupon_Used_Date__c ) ||
+  ISCHANGED( Coupon_Used_On__c )
+)</errorConditionFormula>
+    <errorMessage>Coupon Used Date and Coupon Used On can only be set when setting the Coupon Status to Used</errorMessage>
+</ValidationRule>

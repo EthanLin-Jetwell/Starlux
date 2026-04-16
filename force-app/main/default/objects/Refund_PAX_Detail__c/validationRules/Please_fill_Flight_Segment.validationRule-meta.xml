@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Please_fill_Flight_Segment</fullName>
+    <active>true</active>
+    <description>If One way checked, need fill flight segment</description>
+    <errorConditionFormula>And( One_Way__c , Isblank( Flight_Segment__c ))</errorConditionFormula>
+    <errorDisplayField>Flight_Segment__c</errorDisplayField>
+    <errorMessage>Please fill flight segment if checked One Way.</errorMessage>
+</ValidationRule>

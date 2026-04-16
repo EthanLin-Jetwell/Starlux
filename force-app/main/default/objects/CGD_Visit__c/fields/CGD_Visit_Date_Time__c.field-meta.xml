@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CGD_Visit_Date_Time__c</fullName>
+    <description>拜訪日期/時間</description>
+    <inlineHelpText>拜訪日期/時間</inlineHelpText>
+    <label>Visit Date &amp; Time</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>DateTime</type>
+</CustomField>

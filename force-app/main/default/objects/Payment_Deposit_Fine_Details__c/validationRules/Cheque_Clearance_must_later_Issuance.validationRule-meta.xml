@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Cheque_Clearance_must_later_Issuance</fullName>
+    <active>true</active>
+    <description>Cheque Clearance date must  be later than Issuance date</description>
+    <errorConditionFormula>NOT(ISBLANK(Cheque_Clearance_Date__c)) &amp;&amp; 
+NOT(ISBLANK(Cheque_Issuance_Date__c)) &amp;&amp; 
+Cheque_Issuance_Date__c &gt; Cheque_Clearance_Date__c</errorConditionFormula>
+    <errorMessage>Cheque Clearance date must  be later than Cheque Issuance date.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Status_del__c</fullName>
+    <label>Status_del</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>New</fullName>
+                <default>false</default>
+                <label>New</label>
+            </value>
+            <value>
+                <fullName>Ticket Sales in Progress</fullName>
+                <default>false</default>
+                <label>Ticket Sales in Progress</label>
+            </value>
+            <value>
+                <fullName>Request for Ticketing</fullName>
+                <default>false</default>
+                <label>Request for Ticketing</label>
+            </value>
+            <value>
+                <fullName>Ready for XO</fullName>
+                <default>false</default>
+                <label>Ready for XO</label>
+            </value>
+            <value>
+                <fullName>Waiting for Payment</fullName>
+                <default>false</default>
+                <label>Waiting for Payment</label>
+            </value>
+            <value>
+                <fullName>Processing Payment</fullName>
+                <default>false</default>
+                <label>Processing Payment</label>
+            </value>
+            <value>
+                <fullName>Payment Details Incorrect</fullName>
+                <default>false</default>
+                <label>Payment Details Incorrect</label>
+            </value>
+            <value>
+                <fullName>Ready for Ticketing</fullName>
+                <default>false</default>
+                <label>Ready for Ticketing</label>
+            </value>
+            <value>
+                <fullName>Closed</fullName>
+                <default>false</default>
+                <label>Closed</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

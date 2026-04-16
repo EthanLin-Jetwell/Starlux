@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All_View</fullName>
+    <columns>MasterLabel</columns>
+    <columns>DeveloperName</columns>
+    <columns>is_Key_Field__c</columns>
+    <columns>Possible_Values__c</columns>
+    <columns>Reference_Object__c</columns>
+    <columns>SObject_Api_Name__c</columns>
+    <columns>SObjectField_Api_Name__c</columns>
+    <columns>SObjectField_Data_Type__c</columns>
+    <filterScope>Everything</filterScope>
+    <label>All View</label>
+</ListView>

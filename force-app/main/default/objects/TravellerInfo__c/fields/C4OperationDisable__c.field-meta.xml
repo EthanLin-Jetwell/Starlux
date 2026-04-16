@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>C4OperationDisable__c</fullName>
+    <formula>IF(
+    NOT(
+        OR(
+            C4PaperBoardingPass__c,
+            C4EBoardingPass__c
+        )
+    ),
+    TRUE,
+    IF(
+        AND(
+            C4OperationStartDateTime__c &lt;= NOW(),
+            NOW() &lt;= C4OperationEndDateTime__c
+        ),
+        FALSE,
+        TRUE
+    )
+)</formula>
+    <label>C4作業不可使用</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

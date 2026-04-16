@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Order_History_Interline</fullName>
+    <active>true</active>
+    <label>Order History - Interline</label>
+    <picklistValues>
+        <picklist>Flag__c</picklist>
+        <values>
+            <fullName>D</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>I</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>U</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Status__c</picklist>
+        <values>
+            <fullName>200</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>202</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>401</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>402</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>403</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

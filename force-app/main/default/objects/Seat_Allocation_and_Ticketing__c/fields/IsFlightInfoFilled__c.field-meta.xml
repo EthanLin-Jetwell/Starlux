@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IsFlightInfoFilled__c</fullName>
+    <formula>If(Or(Isblank( Departing_Flight_Date__c ),Isblank( Departing_Flight_Number__c ),isblank( Returning_Flight_Date__c ),isblank( Returning_Flight_Number__c )), False, True)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>IsFlightInfoFilled?</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

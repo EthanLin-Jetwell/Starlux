@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Item_No</fullName>
+    <active>true</active>
+    <description>案件編號</description>
+    <label>Item No</label>
+</RecordType>

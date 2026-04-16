@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Is_All_Itinerary_Confirmed__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>If SAT PNR Status is KK/HK/RR then it would be a confirmed PNR.</description>
+    <label>Is All Itinerary Confirmed</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

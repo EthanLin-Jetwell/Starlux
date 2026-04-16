@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Evaluation_Item__c</fullName>
+    <description>評鑑項目</description>
+    <label>Evaluation Item</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Cargo GHSP provide Documentation Handling and Support Service</fullName>
+                <default>false</default>
+                <label>Cargo GHSP provide Documentation Handling and Support Service</label>
+            </value>
+            <value>
+                <fullName>Cargo Terminal provide Cargo Physical Handling</fullName>
+                <default>false</default>
+                <label>Cargo Terminal provide Cargo Physical Handling</label>
+            </value>
+            <value>
+                <fullName>Cargo GHSP evaluation by COP</fullName>
+                <default>false</default>
+                <label>Cargo GHSP evaluation by COP</label>
+            </value>
+            <value>
+                <fullName>Total average grade from Station</fullName>
+                <default>false</default>
+                <label>Total average grade from Station</label>
+            </value>
+            <value>
+                <fullName>Total average grade from COP</fullName>
+                <default>false</default>
+                <label>Total average grade from COP</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

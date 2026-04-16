@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All</fullName>
+    <columns>NAME</columns>
+    <columns>FlightNumber__c</columns>
+    <columns>Departure__c</columns>
+    <columns>DepartureDate__c</columns>
+    <columns>PNR__c</columns>
+    <columns>UserManagement__c</columns>
+    <columns>User_Management_Temp__c</columns>
+    <columns>CREATEDBY_USER</columns>
+    <columns>CREATED_DATE</columns>
+    <filterScope>Everything</filterScope>
+    <label>全部</label>
+</ListView>

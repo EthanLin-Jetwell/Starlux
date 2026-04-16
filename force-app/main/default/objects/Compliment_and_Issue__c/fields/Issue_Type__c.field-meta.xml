@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Issue_Type__c</fullName>
+    <label>Issue Type</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Customs Regulation</fullName>
+                <default>false</default>
+                <label>Customs Regulation</label>
+            </value>
+            <value>
+                <fullName>Passport</fullName>
+                <default>false</default>
+                <label>Passport</label>
+            </value>
+            <value>
+                <fullName>Visa</fullName>
+                <default>false</default>
+                <label>Visa</label>
+            </value>
+            <value>
+                <fullName>Company ID</fullName>
+                <default>false</default>
+                <label>Company ID</label>
+            </value>
+            <value>
+                <fullName>Shore Pass</fullName>
+                <default>false</default>
+                <label>Shore Pass</label>
+            </value>
+            <value>
+                <fullName>Taiwanese Entry Document</fullName>
+                <default>false</default>
+                <label>Taiwanese Entry Document</label>
+            </value>
+            <value>
+                <fullName>Break Company Rules</fullName>
+                <default>false</default>
+                <label>Break Company Rules</label>
+            </value>
+            <value>
+                <fullName>Others</fullName>
+                <default>false</default>
+                <label>Others</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

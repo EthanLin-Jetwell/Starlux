@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All</fullName>
+    <columns>External_Key__c</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>NAME</columns>
+    <columns>Account__c</columns>
+    <columns>First_JX_Flight_Date__c</columns>
+    <columns>Commodity__c</columns>
+    <columns>Arrival_Gateway_Airport__c</columns>
+    <columns>Chargeable_Weight_in_kg__c</columns>
+    <columns>All_In_Sales_Revenue_in_USD__c</columns>
+    <columns>Ori_All_in_Sales_Revenue_in_TWD__c</columns>
+    <columns>All_In_Sales_Revenue_in_TWD__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>External_Key__c</field>
+        <operation>equals</operation>
+        <value>086_2026-02-01_SGN_TPE_AKL</value>
+    </filters>
+    <label>All</label>
+</ListView>

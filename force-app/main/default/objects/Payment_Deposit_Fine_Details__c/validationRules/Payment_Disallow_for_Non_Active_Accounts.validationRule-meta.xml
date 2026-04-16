@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Payment_Disallow_for_Non_Active_Accounts</fullName>
+    <active>true</active>
+    <description>Payment is not allowed for non-active accounts</description>
+    <errorConditionFormula>RecordType.DeveloperName = &quot;Payment&quot; &amp;&amp; 
+ISPICKVAL(Payment_Mode__c, &quot;Cheque&quot;) &amp;&amp;
+NOT(ISPICKVAL( Account_ID__r.Status__c ,&quot;Active&quot;))</errorConditionFormula>
+    <errorMessage>Payments can only be made for accounts with active status.</errorMessage>
+</ValidationRule>

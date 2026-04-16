@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>KK_Status__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(
+    TEXT(Get_Updates_Status__c)=&quot;&quot;,
+    &quot;&quot;,
+IF(
+    OR(
+        AND(
+            NOT(ISBLANK(Departing_PNR_Status__c)),
+            Departing_PNR_Status__c = &quot;KK&quot; || Departing_PNR_Status__c = &quot;HK&quot; || Departing_PNR_Status__c = &quot;TK&quot; 
+        ),
+        AND(
+            NOT(ISBLANK(Returning_PNR_Status__c)),
+            Returning_PNR_Status__c = &quot;KK&quot; || Returning_PNR_Status__c = &quot;HK&quot; || Returning_PNR_Status__c = &quot;TK&quot;
+        )
+    ),
+    IMAGE(&quot;https://starlux--starluxtrn--c.sandbox.vf.force.com/resource/1684329087000/Succeeded?&quot;, &quot;Succeeded&quot; ,20, 20),
+    IF(
+        AND(
+            NOT(ISBLANK(Departing_PNR_Status__c)),
+            NOT(ISBLANK(Returning_PNR_Status__c))
+        ),
+        IMAGE(&quot;https://starlux--starluxtrn--c.sandbox.vf.force.com/resource/1684329136000/warn?&quot;, &quot;Failed&quot; ,20, 20),
+        IMAGE(&quot;https://starlux--starluxtrn--c.sandbox.vf.force.com/resource/1684329136000/warn?&quot;, &quot;Failed&quot; ,20, 20)
+
+        )
+    )
+)</formula>
+    <label>KK Status</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

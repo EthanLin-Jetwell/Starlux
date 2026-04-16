@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Code_must_be_6_characters</fullName>
+    <active>true</active>
+    <description>Code must be 6 characters</description>
+    <errorConditionFormula>!ISBLANK( Code__c  ) &amp;&amp; LEN(Code__c ) &lt;&gt; 6</errorConditionFormula>
+    <errorDisplayField>Code__c</errorDisplayField>
+    <errorMessage>Code must be 6 characters</errorMessage>
+</ValidationRule>

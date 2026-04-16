@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>vrTicket_Encoding_Rule_Start_Check_Code</fullName>
+    <active>true</active>
+    <description>Start Check Code must less than End Check Code</description>
+    <errorConditionFormula>Start_Check_Code__c &gt;End_Check_Code__c</errorConditionFormula>
+    <errorMessage>Start Check Code must less than End Check Code</errorMessage>
+</ValidationRule>

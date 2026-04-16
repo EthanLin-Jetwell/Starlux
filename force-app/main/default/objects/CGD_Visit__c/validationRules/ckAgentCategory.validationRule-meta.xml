@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ckAgentCategory</fullName>
+    <active>true</active>
+    <description>若 Agent Category 為 Account Visit，請填寫 Account 並清空 Account Code；
+若為 Prospecting Visit，請填寫 Account Code 並清空 Account。</description>
+    <errorConditionFormula>IF(
+  TEXT($UserRole.PortalType) = &quot;CustomerPortal&quot;,
+  OR(
+    AND(
+      TEXT(CGD_Agent_Category__c) = &quot;Account Visit&quot;,
+      OR(
+        ISBLANK(CGD_Account__c),
+        NOT(ISBLANK(CGD_Account_Code__c))
+      )
+    ),
+    AND(
+      TEXT(CGD_Agent_Category__c) = &quot;Prospecting Visit&quot;,
+      OR(
+        ISBLANK(CGD_Account_Code__c),
+        NOT(ISBLANK(CGD_Account__c))
+      )
+    )
+  ),
+  false
+)</errorConditionFormula>
+    <errorDisplayField>CGD_Agent_Category__c</errorDisplayField>
+    <errorMessage>If Agent Category is &quot;Account Visit&quot;, please enter Account and leave Account Code blank.
+If Agent Category is &quot;Prospecting Visit&quot;, please enter Account Code and leave Account blank.
+Both fields cannot be left blank.</errorMessage>
+</ValidationRule>

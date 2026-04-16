@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Seat_Allocation_and_Ticketing_ID__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <label>Seat Allocation and Ticketing ID</label>
+    <referenceTo>Seat_Allocation_and_Ticketing__c</referenceTo>
+    <relationshipLabel>Tax</relationshipLabel>
+    <relationshipName>Tax</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Trip__c</fullName>
+    <label>Trip</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Certificate_Version__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>來回</fullName>
+                <default>true</default>
+                <label>來回</label>
+            </value>
+            <value>
+                <fullName>單程</fullName>
+                <default>false</default>
+                <label>單程</label>
+            </value>
+            <value>
+                <fullName>Round Trip</fullName>
+                <default>false</default>
+                <label>Round Trip</label>
+            </value>
+            <value>
+                <fullName>One Way</fullName>
+                <default>false</default>
+                <label>One Way</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Chinese</controllingFieldValue>
+            <valueName>來回</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Chinese</controllingFieldValue>
+            <valueName>單程</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>English</controllingFieldValue>
+            <valueName>Round Trip</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>English</controllingFieldValue>
+            <valueName>One Way</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

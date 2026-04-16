@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>C4PaperBoardingPass__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>透過Flow依照與AirportCode抓取參數</description>
+    <inlineHelpText>透過Flow依照與AirportCode抓取參數</inlineHelpText>
+    <label>C4紙本登機證允許</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

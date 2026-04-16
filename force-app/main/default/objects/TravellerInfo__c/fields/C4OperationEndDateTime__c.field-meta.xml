@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>C4OperationEndDateTime__c</fullName>
+    <description>透過Flow依照是否為美國線，抓取起飛時間-C4當下的參數(起)、起飛時間-C4當下的參數(訖)。</description>
+    <inlineHelpText>透過Flow依照是否為美國線，抓取起飛時間-C4當下的參數(起)、起飛時間-C4當下的參數(訖)。</inlineHelpText>
+    <label>C4作業時間(迄)</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>DateTime</type>
+</CustomField>

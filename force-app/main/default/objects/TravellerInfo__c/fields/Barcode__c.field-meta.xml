@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Barcode__c</fullName>
+    <externalId>false</externalId>
+    <formula>IMAGE(&quot;https://bwipjs-api.metafloor.com/?bcid=pdf417&amp;text=&quot; &amp; 	Barcode_Formula__c &amp; &quot;&amp;scale=2&amp;rotate=n&quot;, &quot;PDF417 Barcode&quot;)</formula>
+    <label>Barcode</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Check_Final_Allocated_Seat_From_Amadeus</fullName>
+    <active>true</active>
+    <errorConditionFormula>ISNEW() &amp;&amp;
+RecordType.DeveloperName =&quot;Payment&quot; &amp;&amp; 
+ISPICKVAL( Purpose__c , &quot;Issue Ticket&quot;) &amp;&amp;
+(IF(text(Case_ID__r.Status) = &quot;Waiting For Payment&quot;,
+Case_ID__r.Total_Final_Allocation_Seat_From_Amadeus__c != Case_ID__r.Total_Final_Allocated_Seats__c,
+True)||
+IF(text(Case_ID__r.Status) = &quot;Waiting For Payment&quot;,
+Case_ID__r.Total_Final_Allocated_Seats__c != Case_ID__r.Total_Final_Sales_Seats__c,
+True))</errorConditionFormula>
+    <errorMessage>請營業同仁確認旅客名單數是否與實際機位數相等。
+Before creating a new Payment, please check the parent Case status is &quot;Waiting For Payment&quot; and Total Final Allocated Seat From Amadeus should be equal with Total Final Allocated Seat.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Car_Type__c</fullName>
+    <label>Car Type</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Chauffeur_Type__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>TPE - Luxury Car</fullName>
+                <default>false</default>
+                <label>TPE - Luxury Car</label>
+            </value>
+            <value>
+                <fullName>TPE - Business Luxury Car</fullName>
+                <default>false</default>
+                <label>TPE - Business Luxury Car</label>
+            </value>
+            <value>
+                <fullName>SFO - Mercedes Benz S Class</fullName>
+                <default>false</default>
+                <label>SFO - Mercedes Benz S Class</label>
+            </value>
+            <value>
+                <fullName>SFO - Cadillac Escalade</fullName>
+                <default>false</default>
+                <label>SFO - Cadillac Escalade</label>
+            </value>
+            <value>
+                <fullName>SIN - Mercedes Benz S Class</fullName>
+                <default>false</default>
+                <label>SIN - Mercedes Benz S Class</label>
+            </value>
+            <value>
+                <fullName>SIN - Mercedes Benz E Class</fullName>
+                <default>false</default>
+                <label>SIN - Mercedes Benz E Class</label>
+            </value>
+            <value>
+                <fullName>SIN - Vellfire / Alphard</fullName>
+                <default>false</default>
+                <label>SIN - Vellfire / Alphard</label>
+            </value>
+            <value>
+                <fullName>BKK - Top Luxury Sedan</fullName>
+                <default>false</default>
+                <label>BKK - Top Luxury Sedan</label>
+            </value>
+            <value>
+                <fullName>BKK - Top Luxury Van</fullName>
+                <default>false</default>
+                <label>BKK - Top Luxury Van</label>
+            </value>
+            <value>
+                <fullName>ONT - Luxury Sedan</fullName>
+                <default>false</default>
+                <label>ONT - Luxury Sedan</label>
+            </value>
+            <value>
+                <fullName>ONT - Luxury SUV</fullName>
+                <default>false</default>
+                <label>ONT - Luxury SUV</label>
+            </value>
+            <value>
+                <fullName>PHX - Luxury Sedan​</fullName>
+                <default>false</default>
+                <label>PHX - Luxury Sedan​</label>
+            </value>
+            <value>
+                <fullName>PHX - Luxury SUV</fullName>
+                <default>false</default>
+                <label>PHX - Luxury SUV</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>FCAR</controllingFieldValue>
+            <valueName>TPE - Luxury Car</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>FCAR</controllingFieldValue>
+            <valueName>TPE - Business Luxury Car</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>LIMO</controllingFieldValue>
+            <valueName>SFO - Mercedes Benz S Class</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>LIMO</controllingFieldValue>
+            <valueName>SFO - Cadillac Escalade</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>SGCR</controllingFieldValue>
+            <valueName>SIN - Mercedes Benz S Class</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>SGCR</controllingFieldValue>
+            <valueName>SIN - Mercedes Benz E Class</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>SGCR</controllingFieldValue>
+            <valueName>SIN - Vellfire / Alphard</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>THCR</controllingFieldValue>
+            <valueName>BKK - Top Luxury Sedan</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>THCR</controllingFieldValue>
+            <valueName>BKK - Top Luxury Van</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ONMO</controllingFieldValue>
+            <valueName>ONT - Luxury Sedan</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ONMO</controllingFieldValue>
+            <valueName>ONT - Luxury SUV</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

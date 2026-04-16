@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>C4CheckboxDisplay__c</fullName>
+    <formula>AND(
+  NOT(
+    OR(
+      Selectee__c = &quot;Y&quot;,
+      EEX__c = &quot;EEX&quot;
+    )
+  ),
+  AND(
+    CAS__c = &quot;CAC&quot;,
+    PrintDisable__c = false,
+    OR(
+      C4PaperBoardingPass__c = TRUE,
+      C4EBoardingPass__c = TRUE
+    )
+  )
+)</formula>
+    <label>C4 Checkbox Display</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

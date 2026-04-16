@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VIP_Lounge_Mandatory</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+  ISPICKVAL(Measure__c , &quot;VIP Lounge&quot;),
+  OR(
+    ISBLANK(TEXT(Lounge_Location__c)),
+    ISBLANK(TEXT(Lounge_Category__c)),
+    ISBLANK(TEXT(Number_of_Access__c)),
+    ISBLANK(Pax_Name_VIP_Lounge__c)
+  )
+)</errorConditionFormula>
+    <errorMessage>When Measure = VIP Lounge, Lounge Location / Category / Number of Access / Pax Name are all required.</errorMessage>
+</ValidationRule>

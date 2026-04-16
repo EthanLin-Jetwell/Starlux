@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Security_Surcharge_Per_Kg__c</fullName>
+    <description>兵險附加費用 /kg</description>
+    <inlineHelpText>kg</inlineHelpText>
+    <label>Security Surcharge / Per Kg</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Category_of_Feedback__c</fullName>
+    <label>Category of Feedback</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Insufficient Loading</fullName>
+                <default>false</default>
+                <label>Insufficient Loading</label>
+            </value>
+            <value>
+                <fullName>Loading Error</fullName>
+                <default>false</default>
+                <label>Loading Error</label>
+            </value>
+            <value>
+                <fullName>Unload</fullName>
+                <default>false</default>
+                <label>Unload</label>
+            </value>
+            <value>
+                <fullName>Cleanliness</fullName>
+                <default>false</default>
+                <label>Cleanliness</label>
+            </value>
+            <value>
+                <fullName>Broken</fullName>
+                <default>false</default>
+                <label>Broken</label>
+            </value>
+            <value>
+                <fullName>Foreign Objects</fullName>
+                <default>false</default>
+                <label>Foreign Objects</label>
+            </value>
+            <value>
+                <fullName>Crew Feedback</fullName>
+                <default>false</default>
+                <label>Crew Feedback</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

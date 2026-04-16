@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All_Outbound_Flights_from_SGN_TODAY</fullName>
+    <columns>Flight_Date__c</columns>
+    <columns>NAME</columns>
+    <columns>Reg_Number__c</columns>
+    <columns>ARR__c</columns>
+    <columns>DEP_Gate__c</columns>
+    <columns>STD_Time_Local__c</columns>
+    <columns>ETD_Time_Local__c</columns>
+    <columns>ATD_Time__c</columns>
+    <columns>AIRBORNE_Time__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>DEP__c</field>
+        <operation>equals</operation>
+        <value>SGN</value>
+    </filters>
+    <filters>
+        <field>Departure_Flight_Date_Local__c</field>
+        <operation>equals</operation>
+        <value>TODAY</value>
+    </filters>
+    <filters>
+        <field>STATE__c</field>
+        <operation>notEqual</operation>
+        <value>CNL</value>
+    </filters>
+    <label>All Outbound Flights from SGN TODAY</label>
+    <sharedTo></sharedTo>
+</ListView>

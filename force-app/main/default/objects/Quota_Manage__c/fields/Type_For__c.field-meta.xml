@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Type_For__c</fullName>
+    <label>Type For</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Free &amp; Reduced Fare Tickets</fullName>
+                <default>false</default>
+                <label>Free &amp; Reduced Fare Tickets</label>
+            </value>
+            <value>
+                <fullName>Bulk Tickets</fullName>
+                <default>false</default>
+                <label>Bulk Tickets</label>
+            </value>
+            <value>
+                <fullName>Barter Tickets</fullName>
+                <default>false</default>
+                <label>Barter Tickets</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

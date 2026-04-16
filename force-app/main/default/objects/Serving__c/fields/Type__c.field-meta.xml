@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Type__c</fullName>
+    <label>Type</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Dry goods</fullName>
+                <default>false</default>
+                <label>Dry goods</label>
+            </value>
+            <value>
+                <fullName>Amenities</fullName>
+                <default>false</default>
+                <label>Amenities</label>
+            </value>
+            <value>
+                <fullName>Alcohol</fullName>
+                <default>false</default>
+                <label>Alcohol</label>
+            </value>
+            <value>
+                <fullName>Soft Drink</fullName>
+                <default>false</default>
+                <label>Soft Drink</label>
+            </value>
+            <value>
+                <fullName>Serving Linens</fullName>
+                <default>false</default>
+                <label>Serving Linens</label>
+            </value>
+            <value>
+                <fullName>Miscellaneous Items</fullName>
+                <default>false</default>
+                <label>Miscellaneous Items</label>
+            </value>
+            <value>
+                <fullName>Equipment</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Equipment</label>
+            </value>
+            <value>
+                <fullName>Tableware</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Tableware</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

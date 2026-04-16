@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Send_Email__c</fullName>
+    <formula>IF
+( 
+  Total_Final_Allocated_Seats__c &gt; 0 &amp;&amp;
+  (
+    ISPICKVAL(Case_ID__r.Status, &quot;New&quot;) ||
+    ISPICKVAL(Case_ID__r.Status, &quot;Ticket Sales in Progress&quot;) ||
+    ISPICKVAL(Case_ID__r.Status, &quot;Adhoc Request Approving&quot;) ||
+    ISPICKVAL(Case_ID__r.Status, &quot;Adhoc Request Approved&quot;) ||
+    ISPICKVAL(Case_ID__r.Status, &quot;Adhoc Request Rejected&quot;)
+  ) &amp;&amp;
+  (
+    ISPICKVAL(Week__c, &quot;Week 06&quot;) ||
+    ISPICKVAL(Week__c, &quot;Week 07&quot;) ||
+    ISPICKVAL(Week__c, &quot;Week 08&quot;) ||
+    ISPICKVAL(Week__c, &quot;Week 09&quot;) ||
+    ISPICKVAL(Week__c, &quot;Week 10&quot;) ||
+    ISPICKVAL(Week__c, &quot;Week 11&quot;) ||
+    ISPICKVAL(Week__c, &quot;Week 12&quot;) ||
+    ISPICKVAL(Week__c, &quot;Week 13&quot;) ||
+    ISPICKVAL(Week__c, &quot;Week 14&quot;) ||
+    ISPICKVAL(Week__c, &quot;Week 15&quot;) ||
+    ISPICKVAL(Week__c, &quot;Week 16&quot;) ||
+    ISPICKVAL(Week__c, &quot;Week 17&quot;)
+  ), TRUE, FALSE
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Send Email?</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

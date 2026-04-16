@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Ticket_Certificate_Remark__c</fullName>
+    <description>&quot;Redeem Valid End Date&quot; 延期註記</description>
+    <inlineHelpText>Valid End Date Extesion Remark</inlineHelpText>
+    <label>Ticket Certificate Remark</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>TextArea</type>
+</CustomField>

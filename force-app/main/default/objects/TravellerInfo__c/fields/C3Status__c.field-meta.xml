@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>C3Status__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(
+  CheckDisable__c = TRUE,
+  &quot;請洽機場櫃台&quot;,
+  IF(
+    ISBLANK(CAS__c),
+    IF(
+      ISBLANK(PAX__c),
+      &quot;尚未開票&quot;,
+      &quot;系統尚未開放&quot;
+    ),
+    IF(
+      CAS__c = &quot;CAC&quot;,
+      &quot;已報到&quot;,
+      IF(
+        CAS__c = &quot;CST&quot;,
+        &quot;候補，請洽機場櫃台&quot;,
+        IF( AND(
+          CAS__c = &quot;CNA&quot;, C3Finished__c =true) ,
+          &quot;請檢查資料並重新嘗試&quot;,
+          &quot;未報到&quot;
+        )
+      )
+    )
+  )
+)</formula>
+    <label>C3報到狀態</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

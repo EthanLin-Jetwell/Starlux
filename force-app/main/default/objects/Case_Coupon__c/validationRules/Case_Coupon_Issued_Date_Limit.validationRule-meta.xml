@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Case_Coupon_Issued_Date_Limit</fullName>
+    <active>true</active>
+    <description>Case Coupon Date Could Not Be Greater Than Today</description>
+    <errorConditionFormula>Coupon_Issue_Date__c&lt;Coupon_ID__r.Coupon_Created_Date__c ||
+Coupon_Issue_Date__c&lt;Coupon_ID__r.Coupon_Distributed_to_Agent_Date__c || 
+Coupon_Issue_Date__c &gt; TODAY()</errorConditionFormula>
+    <errorDisplayField>Coupon_Issue_Date__c</errorDisplayField>
+    <errorMessage>Case Coupon Issued Date Could Not Be Later Than Today And Could Not Be Prior To Distributed To Agent Date</errorMessage>
+</ValidationRule>

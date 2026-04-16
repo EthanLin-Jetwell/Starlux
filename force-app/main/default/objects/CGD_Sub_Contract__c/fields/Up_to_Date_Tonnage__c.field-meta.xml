@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Up_to_Date_Tonnage__c</fullName>
+    <description>合約預估噸數</description>
+    <externalId>false</externalId>
+    <formula>IF(
+  YEAR(TODAY()) &gt; VALUE(TEXT(Target_Year__c)),
+    Tonnage_Monthly__c,
+  IF(
+    AND(YEAR(TODAY()) = VALUE(TEXT(Target_Year__c)), MONTH(TODAY()) &gt; VALUE(TEXT(Target_Month__c))),
+      Tonnage_Monthly__c,
+  IF(
+    AND(YEAR(TODAY()) = VALUE(TEXT(Target_Year__c)), MONTH(TODAY()) = VALUE(TEXT(Target_Month__c))),
+    /* 進入同年同月，依月份天數計算 */
+      Tonnage_Monthly__c / 
+      (
+        CASE(
+          VALUE(TEXT(Target_Month__c)),
+          1, 31,
+          3, 31,
+          5, 31,
+          7, 31,
+          8, 31,
+          10, 31,
+          12, 31,
+          4, 30,
+          6, 30,
+          9, 30,
+          11, 30,
+          2, /* 2月特殊處理 */
+            IF(
+              MOD(VALUE(TEXT(Target_Year__c)), 400) = 0,
+                29,
+              IF(
+                MOD(VALUE(TEXT(Target_Year__c)), 100) = 0,
+                  28,
+                IF(
+                  MOD(VALUE(TEXT(Target_Year__c)), 4) = 0,
+                    29,
+                  28
+                )
+              )
+            ),
+          /* default */
+          30
+        )
+      ) * DAY(TODAY()),
+    0
+  )))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Up to Date Tonnage</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

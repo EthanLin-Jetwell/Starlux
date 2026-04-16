@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Not_Input_Amount_and_Surcharge</fullName>
+    <active>true</active>
+    <description>If Tax only is set, please don&apos;t input Refund Amount and Surcharge</description>
+    <errorConditionFormula>And(   Tax_Only__c  , Or(Not isblank( Surcharge__c ), Not isblank( Refund_Amount__c ) )
+
+)</errorConditionFormula>
+    <errorMessage>If Tax Only is set, please don&apos;t input Refund Amount or Surcharge</errorMessage>
+</ValidationRule>

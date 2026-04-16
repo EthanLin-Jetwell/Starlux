@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>OperationLimited</fullName>
+    <columns>NAME</columns>
+    <columns>ParameterCode__c</columns>
+    <columns>Label__c</columns>
+    <columns>Value__c</columns>
+    <columns>Desc__c</columns>
+    <columns>Menu__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>ParameterCode__c</field>
+        <operation>contains</operation>
+        <value>Limited</value>
+    </filters>
+    <label>OperationLimited</label>
+</ListView>

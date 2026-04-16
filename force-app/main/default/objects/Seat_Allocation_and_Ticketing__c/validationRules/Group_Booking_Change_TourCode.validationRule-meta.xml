@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Group_Booking_Change_TourCode</fullName>
+    <active>true</active>
+    <errorConditionFormula>And(
+Contains( $Profile.Name ,&quot;Travel Agent&quot;),
+Ischanged( Tour_Code__c ),
+OR
+(
+Text( Case_ID__r.Status )= &quot;Request for Ticketing&quot;,
+Text( Case_ID__r.Status )= &quot;Waiting for Payment&quot;,
+Text( Case_ID__r.Status )= &quot;Processing Payment&quot;,
+Text( Case_ID__r.Status )= &quot;Payment Details Incorrect&quot;,
+Text( Case_ID__r.Status )= &quot;Ready for Ticketing&quot;,
+Text( Case_ID__r.Status )= &quot;Ticket Issued&quot;,
+Text( Case_ID__r.Status )= &quot;Closed&quot;
+),
+Case_ID__r.RecordType.DeveloperName =&quot;Group_Booking&quot;
+)</errorConditionFormula>
+    <errorDisplayField>Tour_Code__c</errorDisplayField>
+    <errorMessage>申請開票後無法修改Tour Code</errorMessage>
+</ValidationRule>

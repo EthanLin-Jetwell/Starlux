@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Coupon_Status_Require_Corresponding_Date</fullName>
+    <active>true</active>
+    <description>When the status of the coupon is changed, user needs to enter the date field specific to that status</description>
+    <errorConditionFormula>OR(
+AND(
+  ISPICKVAL(Coupon_Status__c, &quot;Distributed&quot;),
+  ISBLANK(TEXT(Coupon_Distributed_Date__c))
+ ),
+ AND(
+  ISPICKVAL(Coupon_Status__c, &quot;Issued&quot;),
+  ISBLANK(TEXT(Coupon_Issued_Date__c))
+ ),
+ AND(
+  ISPICKVAL(Coupon_Status__c, &quot;Used&quot;),
+  ISBLANK(TEXT(Coupon_Used_Date__c))
+ ),
+ AND(
+  ISPICKVAL(Coupon_Status__c, &quot;Issued but Voided&quot;),
+  ISBLANK(TEXT(Coupon_Issued_but_Voided_Date__c))
+ ),
+ AND(
+  ISPICKVAL(Coupon_Status__c, &quot;Unissued but Voided&quot;),
+  ISBLANK(TEXT(Coupon_Unissued_but_Voided_Date__c))
+ )
+)</errorConditionFormula>
+    <errorMessage>Please enter the date corresponding to the status.</errorMessage>
+</ValidationRule>

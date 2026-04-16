@@ -35,8 +35,13 @@ public class SeatAllocationTriggerHandler extends TriggerHandler{
     }
     
     public override void afterInsert() {
-        List<Seat_Allocation_and_Ticketing__c> satList = (List<Seat_Allocation_and_Ticketing__c>) Trigger.new;
+        List<Seat_Allocation_and_Ticketing__c> satList = new List<Seat_Allocation_and_Ticketing__c>();
             processInsertRecords();
+        for (Seat_Allocation_and_Ticketing__c sat : (List<Seat_Allocation_and_Ticketing__c>) Trigger.new) {
+            if (!sat.IsCloned__c) {
+                satList.add(sat);
+            }
+        }
             SeatAllocationUtil.processSatInsertion(satList, Constants.SAT_PROCESS_INSERT_ORIGIN_TRIGGER);
     }
     

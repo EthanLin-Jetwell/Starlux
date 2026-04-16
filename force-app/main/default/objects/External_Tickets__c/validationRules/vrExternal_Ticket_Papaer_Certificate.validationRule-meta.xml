@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>vrExternal_Ticket_Papaer_Certificate</fullName>
+    <active>true</active>
+    <description>Papaer Certificate 打勾時，Discount Code 需為DM</description>
+    <errorConditionFormula>NOT(ISPICKVAL(Fare_Basis__c,&apos;DM&apos;))&amp;&amp;
+Paper_Certificated__c=TRUE</errorConditionFormula>
+    <errorDisplayField>Paper_Certificated__c</errorDisplayField>
+    <errorMessage>only DM Discount Code will issue Paper Certicifate</errorMessage>
+</ValidationRule>

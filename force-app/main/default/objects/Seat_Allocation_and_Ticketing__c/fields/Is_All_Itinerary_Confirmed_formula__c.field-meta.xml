@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Is_All_Itinerary_Confirmed_formula__c</fullName>
+    <description>If SAT PNR Status is KK/HK/RR then it would be a confirmed PNR.</description>
+    <formula>IF(
+ CONTAINS(text(Case_ID__r.Route__c) , &quot;one-way&quot;) ,
+ Departing_PNR_Status__c=&quot;KK&quot;||
+ Departing_PNR_Status__c=&quot;HK&quot;||
+ Departing_PNR_Status__c=&quot;RR&quot;||
+ Returning_PNR_Status__c=&quot;KK&quot;||
+ Returning_PNR_Status__c=&quot;HK&quot;||
+ Returning_PNR_Status__c=&quot;RR&quot;
+, 
+ (
+ Departing_PNR_Status__c=&quot;KK&quot;||
+ Departing_PNR_Status__c=&quot;HK&quot;||
+ Departing_PNR_Status__c=&quot;RR&quot;
+ )&amp;&amp;
+ (
+ Returning_PNR_Status__c=&quot;KK&quot;||
+ Returning_PNR_Status__c=&quot;HK&quot;||
+ Returning_PNR_Status__c=&quot;RR&quot;
+ )
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Is All Itinerary Confirmed(formula)</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

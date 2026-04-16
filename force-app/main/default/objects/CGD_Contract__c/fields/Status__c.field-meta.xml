@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Status__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(
+TODAY() &lt; Start_Date__c ,
+IF(TEXT($User.LanguageLocaleKey) = &quot;zh_TW&quot;, &quot;未開始&quot;, &quot;Not Started&quot;),
+IF(
+TODAY() &lt;= End_Date__c ,
+IF(TEXT($User.LanguageLocaleKey) = &quot;zh_TW&quot;, &quot;有效&quot;, &quot;Valid&quot;),
+IF(TEXT($User.LanguageLocaleKey) = &quot;zh_TW&quot;, &quot;已過期&quot;, &quot;Invalid&quot;)
+)
+)</formula>
+    <label>Status</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

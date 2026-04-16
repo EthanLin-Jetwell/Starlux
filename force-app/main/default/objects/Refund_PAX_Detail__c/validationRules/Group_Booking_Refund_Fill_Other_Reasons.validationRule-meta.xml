@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Group_Booking_Refund_Fill_Other_Reasons</fullName>
+    <active>true</active>
+    <description>If select reasons &quot;Others&quot;, need to fill the details</description>
+    <errorConditionFormula>And(Contains( Text(Refund_Reason__c ),&quot;Other&quot;),  
+
+Isblank( Other_Reasons__c ) 
+    )</errorConditionFormula>
+    <errorDisplayField>Other_Reasons__c</errorDisplayField>
+    <errorMessage>If select reasons &quot;Others&quot;, need to fill the details</errorMessage>
+</ValidationRule>

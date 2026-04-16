@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Deposit_Received_Amount_Does_Not_Match</fullName>
+    <active>true</active>
+    <description>Deposit Received Amount must be equal to deposit amount</description>
+    <errorConditionFormula>RecordType.DeveloperName = &quot;Deposit&quot; &amp;&amp; Deposit_Amount_Received__c &lt;&gt; (Deposit_Amount_Per_Person__c *  No_of_Persons__c)</errorConditionFormula>
+    <errorDisplayField>Deposit_Amount_Received__c</errorDisplayField>
+    <errorMessage>Deposit amount received does not match total deposit amount imposed.  Please check that the amount received tally with the total deposit amount imposed.</errorMessage>
+</ValidationRule>

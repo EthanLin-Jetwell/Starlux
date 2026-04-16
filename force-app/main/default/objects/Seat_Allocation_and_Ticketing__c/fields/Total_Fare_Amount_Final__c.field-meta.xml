@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Total_Fare_Amount_Final__c</fullName>
+    <externalId>false</externalId>
+    <formula>If ( or(No_of_Adult__c&gt;0,No_of_Child__c &gt;0),
+
+No_of_Adult__c * ( Final_Unit_Price_Adult__c) +
+No_of_Child__c * ( Final_Unit_Price_Child__c ) +
+No_of_Infant__c *( Final_Unit_Price_Infant__c)    -   No_of_FOC__c * Final_Unit_Price_Adult__c, 0)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Total Fare Amount(Final)</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

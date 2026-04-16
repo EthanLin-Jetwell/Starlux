@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Upgrade_Service_Mandatory</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+  ISPICKVAL(Measure__c , &quot;Upgrade Service&quot;),
+  OR(
+    ISBLANK(TEXT(Class_Upgrade__c)),
+    ISBLANK(Sector_Upgrade__c),
+    ISBLANK(TEXT(Number_of_pax_Upgrade__c)),
+    ISBLANK(Pax_Name_Upgrade__c)
+  )
+)</errorConditionFormula>
+    <errorMessage>When Measure = Upgrade Service, Class / Sector / Number of pax / Pax Name are all required.</errorMessage>
+</ValidationRule>

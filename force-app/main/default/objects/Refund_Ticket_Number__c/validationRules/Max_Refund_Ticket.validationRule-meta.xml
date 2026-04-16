@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Max_Refund_Ticket</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+Refund_Order__r.Total_Tickets__c &gt; 9,
+$Profile.Name = &quot;B2B Travel Agent Community Plus&quot;
+)</errorConditionFormula>
+    <errorMessage>Reached maximum 10 Refund Tickets. Please create another Refund Order.</errorMessage>
+</ValidationRule>

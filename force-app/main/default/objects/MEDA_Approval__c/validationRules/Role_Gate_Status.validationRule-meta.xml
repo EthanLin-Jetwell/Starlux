@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Role_Gate_Status</fullName>
+    <active>true</active>
+    <description>特定的Role才能選相對應的Staus</description>
+    <errorConditionFormula>IF(
+ $UserRole.Name=&quot;System Administrator&quot;,
+ FALSE,
+ IF(
+  /* 受管控的 Status|Approval 集合（任一角色） */
+  CONTAINS(
+    &quot;;In Progress|New;In Progress|In Progress;In Progress|Approved;Replied|Approved;Closed|Approved;Replied|New;Reapplied|New;Closed|New;Reapplied|In Progress;In Progress|Conditionally Approved;Replied|Conditionally Approved;Closed|Conditionally Approved;In Progress|Documents Required;Replied|Documents Required;Reapplied|Documents Required;Closed|Documents Required;In Progress|Rejected;Replied|Rejected;Closed|Rejected;Reapplied|Approved;Reapplied|Conditionally Approved;Reapplied|Rejected;&quot;,
+    &quot;;&quot;&amp;TEXT(Status__c)&amp;&quot;|&quot;&amp;TEXT(Approval_Status__c)&amp;&quot;;&quot;
+  ),
+  /* 若屬受管控組合 → 檢查 pair:RC 是否被允許 */
+  NOT(
+    CONTAINS(
+      &quot;;&quot;
+      /* S1 */
+      &amp;&quot;In Progress|New:CC;&quot;&amp;&quot;In Progress|New:B2B;&quot;
+      &amp;&quot;In Progress|In Progress:RMS;&quot;
+      &amp;&quot;In Progress|Approved:EHD;&quot;
+      &amp;&quot;Replied|Approved:RMS;&quot;
+      &amp;&quot;Closed|Approved:CC;&quot;&amp;&quot;Closed|Approved:B2B;&quot;
+      /* S2 */
+      &amp;&quot;Replied|New:RMS;&quot;
+      &amp;&quot;Reapplied|New:CC;&quot;&amp;&quot;Reapplied|New:B2B;&quot;
+      &amp;&quot;Closed|New:CC;&quot;&amp;&quot;Closed|New:B2B;&quot;
+      &amp;&quot;Reapplied|In Progress:RMS;&quot;
+      &amp;&quot;Reapplied|Approved:EHD;&quot;&amp;&quot;Reapplied|Conditionally Approved:EHD;&quot;&amp;&quot;Reapplied|Rejected:EHD;&quot;
+      &amp;&quot;Replied|Approved:RMS;&quot;&amp;&quot;Replied|Conditionally Approved:RMS;&quot;&amp;&quot;Replied|Rejected:RMS;&quot;
+      &amp;&quot;Closed|Approved:CC;&quot;&amp;&quot;Closed|Approved:B2B;&quot;
+      &amp;&quot;Closed|Conditionally Approved:CC;&quot;&amp;&quot;Closed|Conditionally Approved:B2B;&quot;
+      &amp;&quot;Closed|Rejected:CC;&quot;&amp;&quot;Closed|Rejected:B2B;&quot;
+      /* S3（再次要求補件的中繼點與終點）*/
+      &amp;&quot;In Progress|Documents Required:EHD;&quot;
+      &amp;&quot;Replied|Documents Required:RMS;&quot;
+      &amp;&quot;Reapplied|Documents Required:EHD;&quot;
+      &amp;&quot;Reapplied|Documents Required:CC;&quot;
+      &amp;&quot;Reapplied|Documents Required:B2B;&quot;
+      /* S4（CA 主線）*/
+      &amp;&quot;In Progress|Conditionally Approved:EHD;&quot;
+      &amp;&quot;Replied|Conditionally Approved:RMS;&quot;
+      &amp;&quot;Closed|Conditionally Approved:CC;&quot;&amp;&quot;Closed|Conditionally Approved:B2B;&quot;
+      /* S5（DR 主線）*/
+      &amp;&quot;Replied|Documents Required:RMS;&quot;
+      &amp;&quot;Closed|Documents Required:CC;&quot;&amp;&quot;Closed|Documents Required:B2B;&quot;
+      /* S6（Rejected 主線）*/
+      &amp;&quot;In Progress|Rejected:EHD;&quot;
+      &amp;&quot;Replied|Rejected:RMS;&quot;
+      &amp;&quot;Closed|Rejected:CC;&quot;&amp;&quot;Closed|Rejected:B2B;&quot;
+      ,
+      &quot;;&quot;&amp;
+      TEXT(Status__c)&amp;&quot;|&quot;&amp;TEXT(Approval_Status__c)&amp;&quot;:&quot;&amp;
+      IF(CONTAINS($UserRole.Name,&quot;CC&quot;),&quot;CC&quot;,
+        IF(CONTAINS($UserRole.Name,&quot;B2B&quot;),&quot;B2B&quot;,
+          IF(CONTAINS($UserRole.Name,&quot;RMS&quot;),&quot;RMS&quot;,
+            IF(CONTAINS($UserRole.Name,&quot;EHD&quot;),&quot;EHD&quot;,&quot;OTHER&quot;)
+          )
+        )
+      )
+      &amp;&quot;;&quot;
+    )
+  ),
+  /* 非受管控組合 → 放行 */
+  FALSE
+ )
+)</errorConditionFormula>
+    <errorMessage>您的系統權限無法設定此組合 (Status / Approval Status)。
+Your role is not allowed to set this Status / Approval Status.</errorMessage>
+</ValidationRule>

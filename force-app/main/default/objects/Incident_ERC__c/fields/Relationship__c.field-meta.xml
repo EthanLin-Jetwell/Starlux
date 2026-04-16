@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Relationship__c</fullName>
+    <label>Relationship</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Spouse 配偶</fullName>
+                <default>false</default>
+                <label>Spouse 配偶</label>
+            </value>
+            <value>
+                <fullName>Adult Offspring 成年子女</fullName>
+                <default>false</default>
+                <label>Adult Offspring 成年子女</label>
+            </value>
+            <value>
+                <fullName>Parents 父母親</fullName>
+                <default>false</default>
+                <label>Parents 父母親</label>
+            </value>
+            <value>
+                <fullName>Stepparents 繼父母</fullName>
+                <default>false</default>
+                <label>Stepparents 繼父母</label>
+            </value>
+            <value>
+                <fullName>Legal Guardian 法定代理人</fullName>
+                <default>false</default>
+                <label>Legal Guardian 法定代理人</label>
+            </value>
+            <value>
+                <fullName>Brother/Sister 兄弟姊妹</fullName>
+                <default>false</default>
+                <label>Brother/Sister 兄弟姊妹</label>
+            </value>
+            <value>
+                <fullName>Others 其他</fullName>
+                <default>false</default>
+                <label>Others 其他</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

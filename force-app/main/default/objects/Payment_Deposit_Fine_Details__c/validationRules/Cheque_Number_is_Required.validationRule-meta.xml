@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Cheque_Number_is_Required</fullName>
+    <active>true</active>
+    <description>Cheque number, clearance date, and issuance date are required for cheque payment</description>
+    <errorConditionFormula>ISPICKVAL(Payment_Mode__c,&quot;Cheque&quot;) &amp;&amp; 
+(
+  ISBLANK(Cheque_No__c) || 
+  ISBLANK(Cheque_Clearance_Date__c) ||
+  ISBLANK(Cheque_Issuance_Date__c)
+)</errorConditionFormula>
+    <errorMessage>Please enter the cheque number, cheque clearance date, and cheque issuance date for cheque payment.</errorMessage>
+</ValidationRule>

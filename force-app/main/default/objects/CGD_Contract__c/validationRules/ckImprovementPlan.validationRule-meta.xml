@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ckImprovementPlan</fullName>
+    <active>true</active>
+    <description>當評估結果為「待觀察」或「未通過」時，必須填寫「改善計劃」。</description>
+    <errorConditionFormula>AND
+(
+OR
+(
+TEXT(Evaluation_Result__c)=&apos;Under Observation&apos;,
+TEXT(Evaluation_Result__c)=&apos;Failed&apos;
+),
+ISBLANK(Improvement_Plan__c)=TRUE
+)</errorConditionFormula>
+    <errorDisplayField>Improvement_Plan__c</errorDisplayField>
+    <errorMessage>When Evaluation Result is &quot;Under Observation&quot; or &quot;Failed&quot;, &quot;Improvement Plan&quot; must be provided.</errorMessage>
+</ValidationRule>

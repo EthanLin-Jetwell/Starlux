@@ -1,0 +1,18 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    overflow: hidden;
+    background: #FFFFFF;
+    padding: 2em;
+}
+
+lightning-button {
+    padding-top: 2em;
+    text-align: center;
+}
+
+.custom-error-text {
+    color: #ff0000; /* Or your preferred hex code */
+    font-weight: bold; /* Optional: makes it stand out more */
+}

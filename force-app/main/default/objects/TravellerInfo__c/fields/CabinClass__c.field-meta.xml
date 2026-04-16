@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CabinClass__c</fullName>
+    <externalId>false</externalId>
+    <formula>CASE(
+    CabinCode__c,
+    &quot;F&quot;, &quot;FIRST CLASS&quot;,
+    &quot;J&quot;, &quot;BUSINESS CLASS&quot;,
+    &quot;W&quot;, &quot;PREMIUM ECONOMY CLASS&quot;,
+    &quot;Y&quot;, &quot;ECONOMY CLASS&quot;,
+    &quot;UNKNOWN&quot;  /* 預設值，當 cabin_code 不符合上述條件時顯示 */
+)</formula>
+    <label>艙等名稱</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

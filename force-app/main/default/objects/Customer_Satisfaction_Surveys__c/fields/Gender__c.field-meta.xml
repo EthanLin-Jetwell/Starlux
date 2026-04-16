@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gender__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(
+OR(
+TEXT(Passenger_Title__c) = &quot;MR&quot;,
+TEXT(Passenger_Title__c) = &quot;MSTR&quot;
+),
+&quot;Male&quot;,
+IF(
+OR(
+TEXT(Passenger_Title__c) = &quot;MRS&quot;,
+TEXT(Passenger_Title__c) = &quot;MS&quot;,
+TEXT(Passenger_Title__c) = &quot;MISS&quot;
+),
+&quot;Female&quot;,
+&quot;Unknown&quot;
+)
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Gender</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

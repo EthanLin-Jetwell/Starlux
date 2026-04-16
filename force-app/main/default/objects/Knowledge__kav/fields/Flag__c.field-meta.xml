@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Flag__c</fullName>
+    <label>Flag</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>CS Annoucement</fullName>
+                <default>false</default>
+                <label>CS Annoucement</label>
+            </value>
+            <value>
+                <fullName>New Event</fullName>
+                <default>false</default>
+                <label>New Event</label>
+            </value>
+            <value>
+                <fullName>Policy for Reservation and Ticketing</fullName>
+                <default>false</default>
+                <label>Policy for Reservation and Ticketing</label>
+            </value>
+            <value>
+                <fullName>Policy for COSMILE Member</fullName>
+                <default>false</default>
+                <label>Policy for COSMILE Member</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

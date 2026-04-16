@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>S5_DocumentsRequired</fullName>
+    <active>true</active>
+    <description>【EHD 要求補件】的審核流程</description>
+    <errorConditionFormula>IF(
+  $UserRole.Name = &quot;System Administrator&quot;,
+  FALSE,
+  AND(
+    /* 只在 DR 流程觸發 */
+    OR(
+      ISPICKVAL(Approval_Status__c,&quot;Documents Required&quot;),
+      ISPICKVAL(PRIORVALUE(Approval_Status__c),&quot;Documents Required&quot;)
+    ),
+
+    /* ====== 避免與 S3 互斥：把 S3 的 5 / 6 / 7 交回 S3 判斷 ====== */
+
+    /* S3 Step 5：Reapplied|In Progress -&gt; Reapplied|Documents Required （EHD）*/
+    NOT(
+      AND(
+        TEXT(PRIORVALUE(Status__c)) = &quot;Reapplied&quot;,
+        TEXT(PRIORVALUE(Approval_Status__c)) = &quot;In Progress&quot;,
+        TEXT(Status__c) = &quot;Reapplied&quot;,
+        TEXT(Approval_Status__c) = &quot;Documents Required&quot;
+      )
+    ),
+
+    /* S3 Step 6：Reapplied|Documents Required -&gt; Replied|Documents Required （RMS）*/
+    NOT(
+      AND(
+        TEXT(PRIORVALUE(Status__c)) = &quot;Reapplied&quot;,
+        TEXT(PRIORVALUE(Approval_Status__c)) = &quot;Documents Required&quot;,
+        TEXT(Status__c) = &quot;Replied&quot;,
+        TEXT(Approval_Status__c) = &quot;Documents Required&quot;
+      )
+    ),
+
+    /* S3 Step 7：Replied|Documents Required -&gt; Reapplied|Documents Required / Closed|Documents Required （CC/B2B）*/
+    NOT(
+      AND(
+        TEXT(PRIORVALUE(Status__c)) = &quot;Replied&quot;,
+        TEXT(PRIORVALUE(Approval_Status__c)) = &quot;Documents Required&quot;,
+        OR(
+          AND(TEXT(Status__c) = &quot;Reapplied&quot;, TEXT(Approval_Status__c) = &quot;Documents Required&quot;),
+          AND(TEXT(Status__c) = &quot;Closed&quot;,    TEXT(Approval_Status__c) = &quot;Documents Required&quot;)
+        )
+      )
+    ),
+    /* 交回 S3：Reapplied|DR -&gt; Reapplied|Approved / Conditionally Approved / Rejected （EHD）*/
+    NOT(
+      AND(
+        TEXT(PRIORVALUE(Status__c)) = &quot;Reapplied&quot;,
+        TEXT(PRIORVALUE(Approval_Status__c)) = &quot;Documents Required&quot;,
+        TEXT(Status__c) = &quot;Reapplied&quot;,
+        OR(
+        TEXT(Approval_Status__c) = &quot;Approved&quot;,
+        TEXT(Approval_Status__c) = &quot;Conditionally Approved&quot;,
+        TEXT(Approval_Status__c) = &quot;Rejected&quot;
+        )
+      )
+    ),
+
+    /* ====== S5 自身白名單檢查 ====== */
+    OR(ISCHANGED(Status__c), ISCHANGED(Approval_Status__c)),
+    NOT(
+      CONTAINS(
+        &quot;;&quot; &amp;
+        /* S5 合法轉換清單（維持你原本內容） */
+        &quot;New|New&gt;In Progress|New;&quot; &amp;
+        &quot;In Progress|New&gt;In Progress|In Progress;&quot; &amp;
+        &quot;In Progress|In Progress&gt;In Progress|Documents Required;&quot; &amp;
+        &quot;In Progress|Documents Required&gt;Replied|Documents Required;&quot; &amp;
+        &quot;Replied|Documents Required&gt;Reapplied|Documents Required;&quot; &amp;
+        &quot;Replied|Documents Required&gt;Closed|Documents Required;&quot; &amp;
+        &quot;Reapplied|Documents Required&gt;Reapplied|In Progress;&quot; &amp;
+        &quot;Reapplied|In Progress&gt;Reapplied|Approved;&quot; &amp;
+        &quot;Reapplied|In Progress&gt;Reapplied|Conditionally Approved;&quot; &amp;
+        &quot;Reapplied|In Progress&gt;Reapplied|Rejected;&quot; &amp;
+        &quot;Reapplied|Approved&gt;Replied|Approved;&quot; &amp;
+        &quot;Reapplied|Conditionally Approved&gt;Replied|Conditionally Approved;&quot; &amp;
+        &quot;Reapplied|Rejected&gt;Replied|Rejected;&quot; &amp;
+        &quot;Replied|Approved&gt;Closed|Approved;&quot; &amp;
+        &quot;Replied|Conditionally Approved&gt;Closed|Conditionally Approved;&quot; &amp;
+        &quot;Replied|Rejected&gt;Closed|Rejected;&quot; &amp;
+        &quot;;&quot;,
+        &quot;;&quot; &amp;
+        TEXT(PRIORVALUE(Status__c)) &amp; &quot;|&quot; &amp; TEXT(PRIORVALUE(Approval_Status__c)) &amp;
+        &quot;&gt;&quot; &amp;
+        TEXT(Status__c) &amp; &quot;|&quot; &amp; TEXT(Approval_Status__c) &amp; &quot;;&quot;
+      )
+    )
+  )
+)</errorConditionFormula>
+    <errorMessage>狀態流轉不符「EHD 要求補件」流程。
+Invalid transition for &lt;EHD request for Documents Reapplied&gt; path.</errorMessage>
+</ValidationRule>

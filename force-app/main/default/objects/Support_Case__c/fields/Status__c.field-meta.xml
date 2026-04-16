@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Status__c</fullName>
+    <description>Status</description>
+    <label>Status</label>
+    <required>true</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>New</fullName>
+                <default>true</default>
+                <label>New</label>
+            </value>
+            <value>
+                <fullName>Assign</fullName>
+                <default>false</default>
+                <label>Assign</label>
+            </value>
+            <value>
+                <fullName>Review In Progess</fullName>
+                <default>false</default>
+                <label>Review In Progess</label>
+            </value>
+            <value>
+                <fullName>Build</fullName>
+                <default>false</default>
+                <label>Build</label>
+            </value>
+            <value>
+                <fullName>Ready for UAT</fullName>
+                <default>false</default>
+                <label>Ready for UAT</label>
+            </value>
+            <value>
+                <fullName>UAT Completed</fullName>
+                <default>false</default>
+                <label>UAT Completed</label>
+            </value>
+            <value>
+                <fullName>Pending on Business</fullName>
+                <default>false</default>
+                <label>Pending on Business</label>
+            </value>
+            <value>
+                <fullName>Deploy to PROD (Closed)</fullName>
+                <default>false</default>
+                <label>Deploy to PROD (Closed)</label>
+            </value>
+            <value>
+                <fullName>Cancel (Closed)</fullName>
+                <default>false</default>
+                <label>Cancel (Closed)</label>
+            </value>
+            <value>
+                <fullName>Rejected (Closed)</fullName>
+                <default>false</default>
+                <label>Rejected (Closed)</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

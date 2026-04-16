@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Group_Booking_Blank_APN</fullName>
+    <active>true</active>
+    <errorConditionFormula>And(
+Contains( $Profile.Name ,&quot;Travel Agent&quot;),
+OR
+ (ISBLANK(tour_Guide_email__c ), ISBLANK( tour_Guide_phone__c  )),
+OR
+(
+Text( Case_ID__r.Status )= &quot;Request for Ticketing&quot;,
+Text( Case_ID__r.Status )= &quot;Waiting for Payment&quot;,
+Text( Case_ID__r.Status )= &quot;Processing Payment&quot;,
+Text( Case_ID__r.Status )= &quot;Payment Details Incorrect&quot;,
+Text( Case_ID__r.Status )= &quot;Ready for Ticketing&quot;,
+Text( Case_ID__r.Status )= &quot;Ticket Issued&quot;,
+Text( Case_ID__r.Status )= &quot;Closed&quot;
+),
+Case_ID__r.RecordType.DeveloperName =&quot;Group_Booking&quot;
+)</errorConditionFormula>
+    <errorMessage>請檢查SAT的APN資訊</errorMessage>
+</ValidationRule>

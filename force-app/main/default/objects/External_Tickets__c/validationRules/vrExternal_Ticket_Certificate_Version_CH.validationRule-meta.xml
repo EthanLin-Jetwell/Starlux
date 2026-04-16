@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>vrExternal_Ticket_Certificate_Version_CH</fullName>
+    <active>false</active>
+    <description>中文版本憑證需填寫出發地、目的地</description>
+    <errorConditionFormula>(
+  (ISPICKVAL(Certificate_Version__c, &apos;Chinese&apos;) &amp;&amp; TEXT(Itinerary_Departure_CH__c) = &apos;&apos;) ||
+  (ISPICKVAL(Certificate_Version__c, &apos;Chinese&apos;) &amp;&amp; TEXT(Itinerary_Return_CH__c) = &apos;&apos;)
+)</errorConditionFormula>
+    <errorMessage>中文版本憑證需填寫出發地、目的地</errorMessage>
+</ValidationRule>

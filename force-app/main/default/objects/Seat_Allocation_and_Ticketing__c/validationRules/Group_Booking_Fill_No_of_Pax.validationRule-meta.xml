@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Group_Booking_Fill_No_of_Pax</fullName>
+    <active>false</active>
+    <description>No. of Adult and No. of Child should be not greater than Final Allocated Seats</description>
+    <errorConditionFormula>And( Allocated_Seats__c&gt;0,
+
+No_of_Adult__c + No_of_Child__c &gt;   Final_Allocated_Seats__c)</errorConditionFormula>
+    <errorMessage>No. of Adult and No. of Child should be not greater than Allocated Seats</errorMessage>
+</ValidationRule>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Fine_Received_Without_Details</fullName>
+    <active>true</active>
+    <description>Cannot change status to Fine Received without entering the Fine Received Details</description>
+    <errorConditionFormula>RecordType.DeveloperName = &quot;Fine&quot; &amp;&amp;
+ISCHANGED(Status__c) &amp;&amp;
+ISPICKVAL(Status__c, &quot;Fine Received&quot;) &amp;&amp;
+ISBLANK(TEXT(Payment_Mode__c))</errorConditionFormula>
+    <errorMessage>Please enter the Payment Mode, Fine Received Amount and Fine Received Date before setting status to &apos;Fine Received&apos;.</errorMessage>
+</ValidationRule>

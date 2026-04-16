@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Waiver_paring_Amount</fullName>
+    <active>true</active>
+    <description>Waiver paring Amount</description>
+    <errorConditionFormula>ISPICKVAL( Measure__c , &quot;Waiver&quot;) &amp;&amp;
+(ISBLANK(Waiver_Amount_per_person__c) || ISBLANK(Waiver_Total_amount__c))</errorConditionFormula>
+    <errorMessage>Please input Amount for Waiver.</errorMessage>
+</ValidationRule>

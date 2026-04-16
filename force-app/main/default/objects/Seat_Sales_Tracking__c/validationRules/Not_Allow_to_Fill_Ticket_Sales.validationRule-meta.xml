@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Not_Allow_to_Fill_Ticket_Sales</fullName>
+    <active>false</active>
+    <description>Not Allow to Fill Seat Sales 4 Days after Submit Date</description>
+    <errorConditionFormula>And(ischanged( Total_Seat_Sales__c ), 
+
+
+abs(Today()- Date__c) &gt; 4
+
+)</errorConditionFormula>
+    <errorDisplayField>Total_Seat_Sales__c</errorDisplayField>
+    <errorMessage>Not Allow to Fill Seat Sales 4 Days before or after the Submit Date</errorMessage>
+</ValidationRule>

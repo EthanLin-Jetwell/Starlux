@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Number_of_Winner_Ticket__c</fullName>
+    <label>Number of Winner (Ticket)</label>
+    <summarizedField>Prize__c.Prize_Amount__c</summarizedField>
+    <summaryFilterItems>
+        <field>Prize__c.Type__c</field>
+        <operation>equals</operation>
+        <value>Ticket buying experience</value>
+    </summaryFilterItems>
+    <summaryForeignKey>Prize__c.Drawing_No__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

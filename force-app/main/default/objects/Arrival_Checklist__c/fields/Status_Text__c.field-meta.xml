@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Status_Text__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF
+(
+(No_Planned_Completion_Time__c = TRUE &amp;&amp; ISBLANK(Actual_Completion_Time_Local__c) &amp;&amp; ISBLANK(Actual_Completion_Time_UTC__c)) || Not_Applicable__c = TRUE, &quot;N.A&quot;,
+IF
+(
+Completed_with_Delay__c = TRUE, &quot;Completed with Delay&quot;,
+IF
+(
+Status_Check__c = &quot;Completed&quot; || (NOT(ISBLANK(Actual_Completion_Time_Local__c)) || NOT(ISBLANK(Actual_Completion_Time_UTC__c))), &quot;Completed&quot;,
+IF
+(
+Status_Check__c = &quot;Overdue&quot;, &quot;Overdue&quot;,
+IF
+(
+Status_Check__c = &quot;In Progress&quot;, &quot;In Progress&quot;,
+IF
+(
+Status_Check__c = &quot;Not Started&quot;, &quot;Not Started&quot;, &quot;&quot;
+)
+)
+)
+)
+)
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Status(Text)</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Possible_Values__c</fullName>
+    <description>If pick type selected, please provide some pick list values
+e.g. Case.Status, Values will be New#Closed#Assigned etc</description>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <label>Possible Values</label>
+    <length>32768</length>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>

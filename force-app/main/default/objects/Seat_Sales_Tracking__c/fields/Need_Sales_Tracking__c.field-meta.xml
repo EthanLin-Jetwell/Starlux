@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Need_Sales_Tracking__c</fullName>
+    <formula>If(Or( Text( Case_ID__r.Status )=&quot;New&quot;, Text( Case_ID__r.Status )=&quot;Ticket Sales in Progress&quot;, Text( Case_ID__r.Status )=&quot;Adhoc Request Approving&quot;, Text( Case_ID__r.Status )=&quot;Adhoc Request Approved&quot;, Text( Case_ID__r.Status )=&quot;Adhoc Request Rejected&quot;), True, False)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Need Sales Tracking?</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Coupon_Distributed_To_Department_Check_2</fullName>
+    <active>true</active>
+    <description>User Can Only Use The Coupons Distributed To Her/His Own Department (part.2)</description>
+    <errorConditionFormula>(CONTAINS(TEXT(Coupon_ID__r.Distribution_Department__c), &apos;SG-SIN&apos;) &amp;&amp; NOT(CONTAINS($UserRole.Name, &apos;Air&apos;) &amp;&amp; CONTAINS($UserRole.Name, &apos;SIN&apos;))) ||
+(CONTAINS(TEXT(Coupon_ID__r.Distribution_Department__c), &apos;TH-CNX&apos;) &amp;&amp; NOT(CONTAINS($UserRole.Name, &apos;Air&apos;) &amp;&amp; CONTAINS($UserRole.Name, &apos;CNX&apos;))) ||
+(CONTAINS(TEXT(Coupon_ID__r.Distribution_Department__c), &apos;PH-CRK&apos;) &amp;&amp; NOT(CONTAINS($UserRole.Name, &apos;Air&apos;) &amp;&amp; CONTAINS($UserRole.Name, &apos;CRK&apos;))) ||
+(CONTAINS(TEXT(Coupon_ID__r.Distribution_Department__c), &apos;JP-CTS&apos;) &amp;&amp; NOT(CONTAINS($UserRole.Name, &apos;Air&apos;) &amp;&amp; CONTAINS($UserRole.Name, &apos;CTS&apos;))) ||
+(CONTAINS(TEXT(Coupon_ID__r.Distribution_Department__c), &apos;JP-KMJ&apos;) &amp;&amp; NOT(CONTAINS($UserRole.Name, &apos;Air&apos;) &amp;&amp; CONTAINS($UserRole.Name, &apos;KMJ&apos;))) ||
+(CONTAINS(TEXT(Coupon_ID__r.Distribution_Department__c), &apos;JP-NGO&apos;) &amp;&amp; NOT(CONTAINS($UserRole.Name, &apos;Air&apos;) &amp;&amp; CONTAINS($UserRole.Name, &apos;NGO&apos;))) ||
+(CONTAINS(TEXT(Coupon_ID__r.Distribution_Department__c), &apos;JP-SDJ&apos;) &amp;&amp; NOT(CONTAINS($UserRole.Name, &apos;Air&apos;) &amp;&amp; CONTAINS($UserRole.Name, &apos;SDJ&apos;))) ||
+(CONTAINS(TEXT(Coupon_ID__r.Distribution_Department__c), &apos;JP-HKD&apos;) &amp;&amp; NOT(CONTAINS($UserRole.Name, &apos;Air&apos;) &amp;&amp; CONTAINS($UserRole.Name, &apos;HKD&apos;))) ||
+(CONTAINS(TEXT(Coupon_ID__r.Distribution_Department__c), &apos;JP-TAK&apos;) &amp;&amp; NOT(CONTAINS($UserRole.Name, &apos;Air&apos;) &amp;&amp; CONTAINS($UserRole.Name, &apos;TAK&apos;))) ||
+(CONTAINS(TEXT(Coupon_ID__r.Distribution_Department__c), &apos;ID-DPS&apos;) &amp;&amp; NOT(CONTAINS($UserRole.Name, &apos;Air&apos;) &amp;&amp; CONTAINS($UserRole.Name, &apos;DPS&apos;))) ||
+(CONTAINS(TEXT(Coupon_ID__r.Distribution_Department__c), &apos;US-SFO&apos;) &amp;&amp; NOT(CONTAINS($UserRole.Name, &apos;Air&apos;) &amp;&amp; CONTAINS($UserRole.Name, &apos;SFO&apos;))) ||
+(CONTAINS(TEXT(Coupon_ID__r.Distribution_Department__c), &apos;US-LAX&apos;) &amp;&amp; NOT(CONTAINS($UserRole.Name, &apos;Air&apos;) &amp;&amp; CONTAINS($UserRole.Name, &apos;LAX&apos;))) ||
+(CONTAINS(TEXT(Coupon_ID__r.Distribution_Department__c), &apos;US-PHX&apos;) &amp;&amp; NOT(CONTAINS($UserRole.Name, &apos;Air&apos;) &amp;&amp; CONTAINS($UserRole.Name, &apos;PHX&apos;))) ||
+(CONTAINS(TEXT(Coupon_ID__r.Distribution_Department__c), &apos;VN-HAN&apos;) &amp;&amp; NOT(CONTAINS($UserRole.Name, &apos;Air&apos;) &amp;&amp; CONTAINS($UserRole.Name, &apos;HAN&apos;))) ||
+(CONTAINS(TEXT(Coupon_ID__r.Distribution_Department__c), &apos;AOD-TAO&apos;) &amp;&amp; NOT(CONTAINS($UserRole.Name, &apos;Air&apos;) &amp;&amp; CONTAINS($UserRole.Name,&apos;RMQ&apos;))) ||
+(CONTAINS(TEXT(Coupon_ID__r.Distribution_Department__c), &apos;HK-HKG&apos;) &amp;&amp; NOT(CONTAINS($UserRole.Name, &apos;Air&apos;) &amp;&amp; CONTAINS($UserRole.Name,&apos;HKG&apos;))) ||
+(CONTAINS(TEXT(Coupon_ID__r.Distribution_Department__c), &apos;US-SEA&apos;) &amp;&amp; NOT(CONTAINS($UserRole.Name, &apos;Air&apos;) &amp;&amp; CONTAINS($UserRole.Name,&apos;SEA&apos;))) ||
+(CONTAINS(TEXT(Coupon_ID__r.Distribution_Department__c), &apos;US-ONT&apos;) &amp;&amp; NOT(CONTAINS($UserRole.Name, &apos;Air&apos;) &amp;&amp; CONTAINS($UserRole.Name,&apos;SEA&apos;))) ||
+(CONTAINS(TEXT(Coupon_ID__r.Distribution_Department__c), &apos;VN-PQC&apos;) &amp;&amp; NOT(CONTAINS($UserRole.Name, &apos;Air&apos;) &amp;&amp; CONTAINS($UserRole.Name,&apos;PQC&apos;))) ||
+(CONTAINS(TEXT(Coupon_ID__r.Distribution_Department__c), &apos;ID-CGK&apos;) &amp;&amp; NOT(CONTAINS($UserRole.Name, &apos;Air&apos;) &amp;&amp; CONTAINS($UserRole.Name,&apos;CGK&apos;))) ||
+(CONTAINS(TEXT(Coupon_ID__r.Distribution_Department__c), &apos;KR-PUS&apos;) &amp;&amp; NOT(CONTAINS($UserRole.Name, &apos;Air&apos;) &amp;&amp; CONTAINS($UserRole.Name,&apos;PUS&apos;))) ||
+(CONTAINS(TEXT(Coupon_ID__r.Distribution_Department__c), &apos;HK-HK&apos;) &amp;&amp; NOT(CONTAINS($UserRole.Name, &apos;CC&apos;) &amp;&amp; CONTAINS($UserRole.Name,&apos;HK&apos;))) ||
+(CONTAINS(TEXT(Coupon_ID__r.Distribution_Department__c), &apos;ID-ID&apos;) &amp;&amp; NOT(CONTAINS($UserRole.Name, &apos;CC&apos;) &amp;&amp; CONTAINS($UserRole.Name,&apos;ID&apos;))) ||
+(CONTAINS(TEXT(Coupon_ID__r.Distribution_Department__c), &apos;KR-KR&apos;) &amp;&amp; NOT(CONTAINS($UserRole.Name, &apos;CC&apos;) &amp;&amp; CONTAINS($UserRole.Name,&apos;KR&apos;)))</errorConditionFormula>
+    <errorMessage>User Can Only Use The Coupons Distributed To Her/His Own Department</errorMessage>
+</ValidationRule>

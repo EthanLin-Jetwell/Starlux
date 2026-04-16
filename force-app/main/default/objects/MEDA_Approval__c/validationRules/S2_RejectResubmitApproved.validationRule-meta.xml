@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>S2_RejectResubmitApproved</fullName>
+    <active>true</active>
+    <description>【RMS先駁回後補件，EHD審核通過】的審核流程</description>
+    <errorConditionFormula>IF(
+  $UserRole.Name = &quot;System Administrator&quot;,
+  FALSE,
+
+  AND(
+    OR(ISCHANGED(Status__c), ISCHANGED(Approval_Status__c)),
+
+    AND(
+      NOT(
+        OR(
+          ISPICKVAL(Approval_Status__c, &quot;Conditionally Approved&quot;),
+          ISPICKVAL(Approval_Status__c, &quot;Documents Required&quot;),
+          ISPICKVAL(Approval_Status__c, &quot;Rejected&quot;),
+          ISPICKVAL(PRIORVALUE(Approval_Status__c), &quot;Conditionally Approved&quot;),
+          ISPICKVAL(PRIORVALUE(Approval_Status__c), &quot;Documents Required&quot;),
+          ISPICKVAL(PRIORVALUE(Approval_Status__c), &quot;Rejected&quot;)
+        )
+      ),
+      OR(
+        TEXT(Status__c) = &quot;Reapplied&quot;,
+        TEXT(PRIORVALUE(Status__c)) = &quot;Reapplied&quot;,
+        AND(TEXT(Status__c) = &quot;Replied&quot;, TEXT(Approval_Status__c) = &quot;New&quot;),
+        AND(TEXT(Status__c) = &quot;Closed&quot;,  TEXT(Approval_Status__c) = &quot;New&quot;),
+        AND(TEXT(PRIORVALUE(Status__c)) = &quot;Replied&quot;, TEXT(PRIORVALUE(Approval_Status__c)) = &quot;New&quot;),
+        AND(TEXT(PRIORVALUE(Status__c)) = &quot;Closed&quot;,  TEXT(PRIORVALUE(Approval_Status__c)) = &quot;New&quot;)
+      )
+    ),
+
+
+    NOT(
+      OR(
+
+        AND(
+          TEXT(PRIORVALUE(Status__c)) = TEXT(Status__c),
+          TEXT(PRIORVALUE(Approval_Status__c)) = TEXT(Approval_Status__c)
+        ),
+
+        /* 0 -&gt; 1 : New/New -&gt; In Progress/New */
+        AND(
+          TEXT(PRIORVALUE(Status__c)) = &quot;New&quot;,
+          TEXT(PRIORVALUE(Approval_Status__c)) = &quot;New&quot;,
+          ISPICKVAL(Status__c, &quot;In Progress&quot;),
+          ISPICKVAL(Approval_Status__c, &quot;New&quot;)
+        ),
+
+        /* 1 -&gt; 2 : In Progress/New -&gt; Replied/New */
+        AND(
+          TEXT(PRIORVALUE(Status__c)) = &quot;In Progress&quot;,
+          TEXT(PRIORVALUE(Approval_Status__c)) = &quot;New&quot;,
+          ISPICKVAL(Status__c, &quot;Replied&quot;),
+          ISPICKVAL(Approval_Status__c, &quot;New&quot;)
+        ),
+
+        /* 2 -&gt; 3 : Replied/New -&gt; (Reapplied/New or Closed/New) */
+        AND(
+          TEXT(PRIORVALUE(Status__c)) = &quot;Replied&quot;,
+          TEXT(PRIORVALUE(Approval_Status__c)) = &quot;New&quot;,
+          OR(
+            AND(ISPICKVAL(Status__c, &quot;Reapplied&quot;), ISPICKVAL(Approval_Status__c, &quot;New&quot;)),
+            AND(ISPICKVAL(Status__c, &quot;Closed&quot;),    ISPICKVAL(Approval_Status__c, &quot;New&quot;))
+          )
+        ),
+
+        /* 3 -&gt; 4 : Reapplied/New -&gt; Reapplied/In Progress */
+        AND(
+          TEXT(PRIORVALUE(Status__c)) = &quot;Reapplied&quot;,
+          TEXT(PRIORVALUE(Approval_Status__c)) = &quot;New&quot;,
+          ISPICKVAL(Status__c, &quot;Reapplied&quot;),
+          ISPICKVAL(Approval_Status__c, &quot;In Progress&quot;)
+        ),
+
+        /* 4 -&gt; 5 : Reapplied/In Progress -&gt; Reapplied/Approved */
+        AND(
+          TEXT(PRIORVALUE(Status__c)) = &quot;Reapplied&quot;,
+          TEXT(PRIORVALUE(Approval_Status__c)) = &quot;In Progress&quot;,
+          ISPICKVAL(Status__c, &quot;Reapplied&quot;),
+          ISPICKVAL(Approval_Status__c, &quot;Approved&quot;)
+        ),
+
+        /* 5 -&gt; 6 : Reapplied/Approved -&gt; Replied/Approved */
+        AND(
+          TEXT(PRIORVALUE(Status__c)) = &quot;Reapplied&quot;,
+          TEXT(PRIORVALUE(Approval_Status__c)) = &quot;Approved&quot;,
+          ISPICKVAL(Status__c, &quot;Replied&quot;),
+          ISPICKVAL(Approval_Status__c, &quot;Approved&quot;)
+        ),
+
+        /* 6 -&gt; 7 : Replied/Approved -&gt; Closed/Approved */
+        AND(
+          TEXT(PRIORVALUE(Status__c)) = &quot;Replied&quot;,
+          TEXT(PRIORVALUE(Approval_Status__c)) = &quot;Approved&quot;,
+          ISPICKVAL(Status__c, &quot;Closed&quot;),
+          ISPICKVAL(Approval_Status__c, &quot;Approved&quot;)
+        )
+      )
+    )
+  )
+)</errorConditionFormula>
+    <errorMessage>狀態流轉不符「RMS先駁回後補件，EHD審核通過」流程。
+Invalid transition for &quot;&lt;RMS request for &quot;Documents reapplied&quot;, then EHD Approved&gt;&quot; path.</errorMessage>
+</ValidationRule>

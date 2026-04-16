@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CGRP_Defualt</fullName>
+    <columns>NAME</columns>
+    <columns>Booking_Reference_PNR__c</columns>
+    <columns>Group_Booking_Route__c</columns>
+    <columns>Departing_Flight_Date__c</columns>
+    <columns>Departing_Flight_Number__c</columns>
+    <columns>RBD_Departing__c</columns>
+    <columns>Duration__c</columns>
+    <columns>Returning_Flight_Date__c</columns>
+    <columns>Returning_Flight_Number__c</columns>
+    <columns>RBD_Returning__c</columns>
+    <columns>Final_Allocated_Seats__c</columns>
+    <columns>Total_Seat_Sales__c</columns>
+    <filterScope>Mine</filterScope>
+    <label>對團作業(預設)</label>
+</ListView>

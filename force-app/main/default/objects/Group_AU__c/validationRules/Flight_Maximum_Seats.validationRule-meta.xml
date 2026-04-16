@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Flight_Maximum_Seats</fullName>
+    <active>false</active>
+    <description>To Control Maximum Seats</description>
+    <errorConditionFormula>AU__c &gt; 180</errorConditionFormula>
+    <errorDisplayField>AU__c</errorDisplayField>
+    <errorMessage>Flight exceed to the maximum seats for A321</errorMessage>
+</ValidationRule>

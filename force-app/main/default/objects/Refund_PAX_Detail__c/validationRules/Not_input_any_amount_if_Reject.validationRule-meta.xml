@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Not_input_any_amount_if_Reject</fullName>
+    <active>true</active>
+    <description>Not input any amount if it&apos;s rejected</description>
+    <errorConditionFormula>And( Reject__c , Or(Not isblank( Tax_Amount__c ),Not isblank( Surcharge__c ), Not Isblank( Refund_Amount__c )) 
+)</errorConditionFormula>
+    <errorMessage>Not input any amount if refund is rejected</errorMessage>
+</ValidationRule>

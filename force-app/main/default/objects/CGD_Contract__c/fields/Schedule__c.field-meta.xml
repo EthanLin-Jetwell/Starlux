@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Schedule__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>當保安聲明書到期日異動時，將欄位勾起，觸發執行flow做通知排程</description>
+    <label>Schedule</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

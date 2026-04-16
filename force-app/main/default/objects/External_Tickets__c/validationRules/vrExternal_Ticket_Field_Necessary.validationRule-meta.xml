@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>vrExternal_Ticket_Field_Necessary</fullName>
+    <active>false</active>
+    <errorConditionFormula>AND(
+    (
+        ISPICKVAL(Fare_Basis__c ,&apos;ID&apos;) ||
+        ISPICKVAL(Fare_Basis__c ,&apos;DG&apos;) ||
+        ISPICKVAL(Fare_Basis__c ,&apos;RG&apos;) ||
+        ISPICKVAL(Fare_Basis__c ,&apos;AD&apos;) ||
+        ISPICKVAL(Fare_Basis__c ,&apos;GE&apos;)
+    )
+    ||
+    (
+        ISPICKVAL(Fare_Basis__c ,&apos;DM&apos;) &amp;&amp;
+        Paper_Certificated__c=FALSE
+    )
+)
+&amp;&amp;
+(
+    ISPICKVAL(Booking_Class_Departure_External__c,&apos;&apos;) ||
+    ISPICKVAL(Booking_Class_Returning_External__c,&apos;&apos;) ||
+    ISPICKVAL(RBD_Departure__c,&apos;&apos;) ||
+    ISPICKVAL(RBD_Returning__c,&apos;&apos;) ||
+    (
+        IF( ISPICKVAL(Certificate_Version__c, &apos;Chinese&apos;),
+            ISBLANK(TEXT(Itinerary_Departure_CH__c)) || ISBLANK(TEXT(Itinerary_Return_CH__c)),
+            ISBLANK(TEXT(Itinerary_Departure__c)) || ISBLANK(TEXT(Itinerary_Return__c))
+          )
+    ) || 
+    ISPICKVAL(Itinerary_Departure__c,&apos;&apos; ) || 
+    ISPICKVAL(Itinerary_Return__c,&apos;&apos; ) || 
+    ISBLANK(Flight_Date_Departure_External__c) || 
+    ISBLANK(Flight_Date_Returning_External__c) ||
+    ISBLANK(Flight_Number_Departure_External__c) ||  
+    ISBLANK(Flight_Number_Returning_External__c) ||  
+    ISBLANK(First_Name_EN__c) || 
+    ISBLANK(Last_Name_EN__c) || 
+    ISBLANK(Date_of_Birth__c) || 
+    ISBLANK(Email__c) ||  
+    ISBLANK(Phone__c)  
+)
+&amp;&amp;
+(
+ RecordType.Name=&apos;Free &amp; Reduced Fare Tickets&apos;
+)</errorConditionFormula>
+    <errorMessage>Pls Fill in Travel &amp; Passenger Info when Discount code = ID,DG,RG,AD,GE or Discount = DM but no need issue paper certificate</errorMessage>
+</ValidationRule>

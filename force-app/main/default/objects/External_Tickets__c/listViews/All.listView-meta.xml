@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All</fullName>
+    <columns>RECORDTYPE</columns>
+    <columns>NAME</columns>
+    <columns>SerialID__c</columns>
+    <columns>Account__c</columns>
+    <columns>Paper_Certificated__c</columns>
+    <columns>Item_Status__c</columns>
+    <columns>Item_Number__c</columns>
+    <columns>Coupon_Number__c</columns>
+    <columns>Case_No__c</columns>
+    <columns>PIC__c</columns>
+    <columns>Ticket_Count__c</columns>
+    <columns>CREATEDBY_USER</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>LAST_UPDATE</columns>
+    <filterScope>Everything</filterScope>
+    <label>All</label>
+</ListView>

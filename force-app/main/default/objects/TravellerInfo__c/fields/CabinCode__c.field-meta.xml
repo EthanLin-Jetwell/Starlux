@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CabinCode__c</fullName>
+    <description>機位艙等(非訂位艙等) / 起飛前2日系統自動帶入</description>
+    <externalId>false</externalId>
+    <inlineHelpText>機位艙等(非訂位艙等) / 起飛前2日系統自動帶入</inlineHelpText>
+    <label>艙等代碼</label>
+    <length>2</length>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

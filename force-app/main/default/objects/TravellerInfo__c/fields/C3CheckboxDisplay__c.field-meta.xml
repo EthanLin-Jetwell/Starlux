@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>C3CheckboxDisplay__c</fullName>
+    <description>該欄位用來判斷C3前端旅客是否需呈現Checkbox供使用者操作</description>
+    <formula>AND(
+  NOT(ISBLANK(PAX__c)),
+  PassportFinished__c = TRUE,
+  NOT(
+    OR(
+      C3OperationDisable__c = TRUE,
+      CheckDisable__c = TRUE,
+      CAS__c = &quot;CRJ&quot;,
+      CAS__c = &quot;CAC&quot;,
+      CAS__c = &quot;CST&quot;
+    )
+  )
+)</formula>
+    <inlineHelpText>該欄位用來判斷C3前端旅客是否需呈現Checkbox供使用者操作</inlineHelpText>
+    <label>C3 Checkbox Display</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

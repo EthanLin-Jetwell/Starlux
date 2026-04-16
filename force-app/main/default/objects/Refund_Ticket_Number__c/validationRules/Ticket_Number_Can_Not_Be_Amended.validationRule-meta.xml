@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Ticket_Number_Can_Not_Be_Amended</fullName>
+    <active>true</active>
+    <description>Ticket Number can&apos;t be amended.</description>
+    <errorConditionFormula>ISCHANGED(Ticket_Number__c)</errorConditionFormula>
+    <errorDisplayField>Ticket_Number__c</errorDisplayField>
+    <errorMessage>Ticket Number can&apos;t be amended.</errorMessage>
+</ValidationRule>

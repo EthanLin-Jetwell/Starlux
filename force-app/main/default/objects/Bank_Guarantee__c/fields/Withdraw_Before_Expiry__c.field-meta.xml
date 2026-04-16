@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Withdraw_Before_Expiry__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>到期前領回</description>
+    <label>Withdraw Before Expiry</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

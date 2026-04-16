@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Category_Details__c</fullName>
+    <label>Category Details</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>SQD_Sub_subcategory__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Spilling Issues</fullName>
+                <default>false</default>
+                <label>Spilling Issues</label>
+            </value>
+            <value>
+                <fullName>Meal Delivery Issues</fullName>
+                <default>false</default>
+                <label>Meal Delivery Issues</label>
+            </value>
+            <value>
+                <fullName>Passenger Injury</fullName>
+                <default>false</default>
+                <label>Passenger Injury</label>
+            </value>
+            <value>
+                <fullName>Failure to Follow Procedures</fullName>
+                <default>false</default>
+                <label>Failure to Follow Procedures</label>
+            </value>
+            <value>
+                <fullName>Service Efficiency</fullName>
+                <default>false</default>
+                <label>Service Efficiency</label>
+            </value>
+            <value>
+                <fullName>Communication Skills/ Service Knowledge</fullName>
+                <default>false</default>
+                <label>Communication Skills/ Service Knowledge</label>
+            </value>
+            <value>
+                <fullName>Irregular Incident Handling</fullName>
+                <default>false</default>
+                <label>Irregular Incident Handling</label>
+            </value>
+            <value>
+                <fullName>Cutlery/ Cup Related Issues</fullName>
+                <default>false</default>
+                <label>Cutlery/ Cup Related Issues</label>
+            </value>
+            <value>
+                <fullName>Linen Related Issues</fullName>
+                <default>false</default>
+                <label>Linen Related Issues</label>
+            </value>
+            <value>
+                <fullName>Wi-Fi not Available</fullName>
+                <default>false</default>
+                <label>Wi-Fi not Available</label>
+            </value>
+            <value>
+                <fullName>Personal Devices Not Available</fullName>
+                <default>false</default>
+                <label>Personal Devices Not Available</label>
+            </value>
+            <value>
+                <fullName>IFE Function</fullName>
+                <default>false</default>
+                <label>IFE Function</label>
+            </value>
+            <value>
+                <fullName>IFE Contents Related Issues</fullName>
+                <default>false</default>
+                <label>IFE Contents Related Issues</label>
+            </value>
+            <value>
+                <fullName>IFE Menu</fullName>
+                <default>false</default>
+                <label>IFE Menu</label>
+            </value>
+            <value>
+                <fullName>IFE Related Equipment</fullName>
+                <default>false</default>
+                <label>IFE Related Equipment</label>
+            </value>
+            <value>
+                <fullName>Broadcast Equipment-Related</fullName>
+                <default>false</default>
+                <label>Broadcast Equipment-Related</label>
+            </value>
+            <value>
+                <fullName>Tray Table Function</fullName>
+                <default>false</default>
+                <label>Tray Table Function</label>
+            </value>
+            <value>
+                <fullName>Seat Function</fullName>
+                <default>false</default>
+                <label>Seat Function</label>
+            </value>
+            <value>
+                <fullName>Sliding Door Function</fullName>
+                <default>false</default>
+                <label>Sliding Door Function</label>
+            </value>
+            <value>
+                <fullName>Reading Light/ Call Bell INOP</fullName>
+                <default>false</default>
+                <label>Reading Light/ Call Bell INOP</label>
+            </value>
+            <value>
+                <fullName>Charging Equipment</fullName>
+                <default>false</default>
+                <label>Charging Equipment</label>
+            </value>
+            <value>
+                <fullName>Lavatory Equipment</fullName>
+                <default>false</default>
+                <label>Lavatory Equipment</label>
+            </value>
+            <value>
+                <fullName>POS Machine Issues</fullName>
+                <default>false</default>
+                <label>POS Machine Issues</label>
+            </value>
+            <value>
+                <fullName>Duty Free Product Quality</fullName>
+                <default>false</default>
+                <label>Duty Free Product Quality</label>
+            </value>
+            <value>
+                <fullName>Insufficient Item</fullName>
+                <default>false</default>
+                <label>Incorrect Quantity</label>
+            </value>
+            <value>
+                <fullName>Headset Related Issues</fullName>
+                <default>false</default>
+                <label>Headset Related Issues</label>
+            </value>
+            <value>
+                <fullName>Blanket Related Issues</fullName>
+                <default>false</default>
+                <label>Blanket Related Issues</label>
+            </value>
+            <value>
+                <fullName>Pijama/ Pillow/ Amenity kit</fullName>
+                <default>false</default>
+                <label>Pijama/ Pillow/ Amenity kit</label>
+            </value>
+            <value>
+                <fullName>Toiletries</fullName>
+                <default>false</default>
+                <label>Toiletries</label>
+            </value>
+            <value>
+                <fullName>Playing Cards/ Toys</fullName>
+                <default>false</default>
+                <label>Playing Cards/ Toys</label>
+            </value>
+            <value>
+                <fullName>Co-Branded Product</fullName>
+                <default>false</default>
+                <label>Co-Branded Product</label>
+            </value>
+            <value>
+                <fullName>General Reservation and Ticketing</fullName>
+                <default>false</default>
+                <label>General Reservation and Ticketing</label>
+            </value>
+            <value>
+                <fullName>Ticket Change/ Refund</fullName>
+                <default>false</default>
+                <label>Ticket Change/ Refund</label>
+            </value>
+            <value>
+                <fullName>Service Information</fullName>
+                <default>false</default>
+                <label>Service Information</label>
+            </value>
+            <value>
+                <fullName>Online Check-in</fullName>
+                <default>false</default>
+                <label>Online Check-in</label>
+            </value>
+            <value>
+                <fullName>Manage My Trip</fullName>
+                <default>false</default>
+                <label>Manage My Trip</label>
+            </value>
+            <value>
+                <fullName>Manage My Trip-Seat Selection</fullName>
+                <default>false</default>
+                <label>Manage My Trip-Seat Selection</label>
+            </value>
+            <value>
+                <fullName>Manage My Trip-Meal Selection</fullName>
+                <default>false</default>
+                <label>Manage My Trip-Meal Selection</label>
+            </value>
+            <value>
+                <fullName>Manage My Trip-Duty Free</fullName>
+                <default>false</default>
+                <label>Manage My Trip-Duty Free</label>
+            </value>
+            <value>
+                <fullName>COSMILE Program</fullName>
+                <default>false</default>
+                <label>COSMILE Program</label>
+            </value>
+            <value>
+                <fullName>COSMILE Program Redemption</fullName>
+                <default>false</default>
+                <label>COSMILE Program Redemption</label>
+            </value>
+            <value>
+                <fullName>Online Application Forms</fullName>
+                <default>false</default>
+                <label>Online Application Forms</label>
+            </value>
+            <value>
+                <fullName>Others</fullName>
+                <default>false</default>
+                <label>Others</label>
+            </value>
+            <value>
+                <fullName>Safety Video</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Safety Video</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Website/Mobile APP Function</controllingFieldValue>
+            <controllingFieldValue>Website/Mobile APP Information Revealed</controllingFieldValue>
+            <valueName>General Reservation and Ticketing</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Website/Mobile APP Function</controllingFieldValue>
+            <valueName>Ticket Change/ Refund</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Website/Mobile APP Function</controllingFieldValue>
+            <controllingFieldValue>Website/Mobile APP Information Revealed</controllingFieldValue>
+            <valueName>Online Check-in</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Website/Mobile APP Function</controllingFieldValue>
+            <controllingFieldValue>Website/Mobile APP Information Revealed</controllingFieldValue>
+            <valueName>Manage My Trip</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Website/Mobile APP Function</controllingFieldValue>
+            <controllingFieldValue>Website/Mobile APP Information Revealed</controllingFieldValue>
+            <valueName>Manage My Trip-Seat Selection</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Website/Mobile APP Function</controllingFieldValue>
+            <controllingFieldValue>Website/Mobile APP Information Revealed</controllingFieldValue>
+            <valueName>Manage My Trip-Meal Selection</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Website/Mobile APP Function</controllingFieldValue>
+            <controllingFieldValue>Website/Mobile APP Information Revealed</controllingFieldValue>
+            <valueName>Manage My Trip-Duty Free</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Website/Mobile APP Function</controllingFieldValue>
+            <valueName>COSMILE Program Redemption</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Website/Mobile APP Function</controllingFieldValue>
+            <controllingFieldValue>Website/Mobile APP Information Revealed</controllingFieldValue>
+            <valueName>Online Application Forms</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Website/Mobile APP Function</controllingFieldValue>
+            <controllingFieldValue>Service Skills – Cabin​</controllingFieldValue>
+            <controllingFieldValue>Other Catering Issues​</controllingFieldValue>
+            <controllingFieldValue>Cabin Facilities/Equipment Issues​</controllingFieldValue>
+            <controllingFieldValue>Duty Free Issues​</controllingFieldValue>
+            <controllingFieldValue>Website/Mobile APP Information Revealed</controllingFieldValue>
+            <controllingFieldValue>Other Cabin Services and Onboard Product Issues​</controllingFieldValue>
+            <valueName>Others</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service Skills – Cabin​</controllingFieldValue>
+            <valueName>Spilling Issues</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service Skills – Cabin​</controllingFieldValue>
+            <valueName>Meal Delivery Issues</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service Skills – Cabin​</controllingFieldValue>
+            <valueName>Passenger Injury</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service Skills – Cabin​</controllingFieldValue>
+            <valueName>Failure to Follow Procedures</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service Skills – Cabin​</controllingFieldValue>
+            <valueName>Service Efficiency</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service Skills – Cabin​</controllingFieldValue>
+            <valueName>Communication Skills/ Service Knowledge</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service Skills – Cabin​</controllingFieldValue>
+            <valueName>Irregular Incident Handling</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other Catering Issues​</controllingFieldValue>
+            <valueName>Cutlery/ Cup Related Issues</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other Catering Issues​</controllingFieldValue>
+            <valueName>Linen Related Issues</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Wi-Fi Related Issues​</controllingFieldValue>
+            <valueName>Wi-Fi not Available</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Wi-Fi Related Issues​</controllingFieldValue>
+            <valueName>Personal Devices Not Available</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IFE or Content Related Issues​</controllingFieldValue>
+            <valueName>IFE Function</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IFE or Content Related Issues​</controllingFieldValue>
+            <valueName>IFE Contents Related Issues</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IFE or Content Related Issues​</controllingFieldValue>
+            <valueName>IFE Menu</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IFE or Content Related Issues​</controllingFieldValue>
+            <valueName>IFE Related Equipment</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cabin Facilities/Equipment Issues​</controllingFieldValue>
+            <valueName>Broadcast Equipment-Related</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cabin Facilities/Equipment Issues​</controllingFieldValue>
+            <valueName>Tray Table Function</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cabin Facilities/Equipment Issues​</controllingFieldValue>
+            <valueName>Seat Function</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cabin Facilities/Equipment Issues​</controllingFieldValue>
+            <valueName>Sliding Door Function</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cabin Facilities/Equipment Issues​</controllingFieldValue>
+            <valueName>Reading Light/ Call Bell INOP</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cabin Facilities/Equipment Issues​</controllingFieldValue>
+            <valueName>Charging Equipment</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cabin Facilities/Equipment Issues​</controllingFieldValue>
+            <valueName>Lavatory Equipment</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Duty Free Issues​</controllingFieldValue>
+            <valueName>POS Machine Issues</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Duty Free Issues​</controllingFieldValue>
+            <valueName>Duty Free Product Quality</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Duty Free Issues​</controllingFieldValue>
+            <valueName>Insufficient Item</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Website/Mobile APP Information Revealed</controllingFieldValue>
+            <valueName>Service Information</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Website/Mobile APP Information Revealed</controllingFieldValue>
+            <valueName>COSMILE Program</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other Cabin Services and Onboard Product Issues​</controllingFieldValue>
+            <valueName>Headset Related Issues</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other Cabin Services and Onboard Product Issues​</controllingFieldValue>
+            <valueName>Blanket Related Issues</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other Cabin Services and Onboard Product Issues​</controllingFieldValue>
+            <valueName>Pijama/ Pillow/ Amenity kit</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other Cabin Services and Onboard Product Issues​</controllingFieldValue>
+            <valueName>Toiletries</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other Cabin Services and Onboard Product Issues​</controllingFieldValue>
+            <valueName>Playing Cards/ Toys</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other Cabin Services and Onboard Product Issues​</controllingFieldValue>
+            <valueName>Co-Branded Product</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

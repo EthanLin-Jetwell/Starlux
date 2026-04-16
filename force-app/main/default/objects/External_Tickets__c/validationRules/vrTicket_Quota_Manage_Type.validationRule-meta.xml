@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>vrTicket_Quota_Manage_Type</fullName>
+    <active>true</active>
+    <description>Record Type must the same.</description>
+    <errorConditionFormula>QuotaManageID__c &lt;&gt; null &amp;&amp;
+RecordType.Name&lt;&gt; TEXT(QuotaManageID__r.Type_For__c) &amp;&amp;
+RecordType.DeveloperName != &quot;Free_Reduced_Fare_Tickets&quot;</errorConditionFormula>
+    <errorDisplayField>QuotaManageID__c</errorDisplayField>
+    <errorMessage>This quota isn&apos;t belong to this record type, please change another quota.</errorMessage>
+</ValidationRule>

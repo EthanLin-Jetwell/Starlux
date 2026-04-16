@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All_Flights_of_KIX_Next_Week</fullName>
+    <booleanFilter>1 AND (2 or 3)</booleanFilter>
+    <columns>Flight_Date__c</columns>
+    <columns>NAME</columns>
+    <columns>Reg_Number__c</columns>
+    <columns>DEP__c</columns>
+    <columns>ARR__c</columns>
+    <columns>STD_Time_Local__c</columns>
+    <columns>STA_TIme_Local__c</columns>
+    <columns>ATD_Time__c</columns>
+    <columns>AIRBORNE_Time__c</columns>
+    <columns>LANDING_Time__c</columns>
+    <columns>ATA_Time__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Flight_Date__c</field>
+        <operation>equals</operation>
+        <value>NEXT_WEEK</value>
+    </filters>
+    <filters>
+        <field>DEP__c</field>
+        <operation>equals</operation>
+        <value>KIX</value>
+    </filters>
+    <filters>
+        <field>ARR__c</field>
+        <operation>equals</operation>
+        <value>KIX</value>
+    </filters>
+    <label>All Flights of KIX Next Week</label>
+    <sharedTo></sharedTo>
+</ListView>

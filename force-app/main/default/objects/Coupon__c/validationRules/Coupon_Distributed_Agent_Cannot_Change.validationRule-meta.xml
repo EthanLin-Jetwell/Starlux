@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Coupon_Distributed_Agent_Cannot_Change</fullName>
+    <active>true</active>
+    <description>Once set, coupon distributed to agent cannot be changed.</description>
+    <errorConditionFormula>NOT(ISBLANK(PRIORVALUE(Distributed_Agent__c))) &amp;&amp;
+ISCHANGED(Distributed_Agent__c)</errorConditionFormula>
+    <errorDisplayField>Distributed_Agent__c</errorDisplayField>
+    <errorMessage>Coupon Distributed to Agent cannot be modified once it is set.  Please inform your data administrator to help to modify the field, if needed.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Category__c</fullName>
+    <label>Category</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>true</sorted>
+            <value>
+                <fullName>Aircraft Issue</fullName>
+                <default>false</default>
+                <label>Aircraft Issue</label>
+            </value>
+            <value>
+                <fullName>Cabin Cleanliness</fullName>
+                <default>false</default>
+                <label>Cabin Cleanliness</label>
+            </value>
+            <value>
+                <fullName>Cabin Crew Members</fullName>
+                <default>false</default>
+                <label>Cabin Crew Members</label>
+            </value>
+            <value>
+                <fullName>Cabin Interior Comfort Amenities</fullName>
+                <default>false</default>
+                <label>Cabin Interior Comfort Amenities</label>
+            </value>
+            <value>
+                <fullName>Cabin Safety Procedures</fullName>
+                <default>false</default>
+                <label>Cabin Safety Procedures</label>
+            </value>
+            <value>
+                <fullName>Flight Delayed or Cancelled</fullName>
+                <default>false</default>
+                <label>Flight Delayed or Cancelled</label>
+            </value>
+            <value>
+                <fullName>Ground Service</fullName>
+                <default>false</default>
+                <label>Ground Service</label>
+            </value>
+            <value>
+                <fullName>Inflight Product</fullName>
+                <default>false</default>
+                <label>Inflight Product</label>
+            </value>
+            <value>
+                <fullName>Onboard Public Announcement</fullName>
+                <default>false</default>
+                <label>Onboard Public Announcement</label>
+            </value>
+            <value>
+                <fullName>Operated Flight Crew</fullName>
+                <default>false</default>
+                <label>Operated Flight Crew</label>
+            </value>
+            <value>
+                <fullName>Others</fullName>
+                <default>false</default>
+                <label>Others</label>
+            </value>
+            <value>
+                <fullName>Passenger</fullName>
+                <default>false</default>
+                <label>Passenger</label>
+            </value>
+            <value>
+                <fullName>Sales Marketing</fullName>
+                <default>false</default>
+                <label>Sales Marketing</label>
+            </value>
+            <value>
+                <fullName>Service Preference</fullName>
+                <default>false</default>
+                <label>Service Preference</label>
+            </value>
+            <value>
+                <fullName>Staff Travel</fullName>
+                <default>false</default>
+                <label>Staff Travel</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

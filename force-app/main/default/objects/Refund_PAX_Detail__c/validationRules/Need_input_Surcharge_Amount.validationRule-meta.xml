@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Need_input_Surcharge_Amount</fullName>
+    <active>true</active>
+    <description>Need fill waive Surcharge Amount if check Waive Surcharge</description>
+    <errorConditionFormula>And( Waive_Surcharge__c ,
+isblank( Surcharge_Amount__c ),
+ Contains( $Profile.Name ,&quot;B2B Sales Agent&quot;)
+)</errorConditionFormula>
+    <errorDisplayField>Surcharge_Amount__c</errorDisplayField>
+    <errorMessage>Please input Surcharge Amount if checked to Waive Surcharge</errorMessage>
+</ValidationRule>

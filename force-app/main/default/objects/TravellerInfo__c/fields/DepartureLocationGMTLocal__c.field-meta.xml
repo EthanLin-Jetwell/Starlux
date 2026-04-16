@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>DepartureLocationGMTLocal__c</fullName>
+    <description>僅DB存取用</description>
+    <formula>DATETIMEVALUE(
+    TEXT(
+        2000 + VALUE(MID(DepartureDate__c, 5, 2))
+    ) &amp; &quot;-&quot; &amp;
+    RIGHT(&quot;0&quot; &amp; TEXT(VALUE(MID(DepartureDate__c, 3, 2))), 2) &amp; &quot;-&quot; &amp;
+    RIGHT(&quot;0&quot; &amp; TEXT(VALUE(MID(DepartureDate__c, 1, 2))), 2) &amp; &quot; &quot; &amp;
+    LEFT(DepartureTime__c, 2) &amp; &quot;:&quot; &amp;
+    RIGHT(DepartureTime__c, 2) &amp; &quot;:00&quot;
+)</formula>
+    <inlineHelpText>僅DB存取用</inlineHelpText>
+    <label>起飛日期(當地時間)</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>DateTime</type>
+</CustomField>

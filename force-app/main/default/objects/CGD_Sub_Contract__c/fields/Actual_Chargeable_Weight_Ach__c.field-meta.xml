@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Actual_Chargeable_Weight_Ach__c</fullName>
+    <description>BSA 與 Incentive計算不同</description>
+    <formula>IF(RecordType.DeveloperName=&apos;Sub_Contract_Block_Space_Agreement&apos;, 
+Round(Actual_Chargeable_Weight__c / Tonnage_Monthly__c,3),
+Round(Actual_Chargeable_Weight__c / Tonnage_Yearly__c,3)
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Actual Chargeable Weight / Ach.</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>1</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Percent</type>
+</CustomField>

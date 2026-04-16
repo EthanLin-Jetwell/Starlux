@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Ticket_Number_Only_Accept_Numeric_Value</fullName>
+    <active>true</active>
+    <description>Ticket Number can only be
+1. Numeric Value.
+2. 13 Digits.
+3. Start with 189.</description>
+    <errorConditionFormula>OR(
+NOT(ISNUMBER( Ticket_Number__c )),
+LEN( Ticket_Number__c ) != 13,
+LEFT( Ticket_Number__c , 3) != &quot;189&quot;
+)</errorConditionFormula>
+    <errorDisplayField>Ticket_Number__c</errorDisplayField>
+    <errorMessage>Ticket Number can only be 13 digits number and start with 189.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gift_paring_Remark</fullName>
+    <active>true</active>
+    <description>Gift paring Remark</description>
+    <errorConditionFormula>ISPICKVAL( Measure__c , &quot;Gift&quot;) &amp;&amp;
+ISBLANK( Remark__c )</errorConditionFormula>
+    <errorDisplayField>Remark__c</errorDisplayField>
+    <errorMessage>Please input Remark for Gift.</errorMessage>
+</ValidationRule>

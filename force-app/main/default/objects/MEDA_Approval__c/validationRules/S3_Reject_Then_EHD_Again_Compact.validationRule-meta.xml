@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>S3_Reject_Then_EHD_Again_Compact</fullName>
+    <active>true</active>
+    <description>狀態流轉不符「RMS駁回補件，EHD再次要求補件」流程。
+Invalid transition for &lt;After RMS rejection and resubmission, EHD requires supplementary documents again&gt; path.</description>
+    <errorConditionFormula>/* S3（濃縮版）：僅針對 DR 場景啟動；含 EHD/CC/B2B 豁免 */
+IF(
+  $UserRole.Name = &quot;System Administrator&quot;,
+  FALSE,
+  AND(
+    OR(ISCHANGED(Status__c), ISCHANGED(Approval_Status__c)),
+
+    /* 僅在 DR（當前或前一筆為 DR）時進入 S3 判斷 */
+    OR(
+      TEXT(Approval_Status__c) = &quot;Documents Required&quot;,
+      TEXT(PRIORVALUE(Approval_Status__c)) = &quot;Documents Required&quot;
+    ),
+
+    /* 不在允許條件才擋下 */
+    NOT(
+      OR(
+        /* 未變更：放行 */
+        AND(
+          TEXT(PRIORVALUE(Status__c)) = TEXT(Status__c),
+          TEXT(PRIORVALUE(Approval_Status__c)) = TEXT(Approval_Status__c)
+        ),
+
+        /* DR 相關白名單：放行 */
+        CONTAINS(
+          &quot;;&quot; &amp;
+          &quot;Reapplied|Documents Required&gt;Replied|Documents Required;&quot; &amp;
+          &quot;Reapplied|Documents Required&gt;Reapplied|In Progress;&quot; &amp;
+          &quot;Closed|Documents Required&gt;Reapplied|In Progress;&quot; &amp;
+          &quot;Replied|Documents Required&gt;Reapplied|Documents Required;&quot; &amp;
+          &quot;Replied|Documents Required&gt;Closed|Documents Required;&quot; &amp;
+          &quot;;&quot;,
+          &quot;;&quot; &amp;
+          TEXT(PRIORVALUE(Status__c)) &amp; &quot;|&quot; &amp; TEXT(PRIORVALUE(Approval_Status__c)) &amp;
+          &quot;&gt;&quot; &amp;
+          TEXT(Status__c) &amp; &quot;|&quot; &amp; TEXT(Approval_Status__c) &amp; &quot;;&quot;
+        ),
+
+        /* 角色豁免：放行 */
+        OR(
+          /* S5 Step 3：IP|IP -&gt; IP|DR（僅 EHD）*/
+          AND(
+            TEXT(PRIORVALUE(Status__c)) = &quot;In Progress&quot;,
+            TEXT(PRIORVALUE(Approval_Status__c)) = &quot;In Progress&quot;,
+            TEXT(Status__c) = &quot;In Progress&quot;,
+            TEXT(Approval_Status__c) = &quot;Documents Required&quot;,
+            CONTAINS($UserRole.Name, &quot;EHD&quot;)
+          ),
+          /* S5 Step 4：In Progress|DR -&gt; Replied|DR（僅 RMS）*/
+         AND(
+            TEXT(PRIORVALUE(Status__c)) = &quot;In Progress&quot;,
+            TEXT(PRIORVALUE(Approval_Status__c)) = &quot;Documents Required&quot;,
+            TEXT(Status__c) = &quot;Replied&quot;,
+            TEXT(Approval_Status__c) = &quot;Documents Required&quot;,
+            CONTAINS($UserRole.Name, &quot;RMS&quot;)
+          ),
+          /* S3 Step 5：Reapplied|IP -&gt; Reapplied|DR（僅 EHD）*/
+          AND(
+            TEXT(PRIORVALUE(Status__c)) = &quot;Reapplied&quot;,
+            TEXT(PRIORVALUE(Approval_Status__c)) = &quot;In Progress&quot;,
+            TEXT(Status__c) = &quot;Reapplied&quot;,
+            TEXT(Approval_Status__c) = &quot;Documents Required&quot;,
+            CONTAINS($UserRole.Name, &quot;EHD&quot;)
+          ),
+
+          /* S3 Step 7：Replied|DR -&gt; Reapplied|DR / Closed|DR（僅 CC/B2B）*/
+          AND(
+            TEXT(PRIORVALUE(Status__c)) = &quot;Replied&quot;,
+            TEXT(PRIORVALUE(Approval_Status__c)) = &quot;Documents Required&quot;,
+            OR(TEXT(Status__c) = &quot;Reapplied&quot;, TEXT(Status__c) = &quot;Closed&quot;),
+            TEXT(Approval_Status__c) = &quot;Documents Required&quot;,
+            OR(CONTAINS($UserRole.Name, &quot;CC&quot;), CONTAINS($UserRole.Name, &quot;B2B&quot;))
+          )
+        )
+      )
+    )
+  )
+)</errorConditionFormula>
+    <errorMessage>狀態流轉不符「RMS駁回補件，EHD再次要求補件」流程。
+Invalid transition for &lt;After RMS rejection and resubmission, EHD requires supplementary documents again&gt; path.</errorMessage>
+</ValidationRule>

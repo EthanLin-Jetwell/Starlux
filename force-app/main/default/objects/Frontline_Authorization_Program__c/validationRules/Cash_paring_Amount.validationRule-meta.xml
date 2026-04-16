@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Cash_paring_Amount</fullName>
+    <active>true</active>
+    <description>Cash paring Amount</description>
+    <errorConditionFormula>ISPICKVAL( Measure__c , &quot;Cash&quot;) &amp;&amp;
+(ISBLANK( Cash_Amount_per_person__c) || ISBLANK(Cash_Total_amount__c))</errorConditionFormula>
+    <errorMessage>Please input Amount for Cash.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Remark_Only_Edit_On_Distributed_Issued</fullName>
+    <active>false</active>
+    <description>Remark only edit on Status = Distributed &amp; Issued</description>
+    <errorConditionFormula>NOT(ISPICKVAL(Coupon_Status__c,&quot;Distributed&quot;)||ISPICKVAL(Coupon_Status__c,&quot;Issued&quot;))
+&amp;&amp;(ISCHANGED(Remark__c))
+||
+NOT(ISPICKVAL(Coupon_Status__c,&quot;Distributed&quot;)||ISPICKVAL(Coupon_Status__c,&quot;Issued&quot;))
+&amp;&amp;(ISBLANK(Remark__c))
+&amp;&amp;
+($UserRole.Id = &quot;00E6D000000Jto6&quot; || $UserRole.Id = &quot;00E2v000000LNAU&quot;)</errorConditionFormula>
+    <errorMessage>Remark only edit on Status = Distributed &amp; Issued</errorMessage>
+</ValidationRule>

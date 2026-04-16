@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SQD_Sub_Category__c</fullName>
+    <label>SQD Sub Category</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Flight Irregularities</fullName>
+                <default>false</default>
+                <label>Flight Irregularities</label>
+            </value>
+            <value>
+                <fullName>Reservation and Ticketing</fullName>
+                <default>false</default>
+                <label>Reservation and Ticketing</label>
+            </value>
+            <value>
+                <fullName>Airport Services</fullName>
+                <default>false</default>
+                <label>Airport Services</label>
+            </value>
+            <value>
+                <fullName>Cabin Services and Onboard Product</fullName>
+                <default>false</default>
+                <label>Cabin Services and Onboard Product</label>
+            </value>
+            <value>
+                <fullName>Others</fullName>
+                <default>false</default>
+                <label>Others</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

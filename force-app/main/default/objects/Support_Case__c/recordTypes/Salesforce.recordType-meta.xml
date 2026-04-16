@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Salesforce</fullName>
+    <active>true</active>
+    <description>Salesforce</description>
+    <label>Salesforce</label>
+    <picklistValues>
+        <picklist>Level__c</picklist>
+        <values>
+            <fullName>Emergent</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>High</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Medium</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Nice to Have</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Non Urgent</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Routine</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Urgent</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Status__c</picklist>
+        <values>
+            <fullName>Assign</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Build</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Cancel %28Closed%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Deploy to PROD %28Closed%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>New</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Pending on Business</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ready for UAT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rejected %28Closed%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Review In Progess</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>UAT Completed</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Type__c</picklist>
+        <values>
+            <fullName>Assistance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Enhancement</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Irregularity</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

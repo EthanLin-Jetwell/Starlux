@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Coupon_Used_On_EMD_Validation</fullName>
+    <active>true</active>
+    <description>If coupon used on is emd, ticket no and mileage equivalent should not be entered</description>
+    <errorConditionFormula>NOT( ISPICKVAL(Coupon_Used_On__c, &quot;EMD&quot; )) &amp;&amp;
+NOT(ISBLANK( CPN_Used_on_TKT_No__c )) &amp;&amp;
+NOT(ISBLANK( Mileage_Equivalent__c ))</errorConditionFormula>
+    <errorMessage>Please only enter Ticket No. and Mileage Equivalent if the coupon is used on this item</errorMessage>
+</ValidationRule>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Departure_Record</fullName>
+    <columns>MasterLabel</columns>
+    <columns>DeveloperName</columns>
+    <columns>ActualEndBase__c</columns>
+    <columns>ActualEndOffset__c</columns>
+    <columns>ActualStartBase__c</columns>
+    <columns>ActualStartOffset__c</columns>
+    <columns>EstimatedEndBase__c</columns>
+    <columns>EstimatedEndOffset__c</columns>
+    <columns>EstimatedStartBase__c</columns>
+    <columns>EstimatedStartOffset__c</columns>
+    <columns>GroupInCharge__c</columns>
+    <columns>ListOrder__c</columns>
+    <columns>ScheduleType__c</columns>
+    <columns>Site__c</columns>
+    <columns>StageName__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>DeveloperName</field>
+        <operation>contains</operation>
+        <value>Departure</value>
+    </filters>
+    <label>Departure Record</label>
+    <language>en_US</language>
+</ListView>

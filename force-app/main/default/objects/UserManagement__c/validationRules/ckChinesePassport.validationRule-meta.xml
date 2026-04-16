@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ckChinesePassport</fullName>
+    <active>true</active>
+    <description>僅中文字</description>
+    <errorConditionFormula>AND(
+    NOT(ISBLANK(CN_Passport__c )),
+    NOT(ISNUMBER(CN_Passport__c )),
+    LEN(CN_Passport__c ) &lt;&gt; LEN(SUBSTITUTE(CN_Passport__c , &quot; &quot;, &quot;&quot;))
+)</errorConditionFormula>
+    <errorDisplayField>CN_Passport__c</errorDisplayField>
+    <errorMessage>僅中文字</errorMessage>
+</ValidationRule>

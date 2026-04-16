@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Coupon_Has_Expired</fullName>
+    <active>true</active>
+    <description>Expired Coupon Cannot be used</description>
+    <errorConditionFormula>Coupon_Used_Date__c &gt; Coupon_Issued_Date__c + VALUE($Label.Coupon_Expiry_Period)</errorConditionFormula>
+    <errorMessage>Expired Coupon cannot be used</errorMessage>
+</ValidationRule>

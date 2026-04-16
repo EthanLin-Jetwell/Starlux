@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>vrTicket_Quota_Manage_B_Left_after_Used</fullName>
+    <active>false</active>
+    <description>Budget Left after Used must more than or equal to 0.</description>
+    <errorConditionFormula>Budget_Left_after_Used__c&lt;0</errorConditionFormula>
+    <errorMessage>Budget Left after Used must more than or equal to 0.</errorMessage>
+</ValidationRule>

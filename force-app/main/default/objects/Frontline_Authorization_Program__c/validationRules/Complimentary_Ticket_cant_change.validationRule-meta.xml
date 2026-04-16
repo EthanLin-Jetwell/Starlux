@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Complimentary_Ticket_cant_change</fullName>
+    <active>true</active>
+    <errorConditionFormula>OR(
+    AND(NOT(ISBLANK(PRIORVALUE(Class_Complimentary_Ticket__c))), ISCHANGED(Class_Complimentary_Ticket__c)),
+    AND(NOT(ISBLANK(PRIORVALUE(Sector_Complimentary_Ticket__c))), ISCHANGED(Sector_Complimentary_Ticket__c)),
+    AND(NOT(ISBLANK(PRIORVALUE(Number_of_pax_Complimentary_Ticket__c))), ISCHANGED(Number_of_pax_Complimentary_Ticket__c)),
+    AND(NOT(ISBLANK(PRIORVALUE(Pax_Name_Complimentary_Ticket__c))), ISCHANGED(Pax_Name_Complimentary_Ticket__c)),
+    AND(NOT(ISBLANK(PRIORVALUE(Redeem_Request_from_SF_Com_TKT__c))), ISCHANGED(Redeem_Request_from_SF_Com_TKT__c)),
+    AND(NOT(ISBLANK(PRIORVALUE(Remark_Complimentary_Ticket__c))), ISCHANGED(Remark_Complimentary_Ticket__c))
+  )</errorConditionFormula>
+    <errorMessage>Complimentary Ticket Detail cannot be modified once it is entered.</errorMessage>
+</ValidationRule>

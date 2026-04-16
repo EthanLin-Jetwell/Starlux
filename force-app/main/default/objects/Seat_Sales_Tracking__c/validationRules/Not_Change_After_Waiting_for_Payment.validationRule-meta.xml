@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Not_Change_After_Waiting_for_Payment</fullName>
+    <active>false</active>
+    <description>Not Allow to Change Seat Sales Tracking after case status Request for Ticketing</description>
+    <errorConditionFormula>And( 
+
+Ischanged( Total_Seat_Sales__c ), 
+
+Text(Case_ID__r.Status )!= &quot;New&quot;, 
+Text(Case_ID__r.Status )!= &quot;Ticket Sales in Progress&quot;,
+NOT(CONTAINS(Text(Case_ID__r.Status), &quot;Adhoc&quot;))
+
+)</errorConditionFormula>
+    <errorMessage>Not Allow to Change Seat Sales Tracking after case status Request for Ticketing</errorMessage>
+</ValidationRule>

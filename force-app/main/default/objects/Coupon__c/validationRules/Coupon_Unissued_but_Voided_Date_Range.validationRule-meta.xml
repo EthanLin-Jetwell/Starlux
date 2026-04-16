@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Coupon_Unissued_but_Voided_Date_Range</fullName>
+    <active>true</active>
+    <description>Coupon Unissued but Voided Date cannot be earlier than Coupon Distributed Date and cannot be later than modified Date.</description>
+    <errorConditionFormula>Coupon_Unissued_but_Voided_Date__c &lt;  Coupon_Distributed_to_Agent_Date__c ||
+Coupon_Unissued_but_Voided_Date__c &gt; TODAY()</errorConditionFormula>
+    <errorDisplayField>Coupon_Unissued_but_Voided_Date__c</errorDisplayField>
+    <errorMessage>Coupon Unissued but Voided Date cannot be earlier than Coupon Distributed Date and cannot be later than modified Date.</errorMessage>
+</ValidationRule>

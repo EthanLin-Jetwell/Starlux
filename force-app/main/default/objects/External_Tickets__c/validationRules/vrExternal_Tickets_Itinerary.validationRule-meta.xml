@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>vrExternal_Tickets_Itinerary</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+CONTAINS(TEXT(Itinerary_Departure__c) ,&apos;LAX&apos;) ||
+CONTAINS(TEXT(Itinerary_Departure__c) ,&apos;SFO&apos;) ||
+CONTAINS(TEXT(Itinerary_Departure__c) ,&apos;SEA&apos;) ||
+CONTAINS(TEXT(Itinerary_Return__c) ,&apos;LAX&apos;)||
+CONTAINS(TEXT(Itinerary_Return__c) ,&apos;SFO&apos;)||
+CONTAINS(TEXT(Itinerary_Return__c) ,&apos;SEA&apos;)
+)</errorConditionFormula>
+    <errorDisplayField>Date_of_Birth__c</errorDisplayField>
+    <errorMessage>Please fill this field.</errorMessage>
+</ValidationRule>

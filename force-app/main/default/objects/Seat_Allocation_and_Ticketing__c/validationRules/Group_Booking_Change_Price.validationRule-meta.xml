@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Group_Booking_Change_Price</fullName>
+    <active>false</active>
+    <description>Not allow changing  Price or Tax after Case Status &quot;Waiting for Payment&quot;</description>
+    <errorConditionFormula>And(
+
+Or(ischanged( Final_Unit_Price_Adult__c ),
+ischanged( Final_Unit_Price_Child__c ),
+ischanged( Final_Unit_Price_Infant__c ),
+ischanged ( Final_Tax_Adult__c ),
+ischanged ( Final_Tax_Child__c ),
+ischanged ( Final_Tax_Infant__c )
+  ),
+
+ Text(Case_ID__r.Status )!= &quot;New&quot;,
+ Text(Case_ID__r.Status )!= &quot;Ticket Sales in Progress&quot;,
+ Text(Case_ID__r.Status )!= &quot;Request for Ticketing&quot;,
+ Text(Case_ID__r.Status )!= &quot;Price Approving&quot;,
+ Text(Case_ID__r.Status )!= &quot;Adhoc Request Approved&quot;
+)</errorConditionFormula>
+    <errorMessage>Not allow changing  Price or Tax after the Case Status &quot;Waiting for Payment&quot;</errorMessage>
+</ValidationRule>

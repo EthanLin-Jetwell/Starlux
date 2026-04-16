@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>S1_ApprovedPath</fullName>
+    <active>true</active>
+    <description>【EHD審核通過】的審核流程</description>
+    <errorConditionFormula>IF(
+  $UserRole.Name=&quot;System Administrator&quot;,
+  FALSE,
+  AND(
+    OR(ISCHANGED(Status__c), ISCHANGED(Approval_Status__c)),
+
+    /* 範圍：核准∈{New, In Progress, Approved}(前/後)，且排除 Reapplied 與 CA/DR/Rejected 與 S2 的 New 分支 */
+    AND(
+      OR(
+        ISPICKVAL(Approval_Status__c, &quot;New&quot;),
+        ISPICKVAL(Approval_Status__c, &quot;In Progress&quot;),
+        ISPICKVAL(Approval_Status__c, &quot;Approved&quot;),
+        ISPICKVAL(PRIORVALUE(Approval_Status__c), &quot;New&quot;),
+        ISPICKVAL(PRIORVALUE(Approval_Status__c), &quot;In Progress&quot;),
+        ISPICKVAL(PRIORVALUE(Approval_Status__c), &quot;Approved&quot;)
+      ),
+      NOT(
+        OR(
+          /* 排除任何 Reapplied（前/後） */
+          TEXT(Status__c) = &quot;Reapplied&quot;,
+          TEXT(PRIORVALUE(Status__c)) = &quot;Reapplied&quot;,
+
+          /* 排除 CA / DR / Rejected（前/後） */
+          ISPICKVAL(Approval_Status__c, &quot;Conditionally Approved&quot;),
+          ISPICKVAL(Approval_Status__c, &quot;Documents Required&quot;),
+          ISPICKVAL(Approval_Status__c, &quot;Rejected&quot;),
+          ISPICKVAL(PRIORVALUE(Approval_Status__c), &quot;Conditionally Approved&quot;),
+          ISPICKVAL(PRIORVALUE(Approval_Status__c), &quot;Documents Required&quot;),
+          ISPICKVAL(PRIORVALUE(Approval_Status__c), &quot;Rejected&quot;),
+
+          /* ⬅ 新增：排除 S2 的 New 分支（前/後）*/
+          AND(TEXT(Status__c)=&quot;Replied&quot;, TEXT(Approval_Status__c)=&quot;New&quot;),
+          AND(TEXT(Status__c)=&quot;Closed&quot;,  TEXT(Approval_Status__c)=&quot;New&quot;),
+          AND(TEXT(PRIORVALUE(Status__c))=&quot;Replied&quot;, TEXT(PRIORVALUE(Approval_Status__c))=&quot;New&quot;),
+          AND(TEXT(PRIORVALUE(Status__c))=&quot;Closed&quot;,  TEXT(PRIORVALUE(Approval_Status__c))=&quot;New&quot;)
+        )
+      )
+    ),
+
+    /* 白名單：0→5（不是未變更且不在清單就擋） */
+    NOT(
+      OR(
+        AND(
+          TEXT(PRIORVALUE(Status__c)) = TEXT(Status__c),
+          TEXT(PRIORVALUE(Approval_Status__c)) = TEXT(Approval_Status__c)
+        ),
+        CONTAINS(
+          &quot;;&quot; &amp;
+          &quot;New|New&gt;In Progress|New;&quot; &amp;
+          &quot;In Progress|New&gt;In Progress|In Progress;&quot; &amp;
+          &quot;In Progress|In Progress&gt;In Progress|Approved;&quot; &amp;
+          &quot;In Progress|Approved&gt;Replied|Approved;&quot; &amp;
+          &quot;Replied|Approved&gt;Closed|Approved;&quot; &amp;
+          &quot;;&quot;,
+          &quot;;&quot; &amp;
+          TEXT(PRIORVALUE(Status__c)) &amp; &quot;|&quot; &amp; TEXT(PRIORVALUE(Approval_Status__c)) &amp; &quot;&gt;&quot; &amp;
+          TEXT(Status__c) &amp; &quot;|&quot; &amp; TEXT(Approval_Status__c) &amp;
+          &quot;;&quot;
+        )
+      )
+    )
+  )
+)</errorConditionFormula>
+    <errorMessage>狀態流轉不符「EHD審核通過」流程。
+Invalid transition for &quot;&lt;EHD Approved&gt;&quot; path.</errorMessage>
+</ValidationRule>

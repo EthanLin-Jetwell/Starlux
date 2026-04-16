@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Knowledge</fullName>
+    <active>true</active>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <label>Knowledge</label>
+    <picklistValues>
+        <picklist>Article_Type__c</picklist>
+        <values>
+            <fullName>BPM-Airport Notice</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BPM-Company Policy Notice</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Customer Service Notice</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>First Class Notice</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SVS Notice</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Topic Sharing</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Flag__c</picklist>
+        <values>
+            <fullName>CS Annoucement</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>New Event</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Policy for COSMILE Member</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Policy for Reservation and Ticketing</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

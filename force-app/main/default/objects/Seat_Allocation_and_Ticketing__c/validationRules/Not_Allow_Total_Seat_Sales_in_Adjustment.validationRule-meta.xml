@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Not_Allow_Total_Seat_Sales_in_Adjustment</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+ISPICKVAL( Allocation_Type__c , &quot;Adjustment&quot;),
+Total_Seat_Sales__c &gt; 0
+)</errorConditionFormula>
+    <errorDisplayField>Total_Seat_Sales__c</errorDisplayField>
+    <errorMessage>此SAT無機位，請對團於有機位的SAT內，謝謝！</errorMessage>
+</ValidationRule>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Travel_Agent_Cant_Revise_Fianl_Allocated</fullName>
+    <active>true</active>
+    <description>Travel Agent Cant Revise Fianl Allocated Seat</description>
+    <errorConditionFormula>AND(
+    $Profile.Name = &quot;B2B Travel Agent Community Plus&quot;,
+    ISCHANGED(Final_Allocated_Seats__c)
+)</errorConditionFormula>
+    <errorMessage>因【機位數量】已異動，請重新整理此頁面，並重新對團。</errorMessage>
+</ValidationRule>

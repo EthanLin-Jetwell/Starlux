@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sub_Category__c</fullName>
+    <label>Sub Category</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Category__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Membership Issue</fullName>
+                <default>false</default>
+                <label>Membership Issue</label>
+            </value>
+            <value>
+                <fullName>Website/Mobile App</fullName>
+                <default>false</default>
+                <label>Website/Mobile App</label>
+            </value>
+            <value>
+                <fullName>Reservation and Ticketing</fullName>
+                <default>false</default>
+                <label>Reservation and Ticketing</label>
+            </value>
+            <value>
+                <fullName>Check-in Counter</fullName>
+                <default>false</default>
+                <label>Check-in Counter</label>
+            </value>
+            <value>
+                <fullName>Border Control(CIQ) Area</fullName>
+                <default>false</default>
+                <label>Border Control(CIQ) Area</label>
+            </value>
+            <value>
+                <fullName>Shopping/Relaxing/Resting Area</fullName>
+                <default>false</default>
+                <label>Shopping/Relaxing/Resting Area</label>
+            </value>
+            <value>
+                <fullName>Lounge</fullName>
+                <default>false</default>
+                <label>Lounge</label>
+            </value>
+            <value>
+                <fullName>Boarding Gate</fullName>
+                <default>false</default>
+                <label>Boarding Gate</label>
+            </value>
+            <value>
+                <fullName>Baggage Claim Area</fullName>
+                <default>false</default>
+                <label>Baggage Claim Area</label>
+            </value>
+            <value>
+                <fullName>Ramp</fullName>
+                <default>false</default>
+                <label>Ramp</label>
+            </value>
+            <value>
+                <fullName>Office Area</fullName>
+                <default>false</default>
+                <label>Office Area</label>
+            </value>
+            <value>
+                <fullName>Amenity Kits</fullName>
+                <default>false</default>
+                <label>Amenity Kits</label>
+            </value>
+            <value>
+                <fullName>Onboard Catering &amp; Serving</fullName>
+                <default>false</default>
+                <label>Onboard Catering &amp; Serving</label>
+            </value>
+            <value>
+                <fullName>Duty Free Sales Service</fullName>
+                <default>false</default>
+                <label>Duty Free Sales Service</label>
+            </value>
+            <value>
+                <fullName>Newspaper &amp; Magazines</fullName>
+                <default>false</default>
+                <label>Newspaper &amp; Magazines</label>
+            </value>
+            <value>
+                <fullName>PAX Seating</fullName>
+                <default>false</default>
+                <label>PAX Seating</label>
+            </value>
+            <value>
+                <fullName>Compartment</fullName>
+                <default>false</default>
+                <label>Compartment</label>
+            </value>
+            <value>
+                <fullName>Door</fullName>
+                <default>false</default>
+                <label>Door</label>
+            </value>
+            <value>
+                <fullName>Lavatory</fullName>
+                <default>false</default>
+                <label>Lavatory</label>
+            </value>
+            <value>
+                <fullName>Monitor/IFE</fullName>
+                <default>false</default>
+                <label>Monitor/IFE</label>
+            </value>
+            <value>
+                <fullName>Inoperative Communication System</fullName>
+                <default>false</default>
+                <label>Inoperative Communication System</label>
+            </value>
+            <value>
+                <fullName>Attendant Seat</fullName>
+                <default>false</default>
+                <label>Attendant Seat</label>
+            </value>
+            <value>
+                <fullName>Windows</fullName>
+                <default>false</default>
+                <label>Windows</label>
+            </value>
+            <value>
+                <fullName>Galley</fullName>
+                <default>false</default>
+                <label>Galley</label>
+            </value>
+            <value>
+                <fullName>Spillage</fullName>
+                <default>false</default>
+                <label>Spillage</label>
+            </value>
+            <value>
+                <fullName>Cart Collision</fullName>
+                <default>false</default>
+                <label>Cart Collision</label>
+            </value>
+            <value>
+                <fullName>Hotel</fullName>
+                <default>false</default>
+                <label>Hotel</label>
+            </value>
+            <value>
+                <fullName>En-route to Airport</fullName>
+                <default>false</default>
+                <label>En-route to Airport</label>
+            </value>
+            <value>
+                <fullName>Others</fullName>
+                <default>false</default>
+                <label>Others</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Sales Marketing</controllingFieldValue>
+            <valueName>Membership Issue</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sales Marketing</controllingFieldValue>
+            <valueName>Website/Mobile App</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sales Marketing</controllingFieldValue>
+            <valueName>Reservation and Ticketing</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sales Marketing</controllingFieldValue>
+            <controllingFieldValue>Ground Service</controllingFieldValue>
+            <controllingFieldValue>Inflight Product</controllingFieldValue>
+            <controllingFieldValue>Aircraft Issue</controllingFieldValue>
+            <controllingFieldValue>Cabin Crew Members</controllingFieldValue>
+            <valueName>Others</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ground Service</controllingFieldValue>
+            <valueName>Check-in Counter</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ground Service</controllingFieldValue>
+            <valueName>Border Control(CIQ) Area</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ground Service</controllingFieldValue>
+            <valueName>Shopping/Relaxing/Resting Area</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ground Service</controllingFieldValue>
+            <valueName>Lounge</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ground Service</controllingFieldValue>
+            <valueName>Boarding Gate</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ground Service</controllingFieldValue>
+            <valueName>Baggage Claim Area</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ground Service</controllingFieldValue>
+            <valueName>Ramp</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ground Service</controllingFieldValue>
+            <valueName>Office Area</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ground Service</controllingFieldValue>
+            <valueName>Hotel</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ground Service</controllingFieldValue>
+            <valueName>En-route to Airport</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Inflight Product</controllingFieldValue>
+            <valueName>Amenity Kits</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Inflight Product</controllingFieldValue>
+            <valueName>Onboard Catering &amp; Serving</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Inflight Product</controllingFieldValue>
+            <valueName>Duty Free Sales Service</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Inflight Product</controllingFieldValue>
+            <valueName>Newspaper &amp; Magazines</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Aircraft Issue</controllingFieldValue>
+            <valueName>PAX Seating</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Aircraft Issue</controllingFieldValue>
+            <valueName>Compartment</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Aircraft Issue</controllingFieldValue>
+            <valueName>Door</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Aircraft Issue</controllingFieldValue>
+            <valueName>Lavatory</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Aircraft Issue</controllingFieldValue>
+            <valueName>Monitor/IFE</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Aircraft Issue</controllingFieldValue>
+            <valueName>Inoperative Communication System</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Aircraft Issue</controllingFieldValue>
+            <valueName>Attendant Seat</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Aircraft Issue</controllingFieldValue>
+            <valueName>Windows</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Aircraft Issue</controllingFieldValue>
+            <valueName>Galley</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cabin Crew Members</controllingFieldValue>
+            <valueName>Spillage</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cabin Crew Members</controllingFieldValue>
+            <valueName>Cart Collision</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

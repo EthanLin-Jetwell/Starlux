@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Last_ApproverId__c</fullName>
+    <description>最後簽核人員編</description>
+    <externalId>false</externalId>
+    <inlineHelpText>最後簽核人員編</inlineHelpText>
+    <label>Last ApproverId</label>
+    <length>255</length>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

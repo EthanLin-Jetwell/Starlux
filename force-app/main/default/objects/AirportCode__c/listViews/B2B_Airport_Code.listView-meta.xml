@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>B2B_Airport_Code</fullName>
+    <columns>RECORDTYPE</columns>
+    <columns>NAME</columns>
+    <columns>Departure__c</columns>
+    <columns>Area__c</columns>
+    <columns>GMT__c</columns>
+    <columns>BoardingPass__c</columns>
+    <columns>E_BoardingPass__c</columns>
+    <columns>USBoundFlights__c</columns>
+    <columns>Active__c</columns>
+    <columns>UPDATEDBY_USER</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>AirportCode__c.B2BAirportCode</value>
+    </filters>
+    <label>B2B Airport Code</label>
+</ListView>

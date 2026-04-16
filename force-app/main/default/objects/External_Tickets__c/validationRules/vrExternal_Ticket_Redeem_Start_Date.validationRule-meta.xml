@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>vrExternal_Ticket_Redeem_Start_Date</fullName>
+    <active>true</active>
+    <errorConditionFormula>Redeem_Valid_Start_Date__c &gt;= Redeem_Valid_End_Date__c</errorConditionFormula>
+    <errorMessage>Redeem Valid Start Date must later or equal to Redeem Valid End Date.</errorMessage>
+</ValidationRule>

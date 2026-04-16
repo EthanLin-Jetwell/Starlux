@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>C2Finished__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>當該筆資料在C2成功回傳WBS時，註記TRUE。</description>
+    <inlineHelpText>當該筆資料在C2成功回傳WBS時，註記TRUE。</inlineHelpText>
+    <label>C2完成</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

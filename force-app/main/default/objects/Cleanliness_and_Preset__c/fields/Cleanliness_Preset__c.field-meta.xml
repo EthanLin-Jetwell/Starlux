@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Cleanliness_Preset__c</fullName>
+    <label>Cleanliness/Preset</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Cleanliness</fullName>
+                <default>false</default>
+                <label>Cleanliness</label>
+            </value>
+            <value>
+                <fullName>Preset</fullName>
+                <default>false</default>
+                <label>Preset</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

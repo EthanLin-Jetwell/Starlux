@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>In_Effect</fullName>
+    <columns>NAME</columns>
+    <columns>Account_Code__c</columns>
+    <columns>Bank_Guarantee_Type__c</columns>
+    <columns>Bank_Guarantee_Start_Date__c</columns>
+    <columns>Bank_Guarantee_End_Date__c</columns>
+    <columns>Bank_Guarantee_Currency__c</columns>
+    <columns>Bank_Guarantee_Amount__c</columns>
+    <columns>Bank_Guarantee_Remark__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Bank_Guarantee_Start_Date__c</field>
+        <operation>lessOrEqual</operation>
+        <value>TODAY</value>
+    </filters>
+    <filters>
+        <field>Bank_Guarantee_End_Date__c</field>
+        <operation>greaterOrEqual</operation>
+        <value>TODAY</value>
+    </filters>
+    <label>In Effect</label>
+</ListView>

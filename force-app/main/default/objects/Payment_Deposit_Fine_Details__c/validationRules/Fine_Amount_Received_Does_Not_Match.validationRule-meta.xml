@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Fine_Amount_Received_Does_Not_Match</fullName>
+    <active>true</active>
+    <description>Fine amount received does not match fine amount set</description>
+    <errorConditionFormula>RecordType.DeveloperName = &quot;Fine&quot; &amp;&amp;  Fine_Received_Amount__c  &lt;&gt; (Fine_Amount_Per_Person__c *  No_of_Persons__c)</errorConditionFormula>
+    <errorDisplayField>Fine_Received_Amount__c</errorDisplayField>
+    <errorMessage>Fine amount received does not match total fine amount imposed.  Please check that the amount received tally with the total fine amount imposed.</errorMessage>
+</ValidationRule>

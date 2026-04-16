@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Coupon_Date_Field_Validation</fullName>
+    <active>true</active>
+    <description>Date fields cannot be earlier than coupon created date and must be equal or later than today</description>
+    <errorConditionFormula>OR
+(
+  ISCHANGED( Coupon_Distributed_Date__c ) &amp;&amp;
+  (
+    Coupon_Distributed_Date__c &gt; TODAY() ||
+    Coupon_Distributed_Date__c &lt; DATEVALUE(CreatedDate)  
+  ),
+  ISCHANGED( Coupon_Issued_Date__c ) &amp;&amp;
+  (
+    Coupon_Issued_Date__c &gt; TODAY() ||
+    Coupon_Issued_Date__c &lt; DATEVALUE(CreatedDate)  
+  ),
+  ISCHANGED( Coupon_Issued_but_Voided_Date__c ) &amp;&amp;
+  (
+    Coupon_Issued_but_Voided_Date__c &gt; TODAY() ||
+    Coupon_Issued_but_Voided_Date__c &lt; DATEVALUE(CreatedDate)  
+  ),
+  ISCHANGED( Coupon_Unissued_but_Voided_Date__c ) &amp;&amp;
+  (
+    Coupon_Unissued_but_Voided_Date__c &gt; TODAY() ||
+    Coupon_Unissued_but_Voided_Date__c &lt; DATEVALUE(CreatedDate)  
+  ),
+  ISCHANGED( Coupon_Used_Date__c ) &amp;&amp;
+  (
+    Coupon_Used_Date__c &gt; TODAY() ||
+    Coupon_Used_Date__c &lt; DATEVALUE(CreatedDate)  
+  )
+)</errorConditionFormula>
+    <errorMessage>Please ensure that the date value entered is not earlier than the coupon created date or later than today&apos;s date</errorMessage>
+</ValidationRule>

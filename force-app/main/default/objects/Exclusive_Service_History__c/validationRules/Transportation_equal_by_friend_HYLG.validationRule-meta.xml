@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Transportation_equal_by_friend_HYLG</fullName>
+    <active>true</active>
+    <description>當Transportation = Pick-up/drop-off by friend or family 親友接送(需提供司機身分證件) ，【Car Model (HYLG Only)】【Driver Info】【Driver&apos;s Birthday (HYLG Only)】【Driver&apos;s ID (HYLG Only)】【Driver&apos;s address (HYLG Only)】【Driver&apos;s Phone】為必填</description>
+    <errorConditionFormula>AND(
+    RecordType.Name = &quot;Private Terminal Service&quot;,
+    ISPICKVAL(Transportation__c, &quot;Pick-up/drop-off by friend or family (driver’s ID required)&quot;),
+    ISPICKVAL( Private_Terminal_Type__c , &quot;HYLG&quot;),
+  OR(
+    ISBLANK(Car_Model_HYLG_Only__c),
+    ISBLANK(Driver_Info__c),
+    ISBLANK(Driver_s_Birthday_HYLG_Only__c),
+    ISBLANK(Driver_s_ID_HYLG_Only__c),
+    ISBLANK(Driver_s_address_HYLG_Only__c),
+    ISBLANK(Driver_s_Phone__c)
+    )
+)</errorConditionFormula>
+    <errorMessage>When the Transportation = Pick-up/drop-off by friend or family (Driver’s ID required),【Car Model】【Driver Info】【Driver&apos;s Birthday 】【Driver&apos;s ID】【Driver&apos;s address】【Driver&apos;s Phone】can&apos;t be empty.</errorMessage>
+</ValidationRule>

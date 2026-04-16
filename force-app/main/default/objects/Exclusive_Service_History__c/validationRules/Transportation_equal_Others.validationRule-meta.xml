@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Transportation_equal_Others</fullName>
+    <active>true</active>
+    <description>當Transportation =其他，Remark為必填</description>
+    <errorConditionFormula>AND(
+  RecordType.Name = &quot;Private Terminal Service&quot;,
+  ISPICKVAL(Transportation__c , &quot;Other&quot;),
+  ISBLANK(Remarks__c)
+  )</errorConditionFormula>
+    <errorMessage>When the Transportation = Others, the 【Remark】can&apos;t be empty.</errorMessage>
+</ValidationRule>

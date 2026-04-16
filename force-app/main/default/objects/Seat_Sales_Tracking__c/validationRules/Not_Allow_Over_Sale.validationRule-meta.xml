@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Not_Allow_Over_Sale</fullName>
+    <active>true</active>
+    <description>Total Seat Sales can be greater than Total Final Allocated Seats.
+對團數字不可大於給位數字。</description>
+    <errorConditionFormula>ISCHANGED( Total_Seat_Sales__c ) &amp;&amp;
+Total_Seat_Sales__c &gt; Total_Final_Allocated_Seats__c</errorConditionFormula>
+    <errorDisplayField>Total_Seat_Sales__c</errorDisplayField>
+    <errorMessage>Total Seat Sales can be greater than Total Final Allocated Seats.
+對團數字不可大於給位數字。</errorMessage>
+</ValidationRule>

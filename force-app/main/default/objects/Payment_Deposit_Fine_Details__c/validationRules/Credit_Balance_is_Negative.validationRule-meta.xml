@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Credit_Balance_is_Negative</fullName>
+    <active>false</active>
+    <description>Check that if the credit balance is negative after deducting the cheque amount, disallow the payment to be saved</description>
+    <errorConditionFormula>RecordType.DeveloperName = &quot;Payment&quot; &amp;&amp; ISPICKVAL(Payment_Mode__c,&quot;Cheque&quot;) &amp;&amp;  (Account_ID__r.Credit_Balance__c - Payment_Amount__c) &lt;= 0</errorConditionFormula>
+    <errorMessage>Payment cannot be processed as credit balance is negative.</errorMessage>
+</ValidationRule>

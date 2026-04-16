@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Transportation_equal_Chauffeur_by_pax</fullName>
+    <active>true</active>
+    <description>當Transportation = Chauffeur service arranged by passenger(自行預訂接送機服務) ，【Driver Info】【Driver&apos;s Phone】為必填</description>
+    <errorConditionFormula>AND(
+    RecordType.Name = &quot;Private Terminal Service&quot;,
+    ISPICKVAL(Transportation__c, &quot;Chauffeur service (arranged by passenger)&quot;),
+  OR(
+    ISBLANK(Driver_Info__c),
+    ISBLANK(Driver_s_Phone__c)
+    )
+)</errorConditionFormula>
+    <errorMessage>When the Transportation = Chauffeur service (arranged by passenger),【Driver Info】【Driver&apos;s Phone】can&apos;t be empty.</errorMessage>
+</ValidationRule>

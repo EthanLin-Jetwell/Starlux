@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IsDeleted__c</fullName>
+    <description>超過2年資料每日12點刪除</description>
+    <formula>TODAY() &gt; DATE(YEAR(DATEVALUE(CreatedDate)) + 2, MONTH(DATEVALUE(CreatedDate)), DAY(DATEVALUE(CreatedDate)))</formula>
+    <label>IsDeleted</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

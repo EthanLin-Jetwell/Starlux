@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Article_Type__c</fullName>
+    <label>Article Type</label>
+    <required>true</required>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>CCS Notice</fullName>
+                <default>false</default>
+                <label>CCS Notice</label>
+            </value>
+            <value>
+                <fullName>BPM-Airport Notice</fullName>
+                <default>false</default>
+                <label>BPM-Airport Notice</label>
+            </value>
+            <value>
+                <fullName>BPM-Company Policy Notice</fullName>
+                <default>false</default>
+                <label>BPM-Company Policy Notice</label>
+            </value>
+            <value>
+                <fullName>Customer Service Notice</fullName>
+                <default>false</default>
+                <label>Customer Service Notice</label>
+            </value>
+            <value>
+                <fullName>First Class Notice</fullName>
+                <default>false</default>
+                <label>First Class Notice</label>
+            </value>
+            <value>
+                <fullName>SVS Notice</fullName>
+                <default>false</default>
+                <label>SVS Notice</label>
+            </value>
+            <value>
+                <fullName>Topic Sharing</fullName>
+                <default>false</default>
+                <label>Topic Sharing</label>
+            </value>
+            <value>
+                <fullName>BPM</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>BPM</label>
+            </value>
+            <value>
+                <fullName>FCS Notice</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>FCS Notice</label>
+            </value>
+            <value>
+                <fullName>Global Notice</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Global Notice</label>
+            </value>
+            <value>
+                <fullName>MMO</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>MMO</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

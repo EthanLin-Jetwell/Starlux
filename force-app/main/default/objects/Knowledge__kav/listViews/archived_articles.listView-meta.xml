@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>archived_articles</fullName>
+    <columns>ARTICLE_NUMBER</columns>
+    <columns>ABSTRACT</columns>
+    <columns>Article_Type__c</columns>
+    <columns>Announcement_No__c</columns>
+    <columns>UPDATEDBY_USER</columns>
+    <columns>LAST_UPDATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>PUBLISH_STATUS</field>
+        <operation>equals</operation>
+        <value>3</value>
+    </filters>
+    <label>Archived Articles</label>
+</ListView>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All</fullName>
+    <columns>NAME</columns>
+    <columns>Survey_Type__c</columns>
+    <columns>Drawing_No__c</columns>
+    <columns>Booking_class__c</columns>
+    <columns>Date_of_Birth__c</columns>
+    <columns>Email_Address__c</columns>
+    <columns>Ticket_buying_date__c</columns>
+    <columns>Departing_Flight_Number__c</columns>
+    <columns>Departing_Date__c</columns>
+    <columns>Survey_URL__c</columns>
+    <columns>LAST_UPDATE</columns>
+    <filterScope>Everything</filterScope>
+    <label>All Records</label>
+</ListView>

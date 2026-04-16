@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Itinerary_Success_Time__c</fullName>
+    <description>Get Itinerary Success Time, excluding Failed Time</description>
+    <inlineHelpText>此欄位僅記錄【成功取得行程單】的時間，失敗則不紀錄</inlineHelpText>
+    <label>Itinerary Success Time</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>DateTime</type>
+</CustomField>

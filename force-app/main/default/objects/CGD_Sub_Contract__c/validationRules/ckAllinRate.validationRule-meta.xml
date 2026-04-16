@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ckAllinRate</fullName>
+    <active>true</active>
+    <description>當「All-in Rate」已勾選時，「每公斤燃油附加費」及「每公斤安全附加費」皆不可填寫，請將相關欄位清空。</description>
+    <errorConditionFormula>OR(
+AND(
+All_in_Rate__c = TRUE,
+OR(
+NOT(ISBLANK(Fuel_Surcharge_Per_Kg__c)),
+NOT(ISBLANK(Security_Surcharge_Per_Kg__c))
+)
+),
+AND(
+All_in_Rate__c = FALSE,
+OR(
+ISBLANK(Fuel_Surcharge_Per_Kg__c),
+ISBLANK(Security_Surcharge_Per_Kg__c)
+)
+)
+)</errorConditionFormula>
+    <errorMessage>When &quot;All-in Rate&quot; is selected, both &quot;Fuel Surcharge per KG&quot; and &quot;Security Surcharge per KG&quot; must be left blank. Please clear these fields.</errorMessage>
+</ValidationRule>

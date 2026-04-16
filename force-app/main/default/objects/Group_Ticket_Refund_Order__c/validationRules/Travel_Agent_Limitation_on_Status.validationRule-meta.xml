@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Travel_Agent_Limitation_on_Status</fullName>
+    <active>true</active>
+    <errorConditionFormula>OR(
+AND(
+$Profile.Name = &quot;B2B Travel Agent Community Plus&quot;,
+NOT(ISPICKVAL(  Status__c  , &quot;New&quot;) ),
+ISNEW() = TRUE),
+AND(
+$Profile.Name = &quot;B2B Travel Agent Community Plus&quot;,
+NOT(ISPICKVAL(  Status__c  , &quot;Request for Refund&quot;) ),
+ISCHANGED( Status__c ) ,
+ISNEW() = FALSE
+)
+)</errorConditionFormula>
+    <errorDisplayField>Status__c</errorDisplayField>
+    <errorMessage>You can not select this Status.</errorMessage>
+</ValidationRule>

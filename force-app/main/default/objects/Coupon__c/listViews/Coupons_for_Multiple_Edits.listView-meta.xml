@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Coupons_for_Multiple_Edits</fullName>
+    <columns>NAME</columns>
+    <columns>Coupon_Status__c</columns>
+    <columns>Coupon_Currency__c</columns>
+    <columns>Coupon_Value__c</columns>
+    <columns>Coupon_Type__c</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>Case_ID__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Coupon_Issued_Date__c</field>
+        <operation>equals</operation>
+    </filters>
+    <filters>
+        <field>Base64_No_from_iPOS_No__c</field>
+        <operation>equals</operation>
+    </filters>
+    <label>Coupons for Multiple Edits</label>
+    <sharedTo>
+        <roleAndSubordinatesInternal>CC_Manager_HQ</roleAndSubordinatesInternal>
+        <roleAndSubordinatesInternal>CSD_Manager_HQ</roleAndSubordinatesInternal>
+        <roleAndSubordinatesInternal>Crew_Manager_HQ</roleAndSubordinatesInternal>
+        <roleAndSubordinatesInternal>FMP_Supervisor_HQ</roleAndSubordinatesInternal>
+    </sharedTo>
+</ListView>

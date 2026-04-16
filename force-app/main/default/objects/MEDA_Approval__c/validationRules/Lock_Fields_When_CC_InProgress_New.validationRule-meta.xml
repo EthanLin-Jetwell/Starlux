@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lock_Fields_When_CC_InProgress_New</fullName>
+    <active>false</active>
+    <description>目前為 Status=In Progress、Approval Status=New，CED 無法編輯旅客資訊
+With Status=In Progress and Approval Status=New, CED are not allowed to modify passenger information.</description>
+    <errorConditionFormula>IF(
+  /* 放寬：系統管理員角色 或 Profile */
+  OR(
+    $UserRole.Name = &quot;System Administrator&quot;,
+    $Profile.Name = &quot;System Administrator&quot;
+  ),
+  FALSE,
+
+  AND(
+    /* 僅限角色名稱包含 CC */
+    CONTAINS($UserRole.Name, &quot;CC&quot;),
+
+    /* 狀態條件 */
+    ISPICKVAL(Status__c, &quot;In Progress&quot;),
+    ISPICKVAL(Approval_Status__c, &quot;New&quot;),
+
+    /* 以下任一欄位被變更就擋下 */
+    OR(
+      ISCHANGED(CED_Note__c),
+      ISCHANGED(Passenger_Name__c),
+      ISCHANGED(Ticket_No__c),
+      ISCHANGED(PNR__c),
+      ISCHANGED(X1st_Flight_Date__c),
+      ISCHANGED(X1st_Flight_No__c),
+      ISCHANGED(X2nd_Flight_Date__c),
+      ISCHANGED(X2nd_Flight_No__c),
+      ISCHANGED(X3rd_Flight_Date__c),
+      ISCHANGED(X3rd_Flight_No__c),
+      ISCHANGED(X4th_Flight_Date__c),
+      ISCHANGED(X4th_Flight_No__c)
+    )
+  )
+)</errorConditionFormula>
+    <errorMessage>目前為 Status=In Progress、Approval Status=New，CED 無法編輯旅客資訊
+With Status=In Progress and Approval Status=New, CED are not allowed to modify passenger information.</errorMessage>
+</ValidationRule>

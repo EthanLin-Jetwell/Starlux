@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Credit_Balance_has_been_Recovered__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Check if Account Credit Balance has been recovered</description>
+    <label>Credit Balance has been Recovered</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

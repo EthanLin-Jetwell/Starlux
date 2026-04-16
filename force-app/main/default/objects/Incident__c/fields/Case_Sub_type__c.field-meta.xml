@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Case_Sub_type__c</fullName>
+    <label>Case Sub-type</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Complaints</fullName>
+                <default>false</default>
+                <label>Complaints</label>
+            </value>
+            <value>
+                <fullName>Compliments</fullName>
+                <default>false</default>
+                <label>Compliments</label>
+            </value>
+            <value>
+                <fullName>Information</fullName>
+                <default>false</default>
+                <label>Information</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

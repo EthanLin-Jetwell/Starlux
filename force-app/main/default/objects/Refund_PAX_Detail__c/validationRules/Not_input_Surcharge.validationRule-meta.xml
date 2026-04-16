@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Not_input_Surcharge</fullName>
+    <active>true</active>
+    <description>Don&apos;t input Surcharge if Waive Surcharge is true</description>
+    <errorConditionFormula>And( Waive_Surcharge__c , Or( Surcharge_Amount__c =0,isblank(
+Surcharge_Amount__c )),
+
+Not isblank( Surcharge__c )
+
+
+ )</errorConditionFormula>
+    <errorDisplayField>Surcharge__c</errorDisplayField>
+    <errorMessage>Please don&apos;t input surcharge if waive surcharge is true.</errorMessage>
+</ValidationRule>

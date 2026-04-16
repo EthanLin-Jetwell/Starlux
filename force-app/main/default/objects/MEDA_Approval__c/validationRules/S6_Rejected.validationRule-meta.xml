@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>S6_Rejected</fullName>
+    <active>true</active>
+    <description>【EHD 駁回】的審核流程</description>
+    <errorConditionFormula>IF(
+  $UserRole.Name = &quot;System Administrator&quot;,
+  FALSE,
+  AND(
+    OR(ISCHANGED(Status__c), ISCHANGED(Approval_Status__c)),
+
+    /* 範圍：Rejected（前/後）且完全排除 Reapplied（前/後） */
+    AND(
+      OR(
+        ISPICKVAL(Approval_Status__c, &quot;Rejected&quot;),
+        ISPICKVAL(PRIORVALUE(Approval_Status__c), &quot;Rejected&quot;)
+      ),
+      NOT(
+        OR(
+          TEXT(Status__c) = &quot;Reapplied&quot;,
+          TEXT(PRIORVALUE(Status__c)) = &quot;Reapplied&quot;
+        )
+      )
+    ),
+
+    /* 白名單：0→5（不是未變更且不在清單就擋） */
+    NOT(
+      OR(
+        AND(
+          TEXT(PRIORVALUE(Status__c)) = TEXT(Status__c),
+          TEXT(PRIORVALUE(Approval_Status__c)) = TEXT(Approval_Status__c)
+        ),
+        CONTAINS(
+          &quot;;&quot; &amp;
+          &quot;New|New&gt;In Progress|New;&quot; &amp;
+          &quot;In Progress|New&gt;In Progress|In Progress;&quot; &amp;
+          &quot;In Progress|In Progress&gt;In Progress|Rejected;&quot; &amp;
+          &quot;In Progress|Rejected&gt;Replied|Rejected;&quot; &amp;
+          &quot;Replied|Rejected&gt;Closed|Rejected;&quot; &amp;
+          &quot;;&quot;,
+          &quot;;&quot; &amp;
+          TEXT(PRIORVALUE(Status__c)) &amp; &quot;|&quot; &amp; TEXT(PRIORVALUE(Approval_Status__c)) &amp; &quot;&gt;&quot; &amp;
+          TEXT(Status__c) &amp; &quot;|&quot; &amp; TEXT(Approval_Status__c) &amp;
+          &quot;;&quot;
+        )
+      )
+    )
+  )
+)</errorConditionFormula>
+    <errorMessage>狀態流轉不符「EHD 駁回」流程。
+Invalid transition for &lt;EHD Rejected&gt; path.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PassportFinished__c</fullName>
+    <formula>AND(
+  NOT(ISBLANK(gender__c)),
+  NOT(ISBLANK(PassportIssuingCountry__c)),
+  NOT(ISBLANK(PassportNumber__c)),
+  NOT(ISBLANK(country__c)),
+  NOT(ISBLANK(DateOfBirth__c)),
+  NOT(ISBLANK(PassportExpiryDate__c)),
+  NOT(ISBLANK(PassportLastName__c)),
+  NOT(ISBLANK(PassportFirstName__c)),
+  IF(
+    US_Bound__c,
+    AND(
+      NOT(ISBLANK(USAStreet__c)),
+      NOT(ISBLANK(USACity__c)),
+      NOT(ISBLANK(USAState__c)),
+      NOT(ISBLANK(USAZipCode__c)),
+      NOT(ISBLANK(USAEmergencyContactName__c)),
+      NOT(ISBLANK(USAEmergencyContactNationality__c)),
+      NOT(ISBLANK(USAEmergencyContactPhone__c))
+    ),
+    TRUE
+  )
+)</formula>
+    <inlineHelpText>美現需額外驗證美國地址等欄位是否都有填</inlineHelpText>
+    <label>護照完成</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

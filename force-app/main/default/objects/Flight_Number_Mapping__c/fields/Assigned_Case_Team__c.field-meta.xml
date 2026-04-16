@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Assigned_Case_Team__c</fullName>
+    <label>Assigned Case Team</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>true</sorted>
+            <value>
+                <fullName>AOD-ALL Team</fullName>
+                <default>false</default>
+                <label>AOD-ALL Team</label>
+            </value>
+            <value>
+                <fullName>AOD-BKK Team</fullName>
+                <default>false</default>
+                <label>AOD-BKK Team</label>
+            </value>
+            <value>
+                <fullName>AOD-CEB Team</fullName>
+                <default>false</default>
+                <label>AOD-CEB Team</label>
+            </value>
+            <value>
+                <fullName>AOD-CNX Team</fullName>
+                <default>false</default>
+                <label>AOD-CNX Team</label>
+            </value>
+            <value>
+                <fullName>AOD-CRK Team</fullName>
+                <default>false</default>
+                <label>AOD-CRK Team</label>
+            </value>
+            <value>
+                <fullName>AOD-CTS Team</fullName>
+                <default>false</default>
+                <label>AOD-CTS Team</label>
+            </value>
+            <value>
+                <fullName>AOD-DAD Team</fullName>
+                <default>false</default>
+                <label>AOD-DAD Team</label>
+            </value>
+            <value>
+                <fullName>AOD-DPS Team</fullName>
+                <default>false</default>
+                <label>AOD-DPS Team</label>
+            </value>
+            <value>
+                <fullName>AOD-FUK Team</fullName>
+                <default>false</default>
+                <label>AOD-FUK Team</label>
+            </value>
+            <value>
+                <fullName>AOD-HAN Team</fullName>
+                <default>false</default>
+                <label>AOD-HAN Team</label>
+            </value>
+            <value>
+                <fullName>AOD-HQ Team</fullName>
+                <default>false</default>
+                <label>AOD-HQ Team</label>
+            </value>
+            <value>
+                <fullName>AOD-KIX Team</fullName>
+                <default>false</default>
+                <label>AOD-KIX Team</label>
+            </value>
+            <value>
+                <fullName>AOD-KMJ Team</fullName>
+                <default>false</default>
+                <label>AOD-KMJ Team</label>
+            </value>
+            <value>
+                <fullName>AOD-KUL Team</fullName>
+                <default>false</default>
+                <label>AOD-KUL Team</label>
+            </value>
+            <value>
+                <fullName>AOD-LAX Team</fullName>
+                <default>false</default>
+                <label>AOD-LAX Team</label>
+            </value>
+            <value>
+                <fullName>AOD-MFM Team</fullName>
+                <default>false</default>
+                <label>AOD-MFM Team</label>
+            </value>
+            <value>
+                <fullName>AOD-MNL Team</fullName>
+                <default>false</default>
+                <label>AOD-MNL Team</label>
+            </value>
+            <value>
+                <fullName>AOD-NGO Team</fullName>
+                <default>false</default>
+                <label>AOD-NGO Team</label>
+            </value>
+            <value>
+                <fullName>AOD-NRT Team</fullName>
+                <default>false</default>
+                <label>AOD-NRT Team</label>
+            </value>
+            <value>
+                <fullName>AOD-OKA Team</fullName>
+                <default>false</default>
+                <label>AOD-OKA Team</label>
+            </value>
+            <value>
+                <fullName>AOD-ONT Team</fullName>
+                <default>false</default>
+                <label>AOD-ONT Team</label>
+            </value>
+            <value>
+                <fullName>AOD-PEN Team</fullName>
+                <default>false</default>
+                <label>AOD-PEN Team</label>
+            </value>
+            <value>
+                <fullName>AOD-PHX Team</fullName>
+                <default>false</default>
+                <label>AOD-PHX Team</label>
+            </value>
+            <value>
+                <fullName>AOD-SDJ Team</fullName>
+                <default>false</default>
+                <label>AOD-SDJ Team</label>
+            </value>
+            <value>
+                <fullName>AOD-SEA Team</fullName>
+                <default>false</default>
+                <label>AOD-SEA Team</label>
+            </value>
+            <value>
+                <fullName>AOD-SFO Team</fullName>
+                <default>false</default>
+                <label>AOD-SFO Team</label>
+            </value>
+            <value>
+                <fullName>AOD-SGN Team</fullName>
+                <default>false</default>
+                <label>AOD-SGN Team</label>
+            </value>
+            <value>
+                <fullName>AOD-SIN Team</fullName>
+                <default>false</default>
+                <label>AOD-SIN Team</label>
+            </value>
+            <value>
+                <fullName>AOD-TPE Team</fullName>
+                <default>false</default>
+                <label>AOD-TPE Team</label>
+            </value>
+            <value>
+                <fullName>B2B Sales team</fullName>
+                <default>false</default>
+                <label>B2B Sales team</label>
+            </value>
+            <value>
+                <fullName>Call Center Team</fullName>
+                <default>false</default>
+                <label>Call Center Team</label>
+            </value>
+            <value>
+                <fullName>Crew Team</fullName>
+                <default>false</default>
+                <label>Crew Team</label>
+            </value>
+            <value>
+                <fullName>CSD Team</fullName>
+                <default>false</default>
+                <label>CSD Team</label>
+            </value>
+            <value>
+                <fullName>CS-JP Group</fullName>
+                <default>false</default>
+                <label>CS-JP Group</label>
+            </value>
+            <value>
+                <fullName>CS-MO Group</fullName>
+                <default>false</default>
+                <label>CS-MO Group</label>
+            </value>
+            <value>
+                <fullName>CS-MY Group</fullName>
+                <default>false</default>
+                <label>CS-MY Group</label>
+            </value>
+            <value>
+                <fullName>CS-PH Group</fullName>
+                <default>false</default>
+                <label>CS-PH Group</label>
+            </value>
+            <value>
+                <fullName>CS-SG Group</fullName>
+                <default>false</default>
+                <label>CS-SG Group</label>
+            </value>
+            <value>
+                <fullName>CS-TH Group</fullName>
+                <default>false</default>
+                <label>CS-TH Group</label>
+            </value>
+            <value>
+                <fullName>CS-US Group</fullName>
+                <default>false</default>
+                <label>CS-US Group</label>
+            </value>
+            <value>
+                <fullName>CS-VN Group</fullName>
+                <default>false</default>
+                <label>CS-VN Group</label>
+            </value>
+            <value>
+                <fullName>EMD</fullName>
+                <default>false</default>
+                <label>EMD</label>
+            </value>
+            <value>
+                <fullName>GHD GCP Team</fullName>
+                <default>false</default>
+                <label>GHD GCP Team</label>
+            </value>
+            <value>
+                <fullName>GHD GPP Team</fullName>
+                <default>false</default>
+                <label>GHD GPP Team</label>
+            </value>
+            <value>
+                <fullName>GHD GRP Team</fullName>
+                <default>false</default>
+                <label>GHD GRP Team</label>
+            </value>
+            <value>
+                <fullName>LMS Team</fullName>
+                <default>false</default>
+                <label>LMS Team</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

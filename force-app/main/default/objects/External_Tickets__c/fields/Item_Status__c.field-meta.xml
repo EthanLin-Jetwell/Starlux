@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Item_Status__c</fullName>
+    <label>Item Status</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Send</fullName>
+                <default>true</default>
+                <label>Send</label>
+            </value>
+            <value>
+                <fullName>Approve (Inner)</fullName>
+                <default>false</default>
+                <label>Approve (Inner)</label>
+            </value>
+            <value>
+                <fullName>In Progress</fullName>
+                <default>false</default>
+                <label>In Progress</label>
+            </value>
+            <value>
+                <fullName>Approve (Final)</fullName>
+                <default>false</default>
+                <label>Approve (Final)</label>
+            </value>
+            <value>
+                <fullName>Reject</fullName>
+                <default>false</default>
+                <label>Reject</label>
+            </value>
+            <value>
+                <fullName>Cancel</fullName>
+                <default>false</default>
+                <label>Cancel</label>
+            </value>
+            <value>
+                <fullName>Approve</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Approve</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Coupon_Used_On_Duty_Free_Validation</fullName>
+    <active>true</active>
+    <description>If coupon used on is duty free, ticket no and emd no and mileage equivalent should not be entered</description>
+    <errorConditionFormula>ISPICKVAL(Coupon_Used_On__c, &quot;Duty Free&quot; ) &amp;&amp;
+(
+  NOT(ISBLANK( CPN_Used_on_TKT_No__c )) ||
+  NOT(ISBLANK( CPN_Used_on_EMD_No__c )) ||
+  NOT(ISBLANK( Mileage_Equivalent__c ))
+)</errorConditionFormula>
+    <errorMessage>Please only enter Ticket No., EMD No. and Mileage Equivalent if the coupon is used on this item</errorMessage>
+</ValidationRule>

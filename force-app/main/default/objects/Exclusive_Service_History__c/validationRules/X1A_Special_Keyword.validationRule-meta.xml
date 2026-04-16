@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>X1A_Special_Keyword</fullName>
+    <active>true</active>
+    <description>The record can&apos;t be modify if &quot;1A Special Keyword&quot; checkbox is ticked.</description>
+    <errorConditionFormula>AND(
+PRIORVALUE(X1A_Special_Keyword__c)= true,
+X1A_Special_Keyword__c = true)</errorConditionFormula>
+    <errorMessage>This record can&apos;t be modify due to &quot;1A Special Keyword&quot; is ticked.</errorMessage>
+</ValidationRule>

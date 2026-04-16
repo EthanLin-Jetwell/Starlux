@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Total_Fare_Amount_Initial__c</fullName>
+    <externalId>false</externalId>
+    <formula>No_of_Adult__c * ( Initial_Unit_Price_Adult__c  ) +
+No_of_Child__c * ( Initial_Unit_Price_Child__c  ) +
+No_of_Infant__c *( Initial_Unit_Price_Infant__c)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Total Fare Amount(Initial)</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

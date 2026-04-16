@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ckAccount</fullName>
+    <active>true</active>
+    <errorConditionFormula>OR(
+    LEN(Account__c) &lt; 8,
+    NOT(REGEX(Account__c, &quot;^[a-zA-Z0-9!@#$%^&amp;*()_+\\-=\\[\\]{};&apos;:\&quot;\\\\|,.&lt;&gt;\\/?~`]+$&quot;))
+)</errorConditionFormula>
+    <errorDisplayField>Account__c</errorDisplayField>
+    <errorMessage>請輸入至少8個字元，且僅限英文字、數字、特殊字元</errorMessage>
+</ValidationRule>

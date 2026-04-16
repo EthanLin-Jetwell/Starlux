@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>OperationHistory__c</fullName>
+    <label>Operation History</label>
+    <referenceTo>OperationHistory__c</referenceTo>
+    <relationshipLabel>Operation History Details</relationshipLabel>
+    <relationshipName>OperationHistoryDetails</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

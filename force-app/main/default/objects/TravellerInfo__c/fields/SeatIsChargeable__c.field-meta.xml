@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SeatIsChargeable__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>旅客坐的位置屬性</description>
+    <inlineHelpText>旅客坐的位置屬性</inlineHelpText>
+    <label>付費座位</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

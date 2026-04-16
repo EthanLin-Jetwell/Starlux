@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Createdby__c</fullName>
+    <description>由B2B系統寫入，需要紀錄由哪一位使用者新增領隊/導遊帳號</description>
+    <externalId>false</externalId>
+    <inlineHelpText>由B2B系統寫入，需要紀錄由哪一位使用者新增領隊/導遊帳號</inlineHelpText>
+    <label>Created by</label>
+    <length>255</length>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

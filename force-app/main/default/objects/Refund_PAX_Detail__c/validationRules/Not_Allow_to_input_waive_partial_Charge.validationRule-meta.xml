@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Not_Allow_to_input_waive_partial_Charge</fullName>
+    <active>true</active>
+    <description>Not Allow to input waive partial surcharge if not checked waive surcharge</description>
+    <errorConditionFormula>And(Not  Waive_Surcharge__c ,
+ not isblank( Surcharge_Amount__c )
+
+)</errorConditionFormula>
+    <errorDisplayField>Surcharge_Amount__c</errorDisplayField>
+    <errorMessage>Not Allow to input Surcharge Amount if not check to Waive Surcharge</errorMessage>
+</ValidationRule>

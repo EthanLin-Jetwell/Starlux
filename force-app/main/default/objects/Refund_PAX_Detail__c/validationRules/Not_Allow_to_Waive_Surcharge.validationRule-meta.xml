@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Not_Allow_to_Waive_Surcharge</fullName>
+    <active>true</active>
+    <description>Not Allow to waive surcharge if select Normal Refund</description>
+    <errorConditionFormula>And(Contains(Text( Refund_Reason__c),&quot;Normal Refund&quot;),  Waive_Surcharge__c,
+
+Contains( $Profile.Name ,&quot;B2B Travel Agent&quot;)
+
+
+ )</errorConditionFormula>
+    <errorMessage>Normal Refund Not Allow to Waive Surcharge</errorMessage>
+</ValidationRule>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Coupon_EMD_No_is_Required</fullName>
+    <active>true</active>
+    <description>EMD number is required if coupon is used for EMD</description>
+    <errorConditionFormula>ISPICKVAL( Coupon_Used_On__c, &quot;EMD&quot; ) &amp;&amp;
+( ISBLANK( CPN_Used_on_EMD_No__c ) || ISBLANK(  Coupon_Used_Date__c ))</errorConditionFormula>
+    <errorDisplayField>CPN_Used_on_EMD_No__c</errorDisplayField>
+    <errorMessage>Please enter the EMD No. that the coupon is used on</errorMessage>
+</ValidationRule>

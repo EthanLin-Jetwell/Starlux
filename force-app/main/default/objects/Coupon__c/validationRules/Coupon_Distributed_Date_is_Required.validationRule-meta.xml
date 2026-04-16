@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Coupon_Distributed_Date_is_Required</fullName>
+    <active>true</active>
+    <description>Coupon distributed date, distributed department, agent ID and distributed to agent date is required when the status is updated to Distributed</description>
+    <errorConditionFormula>ISPICKVAL(Coupon_Status__c, &quot;Distributed&quot;) &amp;&amp;
+(
+   ISBLANK( Coupon_Distributed_Date__c ) ||
+   ISBLANK(TEXT(Distribution_Department__c)) ||
+   ISBLANK( Distributed_Agent__c ) ||
+   ISBLANK( Coupon_Distributed_to_Agent_Date__c )
+)</errorConditionFormula>
+    <errorMessage>Please enter the Coupon Distributed Date, Distributed Department, Agent ID and Distributed to Agent Date.</errorMessage>
+</ValidationRule>

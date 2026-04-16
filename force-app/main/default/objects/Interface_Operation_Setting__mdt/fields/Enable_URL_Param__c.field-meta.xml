@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Enable_URL_Param__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Denotes whether the request payload is constructed in a URL format, if left unchecked, request payload will be formatted into a JSON structure.</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Enable URL Param</label>
+    <type>Checkbox</type>
+</CustomField>

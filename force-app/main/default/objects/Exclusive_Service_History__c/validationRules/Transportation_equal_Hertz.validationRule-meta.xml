@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Transportation_equal_Hertz</fullName>
+    <active>true</active>
+    <description>當Transportation = Use Hertz rental car (arranged by passenger) (Hertz租車)，【Canlead / Hertz Order No.】為必填</description>
+    <errorConditionFormula>AND(
+    RecordType.Name = &quot;Private Terminal Service&quot;,
+    ISPICKVAL(Transportation__c, &quot;Use Hertz rental car (arranged by passenger)&quot;),
+    ISBLANK(Canlead_Hertz_Order_No__c)
+)</errorConditionFormula>
+    <errorMessage>When the Transportation = Use Hertz rental car (arranged by passenger), the【Canlead / Hertz Order No.】can&apos;t be empty.</errorMessage>
+</ValidationRule>

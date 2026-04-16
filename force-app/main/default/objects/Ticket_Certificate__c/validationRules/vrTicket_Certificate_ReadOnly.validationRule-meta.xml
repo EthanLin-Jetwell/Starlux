@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>vrTicket_Certificate_ReadOnly</fullName>
+    <active>false</active>
+    <description>以下欄位有值時不可被修改：
+● First Name(EN)
+● Last Name(EN)
+● Title
+● Date of Birth
+● Email
+● Phone</description>
+    <errorConditionFormula>AND(
+OR(
+AND(
+NOT(ISBLANK(PRIORVALUE(Title__c))),
+CASE(
+PRIORVALUE(Title__c),
+&quot;Mr.&quot;, 1,
+&quot;Mrs.&quot;, 1,
+&quot;Ms.&quot;, 1,
+&quot;Miss&quot;, 1,
+0
+) = CASE(Title__c,
+&quot;Mr.&quot;, 1,
+&quot;Mrs.&quot;, 1,
+&quot;Ms.&quot;, 1,
+&quot;Miss&quot;, 1,
+0
+)
+),
+AND(
+NOT(ISBLANK(PRIORVALUE(First_Name_EN__c))),
+ISCHANGED(First_Name_EN__c)
+),
+AND(
+NOT(ISBLANK(PRIORVALUE(Last_Name_EN__c))),
+ISCHANGED(Last_Name_EN__c)
+),
+AND(
+NOT(ISBLANK(PRIORVALUE(Date_of_Birth__c))),
+ISCHANGED(Date_of_Birth__c)
+),
+AND(
+NOT(ISBLANK(PRIORVALUE(Email__c))),
+ISCHANGED(Email__c)
+),
+AND(
+NOT(ISBLANK(PRIORVALUE(Phone__c))),
+ISCHANGED(Phone__c)
+)
+)
+)</errorConditionFormula>
+    <errorMessage>Those Field can&apos;t be changed.
+● First Name(EN)
+● Last Name(EN)
+● Title
+● Date of Birth
+● Email
+● Phone</errorMessage>
+</ValidationRule>

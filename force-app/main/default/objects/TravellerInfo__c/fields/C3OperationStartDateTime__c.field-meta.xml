@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>C3OperationStartDateTime__c</fullName>
+    <description>透過Flow依照是否為美國線，抓取起飛時間-C3當下的參數。</description>
+    <inlineHelpText>透過Flow依照是否為美國線，抓取起飛時間-C3當下的參數。</inlineHelpText>
+    <label>C3作業時間(起)</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>DateTime</type>
+</CustomField>

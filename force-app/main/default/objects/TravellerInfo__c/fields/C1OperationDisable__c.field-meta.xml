@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>C1OperationDisable__c</fullName>
+    <formula>IF(
+AND(
+C1OperationStartDateTime__c &lt;= NOW(),
+NOW() &lt;= C1OperationEndDateTime__c
+),
+FALSE,
+TRUE
+)</formula>
+    <label>C1作業不可使用</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

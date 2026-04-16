@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Reference_Map__c</fullName>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Reference Map (only for integration)</label>
+    <referenceTo>Object_Conversion_Map__mdt</referenceTo>
+    <relationshipLabel>Object Conversion Field Maps (Reference Map (only for integration))</relationshipLabel>
+    <relationshipName>Object_Conversion_Field_Maps1</relationshipName>
+    <required>false</required>
+    <type>MetadataRelationship</type>
+    <unique>false</unique>
+</CustomField>

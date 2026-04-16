@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RMS_Noted_Required</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+  ISPICKVAL(Status__c, &quot;Replied&quot;),
+  OR(
+    Case__r.Case_Record_Type__c = &quot;Enquiry and Request&quot;,
+    Case__r.Case_Record_Type__c = &quot;Feedback&quot;,
+    Case__r.Case_Record_Type__c = &quot;First Class&quot;,
+    Case__r.Case_Record_Type__c = &quot;Reservation and Ticketing&quot;
+  ),
+  ISBLANK(RMS_Note__c)
+)</errorConditionFormula>
+    <errorDisplayField>RMS_Note__c</errorDisplayField>
+    <errorMessage>RMS Note is required when Status is set to Replied.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>F_Departing__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(
+CONTAINS(TEXT(Route__c), &quot;(one-way)&quot;),
+LEFT(TEXT(Route__c), 7),
+IF(
+AND(
+LEN(TEXT(Route__c)) &gt; 12,
+NOT(CONTAINS(TEXT(Route__c), &quot;(one-way)&quot;))
+),
+LEFT(TEXT(Route__c), 7),
+IF(
+LEN(TEXT(Route__c)) = 11,
+LEFT(TEXT(Route__c),7),
+/* 預設值，如果以上條件都不滿足，返回空字串或其他適合的預設值 */
+&quot;&quot;
+)
+)
+)</formula>
+    <label>Departing</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

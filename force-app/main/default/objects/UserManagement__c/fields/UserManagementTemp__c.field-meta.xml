@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>UserManagementTemp__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>該功能係用以紀錄使用者中文姓名的資料，避免會因UserManagement資料被刪除而無法進行關聯查詢。</description>
+    <inlineHelpText>該功能係用以紀錄使用者中文姓名的資料，避免會因UserManagement資料被刪除而無法進行關聯查詢。</inlineHelpText>
+    <label>User Management Temp</label>
+    <referenceTo>UserManagementTemp__c</referenceTo>
+    <relationshipLabel>User Managements</relationshipLabel>
+    <relationshipName>User_Managements</relationshipName>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

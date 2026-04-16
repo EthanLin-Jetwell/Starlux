@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>OperatingCarrierCode__c</fullName>
+    <description>String長度共 3 碼，值後面補滿空格
+/BusinessData/Product/OperatingCarrierCode</description>
+    <externalId>false</externalId>
+    <label>OperatingCarrierCode</label>
+    <length>3</length>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,508 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SQD_Sub_subcategory__c</fullName>
+    <label>SQD Sub-subcategory</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>SQD_Sub_Category__c</controllingField>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>FLT DLY/CXL - Late Notice</fullName>
+                <default>false</default>
+                <label>FLT DLY/CXL - Late Notice</label>
+            </value>
+            <value>
+                <fullName>FLT DLY/CXL - Insufficient INFO</fullName>
+                <default>false</default>
+                <label>FLT DLY/CXL - Insufficient INFO</label>
+            </value>
+            <value>
+                <fullName>FLT DLY/CXL - Compensation Policy</fullName>
+                <default>false</default>
+                <label>FLT DLY/CXL - Compensation Policy</label>
+            </value>
+            <value>
+                <fullName>SHD CHG - Late Notice</fullName>
+                <default>false</default>
+                <label>SHD CHG - Late Notice</label>
+            </value>
+            <value>
+                <fullName>SHD CHG - Insufficient INFO</fullName>
+                <default>false</default>
+                <label>SHD CHG - Insufficient INFO</label>
+            </value>
+            <value>
+                <fullName>SHD CHG - Compensation Policy</fullName>
+                <default>false</default>
+                <label>SHD CHG - Compensation Policy</label>
+            </value>
+            <value>
+                <fullName>A/C CHG - Late Notice</fullName>
+                <default>false</default>
+                <label>A/C CHG - Late Notice</label>
+            </value>
+            <value>
+                <fullName>A/C CHG - Insufficient INFO</fullName>
+                <default>false</default>
+                <label>A/C CHG - Insufficient INFO</label>
+            </value>
+            <value>
+                <fullName>A/C CHG - Compensation Policy</fullName>
+                <default>false</default>
+                <label>A/C CHG - Compensation Policy</label>
+            </value>
+            <value>
+                <fullName>General Ticketing and Reservation​</fullName>
+                <default>false</default>
+                <label>General Ticketing and Reservation​</label>
+            </value>
+            <value>
+                <fullName>Pre-assigned Seat/Meal​</fullName>
+                <default>false</default>
+                <label>Pre-assigned Seat/Meal​</label>
+            </value>
+            <value>
+                <fullName>Pre-order Product/Service​</fullName>
+                <default>false</default>
+                <label>Pre-order Product/Service​</label>
+            </value>
+            <value>
+                <fullName>Refund/Service Fee​</fullName>
+                <default>false</default>
+                <label>Refund/Service Fee​</label>
+            </value>
+            <value>
+                <fullName>On-hold Time</fullName>
+                <default>false</default>
+                <label>On-hold Time</label>
+            </value>
+            <value>
+                <fullName>Staff Attitude – Customer Service Center​</fullName>
+                <default>false</default>
+                <label>Staff Attitude – Customer Service Center​</label>
+            </value>
+            <value>
+                <fullName>Mishandled Baggage</fullName>
+                <default>false</default>
+                <label>Mishandled Baggage</label>
+            </value>
+            <value>
+                <fullName>Other Bag Issues​/Lost and Found</fullName>
+                <default>false</default>
+                <label>Other Bag Issues​/Lost and Found</label>
+            </value>
+            <value>
+                <fullName>Check-in Procedures​</fullName>
+                <default>false</default>
+                <label>Check-in Procedures​</label>
+            </value>
+            <value>
+                <fullName>Seat Arrangement​</fullName>
+                <default>false</default>
+                <label>Seat Arrangement​</label>
+            </value>
+            <value>
+                <fullName>Documentation​</fullName>
+                <default>false</default>
+                <label>Documentation​</label>
+            </value>
+            <value>
+                <fullName>Ticketing Handling​</fullName>
+                <default>false</default>
+                <label>Ticketing Handling​</label>
+            </value>
+            <value>
+                <fullName>Lounge Services​</fullName>
+                <default>false</default>
+                <label>Lounge Services​</label>
+            </value>
+            <value>
+                <fullName>Boarding Services​</fullName>
+                <default>false</default>
+                <label>Boarding Services​</label>
+            </value>
+            <value>
+                <fullName>Transfer/Transit Issues​</fullName>
+                <default>false</default>
+                <label>Transfer/Transit Issues​</label>
+            </value>
+            <value>
+                <fullName>Staff Attitude – Airport​</fullName>
+                <default>false</default>
+                <label>Staff Attitude – Airport​</label>
+            </value>
+            <value>
+                <fullName>Special Request/Services Handling​</fullName>
+                <default>false</default>
+                <label>Special Request/Services Handling​</label>
+            </value>
+            <value>
+                <fullName>Denied Boarding/Offloading​</fullName>
+                <default>false</default>
+                <label>Denied Boarding/Offloading​</label>
+            </value>
+            <value>
+                <fullName>Irregular Flight Handling​</fullName>
+                <default>false</default>
+                <label>Irregular Flight Handling​</label>
+            </value>
+            <value>
+                <fullName>Involuntary Downgrade​</fullName>
+                <default>false</default>
+                <label>Involuntary Downgrade​</label>
+            </value>
+            <value>
+                <fullName>System Errors​</fullName>
+                <default>false</default>
+                <label>System Errors​</label>
+            </value>
+            <value>
+                <fullName>Other Airport Service Issues​</fullName>
+                <default>false</default>
+                <label>Other Airport Service Issues​</label>
+            </value>
+            <value>
+                <fullName>Staff Attitude – Cabin​</fullName>
+                <default>false</default>
+                <label>Staff Attitude – Cabin​</label>
+            </value>
+            <value>
+                <fullName>Service Skills – Cabin​</fullName>
+                <default>false</default>
+                <label>Service Skills – Cabin​</label>
+            </value>
+            <value>
+                <fullName>Cabin Announcement​</fullName>
+                <default>false</default>
+                <label>Cabin Announcement​</label>
+            </value>
+            <value>
+                <fullName>Meal Quality​</fullName>
+                <default>false</default>
+                <label>Meal Quality​</label>
+            </value>
+            <value>
+                <fullName>Meal Taste Preferences</fullName>
+                <default>false</default>
+                <label>Meal Taste Preferences</label>
+            </value>
+            <value>
+                <fullName>Meal Selection​</fullName>
+                <default>false</default>
+                <label>Meal Selection​</label>
+            </value>
+            <value>
+                <fullName>Signature Cocktail/Beverage Issues​</fullName>
+                <default>false</default>
+                <label>Signature Cocktail/Beverage Issues​</label>
+            </value>
+            <value>
+                <fullName>Other Catering Issues​</fullName>
+                <default>false</default>
+                <label>Other Catering Issues​</label>
+            </value>
+            <value>
+                <fullName>Wi-Fi Related Issues​</fullName>
+                <default>false</default>
+                <label>Wi-Fi Related Issues​</label>
+            </value>
+            <value>
+                <fullName>IFE or Content Related Issues​</fullName>
+                <default>false</default>
+                <label>IFE or Content Related Issues​</label>
+            </value>
+            <value>
+                <fullName>Cabin Facilities/Equipment Issues​</fullName>
+                <default>false</default>
+                <label>Cabin Facilities/Equipment Issues​</label>
+            </value>
+            <value>
+                <fullName>Cabin Cleaning Issues​</fullName>
+                <default>false</default>
+                <label>Cabin Cleaning Issues​</label>
+            </value>
+            <value>
+                <fullName>Duty Free Issues​</fullName>
+                <default>false</default>
+                <label>Duty Free Issues​</label>
+            </value>
+            <value>
+                <fullName>Other Cabin Services and Onboard Product Issues​</fullName>
+                <default>false</default>
+                <label>Other Cabin Services and Onboard Product Issues​</label>
+            </value>
+            <value>
+                <fullName>Cosmile Policy and Terms​</fullName>
+                <default>false</default>
+                <label>Cosmile Policy and Terms​</label>
+            </value>
+            <value>
+                <fullName>Cosmile Mileage Issues</fullName>
+                <default>false</default>
+                <label>Cosmile Mileage Issues</label>
+            </value>
+            <value>
+                <fullName>Other Cosmile Issues</fullName>
+                <default>false</default>
+                <label>Other Cosmile Issues</label>
+            </value>
+            <value>
+                <fullName>Corporate Partnership Issues</fullName>
+                <default>false</default>
+                <label>Corporate Partnership Issues</label>
+            </value>
+            <value>
+                <fullName>Website/Mobile APP Function</fullName>
+                <default>false</default>
+                <label>Website/Mobile APP Function</label>
+            </value>
+            <value>
+                <fullName>Website/Mobile APP Information Revealed</fullName>
+                <default>false</default>
+                <label>Website/Mobile APP Information Revealed</label>
+            </value>
+            <value>
+                <fullName>STARLUX Shop Issues</fullName>
+                <default>false</default>
+                <label>STARLUX Shop Issues</label>
+            </value>
+            <value>
+                <fullName>Other Reservation and Ticketing​</fullName>
+                <default>false</default>
+                <label>Other Reservation and Ticketing​</label>
+            </value>
+            <value>
+                <fullName>Service Counter Issues</fullName>
+                <default>false</default>
+                <label>Service Counter Issues</label>
+            </value>
+            <value>
+                <fullName>Others</fullName>
+                <default>false</default>
+                <label>Others</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Flight Irregularities</controllingFieldValue>
+            <valueName>FLT DLY/CXL - Late Notice</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Flight Irregularities</controllingFieldValue>
+            <valueName>FLT DLY/CXL - Insufficient INFO</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Flight Irregularities</controllingFieldValue>
+            <valueName>FLT DLY/CXL - Compensation Policy</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Flight Irregularities</controllingFieldValue>
+            <valueName>SHD CHG - Late Notice</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Flight Irregularities</controllingFieldValue>
+            <valueName>SHD CHG - Insufficient INFO</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Flight Irregularities</controllingFieldValue>
+            <valueName>SHD CHG - Compensation Policy</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Flight Irregularities</controllingFieldValue>
+            <valueName>A/C CHG - Late Notice</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Flight Irregularities</controllingFieldValue>
+            <valueName>A/C CHG - Insufficient INFO</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Flight Irregularities</controllingFieldValue>
+            <valueName>A/C CHG - Compensation Policy</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Flight Irregularities</controllingFieldValue>
+            <controllingFieldValue>Others</controllingFieldValue>
+            <valueName>Others</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Reservation and Ticketing</controllingFieldValue>
+            <valueName>General Ticketing and Reservation​</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Reservation and Ticketing</controllingFieldValue>
+            <valueName>Pre-assigned Seat/Meal​</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Reservation and Ticketing</controllingFieldValue>
+            <valueName>Pre-order Product/Service​</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Reservation and Ticketing</controllingFieldValue>
+            <valueName>Refund/Service Fee​</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Reservation and Ticketing</controllingFieldValue>
+            <valueName>On-hold Time</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Reservation and Ticketing</controllingFieldValue>
+            <valueName>Staff Attitude – Customer Service Center​</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Reservation and Ticketing</controllingFieldValue>
+            <valueName>Other Reservation and Ticketing​</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Others</controllingFieldValue>
+            <valueName>Cosmile Policy and Terms​</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Others</controllingFieldValue>
+            <valueName>Cosmile Mileage Issues</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Others</controllingFieldValue>
+            <valueName>Other Cosmile Issues</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Others</controllingFieldValue>
+            <valueName>Corporate Partnership Issues</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Others</controllingFieldValue>
+            <valueName>Website/Mobile APP Function</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Others</controllingFieldValue>
+            <valueName>Website/Mobile APP Information Revealed</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Others</controllingFieldValue>
+            <valueName>STARLUX Shop Issues</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Airport Services</controllingFieldValue>
+            <valueName>Mishandled Baggage</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Airport Services</controllingFieldValue>
+            <valueName>Other Bag Issues​/Lost and Found</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Airport Services</controllingFieldValue>
+            <valueName>Check-in Procedures​</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Airport Services</controllingFieldValue>
+            <valueName>Seat Arrangement​</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Airport Services</controllingFieldValue>
+            <valueName>Documentation​</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Airport Services</controllingFieldValue>
+            <valueName>Ticketing Handling​</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Airport Services</controllingFieldValue>
+            <valueName>Lounge Services​</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Airport Services</controllingFieldValue>
+            <valueName>Boarding Services​</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Airport Services</controllingFieldValue>
+            <valueName>Transfer/Transit Issues​</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Airport Services</controllingFieldValue>
+            <valueName>Staff Attitude – Airport​</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Airport Services</controllingFieldValue>
+            <valueName>Special Request/Services Handling​</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Airport Services</controllingFieldValue>
+            <valueName>Denied Boarding/Offloading​</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Airport Services</controllingFieldValue>
+            <valueName>Irregular Flight Handling​</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Airport Services</controllingFieldValue>
+            <valueName>Involuntary Downgrade​</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Airport Services</controllingFieldValue>
+            <valueName>System Errors​</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Airport Services</controllingFieldValue>
+            <valueName>Other Airport Service Issues​</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cabin Services and Onboard Product</controllingFieldValue>
+            <valueName>Staff Attitude – Cabin​</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cabin Services and Onboard Product</controllingFieldValue>
+            <valueName>Service Skills – Cabin​</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cabin Services and Onboard Product</controllingFieldValue>
+            <valueName>Cabin Announcement​</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cabin Services and Onboard Product</controllingFieldValue>
+            <valueName>Meal Quality​</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cabin Services and Onboard Product</controllingFieldValue>
+            <valueName>Meal Taste Preferences</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cabin Services and Onboard Product</controllingFieldValue>
+            <valueName>Meal Selection​</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cabin Services and Onboard Product</controllingFieldValue>
+            <valueName>Signature Cocktail/Beverage Issues​</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cabin Services and Onboard Product</controllingFieldValue>
+            <valueName>Other Catering Issues​</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cabin Services and Onboard Product</controllingFieldValue>
+            <valueName>Wi-Fi Related Issues​</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cabin Services and Onboard Product</controllingFieldValue>
+            <valueName>IFE or Content Related Issues​</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cabin Services and Onboard Product</controllingFieldValue>
+            <valueName>Cabin Facilities/Equipment Issues​</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cabin Services and Onboard Product</controllingFieldValue>
+            <valueName>Cabin Cleaning Issues​</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cabin Services and Onboard Product</controllingFieldValue>
+            <valueName>Duty Free Issues​</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cabin Services and Onboard Product</controllingFieldValue>
+            <valueName>Other Cabin Services and Onboard Product Issues​</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

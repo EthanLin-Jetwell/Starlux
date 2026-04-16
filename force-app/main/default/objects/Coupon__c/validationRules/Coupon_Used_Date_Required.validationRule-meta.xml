@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Coupon_Used_Date_Required</fullName>
+    <active>true</active>
+    <description>Coupon used date and coupon used on is required when the status is updated to Used</description>
+    <errorConditionFormula>ISPICKVAL(Coupon_Status__c, &quot;Used&quot;) &amp;&amp;
+(
+  ISBLANK( Coupon_Used_Date__c ) ||
+  ISBLANK(TEXT(Coupon_Used_On__c))
+
+)</errorConditionFormula>
+    <errorMessage>Please enter the Coupon Used Date and Coupon Used On</errorMessage>
+</ValidationRule>

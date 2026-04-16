@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Item_28_and_29</fullName>
+    <active>false</active>
+    <description>Only allow direct update of actual completion date/time for item 27 and 28</description>
+    <errorConditionFormula>NOT(CONTAINS($Profile.Name, &quot;System Admin&quot;)) &amp;&amp;
+NOT(CONTAINS($Profile.Name, &quot;API&quot;)) &amp;&amp;
+NOT(List_Order__c = 28) &amp;&amp;
+NOT(List_Order__c = 29) &amp;&amp;
+(
+  ISCHANGED(Actual_Completion_Time_Local__c) ||
+  ISCHANGED(Actual_Start_Time_Local__c)
+)</errorConditionFormula>
+    <errorMessage>Actual Start Time OR Actual Completion Time can only be modified for checklist item 28 and 29.</errorMessage>
+</ValidationRule>

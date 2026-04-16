@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebLink xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>New_Payment_Deposit_Fine</fullName>
+    <availability>online</availability>
+    <displayType>massActionButton</displayType>
+    <encodingKey>UTF-8</encodingKey>
+    <height>600</height>
+    <linkType>url</linkType>
+    <masterLabel>New (Payment / Deposit / Fine)</masterLabel>
+    <openType>sidebar</openType>
+    <protected>false</protected>
+    <requireRowSelection>false</requireRowSelection>
+    <url>/lightning/o/Payment_Deposit_Fine_Details__c/new?useRecordTypeCheck=1&amp;defaultFieldValues=
+Case_ID__c={!Case.Id},
+Account_ID__c={!Case.AccountId},
+Sales_Contact__c={!User.Id}</url>
+</WebLink>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>LAPS_Mandatory_Fields</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+  RecordType.Name = &quot;Private Terminal Service&quot;,
+  ISPICKVAL( Private_Terminal_Type__c , &quot;LAPS&quot;),
+  OR(
+    ISBLANK(Nationality_Region__c),
+    ISBLANK(Passport_No__c),
+    ISBLANK(Passport_Expiry_Date__c),
+    ISBLANK(Birthday__c),
+    ISBLANK(TEXT(Language_Preference_LAPS_Only__c))
+  )
+)</errorConditionFormula>
+    <errorMessage>When Private Terminal Type = LAPS, following fields can&apos;t be empty: 
+&quot;Nationality/Region&quot;,
+&quot;Passport No.&quot;,
+&quot;Passport Expiry Date&quot;,
+&quot;Birthday&quot;,
+&quot;Language Preference (LAPS Only)&quot;</errorMessage>
+</ValidationRule>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Refund__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>全額退款/退票</description>
+    <inlineHelpText>全額退款/退票</inlineHelpText>
+    <label>Refund</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Coupon_Cannot_Change_User</fullName>
+    <active>true</active>
+    <description>Coupon Cannot Change User</description>
+    <errorConditionFormula>$User.Id &lt;&gt; &quot;00520000001GfwQ&quot; &amp;&amp; ISCHANGED( OwnerId )</errorConditionFormula>
+    <errorMessage>Coupon Cannot Change User</errorMessage>
+</ValidationRule>

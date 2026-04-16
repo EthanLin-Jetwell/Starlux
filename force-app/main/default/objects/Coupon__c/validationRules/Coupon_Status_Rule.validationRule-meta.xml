@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Coupon_Status_Rule</fullName>
+    <active>true</active>
+    <description>Only below changes are allowed for Coupon Status:
+1) Created -&gt; Distributed
+2) Distributed -&gt; Issued / Unissued but Voided
+3) Issued -&gt; Distributed / Used / Expired / Issued but Voided
+4.No status is allow to be back to &quot;New&quot;.</description>
+    <errorConditionFormula>OR(
+    AND(
+     NOT(ISNEW()),
+     ISCHANGED(Coupon_Status__c),
+     TEXT(PRIORVALUE(Coupon_Status__c)) = &quot;Created&quot;,
+     NOT(ISPICKVAL(Coupon_Status__c, &apos;Distributed&apos;))
+    ),
+    AND(
+     NOT(ISNEW()),
+     ISCHANGED(Coupon_Status__c),
+     TEXT(PRIORVALUE(Coupon_Status__c)) = &quot;Distributed&quot;,
+     NOT(ISPICKVAL(Coupon_Status__c, &quot;Issued&quot;)),
+     NOT(ISPICKVAL(Coupon_Status__c, &quot;Unissued but Voided&quot;))
+     ),
+    AND(
+     NOT(ISNEW()),
+     ISCHANGED(Coupon_Status__c),
+     TEXT(PRIORVALUE(Coupon_Status__c)) = &quot;Issued&quot;,
+     NOT(ISPICKVAL(Coupon_Status__c, &quot;Used&quot;)),
+     NOT(ISPICKVAL(Coupon_Status__c, &quot;Issued but Voided&quot;)),
+     NOT(ISPICKVAL(Coupon_Status__c, &quot;Expired&quot;))
+     )
+  )</errorConditionFormula>
+    <errorDisplayField>Coupon_Status__c</errorDisplayField>
+    <errorMessage>Only below changes are allowed for Coupon Status:
+1) Created -&gt; Distributed
+2) Distributed -&gt; Issued / Unissued but Voided
+3) Issued -&gt; Used / Expired / Issued but Voided</errorMessage>
+</ValidationRule>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>S4_ConditionallyApproved</fullName>
+    <active>true</active>
+    <description>【EHD 附帶條件通過】的審核流程</description>
+    <errorConditionFormula>IF(
+  $UserRole.Name = &quot;System Administrator&quot;,
+  FALSE,
+  AND(
+    /* 只在 CA（當前或前一筆）啟動 */
+    OR(
+      TEXT(Approval_Status__c) = &quot;Conditionally Approved&quot;,
+      TEXT(PRIORVALUE(Approval_Status__c)) = &quot;Conditionally Approved&quot;
+    ),
+    OR(ISCHANGED(Status__c), ISCHANGED(Approval_Status__c)),
+
+/* ★ 將所有「DR → CA」交回 S3（避免攔到 S3-9 / S3-10 的路徑） */
+NOT(
+  OR(
+    /* S3-9：Reapplied|IP → Reapplied|CA（EHD） */
+    AND(
+      TEXT(PRIORVALUE(Status__c)) = &quot;Reapplied&quot;,
+      TEXT(PRIORVALUE(Approval_Status__c)) = &quot;In Progress&quot;,
+      TEXT(Status__c) = &quot;Reapplied&quot;,
+      TEXT(Approval_Status__c) = &quot;Conditionally Approved&quot;
+    ),
+    /* S3-10：Reapplied|CA → Replied|CA（RMS） */
+    AND(
+      TEXT(PRIORVALUE(Status__c)) = &quot;Reapplied&quot;,
+      TEXT(PRIORVALUE(Approval_Status__c)) = &quot;Conditionally Approved&quot;,
+      TEXT(Status__c) = &quot;Replied&quot;,
+      TEXT(Approval_Status__c) = &quot;Conditionally Approved&quot;
+    ),
+    /* 保險絲：任何 DR → CA 一律交回 S3 */
+    AND(
+      TEXT(PRIORVALUE(Approval_Status__c)) = &quot;Documents Required&quot;,
+      TEXT(Approval_Status__c) = &quot;Conditionally Approved&quot;
+    )
+  )
+),
+
+    /* 不在 S4 白名單才報錯（維持原本清單） */
+    NOT(
+      CONTAINS(
+        &quot;;&quot; &amp;
+        &quot;New|New&gt;In Progress|New;&quot; &amp;
+        &quot;In Progress|New&gt;In Progress|In Progress;&quot; &amp;
+        &quot;In Progress|In Progress&gt;In Progress|Conditionally Approved;&quot; &amp;
+        &quot;In Progress|Conditionally Approved&gt;Replied|Conditionally Approved;&quot; &amp;
+        &quot;Replied|Conditionally Approved&gt;Closed|Conditionally Approved;&quot; &amp;
+        &quot;;&quot;,
+        &quot;;&quot; &amp;
+        TEXT(PRIORVALUE(Status__c)) &amp; &quot;|&quot; &amp; TEXT(PRIORVALUE(Approval_Status__c)) &amp;
+        &quot;&gt;&quot; &amp;
+        TEXT(Status__c) &amp; &quot;|&quot; &amp; TEXT(Approval_Status__c) &amp; &quot;;&quot;
+      )
+    )
+  )
+)</errorConditionFormula>
+    <errorMessage>狀態流轉不符「EHD 附帶條件通過」流程。
+Invalid transition for &lt;EHD Conditionally Approved&gt; path.</errorMessage>
+</ValidationRule>

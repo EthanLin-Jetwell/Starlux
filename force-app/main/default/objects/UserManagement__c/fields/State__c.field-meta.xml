@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>State__c</fullName>
+    <description>帳號狀態</description>
+    <externalId>false</externalId>
+    <formula>IF(Verify__c=FALSE,&quot;未開通&quot;,(
+IF(ExpireDate__c &gt;=TODAY(),&quot;已開通&quot;,&quot;密碼逾期&quot;)))</formula>
+    <label>State</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

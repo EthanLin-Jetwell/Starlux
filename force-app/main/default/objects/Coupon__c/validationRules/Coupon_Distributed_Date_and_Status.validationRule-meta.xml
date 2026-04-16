@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Coupon_Distributed_Date_and_Status</fullName>
+    <active>true</active>
+    <description>If Status is not Distributed, distributed date, distributed department and distributed Agent should not be changed</description>
+    <errorConditionFormula>NOT(ISPICKVAL( Coupon_Status__c, &quot;Distributed&quot; )) &amp;&amp;
+(
+ISCHANGED( Coupon_Distributed_Date__c ) ||
+ISCHANGED( Distribution_Department__c ) ||
+ISCHANGED( Distributed_Agent__c ) ||
+ISCHANGED( Coupon_Distributed_to_Agent_Date__c )
+)</errorConditionFormula>
+    <errorMessage>Coupon Distributed Date, Distributed Department and Distributed Agent can only be set when setting the Coupon Status to Distributed</errorMessage>
+</ValidationRule>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Check_Tour_Guide_Phone_Format</fullName>
+    <active>true</active>
+    <description>&lt;tour_Guide_phone&gt; must be &quot;+886123456789&quot; format.</description>
+    <errorConditionFormula>AND(
+Case_ID__r.RecordType.DeveloperName =&quot;Group_Booking&quot;,
+Contains($Profile.Name ,&quot;Travel Agent&quot;),
+NOT(ISBLANK(tour_Guide_phone__c)),
+OR(
+NOT(BEGINS(tour_Guide_phone__c,&quot;+886&quot;)),
+MID(tour_Guide_phone__c,5,1) = &quot;0&quot;,
+NOT(ISNUMBER(MID(tour_Guide_phone__c,2,LEN(tour_Guide_phone__c)-1)))
+)
+)</errorConditionFormula>
+    <errorDisplayField>tour_Guide_phone__c</errorDisplayField>
+    <errorMessage>&lt;tour_Guide_phone&gt; must be &quot;+886123456789&quot; format.</errorMessage>
+</ValidationRule>

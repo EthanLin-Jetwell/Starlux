@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Cheque_Clearance_must_earlier_Guarantee</fullName>
+    <active>true</active>
+    <description>Cheque Clearance date must be earlier than Account Bank Guarantee Expiry Date</description>
+    <errorConditionFormula>NOT(ISBLANK(Cheque_Clearance_Date__c)) &amp;&amp;
+NOT(ISBLANK( Account_ID__r.Last_Bank_Guarantee_Expiry_Date__c )) &amp;&amp;
+Cheque_Clearance_Date__c &gt; Account_ID__r.Last_Bank_Guarantee_Expiry_Date__c &amp;&amp;
+RecordType.DeveloperName = &quot;Payment&quot;</errorConditionFormula>
+    <errorDisplayField>Cheque_Clearance_Date__c</errorDisplayField>
+    <errorMessage>Cheque Clearance date must be earlier than Account Bank Guarantee Expiry Date</errorMessage>
+</ValidationRule>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Free_Reduced_Fare_Tickets</fullName>
+    <columns>Apply_Date__c</columns>
+    <columns>NAME</columns>
+    <columns>Fare_Basis__c</columns>
+    <columns>Discount__c</columns>
+    <columns>First_Flight_Date__c</columns>
+    <columns>Second_Flight_Date__c</columns>
+    <columns>Last_Name_EN__c</columns>
+    <columns>First_Name_EN__c</columns>
+    <columns>PIC__c</columns>
+    <columns>Status__c</columns>
+    <columns>Ticket_Number__c</columns>
+    <columns>Ticket_Number_2__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Ticket_Type__c</field>
+        <operation>equals</operation>
+        <value>Free &amp; Reduced Fare Tickets</value>
+    </filters>
+    <filters>
+        <field>Status__c</field>
+        <operation>notContain</operation>
+        <value>Completed</value>
+    </filters>
+    <label>Free &amp; Reduced Fare Tickets</label>
+</ListView>

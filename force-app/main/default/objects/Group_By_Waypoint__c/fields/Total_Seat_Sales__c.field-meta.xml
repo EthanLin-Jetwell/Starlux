@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Total_Seat_Sales__c</fullName>
+    <label>Total_Seat_Sales</label>
+    <summarizedField>AgencyReport__c.Total_Seat_Sales__c</summarizedField>
+    <summaryForeignKey>AgencyReport__c.Group_By_Waypoint__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

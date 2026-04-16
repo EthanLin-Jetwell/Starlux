@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Adhoc_Request_Not_Allow_to_create</fullName>
+    <active>true</active>
+    <description>Not allow Creating Adhoc Request after Status &quot;Waiting for Payment&quot;</description>
+    <errorConditionFormula>And(
+
+ Isnew(),
+ Text(Case_ID__r.Status )!= &quot;New&quot;,
+ Text(Case_ID__r.Status )!= &quot;Ticket Sales in Progress&quot;,
+ Text(Case_ID__r.Status )!= &quot;Request for Ticketing&quot;,
+ Text(Case_ID__r.Status )!= &quot;Price Approving&quot;,
+ Text(Case_ID__r.Status )!= &quot;Adhoc Request Approved&quot;,
+ Text(Case_ID__r.Status )!= &quot;Adhoc Request Rejected&quot;,
+
+   RecordType.DeveloperName = &quot;Adhoc_Request&quot;
+
+
+)</errorConditionFormula>
+    <errorMessage>Not allow creating Adhoc Request when the case is on the following Status : Adhoc Request Approving, Waiting for Payment,  Payment Details Incorrect, Ready for Ticketing, Ticketing Issued.</errorMessage>
+</ValidationRule>

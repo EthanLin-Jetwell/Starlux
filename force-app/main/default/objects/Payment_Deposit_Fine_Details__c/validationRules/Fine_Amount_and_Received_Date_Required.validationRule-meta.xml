@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Fine_Amount_and_Received_Date_Required</fullName>
+    <active>true</active>
+    <description>Fine amount and fine received date is required when payment mode is selected</description>
+    <errorConditionFormula>RecordType.DeveloperName = &quot;Fine&quot; &amp;&amp;
+NOT(ISBLANK(TEXT(Payment_Mode__c))) &amp;&amp;
+(
+  ISBLANK(Fine_Received_Amount__c) ||
+  ISBLANK(Fine_Received_Date__c)
+)</errorConditionFormula>
+    <errorMessage>Please enter the fine received amount and fine received date</errorMessage>
+</ValidationRule>

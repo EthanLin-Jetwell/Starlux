@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>EMD_and_ReIssue_Must_be_Immediate_Cheque</fullName>
+    <active>true</active>
+    <description>When the payment is made for EMD or Re-Issue, it must be an immediate cheque if pay by cheque.</description>
+    <errorConditionFormula>AND(
+$Profile.Name != &quot;System Administrator&quot;,
+RecordType.Name = &quot;Payment&quot;,
+ISPICKVAL( Payment_Mode__c , &quot;Cheque&quot;),
+NOT(ISPICKVAL( Purpose__c , &quot;Issue Ticket&quot;)), Cheque_Clearance_Date__c &gt; TODAY()
+)</errorConditionFormula>
+    <errorDisplayField>Cheque_Clearance_Date__c</errorDisplayField>
+    <errorMessage>The payment for EMD and Re-Issue must be an immediate cheque.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>POS_Malfunction_Reason__c</fullName>
+    <label>POS Malfunction Reason</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Broken</fullName>
+                <default>false</default>
+                <label>Broken</label>
+            </value>
+            <value>
+                <fullName>No Power</fullName>
+                <default>false</default>
+                <label>No Power</label>
+            </value>
+            <value>
+                <fullName>Unable to sense barcode/QR Code</fullName>
+                <default>false</default>
+                <label>Unable to sense barcode/QR Code</label>
+            </value>
+            <value>
+                <fullName>Credit Card Payment Abnormal</fullName>
+                <default>false</default>
+                <label>Credit Card Payment Abnormal</label>
+            </value>
+            <value>
+                <fullName>Cannot Print Papers(Completely)</fullName>
+                <default>false</default>
+                <label>Cannot Print Papers(Completely)</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>5</visibleLines>
+</CustomField>

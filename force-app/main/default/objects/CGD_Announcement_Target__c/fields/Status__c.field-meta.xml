@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Status__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(
+  TEXT($User.LanguageLocaleKey) = &quot;zh_TW&quot;,
+  /* 中文文案 */
+  IF(
+    ISBLANK(Status_Code__c),
+    &quot;&quot;,
+    IF(
+      Status_Code__c = 200,
+      &quot;成功&quot;,
+      &quot;失敗&quot;
+    )
+  ),
+  /* 英文文案 */
+  IF(
+    ISBLANK(Status_Code__c),
+    &quot;&quot;,
+    IF(
+      Status_Code__c = 200,
+      &quot;Success&quot;,
+      &quot;Fail&quot;
+    )
+  )
+)</formula>
+    <label>Status</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

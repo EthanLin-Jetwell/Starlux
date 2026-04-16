@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Copy_of_TPE_Customer_Service</fullName>
+    <columns>ARTICLE_NUMBER</columns>
+    <columns>TITLE</columns>
+    <columns>Content__c</columns>
+    <columns>LAST_PUBLISHED_DATE</columns>
+    <columns>OWNER_ID</columns>
+    <columns>LANGUAGE</columns>
+    <columns>ARTICLE_TOTAL_VIEW_COUNT</columns>
+    <columns>Expiration_Date__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Knowledge__kav.Knowledge</value>
+    </filters>
+    <filters>
+        <field>LANGUAGE</field>
+        <operation>equals</operation>
+        <value>en_US</value>
+    </filters>
+    <filters>
+        <field>PUBLISH_STATUS</field>
+        <operation>equals</operation>
+        <value>2</value>
+    </filters>
+    <label>Outstation Customer Service</label>
+    <sharedTo>
+        <roleAndSubordinatesInternal>CC_Manager_HK</roleAndSubordinatesInternal>
+        <roleAndSubordinatesInternal>CC_Manager_ID</roleAndSubordinatesInternal>
+        <roleAndSubordinatesInternal>CC_Manager_JP</roleAndSubordinatesInternal>
+        <roleAndSubordinatesInternal>CC_Manager_KR</roleAndSubordinatesInternal>
+        <roleAndSubordinatesInternal>CC_Manager_MO</roleAndSubordinatesInternal>
+        <roleAndSubordinatesInternal>CC_Manager_MY</roleAndSubordinatesInternal>
+        <roleAndSubordinatesInternal>CC_Manager_PH</roleAndSubordinatesInternal>
+        <roleAndSubordinatesInternal>CC_Manager_PH_Global</roleAndSubordinatesInternal>
+        <roleAndSubordinatesInternal>CC_Manager_SG</roleAndSubordinatesInternal>
+        <roleAndSubordinatesInternal>CC_Manager_TH</roleAndSubordinatesInternal>
+        <roleAndSubordinatesInternal>CC_Manager_US</roleAndSubordinatesInternal>
+        <roleAndSubordinatesInternal>CC_Manager_VN</roleAndSubordinatesInternal>
+    </sharedTo>
+</ListView>

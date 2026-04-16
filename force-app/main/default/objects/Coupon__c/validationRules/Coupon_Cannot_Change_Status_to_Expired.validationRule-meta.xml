@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Coupon_Cannot_Change_Status_to_Expired</fullName>
+    <active>true</active>
+    <description>Cannot change status to expired</description>
+    <errorConditionFormula>AND
+(
+  NOT(ISNEW()),
+  Coupon_Expired__c = FALSE,
+  ISPICKVAL(Coupon_Status__c, &apos;Expired&apos;)
+)</errorConditionFormula>
+    <errorDisplayField>Coupon_Status__c</errorDisplayField>
+    <errorMessage>Status will be automatically updated to Expired when the Coupon Expired Date has reached.  Please do not manually change the status to Expired.</errorMessage>
+</ValidationRule>

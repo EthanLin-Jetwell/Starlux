@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>FAQ</fullName>
+    <active>true</active>
+    <description>This can be used for simple question and answer articles.</description>
+    <label>FAQ</label>
+    <picklistValues>
+        <picklist>Article_Type__c</picklist>
+        <values>
+            <fullName>CCS Notice</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Flag__c</picklist>
+        <values>
+            <fullName>CS Annoucement</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>New Event</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Policy for COSMILE Member</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Policy for Reservation and Ticketing</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

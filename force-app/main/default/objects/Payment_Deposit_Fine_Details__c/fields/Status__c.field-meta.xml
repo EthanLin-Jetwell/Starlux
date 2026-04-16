@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Status__c</fullName>
+    <label>Status</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Deposit Required</fullName>
+                <default>false</default>
+                <label>Deposit Required</label>
+            </value>
+            <value>
+                <fullName>Deposit Received</fullName>
+                <default>false</default>
+                <label>Deposit Received</label>
+            </value>
+            <value>
+                <fullName>Deposit Reviewed</fullName>
+                <default>false</default>
+                <label>Deposit Reviewed</label>
+            </value>
+            <value>
+                <fullName>Deposit Returned</fullName>
+                <default>false</default>
+                <label>Deposit Returned</label>
+            </value>
+            <value>
+                <fullName>Deposit Cancel</fullName>
+                <default>false</default>
+                <label>Deposit Cancel</label>
+            </value>
+            <value>
+                <fullName>Fine Required</fullName>
+                <default>false</default>
+                <label>Fine Required</label>
+            </value>
+            <value>
+                <fullName>Fine Received</fullName>
+                <default>false</default>
+                <label>Fine Received</label>
+            </value>
+            <value>
+                <fullName>Fine Cancel</fullName>
+                <default>false</default>
+                <label>Fine Cancel</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

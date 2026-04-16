@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Not_allow_to_change_Refund_Pax_Detail</fullName>
+    <active>true</active>
+    <description>Not allow to change Refund Pax Detail after it&apos;s assigned to refund queue</description>
+    <errorConditionFormula>And( Contains( $Profile.Name ,&quot;B2B Travel Agent&quot;),
+Not isNew(),
+
+Text( Case_ID__r.Status )=&quot;Assign to Refund Queue&quot;
+
+
+)</errorConditionFormula>
+    <errorMessage>Not allow to change Refund Pax Detail after it&apos;s assigned to refund queue</errorMessage>
+</ValidationRule>

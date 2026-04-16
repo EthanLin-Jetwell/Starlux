@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CAN_NOT_ADJUST_ALLOCATED_SEATS</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+  NOT(ISNEW()),
+  ISCHANGED(Allocated_Seats__c),
+  OR(
+    CONTAINS($Profile.Name, &quot;B2B&quot;),
+    CONTAINS($Profile.Name, &quot;Community&quot;)
+  )
+)</errorConditionFormula>
+    <errorDisplayField>Allocated_Seats__c</errorDisplayField>
+    <errorMessage>Can not adjust Allocated Seats.</errorMessage>
+</ValidationRule>

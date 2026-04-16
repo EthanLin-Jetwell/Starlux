@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Case_Record_Type</fullName>
+    <active>false</active>
+    <description>MEDA Approval can only be created under a Case with Record Type &apos;Reservation and Ticketing&apos;.</description>
+    <errorConditionFormula>Case__r.RecordType.Name &lt;&gt; &quot;Reservation and Ticketing&quot;</errorConditionFormula>
+    <errorMessage>MEDA Approval can only be created under a Case with Record Type &apos;Reservation and Ticketing&apos;.</errorMessage>
+</ValidationRule>
